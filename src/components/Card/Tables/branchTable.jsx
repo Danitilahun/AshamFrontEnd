@@ -52,12 +52,16 @@ const CardTable = () => {
 
   const handleEdit = (row) => {
     console.log("from the table", row);
-    row.amountBirr = "";
-    row.deliveryguyId = "";
-    row.deliveryguyName = "";
-    row.branchId = "";
-    row.branchName = "";
-    setEditRow(row);
+    const newRow = {
+      ...row,
+      amountBirr: "",
+      deliveryguyId: "",
+      deliveryguyName: "",
+      branchId: "",
+      branchName: "",
+    };
+
+    setEditRow(newRow);
     setIsEditDialogOpen(true);
   };
   const handleNew = (row) => {

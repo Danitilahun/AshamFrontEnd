@@ -9,8 +9,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useAuth } from "../../contexts/AuthContext";
 import { useParams } from "react-router-dom";
 import { useSnackbar } from "../../contexts/InfoContext";
-import Reminder from "../../api/services/Order/remiders";
 import getDataFromCollectionWithCriteria from "../../api/utils/getDataFromCollectionWithCriteria";
+import Reminder from "../../api/orders/reminder";
 
 function ReminderComponent({ type }) {
   const [selectedDate, setSelectedDate] = useState("");

@@ -37,6 +37,7 @@ import { firestore } from "../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 import { useAuth } from "../../contexts/AuthContext";
 import getRequiredUserData from "../../utils/getBranchInfo";
+import useUserClaims from "../../hooks/useUserClaims";
 const navItems = [
   {
     text: "Delivery Guy",
@@ -186,6 +187,7 @@ const BranchSidebar = ({
   const branchData = getRequiredUserData();
   const { changeBranchInfo } = useBranch();
   const branchId = branchData.requiredId;
+  const userClaims = useUserClaims(user);
 
   useEffect(() => {
     if (!branchId) {
@@ -211,7 +213,7 @@ const BranchSidebar = ({
   }, [branchId]);
 
   useEffect(() => {
-    if (!user || !user.uid) {
+    if (!userClaims.admin || !user || !user.uid) {
       return; // Add a check for user and user.uid
     }
     const worksRef = doc(collection(firestore, "admin"), user.uid);

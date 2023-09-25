@@ -134,11 +134,6 @@ const EditCardOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      {userClaims.admin ? (
-        <Button variant="contained" color="primary" onClick={handleButtonClick}>
-          Edit Card Order
-        </Button>
-      ) : null}
 
       <Dialog
         open={isEditDialogOpen}

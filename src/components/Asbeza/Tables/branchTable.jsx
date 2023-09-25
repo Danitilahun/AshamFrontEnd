@@ -56,13 +56,17 @@ const AsbezaTable = () => {
   };
   const handleNew = (row) => {
     console.log("from the table", row);
-    row.deliveryguyId = "";
-    row.deliveryguyName = "";
-    row.branchId = "";
-    row.branchName = "";
-    row.order = [];
-    row.additionalInfo = "";
-    setEditRow(row);
+    const newRow = {
+      ...row,
+      deliveryguyId: "",
+      deliveryguyName: "",
+      branchId: "",
+      branchName: "",
+      order: [],
+      additionalInfo: "",
+    };
+
+    setEditRow(newRow);
     setIsEditDialogOpen(true);
   };
 

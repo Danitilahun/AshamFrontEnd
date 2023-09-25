@@ -123,11 +123,6 @@ const EditWifiOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      {userClaims.admin ? (
-        <Button variant="contained" color="primary" onClick={handleButtonClick}>
-          Edit Wifi Order
-        </Button>
-      ) : null}
 
       <Dialog
         open={isEditDialogOpen}

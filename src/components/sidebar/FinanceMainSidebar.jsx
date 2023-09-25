@@ -71,12 +71,12 @@ const FinanceMainSidebar = ({
   const { logout } = useAuth();
 
   useEffect(() => {
-    // if (!params) {
-    //   return;
-    // }
+    if (!user && !callCenterId) {
+      return;
+    }
     const worksRef = doc(
       collection(firestore, "finance"),
-      userClaims.finance ? user.uid : callCenterId
+      userClaims.finance ? user.uid : callCenterId ? callCenterId : params.id
     );
 
     // Subscribe to real-time updates
@@ -122,7 +122,10 @@ const FinanceMainSidebar = ({
     setActive(pathname);
   }, [pathname]);
 
-  console.log(pathname, active);
+  console.log(pathname, active, callCenterId);
+  console.log("pathname", pathname);
+  console.log("active", active);
+  console.log("callCenterId", callCenterId);
   const handleCardClick = (event) => {
     event.preventDefault();
     navigate(`/`);
@@ -205,7 +208,11 @@ const FinanceMainSidebar = ({
                 }
                 const lcText = path;
                 let route = `/${lcText}/${
-                  userClaims.finance ? user.uid : callCenterId
+                  userClaims.finance
+                    ? user.uid
+                    : callCenterId
+                    ? callCenterId
+                    : params.id
                 }`;
                 console.log(route, active);
 

@@ -56,13 +56,17 @@ const WifiTable = () => {
   };
   const handleNew = (row) => {
     console.log("from the table", row);
-    row.accountNumber = "";
-    row.ownerName = "";
-    row.deliveryguyId = "";
-    row.deliveryguyName = "";
-    row.branchId = "";
-    row.branchName = "";
-    setEditRow(row);
+    const newRow = {
+      ...row,
+      accountNumber: "",
+      ownerName: "",
+      deliveryguyId: "",
+      deliveryguyName: "",
+      branchId: "",
+      branchName: "",
+    };
+
+    setEditRow(newRow);
     setIsEditDialogOpen(true);
   };
 

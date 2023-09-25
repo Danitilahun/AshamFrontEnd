@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE_URL } from "../../utils/config";
+import { API_BASE_URL } from "../utils/config";
 
 // Arrow function to create a branch using Axios
 
@@ -10,7 +10,7 @@ const Reminder = async (orderData, user) => {
       if (idTokenResult.claims.callCenter === true) {
         const idToken = await user.getIdToken();
         const response = await axios.post(
-          `${API_BASE_URL}order/setReminder`,
+          `${API_BASE_URL}api/order/reminder`,
           orderData,
           {
             headers: {

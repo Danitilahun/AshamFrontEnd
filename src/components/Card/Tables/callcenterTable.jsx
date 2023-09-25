@@ -49,15 +49,19 @@ const CardTable = () => {
   };
   const handleNew = (row) => {
     console.log("from the table", row);
-    row.amountBirr = "";
-    row.deliveryguyId = "";
-    row.deliveryguyName = "";
-    row.branchId = "";
-    row.branchName = "";
-    row.activeTable = "";
-    row.active = "";
-    row.activeDailySummery = "";
-    setEditRow(row);
+    const newRow = {
+      ...row,
+      amountBirr: "",
+      deliveryguyId: "",
+      deliveryguyName: "",
+      branchId: "",
+      branchName: "",
+      activeTable: "",
+      active: "",
+      activeDailySummery: "",
+    };
+
+    setEditRow(newRow);
     setIsEditDialogOpen(true);
   };
 

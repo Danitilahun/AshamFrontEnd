@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { ChevronLeft, ChevronRightOutlined, Money } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import FlexBetween from "../VersatileComponents/FlexBetween";
 import PersonIcon from "@mui/icons-material/Person";
 import SummarizeIcon from "@mui/icons-material/Summarize";
@@ -57,6 +57,7 @@ const ServiceSidebar = ({
 }) => {
   const { pathname } = useLocation();
   // const { callCenterId } = useBranch();
+  const params = useParams();
   const { user } = useAuth();
   const userClaims = useUserClaims(user);
   const callcenterData = getRequiredUserData();
@@ -78,12 +79,12 @@ const ServiceSidebar = ({
   const { logout } = useAuth();
 
   useEffect(() => {
-    // if (!user) {
-    //   return;
-    // }
+    if (!user && !callCenterId) {
+      return;
+    }
     const worksRef = doc(
       collection(firestore, "callcenter"),
-      userClaims.callCenter ? user.uid : callCenterId
+      userClaims.callCenter ? user.uid : callCenterId ? callCenterId : params.id
     );
 
     // Subscribe to real-time updates
@@ -104,10 +105,10 @@ const ServiceSidebar = ({
   }, [callCenterId]);
 
   useEffect(() => {
-    if (!userClaims.callCenter || !user || !user.uid) {
+    if (!userClaims.callCenter && !user && !user.uid) {
       return; // Add a check for user and user.uid
     }
-    const worksRef = doc(collection(firestore, "admin"), user.uid);
+    const worksRef = doc(collection(firestore, "callcenter"), user.uid);
 
     // Subscribe to real-time updates
     const unsubscribe = onSnapshot(worksRef, (doc) => {
