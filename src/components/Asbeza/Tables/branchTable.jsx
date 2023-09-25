@@ -56,6 +56,12 @@ const AsbezaTable = () => {
   };
   const handleNew = (row) => {
     console.log("from the table", row);
+    row.deliveryguyId = "";
+    row.deliveryguyName = "";
+    row.branchId = "";
+    row.branchName = "";
+    row.order = [];
+    row.additionalInfo = "";
     setEditRow(row);
     setIsEditDialogOpen(true);
   };

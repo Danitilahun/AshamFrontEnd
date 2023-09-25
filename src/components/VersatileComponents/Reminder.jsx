@@ -76,7 +76,7 @@ function ReminderComponent({ type }) {
       try {
         const formData = {
           date: selectedDate,
-          callcenterId: params.id,
+          callcenterId: params.id ? params.id : user.uid,
           type: type === "Water Order" ? "water" : "wifi",
         };
         await Reminder(formData, user);

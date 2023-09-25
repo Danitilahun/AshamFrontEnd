@@ -48,6 +48,15 @@ const WaterTable = () => {
   };
   const handleNew = (row) => {
     console.log("from the table", row);
+    row.billPayerName = "";
+    row.customerKey = "";
+    row.deliveryguyId = "";
+    row.deliveryguyName = "";
+    row.branchId = "";
+    row.branchName = "";
+    row.activeTable = "";
+    row.active = "";
+    row.activeDailySummery = "";
     setEditRow(row);
     setIsEditDialogOpen(true);
   };

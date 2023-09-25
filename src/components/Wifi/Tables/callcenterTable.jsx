@@ -48,6 +48,15 @@ const WifiTable = () => {
   };
   const handleNew = (row) => {
     console.log("from the table", row);
+    row.accountNumber = "";
+    row.ownerName = "";
+    row.deliveryguyId = "";
+    row.deliveryguyName = "";
+    row.branchId = "";
+    row.branchName = "";
+    row.activeTable = "";
+    row.active = "";
+    row.activeDailySummery = "";
     setEditRow(row);
     setIsEditDialogOpen(true);
   };
