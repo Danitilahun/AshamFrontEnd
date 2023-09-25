@@ -99,7 +99,7 @@ const EditForm = ({ data, isEditDialogOpen, closeEditDialog, type }) => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      {userClaims.superAdmin || userClaims.admin ? (
+      {userClaims.admin ? (
         <div>
           <Dialog
             open={isEditDialogOpen}

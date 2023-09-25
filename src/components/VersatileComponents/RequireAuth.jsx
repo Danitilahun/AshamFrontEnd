@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { requestForToken } from "../../services/firebase";
 import createNotification from "../../api/services/Notification/registerNotification";
 import useDocumentById from "../../hooks/useDocumentById";
+import getRequiredUserData from "../../utils/getBranchInfo";
 const routesToCheck = [
   "/deliveryguy/",
   "/transaction",
@@ -102,10 +103,11 @@ const RequireAuth = ({ children }) => {
     } else if (
       routesToCheckForAdmin.some((route) => location.pathname.startsWith(route))
     ) {
+      const userDate = getRequiredUserData();
+      console.log("userDate", userDate);
       user.getIdTokenResult().then((idTokenResult) => {
         if (idTokenResult.claims.admin !== undefined) {
           const newRoute = `/deliveryguy/${user.displayName}`;
-
           setNavigationPath(newRoute);
         } else if (idTokenResult.claims.callCenter !== undefined) {
           const newRoute = `/service/asbeza/${user.uid}`;
@@ -139,7 +141,7 @@ const RequireAuth = ({ children }) => {
       user.getIdTokenResult().then((idTokenResult) => {
         if (
           idTokenResult.claims.admin !== undefined ||
-          idTokenResult.claims.superAdmin !== undefined ||
+          // idTokenResult.claims.superAdmin !== undefined ||
           idTokenResult.claims.callCenter !== undefined
         ) {
           const newRoute = "/"; // Redirect to a different route if not authorized

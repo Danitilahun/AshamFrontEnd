@@ -184,7 +184,7 @@ const WaterDistributeReportForm = () => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      {userClaims.superAdmin || userClaims.admin ? (
+      {userClaims.admin ? (
         <div>
           <Button
             variant="contained"

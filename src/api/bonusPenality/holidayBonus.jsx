@@ -7,10 +7,7 @@ const HolidayBonus = async (holidayBonusData, user, type) => {
   try {
     if (user) {
       const idTokenResult = await user.getIdTokenResult();
-      if (
-        idTokenResult.claims.superAdmin === true ||
-        idTokenResult.claims.admin === true
-      ) {
+      if (idTokenResult.claims.admin === true) {
         const idToken = await user.getIdToken();
         const response = await axios.post(
           `${API_BASE_URL}api/incentive/holidayBonus/${type}`,

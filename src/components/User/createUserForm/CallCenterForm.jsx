@@ -22,6 +22,7 @@ import fetchData from "../../../api/services/Users/getUser";
 import createUser from "../../../api/users/create";
 import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import { useSnackbar } from "../../../contexts/InfoContext";
+import useUserClaims from "../../../hooks/useUserClaims";
 
 const FILE_SIZE = 160 * 1024;
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
@@ -68,7 +69,7 @@ const CallcenterRegisterForm = () => {
   const theme = useTheme();
   const { openSnackbar } = useSnackbar();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const userClaims = useUserClaims(user);
   const handleFormSubmit = async (values) => {
     setIsSubmitting(true);
     try {

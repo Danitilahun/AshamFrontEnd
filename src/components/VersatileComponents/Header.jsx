@@ -126,8 +126,15 @@ const Header = ({
     }
 
     try {
-      const res = await deleteTable(user, tableId);
-      openSnackbar(res.data.message, "success");
+      if (userClaims.superAdmin) {
+        const res = await deleteTable(user, tableId);
+        openSnackbar(res.data.message, "success");
+      } else {
+        openSnackbar(
+          "You don't have the permission to delete the table.",
+          "info"
+        );
+      }
     } catch (error) {
       openSnackbar(
         error.response.data.message,
@@ -295,13 +302,15 @@ const Header = ({
             </>
           ) : title === "Table" ? (
             <Box display="flex" gap={3}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleDeleteIconClick2}
-              >
-                Create new {title}
-              </Button>
+              {userClaims.admin ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleDeleteIconClick2}
+                >
+                  Create new {title}
+                </Button>
+              ) : null}
               {userClaims.superAdmin ? (
                 <Button
                   variant="contained"

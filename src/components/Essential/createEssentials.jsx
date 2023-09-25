@@ -69,7 +69,7 @@ const EssentialForm = ({ type }) => {
   return (
     <div style={{ zIndex: 6000 }}>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      {userClaims.superAdmin || userClaims.admin ? (
+      {userClaims.superAdmin ? (
         <div>
           <Button
             variant="contained"

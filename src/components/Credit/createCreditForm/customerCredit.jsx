@@ -53,7 +53,11 @@ const CustomerCreditForm = ({ type }) => {
       setIsSubmitting(true);
       try {
         const date = getInternationalDate();
-        values.branchId = params.id;
+        values.branchId = params.id
+          ? params.id
+          : user.displayName
+          ? user.displayName
+          : userData.requiredId;
         values.date = date;
         values.type = type;
         values.active = active;
@@ -79,15 +83,17 @@ const CustomerCreditForm = ({ type }) => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      {userClaims.superAdmin || userClaims.admin ? (
+      {userClaims.admin ? (
         <div>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleButtonClick}
-          >
-            Create new Customer credit
-          </Button>
+          {userClaims.admin ? (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleButtonClick}
+            >
+              Create new Customer credit
+            </Button>
+          ) : null}
 
           <Dialog
             open={showForm}

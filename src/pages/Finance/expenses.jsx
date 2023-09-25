@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Box, Grid, useTheme } from "@mui/material";
 import Header from "../../components/VersatileComponents/Header";
-import Calculator from "../../components/VersatileComponents/MoneyNoteCalculator";
+import Calculator from "../../components/VersatileComponents/financeCalculator";
 import DynamicTable from "../../components/DynamicTable/DynamicTable";
 import { useParams } from "react-router-dom";
 import loadDataFromFirestore from "../../api/utils/loadDataFromFirestore";
@@ -29,6 +29,7 @@ const Expenses = () => {
     // Clean up the subscription when the component unmounts
     return () => unsubscribe();
   }, [params.id]);
+
   console.log("finance", financeUser);
   return (
     <Box m="1.5rem 2.5rem">

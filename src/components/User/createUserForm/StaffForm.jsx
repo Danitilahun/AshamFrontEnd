@@ -23,6 +23,7 @@ import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { useParams } from "react-router-dom";
 import getRequiredUserData from "../../../utils/getBranchInfo";
+import useUserClaims from "../../../hooks/useUserClaims";
 
 const FILE_SIZE = 160 * 1024;
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
@@ -69,7 +70,7 @@ const StaffRegisterForm = () => {
   const { openSnackbar } = useSnackbar();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const branchData = getRequiredUserData();
-
+  const userClaims = useUserClaims(user);
   const handleFormSubmit = async (values) => {
     setIsSubmitting(true);
     try {

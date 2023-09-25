@@ -9,18 +9,23 @@ import { collection, doc, onSnapshot } from "firebase/firestore";
 import { useAuth } from "../../contexts/AuthContext";
 import CreditTable from "../../components/Credit/CreditTable";
 import BankTable from "../../components/Bank/table";
+import useUserClaims from "../../hooks/useUserClaims";
+import getRequiredUserData from "../../utils/getBranchInfo";
 const Bank = () => {
   const params = useParams();
-
   const { user, currentUser } = useAuth();
-  console.log("user", user.uid);
-  console.log("currentUser", currentUser);
-
+  const userClaim = useUserClaims(user);
+  const userData = getRequiredUserData();
+  console.log("userData", userData);
+  console.log("userClaim", userClaim.finance);
   // const { documentData } = useDocumentById("Bank", user.uid);
   const [tableDate, settableDate] = useState({});
 
   useEffect(() => {
-    const worksRef = doc(collection(firestore, "Bank"), user.uid);
+    const worksRef = doc(
+      collection(firestore, "Bank"),
+      userClaim.finance ? user.uid : userData.requiredId
+    );
 
     // Subscribe to real-time updates
     const unsubscribe = onSnapshot(worksRef, (doc) => {
@@ -32,11 +37,14 @@ const Bank = () => {
     });
     // Clean up the subscription when the component unmounts
     return () => unsubscribe();
-  }, [user.uid]);
+  }, [userClaim.finance ? user.uid : userData.requiredId]);
 
   const [financeUser, setFinanceUser] = useState({});
   useEffect(() => {
-    const worksRef = doc(collection(firestore, "finance"), user.uid);
+    const worksRef = doc(
+      collection(firestore, "finance"),
+      userClaim.finance ? user.uid : userData.requiredId
+    );
 
     // Subscribe to real-time updates
     const unsubscribe = onSnapshot(worksRef, (doc) => {
@@ -48,7 +56,7 @@ const Bank = () => {
     });
     // Clean up the subscription when the component unmounts
     return () => unsubscribe();
-  }, [user.uid]);
+  }, [userClaim.finance ? user.uid : userData.requiredId]);
 
   console.log("tableDate", tableDate);
   return (

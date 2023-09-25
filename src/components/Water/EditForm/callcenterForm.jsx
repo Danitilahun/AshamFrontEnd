@@ -22,6 +22,7 @@ import getInternationalDate from "../../../utils/getDate";
 import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
 import update from "../../../api/orders/edit";
+import useUserClaims from "../../../hooks/useUserClaims";
 // Define the validation schema including order item validation
 const EditWaterOrderFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -42,7 +43,7 @@ const EditWaterOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [branches, setBranches] = useState([]);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
-
+  const userClaims = useUserClaims(user);
   useEffect(() => {
     const unsubscribe = fetchData("branches", setBranches);
     return () => unsubscribe();
@@ -154,9 +155,11 @@ const EditWaterOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      <Button variant="contained" color="primary" onClick={handleButtonClick}>
-        Edit Water Order
-      </Button>
+      {userClaims.callCenter ? (
+        <Button variant="contained" color="primary" onClick={handleButtonClick}>
+          Edit Water Order
+        </Button>
+      ) : null}
 
       <Dialog
         open={isEditDialogOpen}

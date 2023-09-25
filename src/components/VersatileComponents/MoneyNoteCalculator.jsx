@@ -7,6 +7,7 @@ import LoadingSpinner from "./LoadingSpinner";
 import { useLocation } from "react-router-dom";
 import updateCalculator from "../../api/calculator/updateCalculator";
 import getRequiredUserData from "../../utils/getBranchInfo";
+import useUserClaims from "../../hooks/useUserClaims";
 
 const initialValues = {
   200: 0,
@@ -29,11 +30,6 @@ const updateFields = (targetObject, sourceObject) => {
 };
 
 const Calculator = () => {
-  const { pathname } = useLocation();
-  // console.log("the pathname is", pathname);
-  if (pathname === "/mainFinance/calculator") {
-    localStorage.setItem("userData", JSON.stringify({}));
-  }
   const theme = useTheme();
   const [data, setData] = useState({});
   const { user } = useAuth();
@@ -52,26 +48,8 @@ const Calculator = () => {
     }
     fetchUserClaims();
   }, [user]);
-  let active = "";
-  const storedData = localStorage.getItem("userData");
-  if (!userClaims.finance && storedData) {
-    console.log("the storedData is", storedData);
-    const userData = JSON.parse(storedData);
-    active = userData ? userData.active : null;
-  }
 
-  if (!userClaims.finance && !active) {
-    console.log("the storedData is", storedData);
-    const storedData2 = localStorage.getItem("active");
-    if (storedData2) {
-      const userData = JSON.parse(storedData2);
-      active = userData ? userData.active : null;
-    }
-  }
-
-  if (userClaims.finance) {
-    active = user.uid;
-  }
+  let active = userData.active;
 
   const [calculator, setCalculator] = useState({
     sum: 0,
@@ -82,9 +60,6 @@ const Calculator = () => {
   useEffect(() => {
     if (!active) {
       return;
-    }
-    if (userClaims.finance) {
-      active = user.uid;
     }
     const unsubscribe = getData("Calculator", "active", active, setCalculator);
     if (!calculator) {
@@ -137,18 +112,19 @@ const Calculator = () => {
   };
 
   useEffect(() => {
+    console.log("in the use effect", active);
     if (!active) {
       openSnackbar(
         `You do not have calculator , Since you do not have active sheet, please create one first!`,
         "info"
       );
     }
-  }, []);
+  }, [active]);
 
   return (
     <>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      {userData.active && (
+      {active && (
         <Paper
           elevation={5}
           style={{
@@ -187,6 +163,7 @@ const Calculator = () => {
                     }
                   }}
                   fullWidth
+                  disabled={userClaims.superAdmin}
                   sx={{
                     "& input": {
                       textAlign: "center",

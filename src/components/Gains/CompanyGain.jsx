@@ -13,6 +13,7 @@ import { useSnackbar } from "../../contexts/InfoContext";
 import editPrices from "../../api/services/prices/setPrices";
 import fetchData from "../../api/services/Users/getUser";
 import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
+import useUserClaims from "../../hooks/useUserClaims";
 
 const CompanyGainGrid = () => {
   const theme = useTheme();
@@ -20,7 +21,7 @@ const CompanyGainGrid = () => {
   const [companyData, setCompanyData] = useState({});
   const { openSnackbar } = useSnackbar();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const userClaims = useUserClaims(user);
   useEffect(() => {
     const unsubscribe = fetchData("companyGain", setCompanyData);
     return () => unsubscribe();
@@ -124,7 +125,7 @@ const CompanyGainGrid = () => {
                     value={companyData[key]}
                     type="number"
                     onChange={(e) => handleInputChange(key, e.target.value)}
-                    disabled={!editMode[key]}
+                    disabled={!editMode[key] || !userClaims.superAdmin}
                     fullWidth
                   />
                 </Grid>

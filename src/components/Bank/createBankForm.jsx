@@ -26,9 +26,9 @@ const BankForm = ({ source }) => {
   const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
+  const userClaims = useUserClaims(user);
   const theme = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const userClaims = useUserClaims(user);
   const [transactionType, settransactionType] = useState([
     "Deposit",
     "Withdraw",
@@ -81,6 +81,11 @@ const BankForm = ({ source }) => {
       try {
         const date = getInternationalDate();
         values.branchId = params.id;
+        values.branchId = userClaims.finance
+          ? user.uid
+          : params.id
+          ? params.id
+          : user.displayName;
         values.date = date;
         values.source = source;
         console.log("values", values);
@@ -106,7 +111,7 @@ const BankForm = ({ source }) => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      {userClaims.superAdmin || userClaims.finance || userClaims.admin ? (
+      {userClaims.finance || userClaims.admin ? (
         <div>
           <Button
             variant="contained"

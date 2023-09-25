@@ -102,7 +102,7 @@ const EditStaffCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      {userClaims.superAdmin || userClaims.admin ? (
+      {userClaims.admin ? (
         <div>
           <Dialog
             open={isEditDialogOpen}

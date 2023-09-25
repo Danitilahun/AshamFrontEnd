@@ -21,6 +21,7 @@ import fetchData from "../../../api/services/Users/getUser";
 import getInternationalDate from "../../../utils/getDate";
 import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
+import useUserClaims from "../../../hooks/useUserClaims";
 // Define the validation schema including order item validation
 const EditCardOrderFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -42,6 +43,7 @@ const EditCardOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [branches, setBranches] = useState([]);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
+  const userClaims = useUserClaims(user);
 
   useEffect(() => {
     const unsubscribe = fetchData("branches", setBranches);
@@ -153,9 +155,11 @@ const EditCardOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      <Button variant="contained" color="primary" onClick={handleButtonClick}>
-        Edit Card Order
-      </Button>
+      {userClaims.callCenter ? (
+        <Button variant="contained" color="primary" onClick={handleButtonClick}>
+          Edit Card Order
+        </Button>
+      ) : null}
 
       <Dialog
         open={isEditDialogOpen}

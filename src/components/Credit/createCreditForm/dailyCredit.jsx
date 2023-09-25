@@ -20,6 +20,7 @@ import getInternationalDate from "../../../utils/getDate";
 import createCredit from "../../../api/credit/create";
 import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import { DailyCreditFormValidationSchema } from "../validator/dailyCreditFormValidationSchema";
+import getRequiredUserData from "../../../utils/getBranchInfo";
 
 const DailyCreditForm = ({ type }) => {
   const params = useParams();
@@ -30,7 +31,7 @@ const DailyCreditForm = ({ type }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const userClaims = useUserClaims(user);
   const [selectedDeliveryGuy, setSelectedDeliveryGuy] = useState("");
-
+  const userData = getRequiredUserData();
   let active = "";
   let worker = [];
   const storedData = localStorage.getItem("userData");
@@ -66,7 +67,11 @@ const DailyCreditForm = ({ type }) => {
       setIsSubmitting(true);
       try {
         const date = getInternationalDate();
-        values.branchId = params.id;
+        values.branchId = params.id
+          ? params.id
+          : user.displayName
+          ? user.displayName
+          : userData.requiredId;
         values.date = date;
         values.type = type;
         values.active = active;
@@ -92,15 +97,17 @@ const DailyCreditForm = ({ type }) => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      {userClaims.superAdmin || userClaims.admin ? (
+      {userClaims.admin ? (
         <div>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleButtonClick}
-          >
-            Create New Daily Credit
-          </Button>
+          {userClaims.admin ? (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleButtonClick}
+            >
+              Create New Daily Credit
+            </Button>
+          ) : null}
 
           <Dialog
             open={showForm}

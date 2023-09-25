@@ -2,6 +2,7 @@ import React from "react";
 import {
   Box,
   Drawer,
+  Grid,
   IconButton,
   List,
   ListItem,
@@ -22,6 +23,8 @@ import { useAuth } from "../../contexts/AuthContext";
 import { firestore } from "../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
+import useUserClaims from "../../hooks/useUserClaims";
+import getRequiredUserData from "../../utils/getBranchInfo";
 const navItems = [
   {
     text: "Branches",
@@ -53,27 +56,28 @@ const FinanceMainSidebar = ({
 }) => {
   const { pathname } = useLocation();
   const { user } = useAuth();
+  const userClaims = useUserClaims(user);
   // const { callCenterId } = useBranch();
-  let branchId = "";
-  const storedData = localStorage.getItem("userData");
-  if (storedData) {
-    const userData = JSON.parse(storedData);
-    branchId = userData.id !== undefined ? userData.id : "";
-  }
-
+  const financeData = getRequiredUserData();
   const params = useParams();
-  const callCenterId = branchId;
-  const [active, setActive] = useState(`/mainFinance/branches/${params.id}}`);
+  let callCenterId = userClaims.finance ? user.uid : financeData.requiredId;
+  callCenterId = userClaims.superAdmin ? params.id : callCenterId;
+  const [active, setActive] = useState(
+    `/mainFinance/branches/${callCenterId}}`
+  );
   const navigate = useNavigate();
   const theme = useTheme();
 
   const { logout } = useAuth();
 
   useEffect(() => {
-    if (!params) {
-      return;
-    }
-    const worksRef = doc(collection(firestore, "finance"), params.id);
+    // if (!params) {
+    //   return;
+    // }
+    const worksRef = doc(
+      collection(firestore, "finance"),
+      userClaims.finance ? user.uid : callCenterId
+    );
 
     // Subscribe to real-time updates
     const unsubscribe = onSnapshot(worksRef, (doc) => {
@@ -90,15 +94,35 @@ const FinanceMainSidebar = ({
         }
       }
     });
+    // Clean up the subscription when the component unmounts
+    return () => unsubscribe();
+  }, [callCenterId]);
+
+  useEffect(() => {
+    if (!userClaims.finance || !user || !user.uid) {
+      return; // Add a check for user and user.uid
+    }
+
+    const worksRef = doc(collection(firestore, "finance"), user.uid);
+
+    // Subscribe to real-time updates
+    const unsubscribe = onSnapshot(worksRef, (doc) => {
+      if (doc.exists()) {
+        if (doc.data().disable) {
+          logout();
+        }
+      }
+    });
 
     // Clean up the subscription when the component unmounts
     return () => unsubscribe();
-  }, [params.id]);
+  }, [user.uid]);
 
   useEffect(() => {
     setActive(pathname);
   }, [pathname]);
 
+  console.log(pathname, active);
   const handleCardClick = (event) => {
     event.preventDefault();
     navigate(`/`);
@@ -126,15 +150,41 @@ const FinanceMainSidebar = ({
           <Box width="100%">
             <Box m="1.5rem 2rem 2rem 3rem">
               <FlexBetween color={theme.palette.secondary.main}>
-                <Box display="flex" alignItems="center" gap="0.5rem">
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  gap="0.5rem"
+                  flexDirection="row"
+                  m="0 30"
+                >
                   <div onClick={handleCardClick}>
-                    <Typography
-                      variant="h4"
-                      fontWeight="bold"
-                      style={{ cursor: "pointer" }}
+                    <Grid
+                      container
+                      spacing={1}
+                      justifyContent="center"
+                      alignItems="center"
                     >
-                      ETHIO DELIVERY
-                    </Typography>
+                      <Grid item xs={4}></Grid>
+                      <Grid item xs={4}>
+                        <Typography
+                          variant="h3"
+                          fontWeight="bold"
+                          style={{ cursor: "pointer" }}
+                        >
+                          ASHAM
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={4}>
+                        {/* <img
+                          width={"50px"}
+                          height={"50px"}
+                          src="/assets/delivery.png" // Replace with the actual image source
+                          alt="Image Alt Text" // Provide alt text for accessibility
+                          style={{ marginRight: "10px", cursor: "pointer" }} // Add some margin for spacing
+                        /> */}
+                      </Grid>
+                    </Grid>
                   </div>
                 </Box>
                 {!isNonMobile && (
@@ -154,7 +204,9 @@ const FinanceMainSidebar = ({
                   );
                 }
                 const lcText = path;
-                let route = `/${lcText}/${user.uid}`;
+                let route = `/${lcText}/${
+                  userClaims.finance ? user.uid : callCenterId
+                }`;
                 console.log(route, active);
 
                 return (

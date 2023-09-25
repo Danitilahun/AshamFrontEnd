@@ -10,7 +10,6 @@ const update = async (user, id, orderData, type) => {
     }
     const idTokenResult = await user.getIdTokenResult();
     if (
-      idTokenResult.claims.superAdmin === true ||
       idTokenResult.claims.admin === true ||
       idTokenResult.claims.callCenter === true
     ) {

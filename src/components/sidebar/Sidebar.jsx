@@ -2,6 +2,7 @@ import React from "react";
 import {
   Box,
   Drawer,
+  Grid,
   IconButton,
   List,
   ListItem,
@@ -108,15 +109,41 @@ const Sidebar = ({
           <Box width="100%">
             <Box m="1.5rem 2rem 2rem 3rem">
               <FlexBetween color={theme.palette.secondary.main}>
-                <Box display="flex" alignItems="center" gap="0.5rem">
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  gap="0.5rem"
+                  flexDirection="row"
+                  m="0 30"
+                >
                   <div onClick={handleCardClick}>
-                    <Typography
-                      variant="h4"
-                      fontWeight="bold"
-                      style={{ cursor: "pointer" }}
+                    <Grid
+                      container
+                      spacing={1}
+                      justifyContent="center"
+                      alignItems="center"
                     >
-                      ETHIO DELIVERY
-                    </Typography>
+                      <Grid item xs={4}></Grid>
+                      <Grid item xs={4}>
+                        <Typography
+                          variant="h3"
+                          fontWeight="bold"
+                          style={{ cursor: "pointer" }}
+                        >
+                          ASHAM
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={4}>
+                        {/* <img
+                          width={"50px"}
+                          height={"50px"}
+                          src="/assets/delivery.png" // Replace with the actual image source
+                          alt="Image Alt Text" // Provide alt text for accessibility
+                          style={{ marginRight: "10px", cursor: "pointer" }} // Add some margin for spacing
+                        /> */}
+                      </Grid>
+                    </Grid>
                   </div>
                 </Box>
                 {!isNonMobile && (

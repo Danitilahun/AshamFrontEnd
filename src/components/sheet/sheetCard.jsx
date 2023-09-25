@@ -16,6 +16,7 @@ import { useState } from "react";
 import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import deleteSheet from "../../api/sheet/delete";
+import useUserClaims from "../../hooks/useUserClaims";
 
 const SheetCard = ({ sheetInfo }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -27,7 +28,7 @@ const SheetCard = ({ sheetInfo }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { changesheetName, changetableDate } = useBranch();
   const [openDialog, setOpenDialog] = React.useState(false);
-
+  const userClaims = useUserClaims(user);
   const handleDeleteIconClick = () => {
     handleMenuClose();
     setOpenDialog(true);
@@ -99,16 +100,18 @@ const SheetCard = ({ sheetInfo }) => {
               >
                 <MoreVertIcon />
               </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleMenuClose}
-                onClick={handleMenuClose}
-              >
-                <MenuItem onClick={() => handleDeleteIconClick()}>
-                  Delete
-                </MenuItem>
-              </Menu>
+              {userClaims.superAdmin ? (
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}
+                  onClick={handleMenuClose}
+                >
+                  <MenuItem onClick={() => handleDeleteIconClick()}>
+                    Delete
+                  </MenuItem>
+                </Menu>
+              ) : null}
             </div>
           }
           title={

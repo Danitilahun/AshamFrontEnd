@@ -66,7 +66,7 @@ const EditEssentialForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   return (
     <div>
       {/* <LoadingSpinner isSubmitting={isSubmitting} /> */}
-      {userClaims.superAdmin || userClaims.admin ? (
+      {userClaims.superAdmin ? (
         <div>
           {isSubmitting ? (
             <LoadingSpinner isSubmitting={isSubmitting} />

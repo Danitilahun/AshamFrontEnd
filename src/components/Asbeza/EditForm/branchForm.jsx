@@ -22,6 +22,7 @@ import getInternationalDate from "../../../utils/getDate";
 import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
 import update from "../../../api/orders/edit";
+import useUserClaims from "../../../hooks/useUserClaims";
 // Define the validation schema including order item validation
 const EditAsbezaOrderFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -42,7 +43,7 @@ const EditAsbezaOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [branches, setBranches] = useState([]);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
-
+  const userClaims = useUserClaims(user);
   useEffect(() => {
     const unsubscribe = fetchData("Deliveryturn", setDeliveryGuy);
     return () => unsubscribe();
@@ -133,9 +134,11 @@ const EditAsbezaOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      <Button variant="contained" color="primary" onClick={handleButtonClick}>
-        Edit Asbeza Order
-      </Button>
+      {userClaims.admin ? (
+        <Button variant="contained" color="primary" onClick={handleButtonClick}>
+          Edit Asbeza Order
+        </Button>
+      ) : null}
 
       <Dialog
         open={isEditDialogOpen}

@@ -7,8 +7,8 @@ import BudgetPage from "../pages/Money/BudgetPage";
 
 const financeRoutesData = [
   { path: "/genzeb/salary/:id", component: SalaryPage },
-  { path: "genzeb/budget/:id", component: BudgetPage },
-  { path: "genzeb/bonuspenality/:id", component: BonusPenality },
+  { path: "/genzeb/budget/:id", component: BudgetPage },
+  { path: "/genzeb/bonuspenality/:id", component: BonusPenality },
 ];
 
 const FinanceRoutes = () => {

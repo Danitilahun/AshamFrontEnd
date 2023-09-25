@@ -13,13 +13,14 @@ import { useSnackbar } from "../../contexts/InfoContext";
 import fetchData from "../../api/services/Users/getUser";
 import editPrices from "../../api/services/prices/setPrices";
 import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
-
+import useUserClaims from "../../hooks/useUserClaims";
 const DeliveryGainGrid = () => {
   const theme = useTheme();
   const { user } = useAuth();
   const [data, setData] = useState([]);
   const { openSnackbar } = useSnackbar();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const userClaims = useUserClaims(user);
 
   useEffect(() => {
     const unsubscribe = fetchData("prices", setData);
@@ -129,7 +130,7 @@ const DeliveryGainGrid = () => {
                     value={data[key]}
                     type="number"
                     onChange={(e) => handleInputChange(key, e.target.value)}
-                    disabled={!editMode[key]}
+                    disabled={!editMode[key] || !userClaims.superAdmin}
                     fullWidth
                   />
                 </Grid>

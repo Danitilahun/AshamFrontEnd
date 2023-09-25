@@ -21,6 +21,7 @@ import createCredit from "../../../api/credit/create";
 import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import { DailyCreditFormValidationSchema } from "../validator/dailyCreditFormValidationSchema";
 import { StaffCreditFormValidationSchema } from "../validator/staffCreditFormValidationSchema";
+import getRequiredUserData from "../../../utils/getBranchInfo";
 
 const StaffCreditForm = ({ type }) => {
   const params = useParams();
@@ -30,6 +31,7 @@ const StaffCreditForm = ({ type }) => {
   const theme = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const userClaims = useUserClaims(user);
+  const userData = getRequiredUserData();
   const [selectedDeliveryGuy, setSelectedDeliveryGuy] = useState("");
   const [placementOptions, setPlacementOptions] = useState([
     "BranchAdmin",
@@ -82,7 +84,11 @@ const StaffCreditForm = ({ type }) => {
       setIsSubmitting(true);
       try {
         const date = getInternationalDate();
-        values.branchId = params.id;
+        values.branchId = params.id
+          ? params.id
+          : user.displayName
+          ? user.displayName
+          : userData.requiredId;
         values.date = date;
         values.type = type;
         values.active = active;
@@ -120,15 +126,17 @@ const StaffCreditForm = ({ type }) => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      {userClaims.superAdmin || userClaims.admin ? (
+      {userClaims.admin ? (
         <div>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleButtonClick}
-          >
-            Create New Staff credit
-          </Button>
+          {userClaims.admin ? (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleButtonClick}
+            >
+              Create New Staff credit
+            </Button>
+          ) : null}
 
           <Dialog
             open={showForm}

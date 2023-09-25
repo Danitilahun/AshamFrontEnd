@@ -319,20 +319,22 @@ const DynamicTable = ({
                       title={row[column.key]}
                     >
                       {column.key === "edit" ? (
-                        <IconButton onClick={() => handleEdit(row)}>
+                        <IconButton
+                          onClick={
+                            userClaims.superAdmin ? null : () => handleEdit(row)
+                          }
+                          disabled={userClaims.superAdmin}
+                        >
                           <EditIcon />
                         </IconButton>
                       ) : column.key === "status" ? (
                         <div
                           style={{
                             ...getStatusStyle(row[column.key]),
-                            cursor:
-                              userClaims.superAdmin || userClaims.admin
-                                ? "pointer"
-                                : "default",
+                            cursor: userClaims.admin ? "pointer" : "default",
                           }}
                           onClick={() => {
-                            if (userClaims.superAdmin || userClaims.admin) {
+                            if (userClaims.admin) {
                               handleStatusClick(row);
                             }
                           }}
@@ -340,11 +342,23 @@ const DynamicTable = ({
                           {row[column.key]}
                         </div>
                       ) : column.key === "delete" ? (
-                        <IconButton onClick={() => handleDelete(row.id)}>
+                        <IconButton
+                          onClick={
+                            userClaims.superAdmin
+                              ? null
+                              : () => handleDelete(row.id)
+                          }
+                          disabled={userClaims.superAdmin}
+                        >
                           <DeleteIcon />
                         </IconButton>
                       ) : column.key === "new" ? (
-                        <IconButton onClick={() => handleNew(row)}>
+                        <IconButton
+                          onClick={
+                            userClaims.superAdmin ? null : () => handleNew(row)
+                          }
+                          disabled={userClaims.superAdmin}
+                        >
                           <FiberNewIcon />
                         </IconButton>
                       ) : column.key === "order" ? (
@@ -370,6 +384,7 @@ const DynamicTable = ({
                         row[column.key] === 0 ? (
                           <div>
                             <button
+                              disabled={userClaims.superAdmin}
                               onClick={() => openRegisterDialog(row)}
                               style={{ padding: 8, borderRadius: 10 }}
                             >

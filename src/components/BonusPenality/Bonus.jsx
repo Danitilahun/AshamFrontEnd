@@ -15,6 +15,7 @@ import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import getRequiredUserData from "../../utils/getBranchInfo";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import HolidayBonus from "../../api/bonusPenality/holidayBonus";
+import useUserClaims from "../../hooks/useUserClaims";
 const BonusDialog = ({ worker, id = null }) => {
   const [open, setOpen] = useState(false);
   const [bonusText, setBonusText] = useState(0);
@@ -24,6 +25,7 @@ const BonusDialog = ({ worker, id = null }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const branchData = getRequiredUserData();
   const theme = useTheme();
+  const userClaims = useUserClaims(user);
   const handleDeleteIconClick = () => {
     setOpenDialog(true);
   };
@@ -92,6 +94,7 @@ const BonusDialog = ({ worker, id = null }) => {
       <LoadingSpinner isSubmitting={isSubmitting} />
       <Button
         variant="contained"
+        disabled={userClaims.superAdmin}
         color="primary"
         onClick={handleOpen}
         sx={{ backgroundColor: id ? "green" : "none" }}

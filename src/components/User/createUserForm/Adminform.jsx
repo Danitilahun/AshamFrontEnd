@@ -24,6 +24,7 @@ import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import fetchData from "../../../api/utils/getBasedOnCondition";
 import useFilteredCollectionData from "../../../hooks/useFilteredCollectionData";
+import useUserClaims from "../../../hooks/useUserClaims";
 
 const FILE_SIZE = 160 * 1024;
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
@@ -70,6 +71,7 @@ const AdminRegisterForm = () => {
   const { user, forgotPassword } = useAuth();
   const theme = useTheme();
   const { openSnackbar } = useSnackbar();
+  const userClaims = useUserClaims(user);
   const [isSubmitting, setIsSubmitting] = useState(false);
   // const [branches, setBranches] = useState([]);
   const { data: branches } = useFilteredCollectionData(

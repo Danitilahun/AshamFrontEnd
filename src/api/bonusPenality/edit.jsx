@@ -10,10 +10,7 @@ const updateIncentive = async (id, user, incentiveData, type) => {
     }
 
     const idTokenResult = await user.getIdTokenResult();
-    if (
-      idTokenResult.claims.superAdmin === true ||
-      idTokenResult.claims.admin === true
-    ) {
+    if (idTokenResult.claims.admin === true) {
       const idToken = await user.getIdToken();
       const res = await axios.put(
         `${API_BASE_URL}api/incentive/${type}/${id}`,

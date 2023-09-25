@@ -22,6 +22,7 @@ import getInternationalDate from "../../../utils/getDate";
 import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
 import update from "../../../api/orders/edit";
+import useUserClaims from "../../../hooks/useUserClaims";
 // Define the validation schema including order item validation
 const EditWifiOrderFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -41,7 +42,7 @@ const EditWifiOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   const theme = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
-
+  const userClaims = useUserClaims(user);
   useEffect(() => {
     const unsubscribe = fetchData("Deliveryturn", setDeliveryGuy);
     return () => unsubscribe();
@@ -122,9 +123,11 @@ const EditWifiOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      <Button variant="contained" color="primary" onClick={handleButtonClick}>
-        Edit Wifi Order
-      </Button>
+      {userClaims.admin ? (
+        <Button variant="contained" color="primary" onClick={handleButtonClick}>
+          Edit Wifi Order
+        </Button>
+      ) : null}
 
       <Dialog
         open={isEditDialogOpen}

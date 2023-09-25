@@ -10,7 +10,7 @@ const deleteUser = async (user, Id, type) => {
     }
 
     const idTokenResult = await user.getIdTokenResult();
-    if (idTokenResult.claims.superAdmin === true) {
+    if (idTokenResult.claims.superAdmin === true || idTokenResult.claims.admin === true)  {
       const idToken = await user.getIdToken();
       const res = await axios.delete(`${API_BASE_URL}api/user/${type}/${Id}`, {
         headers: {

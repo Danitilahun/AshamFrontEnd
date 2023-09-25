@@ -4,7 +4,7 @@ import { Card, useTheme } from "@mui/material";
 import { useAuth } from "../../contexts/AuthContext";
 import updateBranch from "../../api/services/Branch/update.branch";
 import { useSnackbar } from "../../contexts/InfoContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useBranch } from "../../contexts/BranchContext";
 import { useDispatch } from "react-redux";
 import { setSelectedItem } from "../../store/itemDetailsSlice";
@@ -61,7 +61,7 @@ const BranchCard = ({ branchData }) => {
   const handleDialogClose = () => {
     setOpenDialog(false);
   };
-
+  const { pathname } = useLocation();
   const handleCardClick = async (event) => {
     event.preventDefault();
     handleItemClick(branchData);
@@ -71,7 +71,12 @@ const BranchCard = ({ branchData }) => {
     changeActiveness(branchData.active);
     changeBranchName(branchData.name);
     changeBranch(branchData.id);
-    if (idTokenResult.claims.superAdmin) {
+    if (
+      idTokenResult.claims.superAdmin &&
+      pathname.startsWith("/mainFinance/branches")
+    ) {
+      navigate(`/genzeb/salary/${branchData.id}`);
+    } else if (idTokenResult.claims.superAdmin) {
       navigate(`/deliveryguy/${branchData.id}`);
     } else {
       navigate(`/genzeb/salary/${branchData.id}`);

@@ -83,9 +83,7 @@ const BankTable = ({ userid, bankName }) => {
       );
     };
   }, []);
-  console.log(params, "params.id");
-  console.log(bankName, "bankName");
-  console.log(data, "data");
+
   return (
     <Box m="1rem 0">
       <DynamicTable data={data} columns={columns} loadMoreData={loadMoreData} />

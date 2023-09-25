@@ -6,7 +6,7 @@ const createTable = async (user, branchId, sheetId) => {
   try {
     if (user) {
       const idTokenResult = await user.getIdTokenResult();
-      if (idTokenResult.claims.superAdmin === true) {
+      if (idTokenResult.claims.admin === true) {
         const idToken = await user.getIdToken();
 
         const date = getInternationalDate();

@@ -11,7 +11,6 @@ const Delete = async (user, Id, type) => {
 
     const idTokenResult = await user.getIdTokenResult();
     if (
-      idTokenResult.claims.superAdmin === true ||
       idTokenResult.claims.admin === true ||
       idTokenResult.claims.callCenter === true
     ) {

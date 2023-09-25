@@ -2,6 +2,7 @@ import React from "react";
 import {
   Box,
   Drawer,
+  Grid,
   IconButton,
   List,
   ListItem,
@@ -230,20 +231,37 @@ const BranchSidebar = ({
 
   // console.log("branch info", documentData2);
 
-  const [active, setActive] = useState(`/deliveryguy/${branchId}`);
-  const [activeMenu, setActiveMenu] = useState(`/deliveryguy/${branchId}`);
-  const [selectedSubItem, setSelectedSubItem] = useState(null);
-  const handleSubItemClick = (subRoute) => {
-    navigate(subRoute);
-    setSelectedSubItem(subRoute);
-  };
+  const [active, setActive] = useState(
+    `deliveryguy/${branchId ? branchId : params.id}`
+  );
+  const [activeMenu, setActiveMenu] = useState(
+    `deliveryguy/${branchId ? branchId : params.id}`
+  );
+
   const navigate = useNavigate();
   const theme = useTheme();
 
   useEffect(() => {
-    setActive(pathname);
+    if (params.id === "null") {
+      console.log("params.id", params.id === "null");
+      const pathnameSegments = pathname.split("/");
+
+      // Filter out 'null' segments
+      const filteredSegments = pathnameSegments.filter(
+        (segment) => segment !== "null"
+      );
+      // Join the filtered segments back together
+      const newPathname = filteredSegments.join("/");
+      console.log("newPathname", newPathname);
+      setActive(`${newPathname}/${branchId}`);
+      console.log("active", active);
+      navigate(`${newPathname}/${branchId}`);
+    } else {
+      setActive(pathname);
+    }
   }, [pathname]);
 
+  console.log(pathname, "param", params, "branchId", branchId);
   const handleCardClick = (event) => {
     event.preventDefault();
     navigate(`/`);
@@ -271,15 +289,41 @@ const BranchSidebar = ({
           <Box width="100%">
             <Box m="1.5rem 2rem 2rem 3rem">
               <FlexBetween color={theme.palette.secondary.main}>
-                <Box display="flex" alignItems="center" gap="0.5rem">
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  gap="0.5rem"
+                  flexDirection="row"
+                  m="0 30"
+                >
                   <div onClick={handleCardClick}>
-                    <Typography
-                      variant="h4"
-                      fontWeight="bold"
-                      style={{ cursor: "pointer" }}
+                    <Grid
+                      container
+                      spacing={1}
+                      justifyContent="center"
+                      alignItems="center"
                     >
-                      ETHIO DELIVERY
-                    </Typography>
+                      <Grid item xs={4}></Grid>
+                      <Grid item xs={4}>
+                        <Typography
+                          variant="h3"
+                          fontWeight="bold"
+                          style={{ cursor: "pointer" }}
+                        >
+                          ASHAM
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={4}>
+                        {/* <img
+                          width={"50px"}
+                          height={"50px"}
+                          src="/assets/delivery.png" // Replace with the actual image source
+                          alt="Image Alt Text" // Provide alt text for accessibility
+                          style={{ marginRight: "10px", cursor: "pointer" }} // Add some margin for spacing
+                        /> */}
+                      </Grid>
+                    </Grid>
                   </div>
                 </Box>
                 {!isNonMobile && (

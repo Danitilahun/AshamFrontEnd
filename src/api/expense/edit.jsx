@@ -9,10 +9,7 @@ const updateExpense = async (user, id, creditData) => {
     }
 
     const idTokenResult = await user.getIdTokenResult();
-    if (
-      idTokenResult.claims.superAdmin === true ||
-      idTokenResult.claims.finance === true
-    ) {
+    if (idTokenResult.claims.finance === true) {
       const idToken = await user.getIdToken();
       const res = await axios.put(
         `${API_BASE_URL}api/expense/${id}`,

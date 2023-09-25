@@ -9,7 +9,10 @@ const updateCalculator = async (user, id, CalculatorData) => {
     }
 
     const idTokenResult = await user.getIdTokenResult();
-    if (idTokenResult.claims.superAdmin === true) {
+    if (
+      idTokenResult.claims.admin === true ||
+      idTokenResult.claims.finance === true
+    ) {
       const idToken = await user.getIdToken();
       const res = await axios.put(
         `${API_BASE_URL}api/calculator/${id}`,

@@ -70,7 +70,7 @@ const FinancialCreditForm = ({ type }) => {
       setIsSubmitting(true);
       try {
         const date = getInternationalDate();
-        values.branchId = params.id;
+        values.branchId = params.id ? params.id : user.uid;
         values.date = date;
         const res = await createCredit(user, values, "financeCredit");
         openSnackbar(`${res.data.message} successfully created!`, "success");
@@ -107,15 +107,17 @@ const FinancialCreditForm = ({ type }) => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      {userClaims.superAdmin || userClaims.admin ? (
+      {userClaims.admin ? (
         <div>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleButtonClick}
-          >
-            Create New Financial credit
-          </Button>
+          {userClaims.finance ? (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleButtonClick}
+            >
+              Create New Financial credit
+            </Button>
+          ) : null}
 
           <Dialog
             open={showForm}

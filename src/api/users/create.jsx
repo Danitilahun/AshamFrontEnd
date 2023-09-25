@@ -9,8 +9,7 @@ const createUser = async (user, UserData, type) => {
       const idTokenResult = await user.getIdTokenResult();
       if (
         idTokenResult.claims.superAdmin === true ||
-        (idTokenResult.claims.admin === true &&
-          (type === "deliveryGuy" || type === "staff"))
+        idTokenResult.claims.admin === true
       ) {
         const idToken = await user.getIdToken();
         const response = await axios.post(

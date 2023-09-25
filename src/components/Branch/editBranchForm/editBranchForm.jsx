@@ -15,12 +15,14 @@ import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import { BranchFormValidationSchema } from "../validator/BranchFormValidationSchema";
 import CustomTextField from "../createBranchForm/CustomTextField";
 import updateBranch from "../../../api/branch/editBranch";
+import useUserClaims from "../../../hooks/useUserClaims";
 
 const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
   const theme = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const userClaims = useUserClaims(user);
   // Handle form submission
   const handleSubmit = async (values) => {
     setIsSubmitting(true);

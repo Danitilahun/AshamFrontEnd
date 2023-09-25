@@ -61,7 +61,7 @@ const ExpenseForm = ({ type }) => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      {userClaims.superAdmin || userClaims.finance ? (
+      {userClaims.finance ? (
         <div>
           <Button
             variant="contained"

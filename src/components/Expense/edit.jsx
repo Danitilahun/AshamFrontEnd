@@ -54,7 +54,7 @@ const ExpenseEditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      {userClaims.superAdmin || userClaims.finance ? (
+      {userClaims.finance ? (
         <div>
           <Dialog
             open={isEditDialogOpen}

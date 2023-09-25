@@ -22,6 +22,7 @@ import getInternationalDate from "../../../utils/getDate";
 import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
 import getRequiredUserData from "../../../utils/getBranchInfo";
+import useUserClaims from "../../../hooks/useUserClaims";
 // Define the validation schema including order item validation
 const WifiOrderFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -43,6 +44,7 @@ const WifiOrderForm = () => {
   const [branches, setBranches] = useState([]);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
   const userData = getRequiredUserData();
+  const useClaim = useUserClaims(user);
   useEffect(() => {
     const unsubscribe = fetchData("branches", setBranches);
     return () => unsubscribe();
@@ -86,14 +88,7 @@ const WifiOrderForm = () => {
   console.log("branch", branch);
 
   const handleButtonClick = () => {
-    if (userData.activeTable) {
-      setShowForm(true);
-    } else {
-      openSnackbar(
-        `${userData.branchName} branch does not have a daily table today. So you can't create an order. Please inform the branch to create a daily table in their sheet.`,
-        "info"
-      );
-    }
+    setShowForm(true);
   };
 
   const formik = useFormik({
@@ -161,9 +156,11 @@ const WifiOrderForm = () => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      <Button variant="contained" color="primary" onClick={handleButtonClick}>
-        Create new Wifi Order
-      </Button>
+      {useClaim.callCenter ? (
+        <Button variant="contained" color="primary" onClick={handleButtonClick}>
+          Create new Wifi Order
+        </Button>
+      ) : null}
 
       <Dialog open={showForm} onClose={handleCloseForm} maxWidth="md" fullWidth>
         <DialogTitle sx={{ backgroundColor: theme.palette.background.alt }}>

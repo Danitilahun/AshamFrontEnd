@@ -21,6 +21,7 @@ import CustomTextField from "../../VersatileComponents/orderTextInput";
 import getRequiredUserData from "../../../utils/getBranchInfo";
 import update from "../../../api/orders/edit";
 import create from "../../../api/orders/create";
+import useUserClaims from "../../../hooks/useUserClaims";
 // Define the validation schema including order item validation
 const WifiOrderFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -40,6 +41,7 @@ const WifiOrderBranchForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
   const userData = getRequiredUserData();
+  const userClaims = useUserClaims(user);
   useEffect(() => {
     const unsubscribe = fetchData("Deliveryturn", setDeliveryGuy);
     return () => unsubscribe();
@@ -85,7 +87,9 @@ const WifiOrderBranchForm = () => {
       try {
         const date = getInternationalDate();
         values.date = date;
-        values.callcenterId = userData.requiredId;
+        values.callcenterId = userData.requiredId
+          ? userData.requiredId
+          : user.displayName;
         values.status = "new order";
         values.blockHouse = values.blockHouse.toUpperCase();
         values.from = "branch";
@@ -128,9 +132,11 @@ const WifiOrderBranchForm = () => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      <Button variant="contained" color="primary" onClick={handleButtonClick}>
-        Create new Wifi Order
-      </Button>
+      {userClaims.admin ? (
+        <Button variant="contained" color="primary" onClick={handleButtonClick}>
+          Create new Wifi Order
+        </Button>
+      ) : null}
 
       <Dialog open={showForm} onClose={handleCloseForm} maxWidth="md" fullWidth>
         <DialogTitle sx={{ backgroundColor: theme.palette.background.alt }}>
