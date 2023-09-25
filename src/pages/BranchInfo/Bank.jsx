@@ -39,7 +39,7 @@ const Bank = () => {
         <Grid item xs={4}>
           <ShowBudget
             label={"Total bank balance"}
-            value={documentData.total}
+            value={documentData?.total}
             marginTop={10}
           />
         </Grid>
