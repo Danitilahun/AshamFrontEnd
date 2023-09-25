@@ -106,7 +106,7 @@ const BankForm = ({ source }) => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      {userClaims.superAdmin || userClaims.finance ? (
+      {userClaims.superAdmin || userClaims.finance || userClaims.admin ? (
         <div>
           <Button
             variant="contained"
