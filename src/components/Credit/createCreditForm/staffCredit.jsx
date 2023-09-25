@@ -58,7 +58,14 @@ const StaffCreditForm = ({ type }) => {
   }, []);
 
   const handleButtonClick = () => {
-    setShowForm(true);
+    if (active) {
+      setShowForm(true);
+    } else {
+      openSnackbar(
+        `There is not salary table for this branch, please create one first!`,
+        "info"
+      );
+    }
   };
   const formik = useFormik({
     initialValues: {
