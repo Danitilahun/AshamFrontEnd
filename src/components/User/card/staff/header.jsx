@@ -116,7 +116,7 @@ const UserHeader = ({
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  maxWidth: "200px", // Set a maximum width to control truncation
+                  maxWidth: "150px", // Set a maximum width to control truncation
                   // "&:hover": {
                   //   maxWidth: "none", // Remove the maximum width on hover
                   // },
