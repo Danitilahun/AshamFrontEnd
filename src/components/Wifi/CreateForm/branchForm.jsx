@@ -53,7 +53,7 @@ const WifiOrderBranchForm = () => {
   };
 
   const handleButtonClick = () => {
-    if (!userData.activeTable) {
+    if (userData.activeTable) {
       setShowForm(true);
     } else {
       openSnackbar(
