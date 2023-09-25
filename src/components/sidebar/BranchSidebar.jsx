@@ -157,7 +157,7 @@ const navItems = [
   },
   {
     text: "Customer",
-    path: "branchCustomer",
+    path: "segmentCustomer",
     icon: <PeopleIcon />,
   },
   {

@@ -39,7 +39,7 @@ const branchRoutesData = [
   { path: "/bonuspenality/:id", component: BonusPenality },
   { path: "/salary/:id", component: SalaryPage },
   // { path: "/status/:id", component: StatusPage },
-  { path: "/branchCustomer/:id", component: Customer },
+  { path: "/segmentCustomer/:id", component: Customer },
   { path: "/staff/:id", component: Staff },
   { path: "/bank/:id", component: Bank },
   { path: "/calculator/:id", component: BranchCalculator },

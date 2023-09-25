@@ -16,7 +16,7 @@ const routesToCheck = [
   "/wifidistribute",
   "/waterdistribute",
   "/hotelprofit",
-  "/branchCustomer",
+  "/segmentCustomer",
   "/money",
   "/budget",
   "/transaction",
