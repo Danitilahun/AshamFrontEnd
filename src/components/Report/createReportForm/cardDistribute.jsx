@@ -52,11 +52,31 @@ const CardDistributeReportForm = () => {
     activeDailySummery = userData ? userData.activeDailySummery : "not sheet";
   }
 
+  useEffect(() => {
+    if (!active) {
+      openSnackbar(
+        `There is not salary table for this branch, please create one first!`,
+        "info"
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!activeTable) {
+      openSnackbar(
+        `You do not have table for this branch, please create one first!`,
+        "info"
+      );
+    }
+  }, []);
+
   const handleButtonClick = () => {
     // Reset the form submission state when button is clicked
-    setIsFormSubmitted(false);
-    if (!isCountdownActive && !isFormSubmitted) {
-      setShowForm(true);
+    if (active && activeTable) {
+      setIsFormSubmitted(false);
+      if (!isCountdownActive && !isFormSubmitted) {
+        setShowForm(true);
+      }
     }
   };
 

@@ -18,6 +18,7 @@ import getInternationalDate from "../../../utils/getDate";
 import createCredit from "../../../api/credit/create";
 import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import { CustomerCreditFormValidationSchema } from "../validator/customerCreditValidator";
+import getRequiredUserData from "../../../utils/getBranchInfo";
 
 const CustomerCreditForm = ({ type }) => {
   const params = useParams();
@@ -33,6 +34,8 @@ const CustomerCreditForm = ({ type }) => {
     const userData = JSON.parse(storedData);
     active = userData ? userData.active : "try";
   }
+
+  const userData = getRequiredUserData();
   const handleButtonClick = () => {
     setShowForm(true);
   };
