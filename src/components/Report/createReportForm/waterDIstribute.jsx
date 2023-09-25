@@ -65,7 +65,7 @@ const WaterDistributeReportForm = () => {
   useEffect(() => {
     if (!activeTable) {
       openSnackbar(
-        `You do not have table for this branch, please create one first!`,
+        `You do not have daily table.Please create one first!`,
         "info"
       );
     }
