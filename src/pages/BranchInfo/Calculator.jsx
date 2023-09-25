@@ -8,7 +8,6 @@ const BranchCalculator = () => {
 
   return (
     <Box m="1.5rem 2.5rem">
-      <Header title="Delivery Guy" subtitle="Entire list of Delivery Guys" />
       <Grid container spacing={2}>
         <Calculator />
       </Grid>

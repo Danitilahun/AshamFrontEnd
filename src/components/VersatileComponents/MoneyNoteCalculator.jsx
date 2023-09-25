@@ -6,6 +6,7 @@ import { useSnackbar } from "../../contexts/InfoContext";
 import LoadingSpinner from "./LoadingSpinner";
 import { useLocation } from "react-router-dom";
 import updateCalculator from "../../api/calculator/updateCalculator";
+import getRequiredUserData from "../../utils/getBranchInfo";
 
 const initialValues = {
   200: 0,
@@ -39,6 +40,7 @@ const Calculator = () => {
   const { openSnackbar } = useSnackbar();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [userClaims, setUserClaims] = useState({});
+  const userData = getRequiredUserData();
   useEffect(() => {
     async function fetchUserClaims() {
       try {
@@ -134,93 +136,104 @@ const Calculator = () => {
     setIsSubmitting(false);
   };
 
+  useEffect(() => {
+    if (!active) {
+      openSnackbar(
+        `You do not have calculator , Since you do not have active sheet, please create one first!`,
+        "info"
+      );
+    }
+  }, []);
+
   return (
     <>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      <Paper
-        elevation={5}
-        style={{
-          padding: "20px 50px",
-          margin: "20px",
-          marginTop: "45px",
-          backgroundColor: theme.palette.background.alt,
-          color: theme.palette.secondary[300],
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          textAlign: "center",
-        }}
-      >
-        <Typography
-          variant="h4"
-          align="left"
-          style={{ fontWeight: "bold", marginBottom: "20px" }}
+      {userData.active && (
+        <Paper
+          elevation={5}
+          style={{
+            padding: "20px 50px",
+            margin: "20px",
+            marginTop: "45px",
+            backgroundColor: theme.palette.background.alt,
+            color: theme.palette.secondary[300],
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
         >
-          Calculator
-        </Typography>
-        <Grid container spacing={2}>
-          {Object.keys(data).map((key) => (
-            <Grid item xs={6} key={key}>
+          <Typography
+            variant="h4"
+            align="left"
+            style={{ fontWeight: "bold", marginBottom: "20px" }}
+          >
+            Calculator
+          </Typography>
+          <Grid container spacing={2}>
+            {Object.keys(data).map((key) => (
+              <Grid item xs={6} key={key}>
+                <Typography variant="subtitle1" align="left">
+                  {key} Birr
+                </Typography>
+                <TextField
+                  value={data[key]}
+                  type="number"
+                  onChange={(e) => handleInputChange(key, e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      handleKeyPress(key);
+                    }
+                  }}
+                  fullWidth
+                  sx={{
+                    "& input": {
+                      textAlign: "center",
+                    },
+                  }}
+                />
+              </Grid>
+            ))}
+          </Grid>
+          <Grid
+            container
+            spacing={2}
+            style={{ marginTop: "20px", marginLeft: "30%" }}
+          >
+            <Grid item xs={4}>
               <Typography variant="subtitle1" align="left">
-                {key} Birr
+                Sum
               </Typography>
-              <TextField
-                value={data[key]}
-                type="number"
-                onChange={(e) => handleInputChange(key, e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    handleKeyPress(key);
-                  }
-                }}
-                fullWidth
-                sx={{
-                  "& input": {
-                    textAlign: "center",
-                  },
-                }}
-              />
             </Grid>
-          ))}
-        </Grid>
-        <Grid
-          container
-          spacing={2}
-          style={{ marginTop: "20px", marginLeft: "30%" }}
-        >
-          <Grid item xs={4}>
-            <Typography variant="subtitle1" align="left">
-              Sum
-            </Typography>
+            <Grid item xs={4}>
+              <Typography variant="subtitle1" align="left">
+                Actual
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography variant="subtitle1" align="left">
+                Balance
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography variant="subtitle1" align="left">
+                {calculator ? calculator.sum : 0}
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography variant="subtitle1" align="left">
+                {calculator ? calculator.actual : 0}
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography variant="subtitle1" align="left">
+                {calculator ? calculator.balance : 0}
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid item xs={4}>
-            <Typography variant="subtitle1" align="left">
-              Actual
-            </Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <Typography variant="subtitle1" align="left">
-              Balance
-            </Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <Typography variant="subtitle1" align="left">
-              {calculator ? calculator.sum : 0}
-            </Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <Typography variant="subtitle1" align="left">
-              {calculator ? calculator.actual : 0}
-            </Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <Typography variant="subtitle1" align="left">
-              {calculator ? calculator.balance : 0}
-            </Typography>
-          </Grid>
-        </Grid>
-      </Paper>
+        </Paper>
+      )}
     </>
   );
 };
