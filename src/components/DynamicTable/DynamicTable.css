@@ -1,0 +1,110 @@
+/* DynamicTable.css */
+
+.DynamicTable {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  margin-top: 20px;
+  /* width: 90%; */
+}
+
+.table-container {
+  overflow-y: auto;
+  max-height: 200px;
+  position: relative;
+}
+
+.table-header {
+  position: sticky;
+  top: 0;
+  /* background-color: #f0f0f0; */
+  z-index: 1;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom-table th,
+.custom-table td {
+  border: 2px solid #ddd;
+  padding: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 150px; /* Align header cells with data cells */
+}
+
+.ellipsis-cell {
+  max-width: 150px;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 600px) {
+  .table-container {
+    max-height: none;
+    overflow-x: scroll;
+  }
+
+  .custom-table th,
+  .custom-table td {
+    font-size: 14px;
+  }
+}
+
+/* Responsive styles for even smaller screens */
+@media (max-width: 400px) {
+  .custom-table th,
+  .custom-table td {
+    font-size: 12px;
+  }
+}
+
+/* Set column widths individually */
+.col-id {
+  width: 50px; /* Adjust the width as needed for each column */
+}
+
+.col-name {
+  width: 200px;
+}
+
+.col-age {
+  width: 50px;
+}
+
+.col-city {
+  width: 100px;
+}
+
+.col-email {
+  width: 200px;
+}
+
+.col-phone {
+  width: 100px;
+}
+
+.col-address {
+  width: 250px;
+}
+
+.col-company {
+  width: 150px;
+}
+
+.table-container {
+  overflow-x: auto;
+  max-height: 300px; /* You can adjust this value as needed */
+  position: relative;
+}
+
+.custom-table th {
+  position: sticky;
+  top: 0;
+  background-color: #f0f0f0;
+  color: black;
+  z-index: 1;
+  max-width: 150px; /* Adjust the width as needed for each column */
+}

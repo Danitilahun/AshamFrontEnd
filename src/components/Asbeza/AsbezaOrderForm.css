@@ -1,0 +1,14 @@
+/* AsbezaOrderForm.css */
+.equal-height {
+  display: flex;
+  align-items: stretch;
+}
+
+.equal-height .MuiFormControl-root {
+  flex-grow: 1;
+  margin-right: 8px; /* Adjust margin as needed */
+}
+
+.equal-height .MuiButton-root {
+  flex-shrink: 0;
+}
