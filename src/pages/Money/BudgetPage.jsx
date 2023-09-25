@@ -62,12 +62,7 @@ const BudgetPage = () => {
     branchId
   );
   const { documentData: bank } = useDocumentById("Bank", branchId);
-  console.log("documentData2", documentData2);
-  console.log("status", status);
-  console.log("totalCredit", totalCredit);
-  console.log("bank", bank);
-  console.log("finance", finance);
-  console.log("AllBranch", AllBranch);
+
   // const date = getHumanReadableDate(openingDate);
   // const Data = documentData2 ? documentData2.sheetSummery : [];
 
@@ -94,21 +89,19 @@ const BudgetPage = () => {
       console.log("banksdkfjnsdf", bank);
       // Create the new row with the calculated sum
       const date = formatDateRange(status.createdDate);
+      const { id, ...restOfStatus } = status;
+
       const newRow = {
+        ...restOfStatus,
         dayRange: date,
-        wifi: status.wifi,
-        ethioTelBill: status.ethioTelBill,
-        houseKeeper: status.houseKeeper,
-        houseRent: status.houseRent,
-        totalStaffSalary: status.totalStaffSalary,
-        cleanerSalary: status.cleanerSalary,
-        totalExpense: status.totalExpense,
-        totalIncome: status.totalIncome,
         totalCredit: totalCredit.total,
         Sheetstatus:
-          status.totalIncome - status.totalExpense > 0 ? "Profit" : "Loss",
-        amount: Math.abs(status.totalIncome - status.totalExpense),
+          restOfStatus.totalIncome - restOfStatus.totalExpense > 0
+            ? "Profit"
+            : "Loss",
+        amount: Math.abs(restOfStatus.totalIncome - restOfStatus.totalExpense),
       };
+
       console.log(documentData2?.sheetSummary);
       // Combine the contents of documentData2.sheetSummery and newRow
       const combinedSummery = [...(documentData2?.sheetSummary ?? []), newRow];

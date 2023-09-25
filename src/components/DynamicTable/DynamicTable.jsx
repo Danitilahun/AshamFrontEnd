@@ -121,15 +121,45 @@ const DynamicTable = ({
     setSelectedRow(row);
     setIsDialogOpen(true);
     console.log("selected", row);
-    setExpense([
-      { expense: "Wifi", amount: row.wifi },
-      { expense: "Ethio Tel Bill", amount: row.ethioTelBill },
-      { expense: "House Keeper", amount: row.houseKeeper },
-      { expense: "House Rent", amount: row.houseRent },
-      { expense: "Cleaner Salary", amount: row.cleanerSalary },
-      { expense: "Staff Salary", amount: row.totalStaffSalary },
-      { expense: "Total Expense", amount: row.totalExpense },
-    ]);
+    const excludedProperties = [
+      "Sheetstatus",
+      "amount",
+      "branchId",
+      "totalIncome",
+      "totalCredit",
+      "dayRange",
+      "date",
+      "createdDate",
+    ];
+
+    // Create the setExpense array by filtering out excluded properties
+    let setExpensesss = Object.entries(row)
+      .filter(([key]) => !excludedProperties.includes(key))
+      .map(([expense, amount]) => ({ expense, amount }));
+
+    // Find the "Total Expense" entry, remove it, and push it to the end
+
+    const taxpersentageIndex = setExpensesss.findIndex(
+      (entry) => entry.expense === "taxPersentage"
+    );
+    if (taxpersentageIndex !== -1) {
+      const taxpersentage = setExpensesss.splice(taxpersentageIndex, 1)[0];
+      console.log("totalExpenseEntry", taxpersentage);
+      taxpersentage.amount = taxpersentage.amount + "%";
+      setExpensesss.push(taxpersentage);
+    }
+
+    const totalExpenseIndex = setExpensesss.findIndex(
+      (entry) => entry.expense === "totalExpense"
+    );
+    if (totalExpenseIndex !== -1) {
+      const totalExpenseEntry = setExpensesss.splice(totalExpenseIndex, 1)[0];
+      setExpensesss.push(totalExpenseEntry);
+    }
+
+    console.log("setExpense", setExpensesss);
+
+    setExpense(setExpensesss);
   };
 
   // console.log("expense", expense);

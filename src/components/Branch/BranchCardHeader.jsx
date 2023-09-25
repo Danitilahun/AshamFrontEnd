@@ -9,6 +9,8 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import getHumanReadableDate from "../../utils/humanReadableDate";
+import useUserClaims from "../../hooks/useUserClaims";
+import { useAuth } from "../../contexts/AuthContext";
 
 const BranchCardHeader = ({
   anchorEl,
@@ -23,25 +25,33 @@ const BranchCardHeader = ({
   const { name, uniqueName, openingDate } = branchData;
   const humanReadableDate = getHumanReadableDate(openingDate);
   const theme = useTheme();
+  const { user } = useAuth();
+  const userClaims = useUserClaims(user);
   return (
     <CardHeader
       action={
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <IconButton
-            onClick={handleMenuOpen}
-            style={{ color: theme.palette.secondary[100] }}
-          >
-            <MoreVertIcon />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-            onClick={handleMenuClose}
-          >
-            <MenuItem onClick={() => handleEdit(branchData)}>Edit</MenuItem>
-            <MenuItem onClick={() => handleDeleteIconClick()}>Delete</MenuItem>
-          </Menu>
+          {userClaims.superAdmin ? (
+            <>
+              <IconButton
+                onClick={handleMenuOpen}
+                style={{ color: theme.palette.secondary[100] }}
+              >
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+                onClick={handleMenuClose}
+              >
+                <MenuItem onClick={() => handleEdit(branchData)}>Edit</MenuItem>
+                <MenuItem onClick={() => handleDeleteIconClick()}>
+                  Delete
+                </MenuItem>
+              </Menu>
+            </>
+          ) : null}
         </div>
       }
       title={

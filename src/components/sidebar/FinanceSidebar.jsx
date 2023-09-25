@@ -71,6 +71,29 @@ const FinanceSidebar = ({
   const { user, logout } = useAuth();
 
   useEffect(() => {
+    if (!callCenterId) {
+      return; // Add a check for branchId
+    }
+    const worksRef = doc(collection(firestore, "branches"), callCenterId);
+    // Subscribe to real-time updates
+    const unsubscribe = onSnapshot(worksRef, (doc) => {
+      if (doc.exists()) {
+        localStorage.setItem(
+          "userData",
+          JSON.stringify({
+            ...doc.data(),
+            id: doc.id,
+          })
+        );
+        // settableDate(.tableDate);
+      }
+    });
+
+    // Clean up the subscription when the component unmounts
+    return () => unsubscribe();
+  }, [callCenterId]);
+
+  useEffect(() => {
     if (!user) {
       return;
     }
@@ -79,13 +102,6 @@ const FinanceSidebar = ({
     // Subscribe to real-time updates
     const unsubscribe = onSnapshot(worksRef, (doc) => {
       if (doc.exists()) {
-        // localStorage.setItem(
-        //   "userData",
-        //   JSON.stringify({
-        //     ...doc.data(),
-        //     id: doc.id,
-        //   })
-        // );
         if (doc.data().disable) {
           logout();
         }
