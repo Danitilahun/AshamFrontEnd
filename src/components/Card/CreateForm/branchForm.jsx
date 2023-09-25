@@ -54,7 +54,14 @@ const CardOrderBranchForm = () => {
   };
 
   const handleButtonClick = () => {
-    setShowForm(true);
+    if (!userData.activeTable) {
+      setShowForm(true);
+    } else {
+      openSnackbar(
+        `${userData.branchName} branch does not have a daily table today or sheet. So you can't create an order. Please create a sheet or table.`,
+        "info"
+      );
+    }
   };
 
   const formik = useFormik({
@@ -113,7 +120,7 @@ const CardOrderBranchForm = () => {
     const { branchId, activeTable, branchName } = formik.values;
     if (branchId && !activeTable) {
       openSnackbar(
-        `${branchName} branch does not have a daily table today. So you can't create an order. Please inform the branch to create a daily table in their sheet.`,
+        `${branchName} branch does not have a daily table today or sheet. So you can't create an order. Please create Sheet or Table.`,
         "info"
       );
     }

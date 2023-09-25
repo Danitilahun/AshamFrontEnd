@@ -78,6 +78,19 @@ const WaterDistributeReportForm = () => {
       if (!isCountdownActive && !isFormSubmitted) {
         setShowForm(true);
       }
+    } else {
+      if (!active) {
+        openSnackbar(
+          `There is not salary table for this branch, please create one first!`,
+          "info"
+        );
+      }
+      if (!activeTable) {
+        openSnackbar(
+          `You do not have table for this branch, please create one first!`,
+          "info"
+        );
+      }
     }
   };
 

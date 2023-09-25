@@ -21,6 +21,7 @@ import fetchData from "../../../api/services/Users/getUser";
 import getInternationalDate from "../../../utils/getDate";
 import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
+import getRequiredUserData from "../../../utils/getBranchInfo";
 // Define the validation schema including order item validation
 const CardOrderFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -42,7 +43,7 @@ const CardOrderForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [branches, setBranches] = useState([]);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
-
+  const userData = getRequiredUserData();
   useEffect(() => {
     const unsubscribe = fetchData("branches", setBranches);
     return () => unsubscribe();
@@ -86,7 +87,14 @@ const CardOrderForm = () => {
   console.log("branch", branch);
 
   const handleButtonClick = () => {
-    setShowForm(true);
+    if (userData.activeTable) {
+      setShowForm(true);
+    } else {
+      openSnackbar(
+        `${userData.branchName} branch does not have a daily table today. So you can't create an order. Please inform the branch to create a daily table in their sheet.`,
+        "info"
+      );
+    }
   };
 
   const formik = useFormik({
