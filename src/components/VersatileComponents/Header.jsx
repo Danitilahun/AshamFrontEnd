@@ -292,13 +292,15 @@ const Header = ({
             <BranchForm />
           ) : title === "Sheet" ? (
             <>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleDeleteIconClick}
-              >
-                Create new {title}
-              </Button>
+              {userClaims.admin ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleDeleteIconClick}
+                >
+                  Create new {title}
+                </Button>
+              ) : null}
             </>
           ) : title === "Table" ? (
             <Box display="flex" gap={3}>
