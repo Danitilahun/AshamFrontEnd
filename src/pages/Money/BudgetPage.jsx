@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, useTheme } from "@mui/material";
 import Header from "../../components/VersatileComponents/Header";
 import getHumanReadableDate from "../../utils/humanReadableDate";
 import CustomInfoRow from "../../components/CustomComponents/CustomInfoRow";
@@ -28,6 +28,7 @@ const columns = [
 
 const BudgetPage = () => {
   const params = useParams();
+  const theme = useTheme();
   const storedData = localStorage.getItem("userData");
   let openingDate = "";
   let active = "";
@@ -112,7 +113,14 @@ const BudgetPage = () => {
   }, [bank, totalCredit, status, documentData2]);
   console.log("updatedSheetSummery", updatedSheetSummery);
   return (
-    <Box m="1.5rem 2.5rem">
+    <Box
+      m="1.5rem 2.5rem"
+      sx={{
+        backgroundColor: theme.palette.background.default,
+        height: "100%",
+        position: "relative",
+      }}
+    >
       {documentData2 ? (
         <>
           <Grid container spacing={2}>

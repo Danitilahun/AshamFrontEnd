@@ -12,6 +12,8 @@ import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import fetchFirestoreDataWithFilter from "../../../api/credit/get";
 import Search from "../../../api/utils/search";
+import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
+import CustomerCreditForm from "../createCreditForm/customerCredit";
 
 const columns = [
   { key: "name", title: "Name" },
@@ -180,10 +182,20 @@ const CustomerCreditTable = () => {
     };
   }, []);
 
+  const formProps = {
+    type: "CustomerCredit",
+  };
   const tableData = searchedData.length > 0 ? searchedData : data;
   return (
     <Box m="1rem 0">
-      <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
+      <MyHeaderComponent
+        title="Customer credit"
+        subtitle="Entire list of Customer credits"
+        onSearch={handleSearch}
+        onCancel={handleCancel}
+        formComponent={CustomerCreditForm}
+        formProps={formProps}
+      />
       <LoadingSpinner isSubmitting={isSubmitting} />
       <DynamicTable
         data={tableData}

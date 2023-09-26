@@ -11,6 +11,8 @@ import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import fetchFirestoreDataWithFilter from "../../../api/credit/get";
 import Search from "../../../api/utils/search";
+import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
+import HotelProfitReportForm from "../createReportForm/hospitalProfit";
 
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
@@ -135,7 +137,13 @@ const HotelProfitTable = () => {
   const tableData = searchedData.length > 0 ? searchedData : data;
   return (
     <Box m="1rem 0">
-      <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
+      <MyHeaderComponent
+        title="Hotel profit Report"
+        subtitle="Entire list of Hotel profit report"
+        onSearch={handleSearch}
+        onCancel={handleCancel}
+        formComponent={HotelProfitReportForm}
+      />
       <DynamicTable
         data={tableData}
         columns={columns}

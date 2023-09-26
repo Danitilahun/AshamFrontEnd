@@ -191,6 +191,7 @@ const CardDistributeReportForm = () => {
             variant="contained"
             color="primary"
             onClick={handleButtonClick}
+            style={{ padding: "8px 16px" }}
             // Disable the button when countdown is active or form is submitted
             disabled={isCountdownActive || isFormSubmitted}
           >

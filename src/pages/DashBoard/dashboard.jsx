@@ -20,7 +20,13 @@ const Dashboard = () => {
     useDashboardData();
 
   return (
-    <>
+    <div
+      sx={{
+        backgroundColor: theme.palette.background.default,
+        height: "100%",
+        position: "relative",
+      }}
+    >
       <div className="holder">
         <div className="super_container">
           {dashTotalData && (
@@ -71,7 +77,7 @@ const Dashboard = () => {
           <DashboardTable dashTableData={dashTableData} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

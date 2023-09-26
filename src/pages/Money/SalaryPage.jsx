@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box, Tab, Tabs, useTheme } from "@mui/material";
 import Header from "../../components/VersatileComponents/Header";
 import { salaryColumn, staffSalaryColumn } from "../../utils/tableColumns";
 import DataTable from "../../components/VersatileComponents/DataTable";
@@ -19,7 +19,7 @@ const SalaryPage = () => {
     salaryTable =
       userData.salaryTable !== undefined ? userData.salaryTable : [];
   }
-
+  const theme = useTheme();
   const staffSalaryColumn = [
     {
       field: "uniqueName",
@@ -95,7 +95,14 @@ const SalaryPage = () => {
     setSelectedTabTwo(newValue);
   };
   return (
-    <Box m="1.5rem 2.5rem">
+    <Box
+      m="1.5rem 2.5rem"
+      sx={{
+        backgroundColor: theme.palette.background.default,
+        height: "100%",
+        position: "relative",
+      }}
+    >
       <Header title="Delivery guys Salary Table" subtitle="" />
       <Tabs
         value={selectedTab}

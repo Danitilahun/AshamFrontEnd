@@ -8,11 +8,13 @@ import useTableData from "../../hooks/useTableData";
 import useTableDate from "../../hooks/useTableDate";
 import generateCustomID from "../../utils/generateCustomID";
 import { columns, summery2Column } from "../../utils/tableColumns";
+import { useTheme } from "@emotion/react";
 
 const TablesPage = () => {
   const params = useParams();
   const sheetId = params.sheet;
   const branchId = params.id;
+  const theme = useTheme();
 
   const tableDate = useTableDate(sheetId);
   const [selectedTab, setSelectedTab] = useState(0);
@@ -38,7 +40,14 @@ const TablesPage = () => {
   const { data: tableDaySummary } = useTableData(customID3);
 
   return (
-    <Box m="1.5rem 2.5rem">
+    <Box
+      m="1.5rem 2.5rem"
+      sx={{
+        backgroundColor: theme.palette.background.default,
+        height: "100%",
+        position: "relative",
+      }}
+    >
       <Header
         title="Table"
         subtitle="Entire list of tables"

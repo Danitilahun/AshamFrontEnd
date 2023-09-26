@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, useTheme } from "@mui/material";
 import { useCallback } from "react";
 import DynamicTable from "../DynamicTable/DynamicTable";
 import fetchFirestoreDataWithFilter from "../../api/utils/filterBasedOnTwoCriterial";
@@ -11,17 +11,19 @@ const columns = [
   { key: "date", title: "Date" },
 ];
 
-const BankTable = ({ userid, bankName }) => {
+const BankTable = ({ bankName }) => {
   const params = useParams();
+  const theme = useTheme();
   const [data, setData] = useState([]);
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
 
+  console.log("bankName", bankName);
   const loadInitialData = async () => {
     try {
       fetchFirestoreDataWithFilter(
         "Bank",
         null,
-        8,
+        10,
         data,
         setData,
         "branchId",
@@ -85,8 +87,20 @@ const BankTable = ({ userid, bankName }) => {
   }, []);
 
   return (
-    <Box m="1rem 0">
-      <DynamicTable data={data} columns={columns} loadMoreData={loadMoreData} />
+    <Box
+      m="3rem 0"
+      sx={{
+        backgroundColor: theme.palette.background.default,
+        height: "30vh",
+        position: "relative",
+      }}
+    >
+      <DynamicTable
+        data={data}
+        columns={columns}
+        loadMoreData={loadMoreData}
+        containerHeight={200}
+      />
     </Box>
   );
 };

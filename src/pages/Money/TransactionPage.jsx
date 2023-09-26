@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, useTheme } from "@mui/material";
 import Header from "../../components/VersatileComponents/Header";
 import SheetCard from "../../components/sheet/sheetCard";
 import useFilteredCollectionData from "../../hooks/useFilteredCollectionData";
@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 
 const TransactionPage = () => {
   const params = useParams();
+  const theme = useTheme();
   const { data: sheet } = useFilteredCollectionData(
     "sheets",
     "branchId",
@@ -14,7 +15,14 @@ const TransactionPage = () => {
   );
 
   return (
-    <Box m="1.5rem 2.5rem">
+    <Box
+      m="1.5rem 2.5rem"
+      sx={{
+        backgroundColor: theme.palette.background.default,
+        height: "100%",
+        position: "relative",
+      }}
+    >
       <Header title="Sheet" subtitle="Entire list of sheets" />
       <Grid container spacing={2}>
         {sheet.map((item) => (

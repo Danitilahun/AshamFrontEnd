@@ -14,6 +14,8 @@ import fetchFirestoreDataWithFilter from "../../../api/credit/get";
 import EditDailyCreditForm from "../editCreditForm/dailyCredit";
 import EditStaffCreditForm from "../editCreditForm/staffCredit";
 import Search from "../../../api/utils/search";
+import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
+import StaffCreditForm from "../createCreditForm/staffCredit";
 
 const columns = [
   { key: "employeeName", title: "Employee Name" },
@@ -178,10 +180,21 @@ const StaffCreditTable = () => {
     };
   }, []);
 
+  const formProps = {
+    type: "StaffCredit",
+  };
+
   const tableData = searchedData.length > 0 ? searchedData : data;
   return (
     <Box m="1rem 0">
-      <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
+      <MyHeaderComponent
+        title="Staff credit"
+        subtitle="Entire list of Staff credits"
+        onSearch={handleSearch}
+        onCancel={handleCancel}
+        formComponent={StaffCreditForm}
+        formProps={formProps}
+      />
       <LoadingSpinner isSubmitting={isSubmitting} />
       <DynamicTable
         data={tableData}

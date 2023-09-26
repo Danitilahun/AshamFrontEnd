@@ -14,6 +14,7 @@ import ExpenseTable from "../../components/Expense/table";
 const Expenses = () => {
   const { user } = useAuth();
   const params = useParams();
+  const theme = useTheme();
   const [financeUser, setFinanceUser] = useState({});
   useEffect(() => {
     const worksRef = doc(collection(firestore, "finance"), params.id);
@@ -32,7 +33,14 @@ const Expenses = () => {
 
   console.log("finance", financeUser);
   return (
-    <Box m="1.5rem 2.5rem">
+    <Box
+      m="1.5rem 2.5rem"
+      sx={{
+        backgroundColor: theme.palette.background.default,
+        height: "100%",
+        position: "relative",
+      }}
+    >
       <Header title="Expense" subtitle="Entire list of Expense" />
       <Grid container spacing={2}>
         <Grid item xs={6} sx={{ mt: 3 }}>

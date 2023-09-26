@@ -12,6 +12,8 @@ import DynamicTable from "../../DynamicTable/DynamicTable";
 import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import EditWaterOrderForm from "../EditForm/branchForm";
 import Delete from "../../../api/orders/delete";
+import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
+import WaterOrderBranchForm from "../CreateForm/branchForm";
 
 const CallcenterColumn = [
   { key: "name", title: "Customer Name" },
@@ -202,6 +204,13 @@ const WaterTable = () => {
   const tableData = searchedData.length > 0 ? searchedData : data;
   return (
     <Box m="1rem 0">
+      <MyHeaderComponent
+        title="Water Order"
+        subtitle="Entire list of Water Orders"
+        onSearch={handleSearch}
+        onCancel={handleCancel}
+        formComponent={WaterOrderBranchForm}
+      />
       <Tabs
         value={selectedView}
         onChange={(e, newValue) => handleViewChange(newValue)}
@@ -212,7 +221,7 @@ const WaterTable = () => {
         <Tab label="Branch" value="branch" />
       </Tabs>
 
-      <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
+      {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
       <LoadingSpinner isSubmitting={isSubmitting} />
       <DynamicTable
         data={tableData}

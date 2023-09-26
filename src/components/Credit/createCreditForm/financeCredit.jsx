@@ -107,7 +107,7 @@ const FinancialCreditForm = ({ type }) => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      {userClaims.admin ? (
+      {userClaims.finance ? (
         <div>
           {userClaims.finance ? (
             <Button

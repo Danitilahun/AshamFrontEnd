@@ -14,6 +14,8 @@ import Search from "../../../api/utils/search";
 import EditForm from "../EditForm/edit";
 import Header from "../../VersatileComponents/Header";
 import deleteIncentive from "../../../api/bonusPenality/delete";
+import CreateForm from "../createForm/create";
+import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 
 const columns = [
   { key: "employeeName", title: "Employee Name" },
@@ -184,11 +186,24 @@ const BonusPenalityTable = ({ type }) => {
     };
   }, []);
 
+  const formProps = {
+    type: type === "Bonus" ? "bonus" : "penality",
+  };
+
   const tableData = searchedData.length > 0 ? searchedData : data;
   return (
     <Box m="1rem 0">
-      <Header title={type} subtitle={`Entire list of ${type}`} />
-      <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
+      <MyHeaderComponent
+        title={type}
+        subtitle={`Entire list of ${type}`} // Pass the subtitle as a prop
+        onSearch={handleSearch}
+        onCancel={handleCancel}
+        formComponent={CreateForm}
+        formProps={formProps}
+        from="BonusPenality"
+      />
+      {/* <Header title={type} subtitle={`Entire list of ${type}`} /> */}
+      {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
       <LoadingSpinner isSubmitting={isSubmitting} />
       <DynamicTable
         data={tableData}

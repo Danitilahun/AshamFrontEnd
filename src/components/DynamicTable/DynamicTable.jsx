@@ -67,8 +67,9 @@ const DynamicTable = ({
   onDelete,
   onNew,
   orderType = "asbeza",
+  containerHeight = 400,
+  from = "other",
 }) => {
-  const containerHeight = 100 * Math.min(data?.length, 5);
   const tableContainerRef = useRef(null);
   const theme = useTheme();
   console.log("data", data);
@@ -351,9 +352,11 @@ const DynamicTable = ({
                       {column.key === "edit" ? (
                         <IconButton
                           onClick={
-                            userClaims.superAdmin ? null : () => handleEdit(row)
+                            from === "other" && userClaims.superAdmin
+                              ? null
+                              : () => handleEdit(row)
                           }
-                          disabled={userClaims.superAdmin}
+                          disabled={from === "other" && userClaims.superAdmin}
                         >
                           <EditIcon />
                         </IconButton>
@@ -374,20 +377,22 @@ const DynamicTable = ({
                       ) : column.key === "delete" ? (
                         <IconButton
                           onClick={
-                            userClaims.superAdmin
+                            from === "other" && userClaims.superAdmin
                               ? null
                               : () => handleDelete(row.id)
                           }
-                          disabled={userClaims.superAdmin}
+                          disabled={from === "other" && userClaims.superAdmin}
                         >
                           <DeleteIcon />
                         </IconButton>
                       ) : column.key === "new" ? (
                         <IconButton
                           onClick={
-                            userClaims.superAdmin ? null : () => handleNew(row)
+                            from === "other" && userClaims.superAdmin
+                              ? null
+                              : () => handleNew(row)
                           }
-                          disabled={userClaims.superAdmin}
+                          disabled={from === "other" && userClaims.superAdmin}
                         >
                           <FiberNewIcon />
                         </IconButton>

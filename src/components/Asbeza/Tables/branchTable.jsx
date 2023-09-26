@@ -12,6 +12,8 @@ import DynamicTable from "../../DynamicTable/DynamicTable";
 import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import EditAsbezaOrderForm from "../EditForm/branchForm";
 import Delete from "../../../api/orders/delete";
+import AsbezaOrderBranchForm from "../CreateForm/branchForm";
+import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 
 const CallcenterColumn = [
   { key: "name", title: "Customer Name" },
@@ -202,6 +204,13 @@ const AsbezaTable = () => {
   const tableData = searchedData.length > 0 ? searchedData : data;
   return (
     <Box m="1rem 0">
+      <MyHeaderComponent
+        title="Asbeza Order"
+        subtitle="Entire list of Asbeza Orders"
+        onSearch={handleSearch}
+        onCancel={handleCancel}
+        formComponent={AsbezaOrderBranchForm}
+      />
       <Tabs
         value={selectedView}
         onChange={(e, newValue) => handleViewChange(newValue)}
@@ -212,7 +221,7 @@ const AsbezaTable = () => {
         <Tab label="Branch" value="branch" />
       </Tabs>
 
-      <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
+      {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
       <LoadingSpinner isSubmitting={isSubmitting} />
       <DynamicTable
         data={tableData}

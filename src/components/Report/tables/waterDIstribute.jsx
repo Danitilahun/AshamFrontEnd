@@ -11,6 +11,8 @@ import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import fetchFirestoreDataWithFilter from "../../../api/credit/get";
 import Search from "../../../api/utils/search";
+import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
+import WaterDistributeReportForm from "../createReportForm/waterDIstribute";
 
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
@@ -136,7 +138,13 @@ const WaterDistributeTable = () => {
   const tableData = searchedData.length > 0 ? searchedData : data;
   return (
     <Box m="1rem 0">
-      <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
+      <MyHeaderComponent
+        title="Water Report"
+        subtitle="Entire list of water Reports"
+        onSearch={handleSearch}
+        onCancel={handleCancel}
+        formComponent={WaterDistributeReportForm}
+      />
       <DynamicTable
         data={tableData}
         columns={columns}

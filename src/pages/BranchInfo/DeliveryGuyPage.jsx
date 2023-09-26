@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, useTheme } from "@mui/material";
 import Header from "../../components/VersatileComponents/Header";
 import { useParams } from "react-router-dom";
 import useFilteredCollectionData from "../../hooks/useFilteredCollectionData";
@@ -9,6 +9,7 @@ import { collection, doc, onSnapshot } from "firebase/firestore";
 
 const DeliveryGuyPage = () => {
   const params = useParams();
+  const theme = useTheme();
   console.log("params", params);
   const { data: deliveryguys } = useFilteredCollectionData(
     "deliveryguy",
@@ -40,7 +41,14 @@ const DeliveryGuyPage = () => {
   }, [params.id]);
 
   return (
-    <Box m="1.5rem 2.5rem">
+    <Box
+      m="1.5rem 2.5rem"
+      sx={{
+        backgroundColor: theme.palette.background.default,
+        height: "100%",
+        position: "relative",
+      }}
+    >
       <Header title="Delivery Guy" subtitle="Entire list of Delivery Guys" />
       <Grid container spacing={2}>
         {deliveryguys.map((item) => (

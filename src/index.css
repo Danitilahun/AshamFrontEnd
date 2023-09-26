@@ -32,3 +32,12 @@ input[type="number"]::-webkit-outer-spin-button {
 /* You can use this for Mozilla Firefox */
 /* Note that Firefox supports scrollbar styling natively, so you might not need it */
 /* But it won't hurt to include it just in case */
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}

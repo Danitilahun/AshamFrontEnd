@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, useTheme } from "@mui/material";
 import Header from "../../components/VersatileComponents/Header";
 import { useParams } from "react-router-dom";
 import useFilteredCollectionData from "../../hooks/useFilteredCollectionData";
@@ -7,6 +7,7 @@ import UserCard from "../../components/User/card/staff/staff";
 
 const Staff = () => {
   const params = useParams();
+  const theme = useTheme();
   const { data: staff } = useFilteredCollectionData(
     "staff",
     "branchId",
@@ -15,7 +16,14 @@ const Staff = () => {
 
   console.log("staff", staff);
   return (
-    <Box m="1.5rem 2.5rem">
+    <Box
+      m="1.5rem 2.5rem"
+      sx={{
+        backgroundColor: theme.palette.background.default,
+        height: "100vh",
+        position: "relative",
+      }}
+    >
       <Header title="Staff" subtitle="Entire list of Staffs" />
       <Grid container spacing={2}>
         {staff?.map((item) => (

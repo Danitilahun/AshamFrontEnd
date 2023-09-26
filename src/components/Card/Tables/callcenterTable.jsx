@@ -12,6 +12,8 @@ import DynamicTable from "../../DynamicTable/DynamicTable";
 import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import EditCardOrderForm from "../EditForm/callcenterForm";
 import Delete from "../../../api/orders/delete";
+import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
+import CardOrderForm from "../CreateForm/callcenterForm";
 
 const columns = [
   { key: "name", title: "Customer Name" },
@@ -190,7 +192,14 @@ const CardTable = () => {
   const tableData = searchedData.length > 0 ? searchedData : data;
   return (
     <Box m="1rem 0">
-      <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
+      <MyHeaderComponent
+        title="Card Order"
+        subtitle="Entire list of Card Orders"
+        onSearch={handleSearch}
+        onCancel={handleCancel}
+        formComponent={CardOrderForm}
+      />
+      {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
       <LoadingSpinner isSubmitting={isSubmitting} />
       <DynamicTable
         data={tableData}

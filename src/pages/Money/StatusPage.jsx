@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, useTheme } from "@mui/material";
 import Header from "../../components/VersatileComponents/Header";
 import formatDateRange from "../../utils/formatDateRange";
 import { useSnackbar } from "../../contexts/InfoContext";
@@ -10,6 +10,7 @@ import useDocumentById from "../../hooks/useDocumentById";
 const StatusPage = () => {
   const { openSnackbar } = useSnackbar();
   let active = "";
+  const theme = useTheme();
   const storedData = localStorage.getItem("userData");
   if (storedData) {
     const userData = JSON.parse(storedData);
@@ -38,7 +39,14 @@ const StatusPage = () => {
     day = formatDateRange(documentData["date"]);
   }
   return (
-    <Box m="1.5rem 2.5rem">
+    <Box
+      m="1.5rem 2.5rem"
+      sx={{
+        backgroundColor: theme.palette.background.default,
+        height: "100%",
+        position: "relative",
+      }}
+    >
       <Header title="Status" subtitle="Entire list of Status" />
       <Grid container spacing={3}>
         <LeftGridItem documentData={documentData} />

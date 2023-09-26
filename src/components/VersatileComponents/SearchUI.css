@@ -1,13 +1,12 @@
 .search-container {
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  width: 30%;
+  align-items: center;
+  justify-content: center;
+  width: 95%;
   border-radius: 25px;
   background-color: #f0f0f0;
   padding: 10px;
-  margin: 20px;
-  margin-left: 68%;
+  margin: 10 10;
 }
 
 .search-input {

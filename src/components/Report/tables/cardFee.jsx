@@ -8,6 +8,8 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import fetchFirestoreDataWithFilter from "../../../api/utils/fetchFirestoreDataWithFilter";
 import Search from "../../../api/utils/search";
+import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
+import CardFeeReportForm from "../createReportForm/cardFee";
 
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
@@ -131,7 +133,13 @@ const CardFeeTable = () => {
   const tableData = searchedData.length > 0 ? searchedData : data;
   return (
     <Box m="1rem 0">
-      <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
+      <MyHeaderComponent
+        title="Card Fee Report"
+        subtitle="Entire list of Card Fee Reports"
+        onSearch={handleSearch}
+        onCancel={handleCancel}
+        formComponent={CardFeeReportForm}
+      />
       <DynamicTable
         data={tableData}
         columns={columns}

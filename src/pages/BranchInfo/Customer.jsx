@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/VersatileComponents/Header";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import DynamicTable from "../../components/DynamicTable/DynamicTable";
 import loadDataFromFirestore from "../../api/utils/loadDataFromFirestore";
 import { useCallback } from "react";
@@ -137,9 +137,54 @@ const Customer = () => {
   }, []);
 
   return (
-    <Box m="1.5rem 2.5rem">
-      <Header title="Customer" subtitle="Entire list of Customers" />
-      <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
+    <Box
+      m="1.5rem 2.5rem"
+      sx={{
+        backgroundColor: theme.palette.background.default,
+        height: "100%",
+        position: "relative",
+      }}
+    >
+      <Grid container spacing={2}>
+        <Grid
+          item
+          xs={6}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            justifyContent: "flex-start",
+          }}
+        >
+          <Box flex="1">
+            <Typography
+              variant="h2"
+              color={theme.palette.secondary[100]}
+              fontWeight="bold"
+              sx={{ mb: "5px" }}
+            >
+              Customer
+            </Typography>
+
+            <Typography variant="h5" color={theme.palette.secondary[300]}>
+              Entire list of Customers
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid
+          item
+          xs={6}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
+        </Grid>
+      </Grid>
+      {/* <Header title="Customer" subtitle="Entire list of Customers" /> */}
+      {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
       <DynamicTable data={data} columns={columns} loadMoreData={loadMoreData} />
     </Box>
   );

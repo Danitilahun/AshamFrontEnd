@@ -15,6 +15,8 @@ import EditDailyCreditForm from "../editCreditForm/dailyCredit";
 import EditStaffCreditForm from "../editCreditForm/staffCredit";
 import Search from "../../../api/utils/search";
 import EditFinanceCreditForm from "../editCreditForm/financeCredit";
+import FinancialCreditForm from "../createCreditForm/financeCredit";
+import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 
 const columns = [
   { key: "employeeName", title: "Employee Name" },
@@ -183,7 +185,13 @@ const FinanceTable = () => {
   console.log(tableData, "tableData");
   return (
     <Box m="1rem 0">
-      <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
+      <MyHeaderComponent
+        title="Credit"
+        subtitle="Entire list of Credits"
+        onSearch={handleSearch}
+        onCancel={handleCancel}
+        formComponent={FinancialCreditForm}
+      />
       <LoadingSpinner isSubmitting={isSubmitting} />
       <DynamicTable
         data={tableData}

@@ -12,6 +12,8 @@ import DynamicTable from "../../DynamicTable/DynamicTable";
 import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import EditWifiOrderForm from "../EditForm/branchForm";
 import Delete from "../../../api/orders/delete";
+import WifiOrderBranchForm from "../CreateForm/branchForm";
+import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 
 const CallcenterColumn = [
   { key: "name", title: "Customer Name" },
@@ -201,6 +203,13 @@ const WifiTable = () => {
   const tableData = searchedData.length > 0 ? searchedData : data;
   return (
     <Box m="1rem 0">
+      <MyHeaderComponent
+        title="Wifi Order"
+        subtitle="Entire list of Wifi Orders"
+        onSearch={handleSearch}
+        onCancel={handleCancel}
+        formComponent={WifiOrderBranchForm}
+      />
       <Tabs
         value={selectedView}
         onChange={(e, newValue) => handleViewChange(newValue)}
@@ -211,7 +220,7 @@ const WifiTable = () => {
         <Tab label="Branch" value="branch" />
       </Tabs>
 
-      <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
+      {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
       <LoadingSpinner isSubmitting={isSubmitting} />
       <DynamicTable
         data={tableData}

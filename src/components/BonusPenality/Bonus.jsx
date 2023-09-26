@@ -92,15 +92,17 @@ const BonusDialog = ({ worker, id = null }) => {
   return (
     <div>
       <LoadingSpinner isSubmitting={isSubmitting} />
-      <Button
-        variant="contained"
-        disabled={userClaims.superAdmin}
-        color="primary"
-        onClick={handleOpen}
-        sx={{ backgroundColor: id ? "green" : "none" }}
-      >
-        Holiday Bonus
-      </Button>
+      {userClaims.admin ? (
+        <Button
+          variant="contained"
+          disabled={userClaims.superAdmin}
+          color="primary"
+          onClick={handleOpen}
+          sx={{ backgroundColor: id ? "green" : "none" }}
+        >
+          Holiday Bonus
+        </Button>
+      ) : null}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ backgroundColor: theme.palette.background.alt }}>
           Add Bonus

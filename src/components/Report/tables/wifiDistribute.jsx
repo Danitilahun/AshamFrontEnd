@@ -11,6 +11,8 @@ import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import fetchFirestoreDataWithFilter from "../../../api/credit/get";
 import Search from "../../../api/utils/search";
+import WifiDistributeReportForm from "../createReportForm/wifiDistribute";
+import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
@@ -136,7 +138,13 @@ const WifiDistributeTable = () => {
   const tableData = searchedData.length > 0 ? searchedData : data;
   return (
     <Box m="1rem 0">
-      <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
+      <MyHeaderComponent
+        title="Wifi Report"
+        subtitle="Entire list of wifi Reports"
+        onSearch={handleSearch}
+        onCancel={handleCancel}
+        formComponent={WifiDistributeReportForm}
+      />
       <DynamicTable
         data={tableData}
         columns={columns}

@@ -22,7 +22,7 @@ const BranchLayout = () => {
       <BranchSidebar
         user={currentUser || {}}
         isNonMobile={isNonMobile}
-        drawerWidth="250px"
+        drawerWidth="290px"
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
       />
