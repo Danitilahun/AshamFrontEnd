@@ -21,6 +21,8 @@ import FinanceRoutes from "./routes/financeRoutesData";
 import AuthRoutes from "./routes/authRoutesData";
 import mainFinanceRoutesData from "./routes/financeMainRoute";
 import FinanceMainLayout from "./layouts/financeMainLayout";
+import NotFoundPage from "./pages/InfoPage/NotFoundPage";
+import OfflinePage from "./pages/InfoPage/OfflinePage";
 
 const App = () => {
   const { mode } = useCustomTheme();
@@ -50,6 +52,9 @@ const App = () => {
 
                   <Route element={<FinanceLayout />}>{FinanceRoutes()}</Route>
                   {AuthRoutes()}
+
+                  <Route path="/offline" element={<OfflinePage />} />
+                  <Route path="*" element={<NotFoundPage />} />
                 </Routes>
               </BranchProvider>
             </SnackbarProvider>
