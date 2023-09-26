@@ -109,7 +109,7 @@ const Navbar = ({
                     color={theme.palette.secondary.main}
                     style={{ cursor: "pointer" }}
                   >
-                    ETHIO DELIVERY
+                    ASHAM
                   </Typography>
                 </div>
               </Box>
