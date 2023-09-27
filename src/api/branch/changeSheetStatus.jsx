@@ -9,7 +9,7 @@ const ChangeSheetStatus = async (user, id, BranchData) => {
     }
 
     const idTokenResult = await user.getIdTokenResult();
-    if (idTokenResult.claims.superAdmin === true) {
+    if (idTokenResult.claims.finance === true) {
       const idToken = await user.getIdToken();
       const res = await axios.put(
         `${API_BASE_URL}api/branch/changeSheetStatus/${id}`,
