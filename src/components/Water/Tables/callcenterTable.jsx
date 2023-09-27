@@ -16,6 +16,7 @@ import WaterOrderForm from "../CreateForm/callcenterForm";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import ReminderComponent from "../../VersatileComponents/Reminder";
 import useUserClaims from "../../../hooks/useUserClaims";
+import findDocumentById from "../../../utils/findDocumentById";
 
 const columns = [
   { key: "name", title: "Customer Name" },
@@ -48,11 +49,22 @@ const WaterTable = () => {
 
   const handleEdit = (row) => {
     console.log("from the table", row);
+    if (row.status !== "new order") {
+      openSnackbar(
+        `You can only edit new orders! This order Already ${row.status}`,
+        "info"
+      );
+      return;
+    }
     setEditRow(row);
     setIsEditDialogOpen(true);
   };
   const handleNew = (row) => {
     console.log("from the table", row);
+    if (row.status !== "Completed") {
+      openSnackbar(`You can only new orders if order is Completed!`, "info");
+      return;
+    }
     const newRow = {
       ...row,
       billPayerName: "",
@@ -94,6 +106,14 @@ const WaterTable = () => {
   };
 
   const openDeleteConfirmationDialog = (id) => {
+    const doc = findDocumentById(id, data);
+    if (doc.status !== "new order") {
+      openSnackbar(
+        `You can only delete new orders! This order Already ${doc.status}`,
+        "info"
+      );
+      return;
+    }
     setDeleteItemId(id);
     setIsDeleteDialogOpen(true);
   };

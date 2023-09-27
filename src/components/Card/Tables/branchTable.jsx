@@ -14,6 +14,7 @@ import EditCardOrderForm from "../EditForm/branchForm";
 import Delete from "../../../api/orders/delete";
 import CardOrderBranchForm from "../CreateForm/branchForm";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
+import findDocumentById from "../../../utils/findDocumentById";
 
 const CallcenterColumn = [
   { key: "name", title: "Customer Name" },
@@ -53,7 +54,24 @@ const CardTable = () => {
   };
 
   const handleEdit = (row) => {
+    if (row.status !== "new order") {
+      openSnackbar(
+        `You can only edit new orders! This order Already ${row.status}`,
+        "info"
+      );
+      return;
+    }
     console.log("from the table", row);
+    setEditRow(row);
+    setIsEditDialogOpen(true);
+  };
+  const handleNew = (row) => {
+    console.log("from the table", row);
+    if (row.status !== "Completed") {
+      openSnackbar(`You can only new orders if order is Completed!`, "info");
+      return;
+    }
+
     const newRow = {
       ...row,
       amountBirr: "",
@@ -64,11 +82,6 @@ const CardTable = () => {
     };
 
     setEditRow(newRow);
-    setIsEditDialogOpen(true);
-  };
-  const handleNew = (row) => {
-    console.log("from the table", row);
-    setEditRow(row);
     setIsEditDialogOpen(true);
   };
 
@@ -96,6 +109,14 @@ const CardTable = () => {
   };
 
   const openDeleteConfirmationDialog = (id) => {
+    const doc = findDocumentById(id, data);
+    if (doc.status !== "new order") {
+      openSnackbar(
+        `You can only delete new orders! This order Already ${doc.status}`,
+        "info"
+      );
+      return;
+    }
     setDeleteItemId(id);
     setIsDeleteDialogOpen(true);
   };

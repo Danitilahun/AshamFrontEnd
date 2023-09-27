@@ -14,6 +14,7 @@ import EditAsbezaOrderForm from "../EditForm/callcenterForm";
 import Delete from "../../../api/orders/delete";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import AsbezaOrderForm from "../CreateForm/callcenterForm";
+import findDocumentById from "../../../utils/findDocumentById";
 
 const columns = [
   { key: "name", title: "Customer Name" },
@@ -43,12 +44,24 @@ const AsbezaTable = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const handleEdit = (row) => {
+    if (row.status !== "new order") {
+      openSnackbar(
+        `You can only edit new orders! This order Already ${row.status}`,
+        "info"
+      );
+      return;
+    }
     console.log("from the table", row);
     setEditRow(row);
     setIsEditDialogOpen(true);
   };
   const handleNew = (row) => {
     console.log("from the table", row);
+
+    if (row.status !== "Completed") {
+      openSnackbar(`You can only new orders if order is Completed!`, "info");
+      return;
+    }
     const newRow = {
       ...row,
       deliveryguyId: "",
@@ -92,6 +105,14 @@ const AsbezaTable = () => {
   };
 
   const openDeleteConfirmationDialog = (id) => {
+    const doc = findDocumentById(id, data);
+    if (doc.status !== "new order") {
+      openSnackbar(
+        `You can only delete new orders! This order Already ${doc.status}`,
+        "info"
+      );
+      return;
+    }
     setDeleteItemId(id);
     setIsDeleteDialogOpen(true);
   };
