@@ -49,6 +49,7 @@ const BranchForm = () => {
       values["openingDate"] = new Date().toISOString();
       values["worker"] = [];
       values["salaryTable"] = [];
+      values["sheetStatus"] = "Completed";
 
       console.log("values", values);
 

@@ -14,6 +14,7 @@ import EditWaterOrderForm from "../EditForm/callcenterForm";
 import Delete from "../../../api/orders/delete";
 import WaterOrderForm from "../CreateForm/callcenterForm";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
+import ReminderComponent from "../../VersatileComponents/Reminder";
 
 const columns = [
   { key: "name", title: "Customer Name" },
@@ -201,6 +202,21 @@ const WaterTable = () => {
       />
       {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
       <LoadingSpinner isSubmitting={isSubmitting} />
+      <Grid container spacing={2}>
+        <Grid item xs={3}></Grid>
+        <Grid
+          item
+          xs={6}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <ReminderComponent type={"Water Order"} />
+        </Grid>
+        <Grid item xs={3}></Grid>
+      </Grid>
       <DynamicTable
         data={tableData}
         columns={columns}

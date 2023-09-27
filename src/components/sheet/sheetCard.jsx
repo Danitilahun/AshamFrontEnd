@@ -6,7 +6,14 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import { green } from "@mui/material/colors";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { Menu, MenuItem, Typography, useTheme } from "@mui/material";
+import {
+  Chip,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { useSnackbar } from "../../contexts/InfoContext";
 import { useAuth } from "../../contexts/AuthContext";
 import getHumanReadableDate from "../../utils/humanReadableDate";
@@ -17,6 +24,7 @@ import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import deleteSheet from "../../api/sheet/delete";
 import useUserClaims from "../../hooks/useUserClaims";
+import FlexBetween from "../VersatileComponents/FlexBetween";
 
 const SheetCard = ({ sheetInfo }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -115,13 +123,36 @@ const SheetCard = ({ sheetInfo }) => {
             </div>
           }
           title={
-            <Typography
-              variant="h6"
-              fontSize={18}
-              sx={{ color: "text.secondary" }}
-            >
-              {sheetInfo.name}
-            </Typography>
+            <FlexBetween>
+              <Tooltip title={sheetInfo.name}>
+                <Typography
+                  variant="h6"
+                  fontSize={18}
+                  sx={{
+                    color: "text.secondary",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    maxWidth: "150px", // Set a maximum width to control truncation
+                    // "&:hover": {
+                    //   maxWidth: "none", // Remove the maximum width on hover
+                    // },
+                  }}
+                >
+                  {sheetInfo.name}
+                </Typography>
+              </Tooltip>
+
+              <Chip
+                label={sheetInfo.sheetStatus}
+                style={{
+                  marginLeft: 10,
+                  backgroundColor:
+                    sheetInfo.sheetStatus === "Compeleted" ? "green" : "red",
+                  color: "white",
+                }}
+              />
+            </FlexBetween>
           }
           subheader={humanReadableDate}
         />

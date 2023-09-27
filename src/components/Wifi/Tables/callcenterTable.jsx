@@ -14,6 +14,7 @@ import EditWifiOrderForm from "../EditForm/callcenterForm";
 import Delete from "../../../api/orders/delete";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import WifiOrderForm from "../CreateForm/callcenterForm";
+import ReminderComponent from "../../VersatileComponents/Reminder";
 
 const columns = [
   { key: "name", title: "Customer Name" },
@@ -200,6 +201,22 @@ const WifiTable = () => {
       />
       {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
       <LoadingSpinner isSubmitting={isSubmitting} />
+      <Grid container spacing={2}>
+        <Grid item xs={3}></Grid>
+        <Grid
+          item
+          xs={6}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <ReminderComponent type={"Wifi Order"} />
+        </Grid>
+        <Grid item xs={3}></Grid>
+      </Grid>
+
       <DynamicTable
         data={tableData}
         columns={columns}
@@ -209,6 +226,7 @@ const WifiTable = () => {
         onNew={handleNew}
         orderType="wifi"
       />
+
       <ConfirmationDialog
         open={isDeleteDialogOpen}
         handleDialogClose={closeDeleteConfirmationDialog}

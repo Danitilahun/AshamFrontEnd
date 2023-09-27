@@ -11,12 +11,14 @@ import { useParams } from "react-router-dom";
 import { useSnackbar } from "../../contexts/InfoContext";
 import getDataFromCollectionWithCriteria from "../../api/utils/getDataFromCollectionWithCriteria";
 import Reminder from "../../api/orders/reminder";
+import { useTheme } from "@mui/material";
 
 function ReminderComponent({ type }) {
   const [selectedDate, setSelectedDate] = useState("");
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
   const params = useParams();
+  const theme = useTheme();
   const { openSnackbar } = useSnackbar();
   const [documentData, setDocumentData] = useState(null);
   const [daysDifference, setDaysDifference] = useState(0); // Initialize with 0
@@ -117,25 +119,67 @@ function ReminderComponent({ type }) {
             variant="contained"
             color="primary"
             onClick={handleSetReminder}
+            height="50%"
           >
             Set Reminder
           </Button>
         </Grid>
 
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Select a Date</DialogTitle>
-          <DialogContent>
+          <DialogTitle sx={{ backgroundColor: theme.palette.background.alt }}>
+            Select a Date
+          </DialogTitle>
+          <DialogContent
+            sx={{
+              backgroundColor: theme.palette.background.alt,
+              width: "200px",
+              height: "100px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            // sx={{
+            //   width: "400px", // Set the width to your desired value
+            //   height: "300px", // Set the height to your desired value
+            // }}
+          >
             <input
               type="date"
               value={selectedDate}
+              style={{
+                width: "100%",
+                height: "50%",
+                padding: "10px",
+                margin: "10px",
+              }}
               onChange={(event) => setSelectedDate(event.target.value)}
             />
           </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
+          <DialogActions sx={{ backgroundColor: theme.palette.background.alt }}>
+            <Button
+              onClick={handleClose}
+              color="primary"
+              variant="contained"
+              sx={{
+                color: theme.palette.secondary[100],
+                "&:hover": {
+                  backgroundColor: theme.palette.background.alt,
+                },
+              }}
+            >
               Cancel
             </Button>
-            <Button onClick={handleConfirm} color="primary">
+            <Button
+              onClick={handleConfirm}
+              color="primary"
+              variant="contained"
+              sx={{
+                color: theme.palette.secondary[100],
+                "&:hover": {
+                  backgroundColor: theme.palette.background.alt,
+                },
+              }}
+            >
               Set
             </Button>
           </DialogActions>

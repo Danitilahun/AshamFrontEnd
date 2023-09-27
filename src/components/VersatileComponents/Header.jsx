@@ -166,6 +166,13 @@ const Header = ({
   const [branch, setBranch] = useState(null);
   const createNewSheet = async (event) => {
     event.preventDefault();
+    if (branchData.sheetStatus === "Pending") {
+      openSnackbar(
+        "Unable to create a new sheet. Please complete the pending sheet before creating a new one. If you've already completed it, please notify the finance department for further assistance.",
+        "info"
+      );
+      return;
+    }
     handleDialogClose();
     setIsSubmitting(true);
     try {
@@ -184,6 +191,7 @@ const Header = ({
         name: "Sheet " + date,
         sheetNumber: count + 1,
         realDate: new Date(),
+        sheetStatus: "Pending",
       };
       const res = await createSheet(user, SheetData);
       openSnackbar(`${res.data.message}`, "success");
