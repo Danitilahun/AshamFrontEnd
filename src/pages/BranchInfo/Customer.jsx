@@ -108,24 +108,6 @@ const Customer = () => {
     }
   }, [lastDoc, data]);
 
-  function processArrayOfObjects(data) {
-    const currentDate = new Date();
-
-    return data.map((item) => {
-      const createdDate = new Date(item.borrowedOn);
-      const dayDifference = Math.floor(
-        (currentDate - createdDate) / (1000 * 60 * 60 * 24)
-      );
-      item.lastseen = dayDifference;
-      item.day = getHumanReadableDate(item.borrowedOn);
-      return item;
-    });
-  }
-
-  const processedData = processArrayOfObjects(data);
-
-  console.log("data", processedData);
-
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
       const scrollPosition = event.detail.scrollPosition;
@@ -142,7 +124,25 @@ const Customer = () => {
     };
   }, []);
 
-  const tableData = searchedData.length > 0 ? searchedData : processedData;
+  function processArrayOfObjects(data) {
+    const currentDate = new Date();
+
+    return data?.map((item) => {
+      const createdDate = new Date(item.borrowedOn);
+      const dayDifference = Math.floor(
+        (currentDate - createdDate) / (1000 * 60 * 60 * 24)
+      );
+      item.lastseen = dayDifference;
+      item.day = getHumanReadableDate(item.borrowedOn);
+      return item;
+    });
+  }
+
+  const processedData = processArrayOfObjects(data);
+  const searchResult = processArrayOfObjects(searchedData);
+  console.log("data", processedData);
+
+  const tableData = searchedData.length > 0 ? searchResult : processedData;
 
   return (
     <Box

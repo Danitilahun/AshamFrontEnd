@@ -41,28 +41,6 @@ const Customer = () => {
     loadInitialData();
   }, []);
 
-  function processArrayOfObjects(data) {
-    const currentDate = new Date();
-
-    return data.map((item) => {
-      // Convert properties
-      // console.log("check", Boolean(item.Asbeza) === true);
-      // Calculate day difference
-
-      const createdDate = new Date(item.createdDate);
-      const dayDifference = Math.floor(
-        (currentDate - createdDate) / (1000 * 60 * 60 * 24)
-      );
-      item.lastseen = dayDifference;
-      item.day = getHumanReadableDate(item.createdDate);
-      return item;
-    });
-  }
-
-  const processedData = processArrayOfObjects(data);
-
-  console.log("data", processedData);
-
   useEffect(() => {
     if (data.length > 0) {
       setLastDoc(data[data.length - 1]);
@@ -126,7 +104,27 @@ const Customer = () => {
     };
   }, []);
 
-  const tableData = searchedData.length > 0 ? searchedData : processedData;
+  function processArrayOfObjects(data) {
+    const currentDate = new Date();
+
+    return data?.map((item) => {
+      // Convert properties
+      // console.log("check", Boolean(item.Asbeza) === true);
+      // Calculate day difference
+
+      const createdDate = new Date(item.createdDate);
+      const dayDifference = Math.floor(
+        (currentDate - createdDate) / (1000 * 60 * 60 * 24)
+      );
+      item.lastseen = dayDifference;
+      item.day = getHumanReadableDate(item.createdDate);
+      return item;
+    });
+  }
+
+  const processedData = processArrayOfObjects(data);
+  const searchResult = processArrayOfObjects(searchedData);
+  const tableData = searchedData.length > 0 ? searchResult : processedData;
   return (
     <Box
       m="1.5rem 2.5rem"
