@@ -382,6 +382,11 @@ const DynamicTable = ({
                             ...getStatusStyle(row[column.key]),
                             cursor: userClaims.admin ? "pointer" : "default",
                           }}
+                          onClick={
+                            userClaims.admin
+                              ? () => handleStatusClick(row)
+                              : null
+                          }
                         >
                           {row[column.key]}
                         </div>

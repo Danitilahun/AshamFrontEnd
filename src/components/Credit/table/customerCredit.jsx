@@ -12,8 +12,8 @@ import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import fetchFirestoreDataWithFilter from "../../../api/credit/get";
 import Search from "../../../api/utils/search";
-import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import CustomerCreditForm from "../createCreditForm/customerCredit";
+import MyHeaderComponent from "../../VersatileComponents/creditHeader";
 
 const columns = [
   { key: "name", title: "Name" },
@@ -207,8 +207,6 @@ const CustomerCreditTable = () => {
   return (
     <Box m="1rem 0">
       <MyHeaderComponent
-        title="Customer credit"
-        subtitle="Entire list of Customer credits"
         onSearch={handleSearch}
         onCancel={handleCancel}
         formComponent={CustomerCreditForm}
