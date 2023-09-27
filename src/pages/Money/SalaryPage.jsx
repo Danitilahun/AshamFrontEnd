@@ -6,12 +6,15 @@ import DataTable from "../../components/VersatileComponents/DataTable";
 import useTableData from "../../hooks/useTableData";
 import { Button } from "@mui/material";
 import BonusDialog from "../../components/BonusPenality/Bonus";
+import { useAuth } from "../../contexts/AuthContext";
+import useUserClaims from "../../hooks/useUserClaims";
 
 const SalaryPage = () => {
   // Step 1
   const [tabsData, setTabsData] = useState([]); // Store your data here
   let active = "";
   let salaryTable = [];
+
   const storedData = localStorage.getItem("userData");
   if (storedData) {
     const userData = JSON.parse(storedData);
@@ -20,6 +23,8 @@ const SalaryPage = () => {
       userData.salaryTable !== undefined ? userData.salaryTable : [];
   }
   const theme = useTheme();
+  const { user } = useAuth();
+  const userClaims = useUserClaims(user);
   const staffSalaryColumn = [
     {
       field: "uniqueName",
@@ -46,6 +51,51 @@ const SalaryPage = () => {
         ) : (
           <div></div> // Empty space if 'addbonus' field does not exist
         ),
+    },
+
+    {
+      field: "penality",
+      headerName: "Penality",
+      flex: 0.4,
+    },
+    {
+      field: "fixedSalary",
+      headerName: "Fixed Salary",
+      flex: 0.4,
+    },
+    {
+      field: "totalCredit",
+      headerName: "Total Credit",
+      flex: 0.4,
+    },
+
+    {
+      field: "holidayBonus",
+      headerName: "Holiday Bonus",
+      flex: 0.4,
+    },
+    {
+      field: "total",
+      headerName: "Total",
+      flex: 0.4,
+    },
+  ];
+
+  const staffSalaryColumnForNonAdmin = [
+    {
+      field: "uniqueName",
+      headerName: "Unique Name",
+      flex: 0.4,
+    },
+    {
+      field: "name",
+      headerName: "Name",
+      flex: 1,
+    },
+    {
+      field: "bonus",
+      headerName: "Bonus",
+      flex: 0.4,
     },
 
     {
@@ -128,7 +178,12 @@ const SalaryPage = () => {
       </Tabs>
 
       {staffSalary.length > 0 && (
-        <DataTable rows={staffSalary} columns={staffSalaryColumn} />
+        <DataTable
+          rows={staffSalary}
+          columns={
+            userClaims.admin ? staffSalaryColumn : staffSalaryColumnForNonAdmin
+          }
+        />
       )}
     </Box>
   );
