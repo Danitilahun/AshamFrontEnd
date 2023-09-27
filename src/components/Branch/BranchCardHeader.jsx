@@ -38,7 +38,7 @@ const BranchCardHeader = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSheetStatusChange = async () => {
-    if (branchData.activeSheet) {
+    if (!branchData.activeSheet) {
       openSnackbar(`${name} branch do not have active sheet.`, "info");
       return;
     }
