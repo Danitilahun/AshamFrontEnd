@@ -13,8 +13,8 @@ import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import fetchFirestoreDataWithFilter from "../../../api/credit/get";
 import EditDailyCreditForm from "../editCreditForm/dailyCredit";
 import Search from "../../../api/utils/search";
-import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import DailyCreditForm from "../createCreditForm/dailyCredit";
+import MyHeaderComponent from "../../VersatileComponents/creditHeader";
 
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
@@ -186,8 +186,6 @@ const DailyCreditTable = () => {
   return (
     <Box m="1rem 0">
       <MyHeaderComponent
-        title="Daily credit"
-        subtitle="Entire list of Daily credits"
         onSearch={handleSearch}
         onCancel={handleCancel}
         formComponent={DailyCreditForm}
