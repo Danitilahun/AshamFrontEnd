@@ -1,7 +1,7 @@
 import axios from "axios";
 import { API_BASE_URL } from "../utils/config";
 
-const ChangeSheetStatus = async (user, id, BranchData) => {
+const ChangeSheetStatus = async (user, BranchData) => {
   try {
     if (!user) {
       console.log("User is not authenticated.");

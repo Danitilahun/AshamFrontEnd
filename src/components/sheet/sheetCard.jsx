@@ -148,7 +148,7 @@ const SheetCard = ({ sheetInfo }) => {
                 style={{
                   marginLeft: 10,
                   backgroundColor:
-                    sheetInfo.sheetStatus === "Compeleted" ? "green" : "red",
+                    sheetInfo.sheetStatus === "Completed" ? "green" : "red",
                   color: "white",
                 }}
               />
