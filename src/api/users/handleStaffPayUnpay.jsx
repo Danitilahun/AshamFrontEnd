@@ -5,10 +5,7 @@ const handleStaffPayUnpay = async (staffId, user, data) => {
   try {
     if (user) {
       const idTokenResult = await user.getIdTokenResult();
-      if (
-        idTokenResult.claims.superAdmin === true ||
-        idTokenResult.claims.admin === true
-      ) {
+      if (idTokenResult.claims.admin === true) {
         const idToken = await user.getIdToken();
         const response = await axios.put(
           `${API_BASE_URL}api/user/staff/pay/${staffId}`,

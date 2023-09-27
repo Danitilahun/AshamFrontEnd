@@ -25,6 +25,7 @@ import { useBranch } from "../../../../contexts/BranchContext";
 import handleDeliveryGuyActiveness from "../../../../api/users/handleDeliveryGuyActiveness";
 import handlePay from "../../../../api/users/handleDeliveruGuyPay";
 import getRequiredUserData from "../../../../utils/getBranchInfo";
+import useUserClaims from "../../../../hooks/useUserClaims";
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -40,6 +41,7 @@ const UserCard = ({ userInfo }) => {
   console.log("user info", userInfo);
   const theme = useTheme();
   const { user, forgotPassword } = useAuth();
+  const userClaims = useUserClaims(user);
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);

@@ -18,6 +18,7 @@ import updateProfileImage from "../../../../api/users/profileImageChange";
 import LoadingSpinner from "../../../VersatileComponents/LoadingSpinner";
 import ProfileImageDialog from "../../common/ProfileImageDialog";
 import FlexBetween from "../../../VersatileComponents/FlexBetween";
+import useUserClaims from "../../../../hooks/useUserClaims";
 
 const UserHeader = ({
   userInfo,
@@ -34,7 +35,7 @@ const UserHeader = ({
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const userClaims = useUserClaims(user);
   const handleImageSave = async (formData) => {
     setIsSubmitting(true);
     // Close the dialog after saving
@@ -123,28 +124,31 @@ const UserHeader = ({
               </Typography>
             </Tooltip>
             <FlexBetween>
-              <Chip
-                label={userInfo.activeness ? "Active" : "Inactive"}
-                onClick={handleClick}
-                //   disabled={isSubmitting}
-                style={{
-                  cursor: "pointer",
-                  backgroundColor: userInfo.activeness ? "green" : "red",
-                  color: "white",
-                }}
-              />
-
-              <Chip
-                label={userInfo.paid ? "Paid" : "Waiting"}
-                onClick={handleSalaryPay}
-                disabled={userInfo.paid}
-                style={{
-                  cursor: "pointer",
-                  marginLeft: 10,
-                  backgroundColor: userInfo.paid ? "green" : "red",
-                  color: "white",
-                }}
-              />
+              {userClaims.admin ? (
+                <Chip
+                  label={userInfo.activeness ? "Active" : "Inactive"}
+                  onClick={handleClick}
+                  //   disabled={isSubmitting}
+                  style={{
+                    cursor: "pointer",
+                    backgroundColor: userInfo.activeness ? "green" : "red",
+                    color: "white",
+                  }}
+                />
+              ) : null}
+              {userClaims.admin ? (
+                <Chip
+                  label={userInfo.paid ? "Paid" : "Waiting"}
+                  onClick={handleSalaryPay}
+                  disabled={userInfo.paid}
+                  style={{
+                    cursor: "pointer",
+                    marginLeft: 10,
+                    backgroundColor: userInfo.paid ? "green" : "red",
+                    color: "white",
+                  }}
+                />
+              ) : null}
             </FlexBetween>
           </FlexBetween>
         }

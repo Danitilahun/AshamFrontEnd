@@ -18,6 +18,7 @@ import updateProfileImage from "../../../../api/users/profileImageChange";
 import LoadingSpinner from "../../../VersatileComponents/LoadingSpinner";
 import ProfileImageDialog from "../../common/ProfileImageDialog";
 import FlexBetween from "../../../VersatileComponents/FlexBetween";
+import useUserClaims from "../../../../hooks/useUserClaims";
 
 const UserHeader = ({
   userInfo,
@@ -33,6 +34,7 @@ const UserHeader = ({
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const userClaims = useUserClaims(user);
 
   const handleImageSave = async (formData) => {
     setIsSubmitting(true);
@@ -126,16 +128,18 @@ const UserHeader = ({
               </Typography>
             </Tooltip>
 
-            <Chip
-              label={Boolean(userInfo.paid) ? "Paid" : "Unpaid"}
-              onClick={handleSalaryPay}
-              style={{
-                cursor: "pointer",
-                marginLeft: 10,
-                backgroundColor: Boolean(userInfo.paid) ? "green" : "red",
-                color: "white",
-              }}
-            />
+            {userClaims.admin ? (
+              <Chip
+                label={Boolean(userInfo.paid) ? "Paid" : "Unpaid"}
+                onClick={handleSalaryPay}
+                style={{
+                  cursor: "pointer",
+                  marginLeft: 10,
+                  backgroundColor: Boolean(userInfo.paid) ? "green" : "red",
+                  color: "white",
+                }}
+              />
+            ) : null}
           </FlexBetween>
         }
       />

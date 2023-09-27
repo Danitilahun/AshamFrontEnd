@@ -21,6 +21,7 @@ import StaffEditForm from "../../editUserForm/staff";
 import ConfirmationDialog from "../../../VersatileComponents/ConfirmationDialog";
 import getRequiredUserData from "../../../../utils/getBranchInfo";
 import handleStaffPayUnpay from "../../../../api/users/handleStaffPayUnpay";
+import useUserClaims from "../../../../hooks/useUserClaims";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -43,6 +44,7 @@ const UserCard = ({ userInfo }) => {
   const { openSnackbar } = useSnackbar();
   const [openDialog, setOpenDialog] = useState(false);
   const branchData = getRequiredUserData();
+  const userClaims = useUserClaims(user);
   const handleDeleteIconClick = () => {
     setOpenDialog(true);
   };
