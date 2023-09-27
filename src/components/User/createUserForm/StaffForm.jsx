@@ -125,7 +125,7 @@ const StaffRegisterForm = () => {
 
   const handleCloseForm = () => {
     setShowForm(false);
-    // formik.resetForm();
+    formik.resetForm();
   };
 
   const handleImageChange = (e) => {
