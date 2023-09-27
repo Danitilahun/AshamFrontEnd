@@ -47,7 +47,7 @@ const CardDistributeTable = () => {
       fetchFirestoreDataWithFilter(
         "cardDistribute",
         null,
-        8,
+        10,
         data,
         setData,
         "branchId",

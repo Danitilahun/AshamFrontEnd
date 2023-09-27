@@ -44,7 +44,7 @@ const WifiDistributeTable = () => {
       fetchFirestoreDataWithFilter(
         "wifiDistribute",
         null,
-        8,
+        10,
         data,
         setData,
         "branchId",

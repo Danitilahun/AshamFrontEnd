@@ -46,7 +46,7 @@ const CardFeeTable = () => {
       fetchFirestoreDataWithFilter(
         "CardFee",
         null,
-        8,
+        10,
         data,
         setData,
         "branchId",

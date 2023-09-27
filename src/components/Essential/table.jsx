@@ -95,7 +95,7 @@ const EssentialTable = () => {
       await fetchFirestoreDataWithFilter(
         "Essentials",
         null,
-        8,
+        5,
         data,
         setData,
         null,

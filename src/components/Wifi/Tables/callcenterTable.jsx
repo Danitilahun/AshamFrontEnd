@@ -106,7 +106,7 @@ const WifiTable = () => {
       fetchFirestoreDataWithFilter(
         "Wifi",
         null,
-        8,
+        10,
         data,
         setData,
         "callcenterId",

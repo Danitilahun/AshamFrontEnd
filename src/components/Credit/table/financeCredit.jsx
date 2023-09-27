@@ -91,7 +91,7 @@ const FinanceTable = () => {
       fetchFirestoreDataWithFilter(
         "FinanceCredit",
         null,
-        8,
+        10,
         data,
         setData,
         "branchId",

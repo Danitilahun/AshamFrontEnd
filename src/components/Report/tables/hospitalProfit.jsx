@@ -47,7 +47,7 @@ const HotelProfitTable = () => {
       fetchFirestoreDataWithFilter(
         "hotelProfit",
         null,
-        8,
+        10,
         data,
         setData,
         "branchId",

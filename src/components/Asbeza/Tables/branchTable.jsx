@@ -112,7 +112,7 @@ const AsbezaTable = () => {
       fetchFirestoreDataWithFilter(
         "Asbeza",
         null,
-        8,
+        10,
         data,
         setData,
         filterField,

@@ -92,7 +92,7 @@ const CustomerCreditTable = () => {
       await fetchFirestoreDataWithFilter(
         "CustomerCredit",
         null,
-        8,
+        10,
         data,
         setData,
         "branchId",

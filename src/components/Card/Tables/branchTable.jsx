@@ -112,7 +112,7 @@ const CardTable = () => {
       fetchFirestoreDataWithFilter(
         "Card",
         null,
-        8,
+        10,
         data,
         setData,
         filterField,

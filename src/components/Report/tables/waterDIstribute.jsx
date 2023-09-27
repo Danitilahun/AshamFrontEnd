@@ -43,7 +43,7 @@ const WaterDistributeTable = () => {
       fetchFirestoreDataWithFilter(
         "waterDistribute",
         null,
-        8,
+        10,
         data,
         setData,
         "branchId",

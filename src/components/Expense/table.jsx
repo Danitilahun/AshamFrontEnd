@@ -82,7 +82,7 @@ const ExpenseTable = () => {
       await fetchFirestoreDataWithFilter(
         "Expense",
         null,
-        8,
+        10,
         data,
         setData,
         null,

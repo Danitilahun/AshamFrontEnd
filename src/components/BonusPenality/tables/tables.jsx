@@ -97,7 +97,7 @@ const BonusPenalityTable = ({ type }) => {
       fetchFirestoreDataWithFilter(
         type,
         null,
-        8,
+        10,
         data,
         setData,
         "branchId",

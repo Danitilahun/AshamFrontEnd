@@ -89,7 +89,7 @@ const DailyCreditTable = () => {
       fetchFirestoreDataWithFilter(
         "DailyCredit",
         null,
-        9,
+        10,
         data,
         setData,
         "branchId",

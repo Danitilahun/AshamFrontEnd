@@ -107,7 +107,7 @@ const WaterTable = () => {
       fetchFirestoreDataWithFilter(
         "Water",
         null,
-        8,
+        10,
         data,
         setData,
         "callcenterId",

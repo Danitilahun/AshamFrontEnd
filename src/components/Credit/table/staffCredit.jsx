@@ -148,7 +148,7 @@ const StaffCreditTable = () => {
         fetchFirestoreDataWithFilter(
           "StaffCredit",
           lastDoc,
-          5,
+          10,
           data,
           setData,
           "branchId",
