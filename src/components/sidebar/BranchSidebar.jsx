@@ -228,6 +228,15 @@ const BranchSidebar = ({
     return () => unsubscribe();
   }, [user.uid]);
 
+  useEffect(() => {
+    if (!userClaims.admin && !user && !user.uid) {
+      return; // Add a check for user and user.uid
+    }
+    if (user.displayName === "") {
+      logout();
+    }
+  }, [user.uid]);
+
   // console.log("branch info", documentData2);
 
   const [active, setActive] = useState(
