@@ -28,7 +28,14 @@ const update = async (user, id, orderData, type) => {
       );
       return res;
     } else {
-      throw new Error(`User is not authorized.`);
+      throw {
+        response: {
+          data: {
+            message: "User is not authorized",
+            type: "error",
+          },
+        },
+      };
     }
   } catch (error) {
     console.log(`Error occurred while `, error);

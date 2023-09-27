@@ -23,7 +23,14 @@ const updateBranch = async (user, id, BranchData) => {
       );
       return res;
     } else {
-      throw new Error(`User is not authorized to create a branch.`);
+      throw {
+        response: {
+          data: {
+            message: "User is not authorized",
+            type: "error",
+          },
+        },
+      };
     }
   } catch (error) {
     console.log(`Error occurred while creating Branch.`, error);

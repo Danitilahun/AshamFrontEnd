@@ -24,7 +24,14 @@ const enableDisable = async (user, userId, UserForm) => {
 
       return res;
     } else {
-      throw new Error(`User is not authorized to create .`);
+      throw {
+        response: {
+          data: {
+            message: "User is not authorized",
+            type: "error",
+          },
+        },
+      };
     }
   } catch (error) {
     throw error;

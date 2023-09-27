@@ -24,7 +24,14 @@ const createCredit = async (user, CreditData, type) => {
         return response;
       } else {
         console.log("User is not authorized to create a branch.");
-        throw new Error("User is not authorized to create a branch.");
+        throw {
+          response: {
+            data: {
+              message: "User is not authorized",
+              type: "error",
+            },
+          },
+        };
         // Handle case when the user is not a super admin
       }
     }

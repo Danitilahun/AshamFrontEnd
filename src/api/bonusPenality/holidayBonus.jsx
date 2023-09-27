@@ -22,7 +22,14 @@ const HolidayBonus = async (holidayBonusData, user, type) => {
         // Handle successful submission
         return response;
       } else {
-        throw new Error("User is not authorized.");
+        throw {
+          response: {
+            data: {
+              message: "User is not authorized",
+              type: "error",
+            },
+          },
+        };
         // Handle case when the user is not a super admin
       }
     }

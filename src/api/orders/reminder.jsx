@@ -24,17 +24,19 @@ const Reminder = async (orderData, user) => {
         return response;
       } else {
         console.log("User is not authorized to create a branch.");
-        throw new Error("User is not authorized to create a branch.");
+        throw {
+          response: {
+            data: {
+              message: "User is not authorized",
+              type: "error",
+            },
+          },
+        };
         // Handle case when the user is not a super admin
       }
     }
   } catch (error) {
-    console.log("Error occurred while creating branch.", error);
-    if (error.isAxiosError) {
-      throw new Error(error.message);
-    } else {
-      throw error;
-    }
+    throw error;
   }
 };
 

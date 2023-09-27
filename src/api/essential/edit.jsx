@@ -23,7 +23,14 @@ const updateEssential = async (user, id, creditData) => {
       );
       return res;
     } else {
-      throw new Error(`User is not authorized`);
+      throw {
+        response: {
+          data: {
+            message: "User is not authorized",
+            type: "error",
+          },
+        },
+      };
     }
   } catch (error) {
     throw error;

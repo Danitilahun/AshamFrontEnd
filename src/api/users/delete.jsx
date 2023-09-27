@@ -10,7 +10,10 @@ const deleteUser = async (user, Id, type) => {
     }
 
     const idTokenResult = await user.getIdTokenResult();
-    if (idTokenResult.claims.superAdmin === true || idTokenResult.claims.admin === true)  {
+    if (
+      idTokenResult.claims.superAdmin === true ||
+      idTokenResult.claims.admin === true
+    ) {
       const idToken = await user.getIdToken();
       const res = await axios.delete(`${API_BASE_URL}api/user/${type}/${Id}`, {
         headers: {
@@ -19,7 +22,14 @@ const deleteUser = async (user, Id, type) => {
       });
       return res;
     } else {
-      throw new Error("User is not authorized to delete a User.");
+      throw {
+        response: {
+          data: {
+            message: "User is not authorized",
+            type: "error",
+          },
+        },
+      };
     }
   } catch (error) {
     console.log(`Error occurred while creating User.`, error);

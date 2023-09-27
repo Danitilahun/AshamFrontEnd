@@ -27,7 +27,14 @@ const createUser = async (user, UserData, type) => {
         return response;
       } else {
         console.log("User is not authorized to create a User.");
-        throw new Error("User is not authorized to create a User.");
+        throw {
+          response: {
+            data: {
+              message: "User is not authorized",
+              type: "error",
+            },
+          },
+        };
         // Handle case when the user is not a super admin
       }
     }

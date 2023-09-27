@@ -23,7 +23,14 @@ const createReport = async (user, ReportData, type) => {
         console.log(`${type} created successfully.`);
         return response;
       } else {
-        throw new Error("User is not authorized ");
+        throw {
+          response: {
+            data: {
+              message: "User is not authorized",
+              type: "error",
+            },
+          },
+        };
         // Handle case when the user is not a super admin
       }
     }

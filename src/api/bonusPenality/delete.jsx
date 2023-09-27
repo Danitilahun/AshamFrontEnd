@@ -24,7 +24,14 @@ const deleteIncentive = async (user, id, type) => {
 
       return res;
     } else {
-      throw new Error("User is not authorized to delete a branch.");
+      throw {
+        response: {
+          data: {
+            message: "User is not authorized",
+            type: "error",
+          },
+        },
+      };
     }
   } catch (error) {
     console.log("Error occurred while deleting branch.", error);
