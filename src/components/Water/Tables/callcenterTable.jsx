@@ -15,6 +15,7 @@ import Delete from "../../../api/orders/delete";
 import WaterOrderForm from "../CreateForm/callcenterForm";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import ReminderComponent from "../../VersatileComponents/Reminder";
+import useUserClaims from "../../../hooks/useUserClaims";
 
 const columns = [
   { key: "name", title: "Customer Name" },
@@ -34,6 +35,7 @@ const WaterTable = () => {
   const params = useParams();
   const [data, setData] = useState([]);
   const { user } = useAuth();
+  const userClams = useUserClaims(user);
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
@@ -202,21 +204,23 @@ const WaterTable = () => {
       />
       {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
       <LoadingSpinner isSubmitting={isSubmitting} />
-      <Grid container spacing={2}>
-        <Grid item xs={3}></Grid>
-        <Grid
-          item
-          xs={6}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <ReminderComponent type={"Water Order"} />
+      {userClams.callCenter && (
+        <Grid container spacing={2}>
+          <Grid item xs={3}></Grid>
+          <Grid
+            item
+            xs={6}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <ReminderComponent type={"Water Order"} />
+          </Grid>
+          <Grid item xs={3}></Grid>
         </Grid>
-        <Grid item xs={3}></Grid>
-      </Grid>
+      )}
       <DynamicTable
         data={tableData}
         columns={columns}
