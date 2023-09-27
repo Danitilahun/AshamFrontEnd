@@ -33,6 +33,22 @@ import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import AsbezaProfit from "../../api/orders/asbezaProfit";
 import returnedCard from "../../api/report/cardReturnHandle";
 
+const getColor = (statusNumber) => {
+  let style = {
+    color: "black",
+  };
+
+  if (0 <= statusNumber <= 5) {
+    style.color = "green";
+  } else if (5 < statusNumber <= 15) {
+    style.color = "blue";
+  } else if (statusNumber >= 15) {
+    style.color = "red";
+  }
+
+  return style;
+};
+
 const getStatusStyle = (status) => {
   let style = {
     borderRadius: "4px",
@@ -366,10 +382,21 @@ const DynamicTable = ({
                             ...getStatusStyle(row[column.key]),
                             cursor: userClaims.admin ? "pointer" : "default",
                           }}
-                          onClick={() => {
-                            if (userClaims.admin) {
-                              handleStatusClick(row);
-                            }
+                        >
+                          {row[column.key]}
+                        </div>
+                      ) : column.key === "lastseen" ? (
+                        <div
+                          style={{
+                            ...getColor(row[column.key]),
+                          }}
+                        >
+                          {row[column.key]}
+                        </div>
+                      ) : column.key === "daysSinceBorrowed" ? (
+                        <div
+                          style={{
+                            ...getColor(row[column.key]),
                           }}
                         >
                           {row[column.key]}

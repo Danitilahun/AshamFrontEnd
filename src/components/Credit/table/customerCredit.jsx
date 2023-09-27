@@ -21,6 +21,8 @@ const columns = [
   { key: "reason", title: "Reason" },
   { key: "address", title: "Address" },
   { key: "phone", title: "Phone" },
+  { key: "date", title: "BorrowedOn" },
+  { key: "daysSinceBorrowed", title: "Days Since Borrowed" },
   {
     key: "edit",
     title: "Edit",
@@ -106,6 +108,23 @@ const CustomerCreditTable = () => {
     loadInitialData();
   }, []);
 
+  function processArrayOfObjects(data) {
+    const currentDate = new Date();
+
+    return data.map((item) => {
+      const createdDate = new Date(item.date);
+      const dayDifference = Math.floor(
+        (currentDate - createdDate) / (1000 * 60 * 60 * 24)
+      );
+      item.daysSinceBorrowed = dayDifference;
+      return item;
+    });
+  }
+
+  const processedData = processArrayOfObjects(data);
+
+  console.log("data", processedData);
+
   useEffect(() => {
     if (data.length > 0) {
       setLastDoc(data[data.length - 1]);
@@ -134,9 +153,6 @@ const CustomerCreditTable = () => {
         searchText
       );
     }
-
-    // Perform the actual search logic here and update the data accordingly
-    // For now, let's just clear the search input
   };
 
   const handleCancel = () => {
@@ -185,7 +201,9 @@ const CustomerCreditTable = () => {
   const formProps = {
     type: "CustomerCredit",
   };
-  const tableData = searchedData.length > 0 ? searchedData : data;
+
+  const tableData = searchedData.length > 0 ? searchedData : processedData;
+
   return (
     <Box m="1rem 0">
       <MyHeaderComponent

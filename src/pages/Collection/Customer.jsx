@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../components/VersatileComponents/Header";
 import { Box, Grid, Typography } from "@mui/material";
 import DynamicTable from "../../components/DynamicTable/DynamicTable";
-import loadDataFromFirestore from "../../api/utils/loadDataFromFirestore";
 import { useCallback } from "react";
 import { useTheme } from "@emotion/react";
 import SearchInput from "../../components/VersatileComponents/SearchInput";
 import getHumanReadableDate from "../../utils/humanReadableDate";
+import fetchFirestoreDataWithFilter from "../../api/utils/pagination";
+import Search from "../../api/utils/oneConditionSearch";
 
 const columns = [
   { key: "name", title: "Name" },
@@ -24,20 +24,20 @@ const columns = [
 const Customer = () => {
   // const [data, setData] = useState(dummyData);
   const theme = useTheme();
+  const [searchedData, setSearchedData] = useState([]);
   const [data, setData] = useState([]);
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
-  useEffect(() => {
-    // Function to load initial data
-    const loadInitialData = async () => {
-      try {
-        await loadDataFromFirestore("customer", null, 8, data, setData);
-        // Set the last document for pagination
-      } catch (error) {
-        console.error("Error loading initial data:", error);
-      }
-    };
 
-    // Load initial data when the component mounts
+  const loadInitialData = async () => {
+    try {
+      fetchFirestoreDataWithFilter("customer", null, 10, data, setData);
+      // Set the last document for pagination
+    } catch (error) {
+      console.error("Error loading initial data:", error);
+    }
+  };
+
+  useEffect(() => {
     loadInitialData();
   }, []);
 
@@ -46,7 +46,7 @@ const Customer = () => {
 
     return data.map((item) => {
       // Convert properties
-      console.log("check", Boolean(item.Asbeza) === true);
+      // console.log("check", Boolean(item.Asbeza) === true);
       // Calculate day difference
 
       const createdDate = new Date(item.createdDate);
@@ -58,6 +58,7 @@ const Customer = () => {
       return item;
     });
   }
+
   const processedData = processArrayOfObjects(data);
 
   console.log("data", processedData);
@@ -74,21 +75,31 @@ const Customer = () => {
     // Perform additional actions when searching here
 
     if (searchText.trim() === "") {
+      setSearchedData([]);
+      loadInitialData();
       // Perform actions when the search input is empty
+    } else {
+      Search(
+        "customer",
+        null,
+        1000,
+        searchedData,
+        setSearchedData,
+        "name",
+        searchText
+      );
     }
-
-    // Perform the actual search logic here and update the data accordingly
-    // For now, let's just clear the search input
   };
 
   const handleCancel = () => {
-    // Perform actions when the cancel button is clicked
+    setSearchedData([]);
+    loadInitialData();
   };
 
   const loadMoreData = useCallback(async () => {
     try {
       if (lastDoc) {
-        loadDataFromFirestore("Asbeza", lastDoc, 5, data, setData);
+        fetchFirestoreDataWithFilter("customer", lastDoc, 5, data, setData);
 
         if (data.length > 0) {
           setLastDoc(data[data.length - 1]);
@@ -115,6 +126,7 @@ const Customer = () => {
     };
   }, []);
 
+  const tableData = searchedData.length > 0 ? searchedData : processedData;
   return (
     <Box
       m="1.5rem 2.5rem"
@@ -165,7 +177,7 @@ const Customer = () => {
       {/* <Header title="Customer" subtitle="Entire list of Customers" />
       <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
       <DynamicTable
-        data={processedData}
+        data={tableData}
         columns={columns}
         loadMoreData={loadMoreData}
       />
