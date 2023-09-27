@@ -66,6 +66,7 @@ const EssentialForm = ({ type }) => {
     setShowForm(false);
     formik.resetForm();
   };
+
   return (
     <div style={{ zIndex: 6000 }}>
       <LoadingSpinner isSubmitting={isSubmitting} />
@@ -79,94 +80,104 @@ const EssentialForm = ({ type }) => {
             Create New Essential
           </Button>
 
-          <Dialog
-            open={showForm}
-            onClose={handleCloseForm}
-            maxWidth="md"
-            fullWidth
-          >
-            <DialogTitle sx={{ backgroundColor: theme.palette.background.alt }}>
-              New Essential
-            </DialogTitle>
-            <DialogContent
-              sx={{ backgroundColor: theme.palette.background.alt }}
+          {isSubmitting ? (
+            <LoadingSpinner isSubmitting={isSubmitting} />
+          ) : (
+            <Dialog
+              open={showForm}
+              onClose={handleCloseForm}
+              maxWidth="md"
+              fullWidth
             >
-              <form onSubmit={formik.handleSubmit}>
-                <Grid container spacing={2}>
-                  <CustomTextField
-                    label="Name"
-                    name="name"
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur} // <-- Add this line
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
+              <DialogTitle
+                sx={{ backgroundColor: theme.palette.background.alt }}
+              >
+                New Essential
+              </DialogTitle>
+              <DialogContent
+                sx={{ backgroundColor: theme.palette.background.alt }}
+              >
+                <form onSubmit={formik.handleSubmit}>
+                  <Grid container spacing={2}>
+                    <CustomTextField
+                      label="Name"
+                      name="name"
+                      value={formik.values.name}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur} // <-- Add this line
+                      errors={formik.errors}
+                      touched={formik.touched}
+                    />
 
-                  <CustomTextField
-                    label="Phone"
-                    name="phone"
-                    value={formik.values.phone}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur} // <-- Add this line
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
-                  <CustomTextField
-                    name="address"
-                    label="Address"
-                    value={formik.values.address}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
-                  <CustomTextField
-                    name="company"
-                    label="Company"
-                    value={formik.values.company}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
+                    <CustomTextField
+                      label="Phone"
+                      name="phone"
+                      value={formik.values.phone}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur} // <-- Add this line
+                      errors={formik.errors}
+                      touched={formik.touched}
+                    />
+                    <CustomTextField
+                      name="address"
+                      label="Address"
+                      value={formik.values.address}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                    />
+                    <CustomTextField
+                      name="company"
+                      label="Company"
+                      value={formik.values.company}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                    />
 
-                  <CustomTextField
-                    name="sector"
-                    label="sector"
-                    value={formik.values.sector}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
+                    <CustomTextField
+                      name="sector"
+                      label="sector"
+                      value={formik.values.sector}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                    />
 
-                  <Grid
-                    item
-                    xs={12}
-                    container
-                    alignItems="end"
-                    justifyContent="end"
-                  >
-                    <DialogActions
-                      sx={{ backgroundColor: theme.palette.background.alt }}
+                    <Grid
+                      item
+                      xs={12}
+                      container
+                      alignItems="end"
+                      justifyContent="end"
                     >
-                      <Button
-                        variant="contained"
-                        onClick={handleCloseForm}
-                        color="secondary"
+                      <DialogActions
+                        sx={{ backgroundColor: theme.palette.background.alt }}
                       >
-                        Cancel
-                      </Button>
-                      <Button type="submit" variant="contained" color="primary">
-                        Submit
-                      </Button>
-                    </DialogActions>
+                        <Button
+                          variant="contained"
+                          onClick={handleCloseForm}
+                          color="secondary"
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          color="primary"
+                        >
+                          Submit
+                        </Button>
+                      </DialogActions>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </form>
-            </DialogContent>
-          </Dialog>
+                </form>
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
       ) : (
         <div></div>

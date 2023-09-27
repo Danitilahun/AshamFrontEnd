@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import { useCallback } from "react";
 import { useParams } from "react-router-dom";
-import SearchInput from "../../VersatileComponents/SearchInput";
 import DynamicTable from "../../DynamicTable/DynamicTable";
-import deleteCredit from "../../../api/credit/delete";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
-import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
-import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
-import fetchFirestoreDataWithFilter from "../../../api/credit/get";
-import Search from "../../../api/utils/search";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import WaterDistributeReportForm from "../createReportForm/waterDIstribute";
+import getRequiredUserData from "../../../utils/getBranchInfo";
+import fetchFirestoreDataWithFilter from "../../../api/utils/filterBasedOnTwoCriterial";
+import Search from "../../../api/utils/searchMore";
 
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
@@ -34,7 +31,7 @@ const WaterDistributeTable = () => {
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { openSnackbar } = useSnackbar();
-
+  const branchData = getRequiredUserData();
   const handleEdit = (row) => {
     console.log("from the table", row);
     setEditRow(row);
@@ -50,7 +47,9 @@ const WaterDistributeTable = () => {
         data,
         setData,
         "branchId",
-        params.id
+        params.id,
+        "active",
+        branchData.active
       );
       // Set the last document for pagination
     } catch (error) {
@@ -87,7 +86,9 @@ const WaterDistributeTable = () => {
         "branchId",
         params.id,
         "deliveryguyName",
-        searchText
+        searchText,
+        "active",
+        branchData.active
       );
     }
   };
@@ -107,7 +108,9 @@ const WaterDistributeTable = () => {
           data,
           setData,
           "branchId",
-          params.id
+          params.id,
+          "active",
+          branchData.active
         );
 
         if (data.length > 0) {

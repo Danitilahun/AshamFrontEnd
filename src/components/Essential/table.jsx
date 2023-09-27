@@ -10,6 +10,7 @@ import { useSnackbar } from "../../contexts/InfoContext";
 import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import DynamicTable from "../DynamicTable/DynamicTable";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
+import useUserClaims from "../../hooks/useUserClaims";
 
 const columns = [
   { key: "name", title: "Name" },
@@ -27,10 +28,19 @@ const columns = [
   },
 ];
 
+const NonSupercolumns = [
+  { key: "name", title: "Name" },
+  { key: "address", title: "Address" },
+  { key: "phone", title: "Phone" },
+  { key: "company", title: "Company" },
+  { key: "sector", title: "Sector" },
+];
+
 const EssentialTable = () => {
   const params = useParams();
   const [data, setData] = useState([]);
   const { user } = useAuth();
+  const userClaims = useUserClaims(user);
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
@@ -151,7 +161,7 @@ const EssentialTable = () => {
       <LoadingSpinner isSubmitting={isSubmitting} />
       <DynamicTable
         data={data}
-        columns={columns}
+        columns={userClaims.superAdmin ? columns : NonSupercolumns}
         loadMoreData={loadMoreData}
         onEdit={handleEdit}
         onDelete={handleDelete}

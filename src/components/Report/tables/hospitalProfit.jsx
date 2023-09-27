@@ -9,10 +9,11 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
-import fetchFirestoreDataWithFilter from "../../../api/credit/get";
-import Search from "../../../api/utils/search";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import HotelProfitReportForm from "../createReportForm/hospitalProfit";
+import getRequiredUserData from "../../../utils/getBranchInfo";
+import fetchFirestoreDataWithFilter from "../../../api/utils/filterBasedOnTwoCriterial";
+import Search from "../../../api/utils/searchMore";
 
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
@@ -33,6 +34,7 @@ const HotelProfitTable = () => {
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { openSnackbar } = useSnackbar();
+  const branchData = getRequiredUserData();
 
   const handleEdit = (row) => {
     console.log("from the table", row);
@@ -49,7 +51,9 @@ const HotelProfitTable = () => {
         data,
         setData,
         "branchId",
-        params.id
+        params.id,
+        "active",
+        branchData.active
       );
       // Set the last document for pagination
     } catch (error) {
@@ -86,7 +90,9 @@ const HotelProfitTable = () => {
         "branchId",
         params.id,
         "deliveryguyName",
-        searchText
+        searchText,
+        "active",
+        branchData.active
       );
     }
   };
@@ -106,7 +112,9 @@ const HotelProfitTable = () => {
           data,
           setData,
           "branchId",
-          params.id
+          params.id,
+          "active",
+          branchData.active
         );
 
         if (data.length > 0) {

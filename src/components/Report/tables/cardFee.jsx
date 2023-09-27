@@ -6,10 +6,11 @@ import SearchInput from "../../VersatileComponents/SearchInput";
 import DynamicTable from "../../DynamicTable/DynamicTable";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
-import fetchFirestoreDataWithFilter from "../../../api/utils/fetchFirestoreDataWithFilter";
-import Search from "../../../api/utils/search";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import CardFeeReportForm from "../createReportForm/cardFee";
+import getRequiredUserData from "../../../utils/getBranchInfo";
+import fetchFirestoreDataWithFilter from "../../../api/utils/filterBasedOnTwoCriterial";
+import Search from "../../../api/utils/searchMore";
 
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
@@ -32,6 +33,7 @@ const CardFeeTable = () => {
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { openSnackbar } = useSnackbar();
+  const branchData = getRequiredUserData();
 
   const handleEdit = (row) => {
     console.log("from the table", row);
@@ -48,7 +50,9 @@ const CardFeeTable = () => {
         data,
         setData,
         "branchId",
-        params.id
+        params.id,
+        "active",
+        branchData.active
       );
       // Set the last document for pagination
     } catch (error) {
@@ -82,7 +86,9 @@ const CardFeeTable = () => {
         "branchId",
         params.id,
         "deliveryguyName",
-        searchText
+        searchText,
+        "active",
+        branchData.active
       );
     }
   };
@@ -102,7 +108,9 @@ const CardFeeTable = () => {
           data,
           setData,
           "branchId",
-          params.id
+          params.id,
+          "active",
+          branchData.active
         );
 
         if (data.length > 0) {
