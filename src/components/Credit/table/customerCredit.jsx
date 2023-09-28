@@ -14,6 +14,7 @@ import fetchFirestoreDataWithFilter from "../../../api/credit/get";
 import Search from "../../../api/utils/search";
 import CustomerCreditForm from "../createCreditForm/customerCredit";
 import MyHeaderComponent from "../../VersatileComponents/creditHeader";
+import useUserClaims from "../../../hooks/useUserClaims";
 
 const columns = [
   { key: "name", title: "Name" },
@@ -32,11 +33,21 @@ const columns = [
     title: "Delete",
   },
 ];
+const NonAdmincolumns = [
+  { key: "name", title: "Name" },
+  { key: "amount", title: "Amount" },
+  { key: "reason", title: "Reason" },
+  { key: "address", title: "Address" },
+  { key: "phone", title: "Phone" },
+  { key: "date", title: "BorrowedOn" },
+  { key: "daysSinceBorrowed", title: "Days Since Borrowed" },
+];
 
 const CustomerCreditTable = () => {
   const params = useParams();
   const [data, setData] = useState([]);
   const { user } = useAuth();
+  const userClaim = useUserClaims(user);
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
@@ -215,7 +226,7 @@ const CustomerCreditTable = () => {
       <LoadingSpinner isSubmitting={isSubmitting} />
       <DynamicTable
         data={tableData}
-        columns={columns}
+        columns={userClaim.admin ? columns : NonAdmincolumns}
         loadMoreData={loadMoreData}
         onEdit={handleEdit}
         onDelete={handleDelete}

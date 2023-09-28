@@ -8,7 +8,8 @@ import SearchInput from "../../components/VersatileComponents/SearchInput";
 import { useParams } from "react-router-dom";
 import getHumanReadableDate from "../../utils/humanReadableDate";
 import fetchFirestoreDataWithFilter from "../../api/utils/fetchFirestoreDataWithFilter";
-import Search from "../../api/utils/oneConditionSearch";
+import Search from "../../api/utils/search";
+import { useSnackbar } from "../../contexts/InfoContext";
 
 const columns = [
   { key: "name", title: "Name" },
@@ -29,7 +30,8 @@ const Customer = () => {
   const [data, setData] = useState([]);
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
-
+  const [searched, setSearched] = useState(false);
+  const { openSnackbar } = useSnackbar();
   const loadInitialData = async () => {
     try {
       await fetchFirestoreDataWithFilter(
@@ -65,8 +67,11 @@ const Customer = () => {
     if (searchText.trim() === "") {
       setSearchedData([]);
       loadInitialData();
+      setSearched(false);
       // Perform actions when the search input is empty
     } else {
+      // setSearchedt(rue);
+      setSearched(true);
       Search(
         "customer",
         null,
@@ -75,8 +80,8 @@ const Customer = () => {
         setSearchedData,
         "branchId",
         params.id,
-        "name",
-        searchText
+        "blockHouse",
+        searchText.toUpperCase()
       );
     }
   };
@@ -143,6 +148,25 @@ const Customer = () => {
   console.log("data", processedData);
 
   const tableData = searchedData.length > 0 ? searchResult : processedData;
+
+  // useEffect(() => {
+  //   console.log(
+  //     "searchedData",
+  //     searchedData,
+  //     searched,
+  //     searchedData.length === 0,
+  //     searchedData.length === 0 && searched
+  //   );
+  //   if (searchedData.length === 0 && searched) {
+  //     console.log("No result found. Please search based on blockHouse field.");
+  //     openSnackbar(
+  //       "No result found. Please search based on blockHouse field.",
+  //       "info"
+  //     );
+  //   } else {
+  //     setSearched(false);
+  //   }
+  // }, [searchedData, searched]);
 
   return (
     <Box

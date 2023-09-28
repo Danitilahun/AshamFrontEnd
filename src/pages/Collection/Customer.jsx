@@ -63,8 +63,8 @@ const Customer = () => {
         1000,
         searchedData,
         setSearchedData,
-        "name",
-        searchText
+        "blockHouse",
+        searchText.toUpperCase()
       );
     }
   };

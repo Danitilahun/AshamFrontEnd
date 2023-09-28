@@ -22,6 +22,7 @@ import getRequiredUserData from "../../../utils/getBranchInfo";
 import update from "../../../api/orders/edit";
 import create from "../../../api/orders/create";
 import useUserClaims from "../../../hooks/useUserClaims";
+import capitalizeString from "../../../utils/capitalizeString";
 // Define the validation schema including order item validation
 const AsbezaOrderFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -86,6 +87,8 @@ const AsbezaOrderBranchForm = () => {
       setIsSubmitting(true);
       try {
         const date = getInternationalDate();
+        const name = capitalizeString(values.name);
+        values.name = name;
         values.date = date;
         values.callcenterId = userData.requiredId
           ? userData.requiredId

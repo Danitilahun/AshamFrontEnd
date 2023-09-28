@@ -16,6 +16,7 @@ import Header from "../../VersatileComponents/Header";
 import deleteIncentive from "../../../api/bonusPenality/delete";
 import CreateForm from "../createForm/create";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
+import useUserClaims from "../../../hooks/useUserClaims";
 
 const columns = [
   { key: "employeeName", title: "Employee Name" },
@@ -31,11 +32,18 @@ const columns = [
     title: "Delete",
   },
 ];
+const NonAdmincolumns = [
+  { key: "employeeName", title: "Employee Name" },
+  { key: "placement", title: "Placement" },
+  { key: "reason", title: "Reason" },
+  { key: "amount", title: "Amount" },
+];
 
 const BonusPenalityTable = ({ type }) => {
   const params = useParams();
   const [data, setData] = useState([]);
   const { user } = useAuth();
+  const userClaim = useUserClaims(user);
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
@@ -207,7 +215,7 @@ const BonusPenalityTable = ({ type }) => {
       <LoadingSpinner isSubmitting={isSubmitting} />
       <DynamicTable
         data={tableData}
-        columns={columns}
+        columns={userClaim.admin ? columns : NonAdmincolumns}
         loadMoreData={loadMoreData}
         onEdit={handleEdit}
         onDelete={handleDelete}
