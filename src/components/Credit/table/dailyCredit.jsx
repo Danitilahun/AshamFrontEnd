@@ -45,7 +45,13 @@ const DailyCreditTable = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const handleEdit = (row) => {
-    console.log("from the table", row);
+    if (row.source === "Report") {
+      openSnackbar(
+        `You can not edit this credit! This credit is from ${row.source}!`,
+        "info"
+      );
+      return;
+    }
     setEditRow(row);
     setIsEditDialogOpen(true);
   };

@@ -246,8 +246,8 @@ const CardFeeReportForm = () => {
                     color="textSecondary"
                     style={{ marginTop: "8px" }}
                   >
-                    Are you sure you give {formik.values.deliveryguyName} to
-                    distribute {formik.values.numberOfCard} ?
+                    Are you sure you give {formik.values.deliveryguyName}{" "}
+                    {formik.values.numberOfCard} birr for card fee?
                   </Typography>
                   <Button
                     variant="outlined"

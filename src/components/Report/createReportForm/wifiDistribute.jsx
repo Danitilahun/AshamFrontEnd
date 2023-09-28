@@ -245,8 +245,8 @@ const WifiDistributeReportForm = () => {
                     color="textSecondary"
                     style={{ marginTop: "8px" }}
                   >
-                    Are you sure you give {formik.values.deliveryguyName} to
-                    distribute {formik.values.numberOfCard} ?
+                    Are you sure you order {formik.values.deliveryguyName} to
+                    distribute {formik.values.numberOfCard} wifi bill?
                   </Typography>
                   <Button
                     variant="outlined"

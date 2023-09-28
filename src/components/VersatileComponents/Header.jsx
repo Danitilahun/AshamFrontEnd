@@ -272,8 +272,7 @@ const Header = ({
           ) : title === "Staff Salary Table" &&
             (userClaims.superAdmin || userClaims.admin) ? (
             <BonusDialog worker={"staff"} />
-          ) : title === "Delivery guys Salary Table" &&
-            (userClaims.superAdmin || userClaims.admin) ? (
+          ) : title === "Delivery guys Salary Table" && userClaims.admin ? (
             <BonusDialog worker={"deliveryGuy"} />
           ) : title === "Delivery guys Salary Table" ||
             (title === "Staff Salary Table" && userClaims.finance) ? (

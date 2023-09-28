@@ -245,8 +245,9 @@ const HotelProfitReportForm = () => {
                     color="textSecondary"
                     style={{ marginTop: "8px" }}
                   >
-                    Are you sure you give {formik.values.deliveryguyName} to
-                    distribute {formik.values.numberOfCard} ?
+                    Are you sure you will gain hotel profit{" "}
+                    {formik.values.amount} birr from{" "}
+                    {formik.values.deliveryguyName}?
                   </Typography>
                   <Button
                     variant="outlined"

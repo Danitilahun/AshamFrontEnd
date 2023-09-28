@@ -260,10 +260,11 @@ const DynamicTable = ({
       console.log("activeData", Data);
 
       const res = await Assigned(user, Data, orderType);
-      openSnackbar(res.data.message, "success");
+
       if (orderType === "asbeza" && Data.status === "Completed") {
         await AsbezaProfit(user, Data);
       }
+      openSnackbar(res.data.message, "success");
     } catch (error) {
       console.error("Error during form submission:", error);
       openSnackbar(

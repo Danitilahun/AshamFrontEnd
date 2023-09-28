@@ -66,6 +66,7 @@ const EditStaffCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
         values.date = date;
         values.active = active;
         values.difference = values.amount - credit.amount;
+        values.active = credit.active;
         console.log("values", values);
         values.employessChange = values.employeeId !== credit.employeeId;
         const res = await updateCredit(user, credit.id, values, "StaffCredit");

@@ -128,12 +128,12 @@ const Customer = () => {
     const currentDate = new Date();
 
     return data?.map((item) => {
-      const createdDate = new Date(item.borrowedOn);
+      const createdDate = new Date(item.createdDate);
       const dayDifference = Math.floor(
         (currentDate - createdDate) / (1000 * 60 * 60 * 24)
       );
       item.lastseen = dayDifference;
-      item.day = getHumanReadableDate(item.borrowedOn);
+      item.day = getHumanReadableDate(item.createdDate);
       return item;
     });
   }
