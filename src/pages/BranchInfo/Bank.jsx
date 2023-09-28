@@ -9,16 +9,39 @@ import getRequiredUserData from "../../utils/getBranchInfo";
 import BankForm from "../../components/Bank/createBankForm";
 import useUserClaims from "../../hooks/useUserClaims";
 import { useAuth } from "../../contexts/AuthContext";
-
+import { useState } from "react";
+import { firestore } from "../../services/firebase";
+import { collection, doc, onSnapshot } from "firebase/firestore";
+import { useEffect } from "react";
 const Bank = () => {
   const params = useParams();
   const theme = useTheme();
   const branchData = getRequiredUserData();
-  let bank = branchData?.bank ? branchData?.bank : [];
+  let branchId = branchData.requiredId;
   const { documentData } = useDocumentById("Bank", params.id);
   const { user } = useAuth();
   const userClaims = useUserClaims(user);
 
+  const [branch, setBranch] = useState({});
+
+  useEffect(() => {
+    const worksRef = doc(
+      collection(firestore, "branches"),
+      params.id ? params.id : branchId
+    );
+
+    // Subscribe to real-time updates
+    const unsubscribe = onSnapshot(worksRef, (doc) => {
+      if (doc.exists()) {
+        setBranch(doc.data());
+      } else {
+        setBranch({});
+      }
+    });
+    // Clean up the subscription when the component unmounts
+    return () => unsubscribe();
+  }, [params.id]);
+  console.log("branch", branch);
   return (
     <Box
       m="1.5rem 2.5rem"
@@ -99,7 +122,7 @@ const Bank = () => {
         <Grid item xs={4}></Grid>
       </Grid> */}
       <Grid container spacing={2} marginTop={"10px"}>
-        {bank?.map((bankName, index) => (
+        {branch?.bank?.map((bankName, index) => (
           <Grid item xs={6} key={index}>
             <Typography variant="h6" fontWeight="bold" fontSize={"24px"}>
               {bankName}
