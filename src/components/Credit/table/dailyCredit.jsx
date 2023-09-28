@@ -16,6 +16,7 @@ import Search from "../../../api/utils/search";
 import DailyCreditForm from "../createCreditForm/dailyCredit";
 import MyHeaderComponent from "../../VersatileComponents/creditHeader";
 import useUserClaims from "../../../hooks/useUserClaims";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
@@ -134,6 +135,7 @@ const DailyCreditTable = () => {
       loadInitialData();
       // Perform actions when the search input is empty
     } else {
+      const searchTextNew = capitalizeString(searchText);
       Search(
         "DailyCredit",
         null,
@@ -143,7 +145,7 @@ const DailyCreditTable = () => {
         "branchId",
         params.id,
         "deliveryguyName",
-        searchText
+        searchTextNew
       );
     }
   };

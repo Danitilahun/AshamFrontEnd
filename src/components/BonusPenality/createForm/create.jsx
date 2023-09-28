@@ -22,6 +22,7 @@ import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import { FormValidationSchema } from "../validation/validator";
 import getRequiredUserData from "../../../utils/getBranchInfo";
 import CreateIncentive from "../../../api/bonusPenality/create";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const CreateForm = ({ type }) => {
   const params = useParams();
@@ -66,6 +67,8 @@ const CreateForm = ({ type }) => {
       setIsSubmitting(true);
       try {
         const date = getInternationalDate();
+        const name = capitalizeString(values.employeeName);
+        values.employeeName = name;
         values.branchId = branchData.requiredId;
         values.date = date;
         values.active = branchData.active;

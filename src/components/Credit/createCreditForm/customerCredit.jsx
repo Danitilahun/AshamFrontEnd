@@ -19,6 +19,7 @@ import createCredit from "../../../api/credit/create";
 import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import { CustomerCreditFormValidationSchema } from "../validator/customerCreditValidator";
 import getRequiredUserData from "../../../utils/getBranchInfo";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const CustomerCreditForm = ({ type }) => {
   const params = useParams();
@@ -58,6 +59,9 @@ const CustomerCreditForm = ({ type }) => {
           : user.displayName
           ? user.displayName
           : userData.requiredId;
+
+        const name = capitalizeString(values.name);
+        values.name = name;
         values.date = date;
         values.type = type;
         values.active = active;

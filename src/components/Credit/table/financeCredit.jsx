@@ -18,6 +18,7 @@ import EditFinanceCreditForm from "../editCreditForm/financeCredit";
 import FinancialCreditForm from "../createCreditForm/financeCredit";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import useUserClaims from "../../../hooks/useUserClaims";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const columns = [
   { key: "employeeName", title: "Employee Name" },
@@ -131,6 +132,7 @@ const FinanceTable = () => {
       loadInitialData();
       // Perform actions when the search input is empty
     } else {
+      const searchTextNew = capitalizeString(searchText);
       Search(
         "FinanceCredit",
         null,
@@ -140,7 +142,7 @@ const FinanceTable = () => {
         "branchId",
         params.id,
         "employeeName",
-        searchText
+        searchTextNew
       );
     }
   };

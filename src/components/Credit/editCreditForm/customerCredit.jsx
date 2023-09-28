@@ -19,6 +19,7 @@ import createCredit from "../../../api/credit/create";
 import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import { CustomerCreditFormValidationSchema } from "../validator/customerCreditValidator";
 import updateCredit from "../../../api/credit/update";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const EditCustomerCreditForm = ({
   credit,
@@ -52,6 +53,8 @@ const EditCustomerCreditForm = ({
       // Send formData to the backend
       setIsSubmitting(true);
       try {
+        const name = capitalizeString(values.name);
+        values.name = name;
         const date = getInternationalDate();
         values.branchId = params.id;
         values.date = date;

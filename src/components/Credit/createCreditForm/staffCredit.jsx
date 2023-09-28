@@ -22,6 +22,7 @@ import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import { DailyCreditFormValidationSchema } from "../validator/dailyCreditFormValidationSchema";
 import { StaffCreditFormValidationSchema } from "../validator/staffCreditFormValidationSchema";
 import getRequiredUserData from "../../../utils/getBranchInfo";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const StaffCreditForm = ({ type }) => {
   const params = useParams();
@@ -89,6 +90,8 @@ const StaffCreditForm = ({ type }) => {
           : user.displayName
           ? user.displayName
           : userData.requiredId;
+        const name = capitalizeString(values.employeeName);
+        values.employeeName = name;
         values.date = date;
         values.type = type;
         values.active = active;

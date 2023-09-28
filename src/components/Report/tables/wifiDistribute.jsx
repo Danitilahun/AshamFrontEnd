@@ -10,6 +10,7 @@ import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import getRequiredUserData from "../../../utils/getBranchInfo";
 import fetchFirestoreDataWithFilter from "../../../api/utils/filterBasedOnTwoCriterial";
 import Search from "../../../api/utils/searchMore";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
@@ -78,6 +79,7 @@ const WifiDistributeTable = () => {
       loadInitialData();
       // Perform actions when the search input is empty
     } else {
+      const searchTextNew = capitalizeString(searchText);
       Search(
         "wifiDistribute",
         null,
@@ -87,7 +89,7 @@ const WifiDistributeTable = () => {
         "branchId",
         params.id,
         "deliveryguyName",
-        searchText,
+        searchTextNew,
         "active",
         branchData.active
       );

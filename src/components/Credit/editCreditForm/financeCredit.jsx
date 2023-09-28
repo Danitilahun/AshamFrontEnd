@@ -23,6 +23,7 @@ import { DailyCreditFormValidationSchema } from "../validator/dailyCreditFormVal
 import { StaffCreditFormValidationSchema } from "../validator/staffCreditFormValidationSchema";
 import { firestore } from "../../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
+import capitalizeString from "../../../utils/capitalizeString";
 const EditFinanceCreditForm = ({
   credit,
   isEditDialogOpen,
@@ -68,6 +69,8 @@ const EditFinanceCreditForm = ({
       // Send formData to the backend
       setIsSubmitting(true);
       try {
+        const name = capitalizeString(values.employeeName);
+        values.employeeName = name;
         const date = getInternationalDate();
         values.branchId = params.id;
         values.date = date;

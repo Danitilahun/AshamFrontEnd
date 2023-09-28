@@ -17,6 +17,7 @@ import Search from "../../../api/utils/search";
 import StaffCreditForm from "../createCreditForm/staffCredit";
 import MyHeaderComponent from "../../VersatileComponents/creditHeader";
 import useUserClaims from "../../../hooks/useUserClaims";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const columns = [
   { key: "employeeName", title: "Employee Name" },
@@ -131,6 +132,7 @@ const StaffCreditTable = () => {
       loadInitialData();
       // Perform actions when the search input is empty
     } else {
+      const searchTextNew = capitalizeString(searchText);
       Search(
         "StaffCredit",
         null,
@@ -140,7 +142,7 @@ const StaffCreditTable = () => {
         "branchId",
         params.id,
         "employeeName",
-        searchText
+        searchTextNew
       );
     }
   };

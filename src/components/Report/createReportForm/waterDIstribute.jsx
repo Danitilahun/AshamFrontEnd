@@ -23,6 +23,7 @@ import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import getCurrentTime from "../../../utils/getCurrentTime";
 import createReport from "../../../api/report/createReport";
 import { ReportFormValidationSchema } from "../validator/ReportFormValidationSchema";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const WaterDistributeReportForm = () => {
   const params = useParams();
@@ -125,6 +126,8 @@ const WaterDistributeReportForm = () => {
       // Send formData to the backend
       setIsSubmitting(true);
       try {
+        const name = capitalizeString(values.deliveryguyName);
+        values.deliveryguyName = name;
         const currentTimeString = getCurrentTime();
         const date = getInternationalDate();
         values.time = currentTimeString;
