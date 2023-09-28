@@ -35,6 +35,18 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
       values.difference = values.budget - branch.budget;
       values.active = branch.active;
 
+      if (values.ExpenseOneAmount === "") {
+        values.ExpenseOneName = branch.ExpenseOneName;
+      }
+
+      if (values.ExpenseTwoAmount === "") {
+        values.ExpenseTwoName = branch.ExpenseTwoName;
+      }
+
+      if (values.ExpenseThreeAmount === "") {
+        values.ExpenseThreeName = branch.ExpenseThreeName;
+      }
+
       console.log("values", values);
       const res = await updateBranch(user, branch.id, values); // Replace with your API update function
       openSnackbar(res.data.message, "success");
