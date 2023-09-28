@@ -249,7 +249,7 @@ const CardDistributeReportForm = () => {
                     style={{ marginTop: "8px" }}
                   >
                     Are you sure you give {formik.values.deliveryguyName} to
-                    distribute {formik.values.numberOfCard} ?
+                    distribute {formik.values.numberOfCard} card?
                   </Typography>
                   <Button
                     variant="outlined"

@@ -19,6 +19,7 @@ import LoadingSpinner from "../../../VersatileComponents/LoadingSpinner";
 import ProfileImageDialog from "../../common/ProfileImageDialog";
 import FlexBetween from "../../../VersatileComponents/FlexBetween";
 import useUserClaims from "../../../../hooks/useUserClaims";
+import getRequiredUserData from "../../../../utils/getBranchInfo";
 
 const UserHeader = ({
   userInfo,
@@ -36,6 +37,7 @@ const UserHeader = ({
   const { openSnackbar } = useSnackbar();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const userClaims = useUserClaims(user);
+  const branchData = getRequiredUserData();
   const handleImageSave = async (formData) => {
     setIsSubmitting(true);
     // Close the dialog after saving
@@ -140,7 +142,7 @@ const UserHeader = ({
                 <Chip
                   label={userInfo.paid ? "Paid" : "Waiting"}
                   onClick={handleSalaryPay}
-                  disabled={userInfo.paid}
+                  disabled={userInfo.paid || !branchData.active}
                   style={{
                     cursor: "pointer",
                     marginLeft: 10,

@@ -16,7 +16,7 @@ const LoadingSpinner = ({ isSubmitting }) => {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            zIndex: 100000,
+            zIndex: 3000,
             width: "100%",
             height: "100%",
           }}

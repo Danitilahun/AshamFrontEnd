@@ -247,7 +247,7 @@ const CardFeeReportForm = () => {
                     style={{ marginTop: "8px" }}
                   >
                     Are you sure you give {formik.values.deliveryguyName}{" "}
-                    {formik.values.numberOfCard} birr for card fee?
+                    {formik.values.price} birr for card fee?
                   </Typography>
                   <Button
                     variant="outlined"
