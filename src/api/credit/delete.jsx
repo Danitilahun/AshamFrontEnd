@@ -10,7 +10,7 @@ const deleteCredit = async (user, Id, type) => {
     }
 
     const idTokenResult = await user.getIdTokenResult();
-    if (idTokenResult.claims.admin === true) {
+    if (idTokenResult.claims.admin === true || idTokenResult.claims.finance) {
       const idToken = await user.getIdToken();
       const res = await axios.delete(
         `${API_BASE_URL}api/credit/${type}/${Id}`,
