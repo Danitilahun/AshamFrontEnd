@@ -10,7 +10,7 @@ const TableRow = ({ data, type }) => {
   // Define padding for the div
   const statusStyle = {
     padding: "5px", // Adjust the padding as needed
-    textAlign: "center",
+    // textAlign: "center",
     color,
     borderRadius: "10px", // Background color based on data.Status
   };
@@ -19,7 +19,6 @@ const TableRow = ({ data, type }) => {
     <tr
       style={{
         // color: theme.palette.secondary[200],
-
         backgroundColor: theme.palette.background.alt,
         marginBottom: "0.3rem",
       }}
