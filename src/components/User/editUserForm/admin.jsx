@@ -20,6 +20,7 @@ import { useSnackbar } from "../../../contexts/InfoContext";
 import fetchData from "../../../api/services/Users/getUser";
 import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import CustomTextField from "../../Credit/component/CustomTextField";
+import capitalizeString from "../../../utils/capitalizeString";
 
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
@@ -75,6 +76,8 @@ const AdminEditForm = ({ admin, isEditDialogOpen, closeEditDialog }) => {
   const handleSubmit = async (values) => {
     setIsSubmitting(true);
     try {
+      const name = capitalizeString(values.fullName);
+      values.fullName = name;
       values.nameChange = values.fullName !== admin.fullName;
       values.phoneChange = values.phone !== admin.phone;
       values.addressChange = values.fullAddress !== admin.fullAddress;
@@ -90,6 +93,7 @@ const AdminEditForm = ({ admin, isEditDialogOpen, closeEditDialog }) => {
       const active =
         branch.find((branch) => branch[1] === values.branchId)?.[2] || "";
       values.active = active;
+
       // Update the admin with the new data
       const res = await updateUser(user, admin.id, values, "admin");
       // Replace with your API update function

@@ -21,6 +21,7 @@ import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import CustomTextField from "../../Credit/component/CustomTextField";
 import { useParams } from "react-router-dom";
 import getRequiredUserData from "../../../utils/getBranchInfo";
+import capitalizeString from "../../../utils/capitalizeString";
 
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
@@ -58,10 +59,13 @@ const DeliveryGuyEditForm = ({
       values.branchId = params.id ? params.id : branchData.requiredId;
       values.active = branchData.active;
       values.activeTable = branchData.activeTable;
+      const name = capitalizeString(values.fullName);
+      values.fullName = name;
       values.nameChange = values.fullName !== deliveryguy.fullName;
       if (values.nameChange) {
         values.uniqueName = deliveryguy.uniqueName;
       }
+
       const res = await updateUser(user, deliveryguy.id, values, "deliveryGuy");
       openSnackbar(res.data.message, "success");
       handleCloseForm();

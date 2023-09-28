@@ -20,6 +20,7 @@ import { useSnackbar } from "../../../contexts/InfoContext";
 import fetchData from "../../../api/services/Users/getUser";
 import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import CustomTextField from "../../Credit/component/CustomTextField";
+import capitalizeString from "../../../utils/capitalizeString";
 
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
@@ -62,6 +63,8 @@ const FinanceEditForm = ({ finance, isEditDialogOpen, closeEditDialog }) => {
     try {
       // Update the admin with the new data
       values.emailChange = values.email !== finance.email;
+      const name = capitalizeString(values.fullName);
+      values.fullName = name;
       const res = await updateUser(user, finance.id, values, "finance");
 
       if (values.email !== finance.email) {

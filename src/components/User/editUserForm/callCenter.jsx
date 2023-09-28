@@ -17,6 +17,7 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import CustomTextField from "../../Credit/component/CustomTextField";
+import capitalizeString from "../../../utils/capitalizeString";
 
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
@@ -57,6 +58,8 @@ const CallcenterEditForm = ({
   const handleSubmit = async (values) => {
     setIsSubmitting(true);
     try {
+      const name = capitalizeString(values.fullName);
+      values.fullName = name;
       // Update the admin with the new data
       values.emailChange = callcenter.email !== callcenter.email;
       const res = await updateUser(user, callcenter.id, values, "callCenter");
