@@ -140,12 +140,12 @@ const StaffRegisterForm = () => {
   return (
     <div>
       <Button variant="contained" color="primary" onClick={handleOpen}>
-        Create new Call Center
+        Create new Staff
       </Button>
       <LoadingSpinner isSubmitting={isSubmitting} />
       <Dialog open={showForm} onClose={handleCloseForm} maxWidth="sm" fullWidth>
         <DialogTitle sx={{ backgroundColor: theme.palette.background.alt }}>
-          New Call Center
+          New Staff
         </DialogTitle>
         <DialogContent sx={{ backgroundColor: theme.palette.background.alt }}>
           <form onSubmit={formik.handleSubmit}>
