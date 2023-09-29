@@ -21,6 +21,7 @@ import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import updateCredit from "../../../api/credit/update";
 import { FormValidationSchema } from "../validation/validator";
 import updateIncentive from "../../../api/bonusPenality/edit";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const EditForm = ({ data, isEditDialogOpen, closeEditDialog, type }) => {
   const params = useParams();
@@ -61,6 +62,8 @@ const EditForm = ({ data, isEditDialogOpen, closeEditDialog, type }) => {
       // Send formData to the backend
       setIsSubmitting(true);
       try {
+        const name = capitalizeString(values.employeeName);
+        values.employeeName = name;
         const date = getInternationalDate();
         values.branchId = params.id;
         values.date = date;

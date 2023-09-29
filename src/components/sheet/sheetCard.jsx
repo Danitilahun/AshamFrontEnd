@@ -103,23 +103,25 @@ const SheetCard = ({ sheetInfo }) => {
                 justifyContent: "flex-end",
               }}
             >
-              <IconButton
-                onClick={handleMenuOpen}
-                style={{ color: theme.palette.secondary[100] }}
-              >
-                <MoreVertIcon />
-              </IconButton>
               {userClaims.superAdmin ? (
-                <Menu
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl)}
-                  onClose={handleMenuClose}
-                  onClick={handleMenuClose}
-                >
-                  <MenuItem onClick={() => handleDeleteIconClick()}>
-                    Delete
-                  </MenuItem>
-                </Menu>
+                <>
+                  <IconButton
+                    onClick={handleMenuOpen}
+                    style={{ color: theme.palette.secondary[100] }}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleMenuClose}
+                    onClick={handleMenuClose}
+                  >
+                    <MenuItem onClick={() => handleDeleteIconClick()}>
+                      Delete
+                    </MenuItem>
+                  </Menu>
+                </>
               ) : null}
             </div>
           }

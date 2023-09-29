@@ -38,34 +38,311 @@ export const BranchFormValidationSchema = yup.object().shape({
     .max(100, "Tax percentage cannot exceed 100")
     .required("Tax percentage is required"),
 
-  ExpenseOneName: yup
-    .string()
-    .typeError(
-      "Expense One Name is required when Expense One Amount is greater than 0"
-    ),
-  ExpenseOneAmount: yup
-    .number()
-    .typeError("Expense One Amount must be a number")
-    .min(0, "Expense One Amount must be non-negative"),
+  // ExpenseOneName: yup.string().test({
+  //   name: "expenseOneNameOrAmount",
+  //   test: function (value) {
+  //     const expenseOneAmount = this.parent.ExpenseOneAmount;
 
-  ExpenseTwoName: yup
-    .string()
-    .typeError(
-      "Expense Two Name is required when Expense Two Amount is greater than 0"
-    ),
+  //     if (
+  //       (!value || !value.trim()) &&
+  //       (!expenseOneAmount || expenseOneAmount === 0)
+  //     ) {
+  //       return true; // Validation passes when both are empty or zero
+  //     }
 
-  ExpenseTwoAmount: yup
-    .number()
-    .typeError("Expense Two Amount must be a number")
-    .min(0, "Expense Two Amount must be non-negative"),
-  ExpenseThreeName: yup
-    .string()
-    .typeError(
-      "Expense Three Name is required when Expense Three Amount is greater than 0"
-    ),
+  //     if (!value || !value.trim()) {
+  //       return this.createError({
+  //         path: "ExpenseOneName",
+  //         message:
+  //           "Expense One Name is required when Expense One Amount has a value",
+  //       });
+  //     }
 
-  ExpenseThreeAmount: yup
-    .number()
-    .typeError("Expense Three Amount must be a number")
-    .min(0, "Expense Three Amount must be non-negative"),
+  //     return true;
+  //   },
+  // }),
+
+  // ExpenseOneAmount: yup.number().test({
+  //   name: "expenseOneNameOrAmount",
+  //   test: function (value) {
+  //     const expenseOneName = this.parent.ExpenseOneName;
+
+  //     if (
+  //       (!value || value === 0) &&
+  //       (!expenseOneName || !expenseOneName.trim())
+  //     ) {
+  //       return true; // Validation passes when both are empty or zero
+  //     }
+
+  //     if (!value || value === 0) {
+  //       return this.createError({
+  //         path: "ExpenseOneAmount",
+  //         message:
+  //           "Expense One Amount is required when Expense One Name has a value",
+  //       });
+  //     }
+
+  //     return true;
+  //   },
+  // }),
+
+  // ExpenseTwoName: yup.string().test({
+  //   name: "expenseTwoNameOrAmount",
+  //   test: function (value) {
+  //     const expenseTwoAmount = this.parent.ExpenseTwoAmount;
+
+  //     if (
+  //       (!value || !value.trim()) &&
+  //       (!expenseTwoAmount || expenseTwoAmount === 0)
+  //     ) {
+  //       return true; // Validation passes when both are empty or zero
+  //     }
+
+  //     if (!value || !value.trim()) {
+  //       return this.createError({
+  //         path: "ExpenseTwoName",
+  //         message:
+  //           "Expense Two Name is required when Expense Two Amount has a value",
+  //       });
+  //     }
+
+  //     return true;
+  //   },
+  // }),
+
+  // ExpenseTwoAmount: yup.number().test({
+  //   name: "expenseTwoNameOrAmount",
+  //   test: function (value) {
+  //     const expenseTwoName = this.parent.ExpenseTwoName;
+
+  //     if (
+  //       (!value || value === 0) &&
+  //       (!expenseTwoName || !expenseTwoName.trim())
+  //     ) {
+  //       return true; // Validation passes when both are empty or zero
+  //     }
+
+  //     if (!value || value === 0) {
+  //       return this.createError({
+  //         path: "ExpenseTwoAmount",
+  //         message:
+  //           "Expense Two Amount is required when Expense Two Name has a value",
+  //       });
+  //     }
+
+  //     return true;
+  //   },
+  // }),
+  // ExpenseThreeName: yup.string().test({
+  //   name: "expenseThreeNameOrAmount",
+  //   test: function (value) {
+  //     const expenseThreeAmount = this.parent.ExpenseThreeAmount;
+
+  //     if (
+  //       (!value || !value.trim()) &&
+  //       (!expenseThreeAmount || expenseThreeAmount === 0)
+  //     ) {
+  //       return true; // Validation passes when both are empty or zero
+  //     }
+
+  //     if (!value || !value.trim()) {
+  //       return this.createError({
+  //         path: "ExpenseThreeName",
+  //         message:
+  //           "Expense Three Name is required when Expense Three Amount has a value",
+  //       });
+  //     }
+
+  //     return true;
+  //   },
+  // }),
+
+  // ExpenseThreeAmount: yup.number().test({
+  //   name: "expenseThreeNameOrAmount",
+  //   test: function (value) {
+  //     const expenseThreeName = this.parent.ExpenseThreeName;
+
+  //     if (
+  //       (!value || value === 0) &&
+  //       (!expenseThreeName || !expenseThreeName.trim())
+  //     ) {
+  //       return true; // Validation passes when both are empty or zero
+  //     }
+
+  //     if (!value || value === 0) {
+  //       return this.createError({
+  //         path: "ExpenseThreeAmount",
+  //         message:
+  //           "Expense Three Amount is required when Expense Three Name has a value",
+  //       });
+  //     }
+
+  //     return true;
+  //   },
+  // }),
+
+  ExpenseOneName: yup.string().test({
+    name: "expenseOneNameOrAmount",
+    test: function (value) {
+      const expenseOneAmount = this.parent.ExpenseOneAmount;
+
+      if (
+        (!value || !value.trim()) &&
+        (!expenseOneAmount || expenseOneAmount === 0)
+      ) {
+        return true; // Validation passes when both are empty or zero
+      }
+
+      if (!value || !value.trim()) {
+        return this.createError({
+          path: "ExpenseOneName",
+          message:
+            "Expense One Name is required when Expense One Amount has a value",
+        });
+      }
+
+      return true;
+    },
+  }),
+
+  ExpenseOneAmount: yup.number().test({
+    name: "expenseOneNameOrAmount",
+    test: function (value) {
+      const expenseOneName = this.parent.ExpenseOneName;
+
+      if (
+        (!value || value === 0) &&
+        (!expenseOneName || !expenseOneName.trim())
+      ) {
+        return true; // Validation passes when both are empty or zero
+      }
+
+      if (!value || value === 0) {
+        return this.createError({
+          path: "ExpenseOneAmount",
+          message:
+            "Expense One Amount is required when Expense One Name has a value",
+        });
+      }
+
+      if (value < 0) {
+        return this.createError({
+          path: "ExpenseOneAmount",
+          message: "Expense One Amount must be positive",
+        });
+      }
+
+      return true;
+    },
+  }),
+
+  ExpenseTwoName: yup.string().test({
+    name: "expenseTwoNameOrAmount",
+    test: function (value) {
+      const expenseTwoAmount = this.parent.ExpenseTwoAmount;
+
+      if (
+        (!value || !value.trim()) &&
+        (!expenseTwoAmount || expenseTwoAmount === 0)
+      ) {
+        return true; // Validation passes when both are empty or zero
+      }
+
+      if (!value || !value.trim()) {
+        return this.createError({
+          path: "ExpenseTwoName",
+          message:
+            "Expense Two Name is required when Expense Two Amount has a value",
+        });
+      }
+
+      return true;
+    },
+  }),
+
+  ExpenseTwoAmount: yup.number().test({
+    name: "expenseTwoNameOrAmount",
+    test: function (value) {
+      const expenseTwoName = this.parent.ExpenseTwoName;
+
+      if (
+        (!value || value === 0) &&
+        (!expenseTwoName || !expenseTwoName.trim())
+      ) {
+        return true; // Validation passes when both are empty or zero
+      }
+
+      if (!value || value === 0) {
+        return this.createError({
+          path: "ExpenseTwoAmount",
+          message:
+            "Expense Two Amount is required when Expense Two Name has a value",
+        });
+      }
+
+      if (value < 0) {
+        return this.createError({
+          path: "ExpenseTwoAmount",
+          message: "Expense Two Amount must be positive",
+        });
+      }
+
+      return true;
+    },
+  }),
+
+  ExpenseThreeName: yup.string().test({
+    name: "expenseThreeNameOrAmount",
+    test: function (value) {
+      const expenseThreeAmount = this.parent.ExpenseThreeAmount;
+
+      if (
+        (!value || !value.trim()) &&
+        (!expenseThreeAmount || expenseThreeAmount === 0)
+      ) {
+        return true; // Validation passes when both are empty or zero
+      }
+
+      if (!value || !value.trim()) {
+        return this.createError({
+          path: "ExpenseThreeName",
+          message:
+            "Expense Three Name is required when Expense Three Amount has a value",
+        });
+      }
+
+      return true;
+    },
+  }),
+
+  ExpenseThreeAmount: yup.number().test({
+    name: "expenseThreeNameOrAmount",
+    test: function (value) {
+      const expenseThreeName = this.parent.ExpenseThreeName;
+
+      if (
+        (!value || value === 0) &&
+        (!expenseThreeName || !expenseThreeName.trim())
+      ) {
+        return true; // Validation passes when both are empty or zero
+      }
+
+      if (!value || value === 0) {
+        return this.createError({
+          path: "ExpenseThreeAmount",
+          message:
+            "Expense Three Amount is required when Expense Three Name has a value",
+        });
+      }
+
+      if (value < 0) {
+        return this.createError({
+          path: "ExpenseThreeAmount",
+          message: "Expense Three Amount must be positive",
+        });
+      }
+
+      return true;
+    },
+  }),
 });

@@ -23,6 +23,7 @@ import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import getCurrentTime from "../../../utils/getCurrentTime";
 import createReport from "../../../api/report/createReport";
 import { HotelProfitReportFormValidationSchema } from "../validator/HotelProfitReportFormValidationSchema";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const HotelProfitReportForm = () => {
   const params = useParams();
@@ -126,6 +127,8 @@ const HotelProfitReportForm = () => {
       // Send formData to the backend
       setIsSubmitting(true);
       try {
+        const name = capitalizeString(values.deliveryguyName);
+        values.deliveryguyName = name;
         const currentTimeString = getCurrentTime();
         const date = getInternationalDate();
         values.time = currentTimeString;

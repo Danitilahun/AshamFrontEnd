@@ -49,10 +49,13 @@ const EditEssentialForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
         values.branchId = params.id;
         console.log("values", values);
         const res = await updateEssential(user, data.id, values);
-        openSnackbar(`${res.data.message} successfully created!`, "success");
+        openSnackbar(`${res.data.message} `, "success");
         handleCloseForm();
       } catch (error) {
-        openSnackbar(error.message, "error");
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
       }
       setIsSubmitting(false);
     },

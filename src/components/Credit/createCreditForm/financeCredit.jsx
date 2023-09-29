@@ -25,6 +25,7 @@ import fetchData from "../../../api/services/Users/getUser";
 import useDocumentById from "../../../hooks/useDocumentById";
 import { firestore } from "../../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
+import capitalizeString from "../../../utils/capitalizeString";
 const FinancialCreditForm = ({ type }) => {
   const params = useParams();
   const [showForm, setShowForm] = useState(false);
@@ -69,6 +70,8 @@ const FinancialCreditForm = ({ type }) => {
       // Send formData to the backend
       setIsSubmitting(true);
       try {
+        const name = capitalizeString(values.employeeName);
+        values.employeeName = name;
         const date = getInternationalDate();
         values.branchId = params.id ? params.id : user.uid;
         values.date = date;

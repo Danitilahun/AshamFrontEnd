@@ -12,7 +12,8 @@ import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import fetchFirestoreDataWithFilter from "../../../api/utils/filterBasedOnTwoCriterial";
 import getRequiredUserData from "../../../utils/getBranchInfo";
 import Search from "../../../api/utils/searchMore";
-import { SpinnerContext } from "../../../contexts/SpinnerContext";
+//import { SpinnerContext } from "../../../contexts/SpinnerContext";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
@@ -81,6 +82,7 @@ const CardDistributeTable = () => {
       loadInitialData();
       // Perform actions when the search input is empty
     } else {
+      const searchTextNew = capitalizeString(searchText);
       Search(
         "cardDistribute",
         null,
@@ -92,7 +94,7 @@ const CardDistributeTable = () => {
         "active",
         branchData.active,
         "deliveryguyName",
-        searchText
+        searchTextNew
       );
     }
   };

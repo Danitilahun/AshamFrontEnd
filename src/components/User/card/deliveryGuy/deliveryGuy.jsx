@@ -189,6 +189,10 @@ const UserCard = ({ userInfo }) => {
             label="FullAddress"
             value={userInfo.fullAddress}
           />
+          <CustomEllipsisTextField
+            label="Daily Credit"
+            value={userInfo.dailyCredit}
+          />
         </CardContent>
         <CardActions disableSpacing>
           <ExpandMore

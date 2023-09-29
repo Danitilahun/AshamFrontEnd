@@ -21,6 +21,7 @@ import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import CustomTextField from "../../Credit/component/CustomTextField";
 import { useParams } from "react-router-dom";
 import getRequiredUserData from "../../../utils/getBranchInfo";
+import capitalizeString from "../../../utils/capitalizeString";
 
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
@@ -65,6 +66,8 @@ const StaffEditForm = ({ staff, isEditDialogOpen, closeEditDialog }) => {
       if (values.salaryChange) {
         values.difference = values.salary - staff.salary;
       }
+      const name = capitalizeString(values.fullName);
+      values.fullName = name;
       values.nameChange = values.fullName !== staff.fullName;
       if (values.nameChange) {
         values.uniqueName = staff.uniqueName;

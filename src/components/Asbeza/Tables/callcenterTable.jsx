@@ -163,7 +163,7 @@ const AsbezaTable = () => {
         "callcenterId",
         params.id,
         "blockHouse",
-        searchText
+        searchText.toUpperCase()
       );
     }
   };

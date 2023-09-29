@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
 import { useAuth } from "../../../contexts/AuthContext";
 import handleImagePreview from "../../../utils/imagePreview";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
@@ -25,6 +24,7 @@ import { useSnackbar } from "../../../contexts/InfoContext";
 import fetchData from "../../../api/utils/getBasedOnCondition";
 import useFilteredCollectionData from "../../../hooks/useFilteredCollectionData";
 import useUserClaims from "../../../hooks/useUserClaims";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const FILE_SIZE = 160 * 1024;
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
@@ -95,6 +95,8 @@ const AdminRegisterForm = () => {
   const handleFormSubmit = async (values) => {
     setIsSubmitting(true);
     try {
+      const name = capitalizeString(values.fullName);
+      values.fullName = name;
       const formData = new FormData();
       // Loop through the initial values and append them to the formData
       for (const key in values) {

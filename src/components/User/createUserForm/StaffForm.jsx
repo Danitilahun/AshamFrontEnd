@@ -24,6 +24,7 @@ import { useSnackbar } from "../../../contexts/InfoContext";
 import { useParams } from "react-router-dom";
 import getRequiredUserData from "../../../utils/getBranchInfo";
 import useUserClaims from "../../../hooks/useUserClaims";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const FILE_SIZE = 160 * 1024;
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
@@ -74,6 +75,8 @@ const StaffRegisterForm = () => {
   const handleFormSubmit = async (values) => {
     setIsSubmitting(true);
     try {
+      const name = capitalizeString(values.fullName);
+      values.fullName = name;
       const formData = new FormData();
       // Loop through the initial values and append them to the formData
       for (const key in values) {
@@ -137,12 +140,12 @@ const StaffRegisterForm = () => {
   return (
     <div>
       <Button variant="contained" color="primary" onClick={handleOpen}>
-        Create new Call Center
+        Create new Staff
       </Button>
       
       <Dialog open={showForm} onClose={handleCloseForm} maxWidth="sm" fullWidth>
         <DialogTitle sx={{ backgroundColor: theme.palette.background.alt }}>
-          New Call Center
+          New Staff
         </DialogTitle>
         <DialogContent sx={{ backgroundColor: theme.palette.background.alt }}>
           <form onSubmit={formik.handleSubmit}>

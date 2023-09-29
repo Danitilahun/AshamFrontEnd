@@ -9,7 +9,6 @@ const TableHeader = () => {
       <tr
         style={{
           // color: theme.palette.secondary[200],
-
           backgroundColor: theme.palette.background.alt,
         }}
       >

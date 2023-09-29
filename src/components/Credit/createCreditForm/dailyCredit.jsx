@@ -21,6 +21,7 @@ import createCredit from "../../../api/credit/create";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import { DailyCreditFormValidationSchema } from "../validator/dailyCreditFormValidationSchema";
 import getRequiredUserData from "../../../utils/getBranchInfo";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const DailyCreditForm = ({ type }) => {
   const params = useParams();
@@ -75,6 +76,8 @@ const DailyCreditForm = ({ type }) => {
         values.date = date;
         values.type = type;
         values.active = active;
+        const name = capitalizeString(values.deliveryguyName);
+        values.deliveryguyName = name;
         console.log("values", values);
         const res = await createCredit(user, values, "DailyCredit");
         openSnackbar(`${res.data.message} successfully created!`, "success");

@@ -10,6 +10,7 @@ import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import DynamicTable from "../DynamicTable/DynamicTable";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import deleteExpense from "../../api/expense/delete";
+import useUserClaims from "../../hooks/useUserClaims";
 
 const columns = [
   { key: "name", title: "Name" },
@@ -23,11 +24,16 @@ const columns = [
     title: "Delete",
   },
 ];
+const NonFinancecolumns = [
+  { key: "name", title: "Name" },
+  { key: "amount", title: "Amount" },
+];
 
 const ExpenseTable = () => {
   const params = useParams();
   const [data, setData] = useState([]);
   const { user } = useAuth();
+  const userClaim = useUserClaims(user);
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
@@ -147,7 +153,7 @@ const ExpenseTable = () => {
       
       <DynamicTable
         data={data}
-        columns={columns}
+        columns={userClaim.finance ? columns : NonFinancecolumns}
         loadMoreData={loadMoreData}
         onEdit={handleEdit}
         onDelete={handleDelete}

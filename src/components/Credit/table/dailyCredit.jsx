@@ -15,6 +15,8 @@ import EditDailyCreditForm from "../editCreditForm/dailyCredit";
 import Search from "../../../api/utils/search";
 import DailyCreditForm from "../createCreditForm/dailyCredit";
 import MyHeaderComponent from "../../VersatileComponents/creditHeader";
+import useUserClaims from "../../../hooks/useUserClaims";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
@@ -29,11 +31,17 @@ const columns = [
     title: "Delete",
   },
 ];
+const NonAdmincolumns = [
+  { key: "deliveryguyName", title: "Delivery Guy Name" },
+  { key: "reason", title: "Reason" },
+  { key: "amount", title: "Amount" },
+];
 
 const DailyCreditTable = () => {
   const params = useParams();
   const [data, setData] = useState([]);
   const { user } = useAuth();
+  const userClaim = useUserClaims(user);
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
@@ -127,6 +135,7 @@ const DailyCreditTable = () => {
       loadInitialData();
       // Perform actions when the search input is empty
     } else {
+      const searchTextNew = capitalizeString(searchText);
       Search(
         "DailyCredit",
         null,
@@ -136,7 +145,7 @@ const DailyCreditTable = () => {
         "branchId",
         params.id,
         "deliveryguyName",
-        searchText
+        searchTextNew
       );
     }
   };
@@ -200,7 +209,7 @@ const DailyCreditTable = () => {
       
       <DynamicTable
         data={tableData}
-        columns={columns}
+        columns={userClaim.admin ? columns : NonAdmincolumns}
         loadMoreData={loadMoreData}
         onEdit={handleEdit}
         onDelete={handleDelete}

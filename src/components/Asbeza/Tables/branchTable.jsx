@@ -15,6 +15,7 @@ import Delete from "../../../api/orders/delete";
 import AsbezaOrderBranchForm from "../CreateForm/branchForm";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import findDocumentById from "../../../utils/findDocumentById";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const CallcenterColumn = [
   { key: "name", title: "Customer Name" },
@@ -171,7 +172,7 @@ const AsbezaTable = () => {
         filterField,
         params.id,
         "blockHouse",
-        searchText
+        searchText.toUpperCase()
       );
     }
   };

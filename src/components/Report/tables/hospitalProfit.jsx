@@ -14,6 +14,7 @@ import HotelProfitReportForm from "../createReportForm/hospitalProfit";
 import getRequiredUserData from "../../../utils/getBranchInfo";
 import fetchFirestoreDataWithFilter from "../../../api/utils/filterBasedOnTwoCriterial";
 import Search from "../../../api/utils/searchMore";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
@@ -81,6 +82,7 @@ const HotelProfitTable = () => {
       loadInitialData();
       // Perform actions when the search input is empty
     } else {
+      const searchTextNew = capitalizeString(searchText);
       Search(
         "hotelProfit",
         null,
@@ -90,7 +92,7 @@ const HotelProfitTable = () => {
         "branchId",
         params.id,
         "deliveryguyName",
-        searchText,
+        searchTextNew,
         "active",
         branchData.active
       );

@@ -23,6 +23,7 @@ import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import getCurrentTime from "../../../utils/getCurrentTime";
 import { ReportFormValidationSchema } from "../validator/ReportFormValidationSchema";
 import createReport from "../../../api/report/createReport";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const CardDistributeReportForm = () => {
   const params = useParams();
@@ -128,6 +129,8 @@ const CardDistributeReportForm = () => {
       // Send formData to the backend
       setIsSubmitting(true);
       try {
+        const name = capitalizeString(values.deliveryguyName);
+        values.deliveryguyName = name;
         const currentTimeString = getCurrentTime();
         const date = getInternationalDate();
         values.time = currentTimeString;

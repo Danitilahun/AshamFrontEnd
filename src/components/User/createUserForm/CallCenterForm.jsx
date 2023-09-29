@@ -22,6 +22,7 @@ import createUser from "../../../api/users/create";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import useUserClaims from "../../../hooks/useUserClaims";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const FILE_SIZE = 160 * 1024;
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
@@ -72,6 +73,8 @@ const CallcenterRegisterForm = () => {
   const handleFormSubmit = async (values) => {
     setIsSubmitting(true);
     try {
+      const name = capitalizeString(values.fullName);
+      values.fullName = name;
       const formData = new FormData();
       // Loop through the initial values and append them to the formData
       for (const key in values) {

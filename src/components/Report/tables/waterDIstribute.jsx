@@ -10,7 +10,8 @@ import WaterDistributeReportForm from "../createReportForm/waterDIstribute";
 import getRequiredUserData from "../../../utils/getBranchInfo";
 import fetchFirestoreDataWithFilter from "../../../api/utils/filterBasedOnTwoCriterial";
 import Search from "../../../api/utils/searchMore";
-import { SpinnerContext } from "../../../contexts/SpinnerContext";
+//import { SpinnerContext } from "../../../contexts/SpinnerContext";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
@@ -27,7 +28,7 @@ const WaterDistributeTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  //const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -78,6 +79,7 @@ const WaterDistributeTable = () => {
       loadInitialData();
       // Perform actions when the search input is empty
     } else {
+      const searchTextNew = capitalizeString(searchText);
       Search(
         "waterDistribute",
         null,
@@ -87,7 +89,7 @@ const WaterDistributeTable = () => {
         "branchId",
         params.id,
         "deliveryguyName",
-        searchText,
+        searchTextNew,
         "active",
         branchData.active
       );

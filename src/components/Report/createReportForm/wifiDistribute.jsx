@@ -24,6 +24,7 @@ import getCurrentTime from "../../../utils/getCurrentTime";
 import { CardFeeReportFormValidationSchema } from "../validator/CardFeeReportFormValidationSchema";
 import createReport from "../../../api/report/createReport";
 import { ReportFormValidationSchema } from "../validator/ReportFormValidationSchema";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const WifiDistributeReportForm = () => {
   const params = useParams();
@@ -129,6 +130,8 @@ const WifiDistributeReportForm = () => {
       try {
         const currentTimeString = getCurrentTime();
         const date = getInternationalDate();
+        const name = capitalizeString(values.deliveryguyName);
+        values.deliveryguyName = name;
         values.time = currentTimeString;
         values.branchId = params.id;
         values.date = date;

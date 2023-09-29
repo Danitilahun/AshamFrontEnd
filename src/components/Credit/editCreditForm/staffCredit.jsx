@@ -21,6 +21,7 @@ import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import updateCredit from "../../../api/credit/update";
 import { DailyCreditFormValidationSchema } from "../validator/dailyCreditFormValidationSchema";
 import { StaffCreditFormValidationSchema } from "../validator/staffCreditFormValidationSchema";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const EditStaffCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
   const params = useParams();
@@ -61,6 +62,8 @@ const EditStaffCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
       // Send formData to the backend
       setIsSubmitting(true);
       try {
+        const name = capitalizeString(values.employeeName);
+        values.employeeName = name;
         const date = getInternationalDate();
         values.branchId = params.id;
         values.date = date;

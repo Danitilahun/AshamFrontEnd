@@ -20,6 +20,7 @@ const Search = (
   fieldToFilter2,
   valueToMatch2
 ) => {
+  console.log("valueToMatch2", valueToMatch2);
   //   console.log("-----------start after", fieldToFilter, valueToMatch);
   const dataCollection = collection(firestore, collectionName);
 

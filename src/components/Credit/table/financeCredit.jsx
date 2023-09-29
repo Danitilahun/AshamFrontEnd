@@ -17,6 +17,8 @@ import Search from "../../../api/utils/search";
 import EditFinanceCreditForm from "../editCreditForm/financeCredit";
 import FinancialCreditForm from "../createCreditForm/financeCredit";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
+import useUserClaims from "../../../hooks/useUserClaims";
+import capitalizeString from "../../../utils/capitalizeString";
 
 const columns = [
   { key: "employeeName", title: "Employee Name" },
@@ -32,11 +34,18 @@ const columns = [
     title: "Delete",
   },
 ];
+const NonFinancecolumns = [
+  { key: "employeeName", title: "Employee Name" },
+  { key: "placement", title: "Placement" },
+  { key: "reason", title: "Reason" },
+  { key: "amount", title: "Amount" },
+];
 
 const FinanceTable = () => {
   const params = useParams();
   const [data, setData] = useState([]);
   const { user } = useAuth();
+  const userClaim = useUserClaims(user);
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
@@ -123,6 +132,7 @@ const FinanceTable = () => {
       loadInitialData();
       // Perform actions when the search input is empty
     } else {
+      const searchTextNew = capitalizeString(searchText);
       Search(
         "FinanceCredit",
         null,
@@ -132,7 +142,7 @@ const FinanceTable = () => {
         "branchId",
         params.id,
         "employeeName",
-        searchText
+        searchTextNew
       );
     }
   };
@@ -195,7 +205,7 @@ const FinanceTable = () => {
       
       <DynamicTable
         data={tableData}
-        columns={columns}
+        columns={userClaim.finance ? columns : NonFinancecolumns}
         loadMoreData={loadMoreData}
         onEdit={handleEdit}
         onDelete={handleDelete}

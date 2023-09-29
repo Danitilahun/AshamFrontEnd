@@ -254,7 +254,7 @@ const DynamicTable = ({
       activeDailySummery: order.activeDailySummery,
       activeTable: order.activeTable,
       deliveryguyId: order.deliveryguyId,
-      date: date,
+      date: order.date,
       branchId: branchId,
       id: order.id,
       status: order.status === "new order" ? "Assigned" : "Completed",

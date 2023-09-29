@@ -7,7 +7,7 @@ const createCredit = async (user, CreditData, type) => {
   try {
     if (user) {
       const idTokenResult = await user.getIdTokenResult();
-      if (idTokenResult.claims.admin === true) {
+      if (idTokenResult.claims.admin === true || idTokenResult.claims.finance) {
         const idToken = await user.getIdToken();
         const response = await axios.post(
           `${API_BASE_URL}api/credit/${type}`,
