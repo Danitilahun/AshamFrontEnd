@@ -18,7 +18,7 @@ import ReminderComponent from "../../VersatileComponents/Reminder";
 import useUserClaims from "../../../hooks/useUserClaims";
 import findDocumentById from "../../../utils/findDocumentById";
 
-const columns = [
+const CallcenterColumn = [
   { key: "name", title: "Customer Name" },
   { key: "phone", title: "Phone" },
   { key: "blockHouse", title: "Block House" },
@@ -27,6 +27,9 @@ const columns = [
   { key: "billPayerName", title: "Bill Payer Name" },
   { key: "customerKey", title: "Customer Key" },
   { key: "status", title: "Status" },
+];
+const columns = [
+  ...CallcenterColumn,
   { key: "edit", title: "Edit" },
   { key: "delete", title: "Delete" },
   { key: "new", title: "New" },
@@ -40,7 +43,7 @@ const WaterTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -223,7 +226,7 @@ const WaterTable = () => {
         formComponent={WaterOrderForm}
       />
       {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
-      
+
       {userClams.callCenter && (
         <Grid container spacing={2}>
           <Grid item xs={3}></Grid>
@@ -243,7 +246,7 @@ const WaterTable = () => {
       )}
       <DynamicTable
         data={tableData}
-        columns={columns}
+        columns={userClams.superAdmin ? CallcenterColumn : columns}
         loadMoreData={loadMoreData}
         onEdit={handleEdit}
         onDelete={handleDelete}

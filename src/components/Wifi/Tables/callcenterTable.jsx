@@ -18,7 +18,7 @@ import ReminderComponent from "../../VersatileComponents/Reminder";
 import useUserClaims from "../../../hooks/useUserClaims";
 import findDocumentById from "../../../utils/findDocumentById";
 
-const columns = [
+const CallcenterColumn = [
   { key: "name", title: "Customer Name" },
   { key: "phone", title: "Phone" },
   { key: "blockHouse", title: "Block House" },
@@ -27,6 +27,9 @@ const columns = [
   { key: "ownerName", title: "Owner Name" },
   { key: "accountNumber", title: "Account Number" },
   { key: "status", title: "Status" },
+];
+const columns = [
+  ...CallcenterColumn,
   { key: "edit", title: "Edit" },
   { key: "delete", title: "Delete" },
   { key: "new", title: "New" },
@@ -247,7 +250,7 @@ const WifiTable = () => {
 
       <DynamicTable
         data={tableData}
-        columns={columns}
+        columns={userClaims.superAdmin ? CallcenterColumn : columns}
         loadMoreData={loadMoreData}
         onEdit={handleEdit}
         onDelete={handleDelete}

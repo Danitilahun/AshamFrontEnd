@@ -139,7 +139,7 @@ const EditWifiOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
     formik.resetForm();
   };
 
-  const deliveryMan = deliveryMan
+  const deliveryMan = deliveryGuy
     ? deliveryGuy[formik.values.branchId ? formik.values.branchId : ""]
     : [];
   const deliveryman = deliveryMan?.map((item) => [

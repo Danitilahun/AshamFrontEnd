@@ -116,8 +116,9 @@ const WifiOrderBranchForm = () => {
     formik.resetForm();
   };
 
-  const deliveryMan = deliveryMan ? 
-    deliveryGuy[formik.values.branchId ? formik.values.branchId : ""] : [];
+  const deliveryMan = deliveryGuy
+    ? deliveryGuy[formik.values.branchId ? formik.values.branchId : ""]
+    : [];
   const deliveryman = deliveryMan?.map((item) => [
     item.deliveryGuyName,
     item.deliveryManId,

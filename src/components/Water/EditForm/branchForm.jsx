@@ -107,7 +107,7 @@ const EditWaterOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
     formik.resetForm();
   };
 
-  const deliveryMan = deliveryMan
+  const deliveryMan = deliveryGuy
     ? deliveryGuy[formik.values.callcenterId ? formik.values.callcenterId : ""]
     : [];
   const deliveryman = deliveryMan?.map((item) => [

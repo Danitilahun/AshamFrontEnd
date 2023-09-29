@@ -107,8 +107,9 @@ const EditWifiOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
     formik.resetForm();
   };
 
-  const deliveryMan = deliveryMan ?
-    deliveryGuy[formik.values.callcenterId ? formik.values.callcenterId : ""] : [];
+  const deliveryMan = deliveryGuy
+    ? deliveryGuy[formik.values.callcenterId ? formik.values.callcenterId : ""]
+    : [];
   const deliveryman = deliveryMan?.map((item) => [
     item.deliveryGuyName,
     item.deliveryManId,
