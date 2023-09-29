@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Grid, Tab, Tabs } from "@mui/material";
+import { Box, Grid, Tab, Tabs, Typography } from "@mui/material";
 import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
@@ -49,7 +49,7 @@ const AsbezaTable = () => {
   const { openSnackbar } = useSnackbar();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedView, setSelectedView] = useState("callcenter");
-
+  const [isSearching, setIsSearching] = useState(false);
   // Function to handle view selection (Call Center or Branch)
   const handleViewChange = (view) => {
     setSelectedView(view);
@@ -158,6 +158,7 @@ const AsbezaTable = () => {
   }, [data]);
 
   const handleSearch = async (searchText) => {
+    setIsSearching(true);
     if (searchText.trim() === "") {
       setSearchedData([]);
       loadInitialData();
