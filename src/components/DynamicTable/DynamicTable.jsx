@@ -53,17 +53,16 @@ const getColor = (statusNumber) => {
 const getStatusStyle = (status) => {
   let style = {
     borderRadius: "4px",
+    width: "fit-content",
     margin: "4px",
     color: "black",
-    padding: "4px",
+    padding: "5px",
     cursor: "pointer", // Add cursor pointer for all cases
   };
 
   switch (status) {
     case "new order":
-      style={...style,
-        background: "red"
-      }
+      style = { ...style, background: "red" };
       break;
     case "Assigned":
       style.backgroundColor = "yellow";
@@ -96,7 +95,7 @@ const DynamicTable = ({
   const userClaims = useUserClaims(user);
   const [prevScrollPosition, setPrevScrollPosition] = useState(0); // Store the previous scroll position
   const { openSnackbar } = useSnackbar();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
 
   const handleScroll = () => {
     const tableContainer = tableContainerRef.current;
@@ -338,10 +337,12 @@ const DynamicTable = ({
         <div
           className="table-container"
           ref={tableContainerRef}
-          style={{ 
+          style={{
             maxHeight: `${containerHeight}px`,
-            border: `1px solid ${theme.palette.mode === "dark" ? "#323E8B": "#C5C7D7"}`, /* New */
-            borderRadius: ".1rem" 
+            border: `1px solid ${
+              theme.palette.mode === "dark" ? "#323E8B" : "#C5C7D7"
+            }` /* New */,
+            borderRadius: ".1rem",
           }}
         >
           <table className="custom-table">
@@ -360,22 +361,36 @@ const DynamicTable = ({
             <thead>
               <tr>
                 {columns.map((column) => (
-                  <th style={{ // New 
-                    color: theme.palette.secondary[50], // New
-                    backgroundColor: theme.palette.background.alt, // New
-                    borderBottom: `1px solid ${theme.palette.mode === "dark" ? "#323E8B": "#E4E6F2"}`,/* New */
-                  }} key={column.key}>{column.title}</th>
+                  <th
+                    style={{
+                      // New
+                      color: theme.palette.secondary[50], // New
+                      backgroundColor: theme.palette.background.alt, // New
+                      borderBottom: `1px solid ${
+                        theme.palette.mode === "dark" ? "#323E8B" : "#E4E6F2"
+                      }` /* New */,
+                    }}
+                    key={column.key}
+                  >
+                    {column.title}
+                  </th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {data?.map((row, rowIndex) => (
-                <tr style={{ // New
-                  background: theme.palette.mode === "dark" ? "#333964" : "white", // New
-                  borderBottom: `1px solid ${theme.palette.mode === "dark" ? "#323E8B": "#E4E6F2"}`,/* New */
-                }} 
-                className="datarow"
-                key={rowIndex}>
+                <tr
+                  style={{
+                    // New
+                    background:
+                      theme.palette.mode === "dark" ? "#333964" : "white", // New
+                    borderBottom: `1px solid ${
+                      theme.palette.mode === "dark" ? "#323E8B" : "#E4E6F2"
+                    }` /* New */,
+                  }}
+                  className="datarow"
+                  key={rowIndex}
+                >
                   {columns.map((column) => (
                     <td
                       key={column.key}
@@ -761,7 +776,6 @@ const DynamicTable = ({
           </DialogContent>
         </Dialog>
       </div>
-      
     </>
   );
 };

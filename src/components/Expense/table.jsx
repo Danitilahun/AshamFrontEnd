@@ -11,6 +11,7 @@ import DynamicTable from "../DynamicTable/DynamicTable";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import deleteExpense from "../../api/expense/delete";
 import useUserClaims from "../../hooks/useUserClaims";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 
 const columns = [
   { key: "name", title: "Name" },
@@ -37,7 +38,7 @@ const ExpenseTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -150,7 +151,6 @@ const ExpenseTable = () => {
 
   return (
     <Box m="1rem 0">
-      
       <DynamicTable
         data={data}
         columns={userClaim.finance ? columns : NonFinancecolumns}

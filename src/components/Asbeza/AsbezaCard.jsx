@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Card,
   CardContent,
@@ -42,6 +42,7 @@ import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import AsbezaCardHeader from "./AsbezaCardHeader";
 import AsbezaCardContent from "./AsbezaCardContent";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 
 const AsbezaCard = ({ asbezaData, userType }) => {
   const { user } = useAuth();
@@ -50,7 +51,7 @@ const AsbezaCard = ({ asbezaData, userType }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const { openSnackbar } = useSnackbar();
   const theme = useTheme();
   const param = useParams();
@@ -275,7 +276,6 @@ const AsbezaCard = ({ asbezaData, userType }) => {
   };
   return (
     <>
-      
       <Card
         sx={{
           backgroundColor: theme.palette.background.alt,

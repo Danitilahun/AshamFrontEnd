@@ -38,7 +38,7 @@ const AsbezaOrderBranchForm = () => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
   const userData = getRequiredUserData();
   const userClaims = useUserClaims(user);
@@ -125,8 +125,9 @@ const AsbezaOrderBranchForm = () => {
     formik.setFieldValue("order", newOrder);
   };
 
-  const deliveryMan =
-    deliveryGuy[formik.values.branchId ? formik.values.branchId : ""];
+  const deliveryMan = deliveryGuy
+    ? deliveryGuy[formik.values.branchId ? formik.values.branchId : ""]
+    : {};
   const deliveryman = deliveryMan?.map((item) => [
     item.deliveryGuyName,
     item.deliveryManId,
@@ -144,7 +145,6 @@ const AsbezaOrderBranchForm = () => {
 
   return (
     <div>
-      
       {userClaims.admin ? (
         <Button variant="contained" color="primary" onClick={handleButtonClick}>
           Create new Asbeza Order

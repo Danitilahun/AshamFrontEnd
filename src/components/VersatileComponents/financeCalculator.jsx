@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import updateCalculator from "../../api/calculator/updateCalculator";
 import getRequiredUserData from "../../utils/getBranchInfo";
 import useUserClaims from "../../hooks/useUserClaims";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 
 const initialValues = {
   200: 0,
@@ -35,7 +36,7 @@ const Calculator = () => {
   const { user } = useAuth();
   const userClaims = useUserClaims(user);
   const { openSnackbar } = useSnackbar();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const [calculator, setCalculator] = useState({
     sum: 0,
     actual: 0,
@@ -95,7 +96,6 @@ const Calculator = () => {
 
   return (
     <>
-      
       <Paper
         elevation={5}
         style={{

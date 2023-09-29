@@ -14,13 +14,15 @@ import editPrices from "../../api/services/prices/setPrices";
 import fetchData from "../../api/services/Users/getUser";
 import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import useUserClaims from "../../hooks/useUserClaims";
+import { useContext } from "react";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 
 const CompanyGainGrid = () => {
   const theme = useTheme();
   const { user } = useAuth();
   const [companyData, setCompanyData] = useState({});
   const { openSnackbar } = useSnackbar();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
   useEffect(() => {
     const unsubscribe = fetchData("companyGain", setCompanyData);
@@ -96,7 +98,6 @@ const CompanyGainGrid = () => {
 
   return (
     <>
-      
       <Paper
         elevation={5}
         style={{

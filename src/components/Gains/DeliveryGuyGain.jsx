@@ -14,12 +14,14 @@ import fetchData from "../../api/services/Users/getUser";
 import editPrices from "../../api/services/prices/setPrices";
 import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import useUserClaims from "../../hooks/useUserClaims";
+import { useContext } from "react";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 const DeliveryGainGrid = () => {
   const theme = useTheme();
   const { user } = useAuth();
   const [data, setData] = useState([]);
   const { openSnackbar } = useSnackbar();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
 
   useEffect(() => {
@@ -101,7 +103,6 @@ const DeliveryGainGrid = () => {
 
   return (
     <>
-      
       <Paper
         elevation={5}
         style={{

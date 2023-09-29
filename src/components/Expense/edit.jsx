@@ -17,11 +17,12 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "../../contexts/InfoContext";
 import CustomTextField from "../Credit/component/CustomTextField";
 import useUserClaims from "../../hooks/useUserClaims";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 const ExpenseEditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
 
   const formik = useFormik({
@@ -53,7 +54,6 @@ const ExpenseEditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
 
   return (
     <div>
-      
       {userClaims.finance ? (
         <div>
           <Dialog

@@ -17,13 +17,14 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "../../contexts/InfoContext";
 import CustomTextField from "../Credit/component/CustomTextField";
 import useUserClaims from "../../hooks/useUserClaims";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 const ExpenseForm = ({ type }) => {
   const params = useParams();
   const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
 
   const handleButtonClick = () => {
@@ -60,7 +61,6 @@ const ExpenseForm = ({ type }) => {
 
   return (
     <div>
-      
       {userClaims.finance ? (
         <div>
           <Button

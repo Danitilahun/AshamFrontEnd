@@ -20,6 +20,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "../../contexts/InfoContext";
 import CustomTextField from "../Credit/component/CustomTextField";
 import useUserClaims from "../../hooks/useUserClaims";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 
 const EssentialForm = ({ type }) => {
   const params = useParams();
@@ -27,8 +28,9 @@ const EssentialForm = ({ type }) => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // const [isSubmitting, setIsSubmitting] = useState(false);
   const userClaims = useUserClaims(user);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
 
   const handleButtonClick = () => {
     setShowForm(true);
@@ -69,7 +71,6 @@ const EssentialForm = ({ type }) => {
 
   return (
     <div style={{ zIndex: 6000 }}>
-      
       {userClaims.superAdmin ? (
         <div>
           <Button
