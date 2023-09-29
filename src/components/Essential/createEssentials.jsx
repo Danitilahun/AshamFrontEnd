@@ -50,7 +50,7 @@ const EssentialForm = ({ type }) => {
         values.branchId = params.id;
         console.log("values", values);
         const res = await createEssential(user, values);
-        openSnackbar(`${res.data.message} successfully created!`, "success");
+        openSnackbar(`${res.data.message}`, "success");
         handleCloseForm();
       } catch (error) {
         openSnackbar(
