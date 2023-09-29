@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Grid,
   Button,
@@ -69,7 +69,7 @@ const EssentialForm = ({ type }) => {
 
   return (
     <div style={{ zIndex: 6000 }}>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       {userClaims.superAdmin ? (
         <div>
           <Button
@@ -80,9 +80,7 @@ const EssentialForm = ({ type }) => {
             Create New Essential
           </Button>
 
-          {isSubmitting ? (
-            <LoadingSpinner isSubmitting={isSubmitting} />
-          ) : (
+          {!isSubmitting && (
             <Dialog
               open={showForm}
               onClose={handleCloseForm}

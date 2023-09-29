@@ -20,7 +20,7 @@ const CompanyGainGrid = () => {
   const { user } = useAuth();
   const [companyData, setCompanyData] = useState({});
   const { openSnackbar } = useSnackbar();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
   useEffect(() => {
     const unsubscribe = fetchData("companyGain", setCompanyData);
@@ -96,7 +96,7 @@ const CompanyGainGrid = () => {
 
   return (
     <>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Paper
         elevation={5}
         style={{

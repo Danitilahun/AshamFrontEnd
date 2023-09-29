@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Grid,
   Button,
@@ -18,7 +18,7 @@ import { useSnackbar } from "../../../contexts/InfoContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import getInternationalDate from "../../../utils/getDate";
 import createCredit from "../../../api/credit/create";
-import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
+import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import { CustomerCreditFormValidationSchema } from "../validator/customerCreditValidator";
 import updateCredit from "../../../api/credit/update";
 import { DailyCreditFormValidationSchema } from "../validator/dailyCreditFormValidationSchema";
@@ -29,7 +29,7 @@ const EditDailyCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const [selectedDeliveryGuy, setSelectedDeliveryGuy] = useState("");
   const userClaims = useUserClaims(user);
 
@@ -89,7 +89,7 @@ const EditDailyCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
 
   return (
     <div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       {userClaims.admin ? (
         <div>
           <Dialog

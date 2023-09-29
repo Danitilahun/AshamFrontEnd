@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import { useCallback } from "react";
 import { useParams } from "react-router-dom";
@@ -7,10 +7,10 @@ import deleteEssential from "../../api/essential/delete";
 import fetchFirestoreDataWithFilter from "../../api/credit/get";
 import { useAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "../../contexts/InfoContext";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import DynamicTable from "../DynamicTable/DynamicTable";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import useUserClaims from "../../hooks/useUserClaims";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 
 const columns = [
   { key: "name", title: "Name" },
@@ -44,7 +44,7 @@ const EssentialTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -158,7 +158,7 @@ const EssentialTable = () => {
   console.log(data, "data");
   return (
     <Box m="1rem 0">
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <DynamicTable
         data={data}
         columns={userClaims.superAdmin ? columns : NonSupercolumns}

@@ -2,25 +2,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 95%;
-  border-radius: 25px;
-  background-color: #f0f0f0;
-  padding: 10px;
-  margin: 10 10;
+  width: 100%;
+  border-radius: 1px;
+  /* background-color: #f0f0f0; New */
+  /* padding: 10px;  New */
+  /* margin: 10 10; New*/
 }
 
 .search-input {
   border: none;
   outline: none;
-  border-radius: 25px;
-  padding: 8px 12px;
+  border-radius: 1px;
+  padding: 1rem 0 1rem 1.5rem;
   font-size: 16px;
   flex: 1;
+
+  background: transparent; /* New */
 }
 
 .cancel-button {
   cursor: pointer;
   margin-left: 10px;
   font-size: 20px;
-  color: #6c757d;
+
+  color: #6d8090; /* New */
+  font-size: 1.7rem; /* New */
+  font-weight: 400; /* New */
 }

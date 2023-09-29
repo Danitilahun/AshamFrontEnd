@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
   Button,
@@ -17,9 +17,9 @@ import * as Yup from "yup"; // Import Yup for validation
 import create from "../../../api/orders/create";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { useAuth } from "../../../contexts/AuthContext";
+import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import fetchData from "../../../api/services/Users/getUser";
 import getInternationalDate from "../../../utils/getDate";
-import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
 import update from "../../../api/orders/edit";
 import getRequiredUserData from "../../../utils/getBranchInfo";
@@ -42,7 +42,7 @@ const EditCardOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
   const userData = getRequiredUserData();
   const userClaims = useUserClaims(user);
@@ -133,8 +133,6 @@ const EditCardOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
 
   return (
     <div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
-
       <Dialog
         open={isEditDialogOpen}
         onClose={handleCloseForm}

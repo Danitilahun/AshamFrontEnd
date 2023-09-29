@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Button,
   Dialog,
@@ -15,7 +15,7 @@ import * as Yup from "yup";
 import updateUser from "../../../api/users/edit";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
-import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
+import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import CustomTextField from "../../Credit/component/CustomTextField";
 
 // Validation schema using Yup
@@ -51,7 +51,7 @@ const CallcenterEditForm = ({
   const { user, forgotPassword } = useAuth();
   const theme = useTheme();
   const { openSnackbar } = useSnackbar();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
 
   // Handle form submission
   const handleSubmit = async (values) => {
@@ -100,7 +100,7 @@ const CallcenterEditForm = ({
 
   return (
     <div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Dialog
         open={isEditDialogOpen}
         onClose={handleCloseForm}

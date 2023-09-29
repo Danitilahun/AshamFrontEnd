@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Card, useTheme } from "@mui/material";
 
 import { useAuth } from "../../contexts/AuthContext";
@@ -9,11 +9,11 @@ import { useBranch } from "../../contexts/BranchContext";
 import { useDispatch } from "react-redux";
 import { setSelectedItem } from "../../store/itemDetailsSlice";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import BranchCardHeader from "./BranchCardHeader";
 import BranchCardContent from "./BranchCardContent";
 import EditBranchForm from "./editBranchForm/editBranchForm";
 import deleteBranch from "../../api/branch/deleteBranch";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 
 const updateFields = (targetObject, sourceObject) => {
   // Loop through the keys in the source object
@@ -38,7 +38,7 @@ const BranchCard = ({ branchData }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [operation, setOperation] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
   const theme = useTheme();
@@ -152,7 +152,6 @@ const BranchCard = ({ branchData }) => {
 
   return (
     <>
-      <LoadingSpinner isSubmitting={isSubmitting} />
       <Card
         sx={{
           backgroundColor: theme.palette.background.alt,

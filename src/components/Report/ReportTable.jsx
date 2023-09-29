@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import {
   Box,
@@ -26,7 +26,7 @@ const ReportTable = ({ type }) => {
   const { user } = useAuth();
   // console.log("danasdfskdagn", param.id);
   const { openSnackbar } = useSnackbar();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
 
   useEffect(() => {
     const unsubscribe = getData(type, "beanchId", param.id, setAdmins);

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Grid, Paper, TextField, Typography, useTheme } from "@mui/material";
 import getData from "../../api/services/DeliveryGuy/getDeliveryGuy";
 import { useAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "../../contexts/InfoContext";
-import LoadingSpinner from "./LoadingSpinner";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 import { useLocation } from "react-router-dom";
 import updateCalculator from "../../api/calculator/updateCalculator";
 import getRequiredUserData from "../../utils/getBranchInfo";
@@ -34,7 +34,7 @@ const Calculator = () => {
   const [data, setData] = useState({});
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const [userClaims, setUserClaims] = useState({});
   const userData = getRequiredUserData();
   useEffect(() => {
@@ -123,7 +123,7 @@ const Calculator = () => {
 
   return (
     <>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       {active && (
         <Paper
           elevation={5}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import { useCallback } from "react";
 import { useParams } from "react-router-dom";
@@ -11,6 +11,7 @@ import CardFeeReportForm from "../createReportForm/cardFee";
 import getRequiredUserData from "../../../utils/getBranchInfo";
 import fetchFirestoreDataWithFilter from "../../../api/utils/filterBasedOnTwoCriterial";
 import Search from "../../../api/utils/searchMore";
+import { SpinnerContext } from "../../../contexts/SpinnerContext";
 
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
@@ -28,7 +29,7 @@ const CardFeeTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -13,14 +13,14 @@ import createBranch from "../../api/services/Branch/create.branch";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import { useSnackbar } from "../../contexts/InfoContext";
 import { useTheme } from "@emotion/react";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 
 const BranchForm = ({ type }) => {
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
   const theme = useTheme();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
 
   const [userClaims, setUserClaims] = useState({});
   // ... (other states)
@@ -102,7 +102,6 @@ const BranchForm = ({ type }) => {
     <div>
       {userClaims.superAdmin ? (
         <div>
-          <LoadingSpinner isSubmitting={isSubmitting} />
           <Button variant="contained" color="primary" onClick={handleOpen}>
             Create new {type}
           </Button>

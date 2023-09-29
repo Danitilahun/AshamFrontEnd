@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import {
   Box,
@@ -32,7 +32,7 @@ import updateStatus from "../../api/services/Status/update.status";
 import deleteStatus from "../../api/services/Status/delete.status";
 import getDocumentById from "../../api/utils/getDocumentById";
 import WarningIcon from "@mui/icons-material/Warning";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 const CreditTable = ({ type, bank = "null" }) => {
   const [admins, setAdmins] = useState([]);
   const param = useParams();
@@ -42,7 +42,7 @@ const CreditTable = ({ type, bank = "null" }) => {
   const [showForm, setShowForm] = useState(false);
   const { activeness, deliveryGuy } = useBranch();
   const [openDialog, setOpenDialog] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
 
   const handleDeleteIconClick = (row) => {
     setSelectedCredit(row);
@@ -358,7 +358,7 @@ const CreditTable = ({ type, bank = "null" }) => {
   const renderData = searchResults.length > 0 ? searchResults : admins;
   return (
     <>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       {type !== "Status" && type !== "Bank" ? (
         <div
           style={{

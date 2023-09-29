@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import "./DynamicTable.css";
 import {
   Grid,
@@ -32,6 +32,7 @@ import Assigned from "../../api/orders/assigned";
 import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import AsbezaProfit from "../../api/orders/asbezaProfit";
 import returnedCard from "../../api/report/cardReturnHandle";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 
 const getColor = (statusNumber) => {
   let style = {
@@ -60,7 +61,9 @@ const getStatusStyle = (status) => {
 
   switch (status) {
     case "new order":
-      style.backgroundColor = "red";
+      style={...style,
+        background: "red"
+      }
       break;
     case "Assigned":
       style.backgroundColor = "yellow";
@@ -83,7 +86,7 @@ const DynamicTable = ({
   onDelete,
   onNew,
   orderType = "asbeza",
-  containerHeight = 400,
+  containerHeight = 500,
   from = "other",
 }) => {
   const tableContainerRef = useRef(null);
@@ -93,7 +96,7 @@ const DynamicTable = ({
   const userClaims = useUserClaims(user);
   const [prevScrollPosition, setPrevScrollPosition] = useState(0); // Store the previous scroll position
   const { openSnackbar } = useSnackbar();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
 
   const handleScroll = () => {
     const tableContainer = tableContainerRef.current;
@@ -335,7 +338,11 @@ const DynamicTable = ({
         <div
           className="table-container"
           ref={tableContainerRef}
-          style={{ maxHeight: `${containerHeight}px` }}
+          style={{ 
+            maxHeight: `${containerHeight}px`,
+            border: `1px solid ${theme.palette.mode === "dark" ? "#323E8B": "#C5C7D7"}`, /* New */
+            borderRadius: ".1rem" 
+          }}
         >
           <table className="custom-table">
             <colgroup>
@@ -353,18 +360,30 @@ const DynamicTable = ({
             <thead>
               <tr>
                 {columns.map((column) => (
-                  <th key={column.key}>{column.title}</th>
+                  <th style={{ // New 
+                    color: theme.palette.secondary[50], // New
+                    backgroundColor: theme.palette.background.alt, // New
+                    borderBottom: `1px solid ${theme.palette.mode === "dark" ? "#323E8B": "#E4E6F2"}`,/* New */
+                  }} key={column.key}>{column.title}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {data?.map((row, rowIndex) => (
-                <tr key={rowIndex}>
+                <tr style={{ // New
+                  background: theme.palette.mode === "dark" ? "#333964" : "white", // New
+                  borderBottom: `1px solid ${theme.palette.mode === "dark" ? "#323E8B": "#E4E6F2"}`,/* New */
+                }} 
+                className="datarow"
+                key={rowIndex}>
                   {columns.map((column) => (
                     <td
                       key={column.key}
                       className="ellipsis-cell"
                       title={row[column.key]}
+                      style={{
+                        color: theme.palette.secondary[50],
+                      }}
                     >
                       {column.key === "edit" ? (
                         <IconButton
@@ -742,7 +761,7 @@ const DynamicTable = ({
           </DialogContent>
         </Dialog>
       </div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
     </>
   );
 };

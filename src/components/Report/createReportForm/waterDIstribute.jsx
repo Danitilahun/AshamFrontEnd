@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
   Button,
@@ -19,7 +19,7 @@ import CustomTextField from "../component/CustomTextField";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import getInternationalDate from "../../../utils/getDate";
-import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
+import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import getCurrentTime from "../../../utils/getCurrentTime";
 import createReport from "../../../api/report/createReport";
 import { ReportFormValidationSchema } from "../validator/ReportFormValidationSchema";
@@ -30,7 +30,7 @@ const WaterDistributeReportForm = () => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
   const [selectedDeliveryGuy, setSelectedDeliveryGuy] = useState("");
 
@@ -183,7 +183,7 @@ const WaterDistributeReportForm = () => {
 
   return (
     <div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       {userClaims.admin ? (
         <div>
           <Button

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Grid, Paper, TextField, Typography, useTheme } from "@mui/material";
 import getData from "../../api/services/DeliveryGuy/getDeliveryGuy";
 import { useAuth } from "../../contexts/AuthContext";
@@ -35,7 +35,7 @@ const Calculator = () => {
   const { user } = useAuth();
   const userClaims = useUserClaims(user);
   const { openSnackbar } = useSnackbar();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const [calculator, setCalculator] = useState({
     sum: 0,
     actual: 0,
@@ -95,7 +95,7 @@ const Calculator = () => {
 
   return (
     <>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Paper
         elevation={5}
         style={{

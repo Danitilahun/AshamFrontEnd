@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -19,7 +19,7 @@ import handleImagePreview from "../../../utils/imagePreview";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import CustomTextField from "../../Credit/component/CustomTextField";
 import createUser from "../../../api/users/create";
-import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
+import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { useParams } from "react-router-dom";
 import getRequiredUserData from "../../../utils/getBranchInfo";
@@ -68,7 +68,7 @@ const StaffRegisterForm = () => {
   const theme = useTheme();
   const params = useParams();
   const { openSnackbar } = useSnackbar();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const branchData = getRequiredUserData();
   const userClaims = useUserClaims(user);
   const handleFormSubmit = async (values) => {
@@ -139,7 +139,7 @@ const StaffRegisterForm = () => {
       <Button variant="contained" color="primary" onClick={handleOpen}>
         Create new Call Center
       </Button>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Dialog open={showForm} onClose={handleCloseForm} maxWidth="sm" fullWidth>
         <DialogTitle sx={{ backgroundColor: theme.palette.background.alt }}>
           New Call Center

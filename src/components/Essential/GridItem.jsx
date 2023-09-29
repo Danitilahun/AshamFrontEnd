@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Typography from "@mui/material/Typography";
@@ -21,8 +21,8 @@ import WarningIcon from "@mui/icons-material/Warning";
 import deleteCredit from "../../api/services/Credit/delete.credit";
 import updateCredit from "../../api/services/Credit/update.credit";
 import EditEssentialsDialog from "./EditEssentialsDialog";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 const updateFields = (targetObject, sourceObject) => {
   // Loop through the keys in the source object
   for (const key in sourceObject) {
@@ -37,7 +37,7 @@ const updateFields = (targetObject, sourceObject) => {
 const GridItem = ({ item }) => {
   const theme = useTheme();
   const { openSnackbar } = useSnackbar();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const { user } = useAuth();
   const [showForm, setShowForm] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
@@ -111,7 +111,7 @@ const GridItem = ({ item }) => {
 
   return (
     <>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Paper
         elevation={3}
         className="grid-labels"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, CircularProgress } from "@mui/material";
 import { useAuth } from "../../contexts/AuthContext";
 import getEndpointFromType from "../../utils/getEndpoint";
@@ -10,7 +10,7 @@ import createUser from "../../api/services/Users/createUser";
 import { useSnackbar } from "../../contexts/InfoContext";
 import { useParams } from "react-router-dom";
 import getNumberOfDocumentsInCollection from "../../api/utils/getNumberOfDocument";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 
 const FormPopup = ({ type }) => {
   const [imagePreview, setImagePreview] = useState(null);
@@ -19,7 +19,7 @@ const FormPopup = ({ type }) => {
   const [branches, setBranches] = useState([]);
   const { openSnackbar } = useSnackbar();
   const params = useParams();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   let currentTable;
   let active;
   let numberofworker;
@@ -121,7 +121,7 @@ const FormPopup = ({ type }) => {
 
   return (
     <div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Button variant="contained" color="primary" onClick={handleOpen}>
         Create new {type}
       </Button>

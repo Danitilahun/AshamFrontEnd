@@ -50,7 +50,7 @@ const AsbezaCard = ({ asbezaData, userType }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const { openSnackbar } = useSnackbar();
   const theme = useTheme();
   const param = useParams();
@@ -275,7 +275,7 @@ const AsbezaCard = ({ asbezaData, userType }) => {
   };
   return (
     <>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Card
         sx={{
           backgroundColor: theme.palette.background.alt,

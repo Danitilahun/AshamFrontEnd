@@ -19,7 +19,7 @@ const DeliveryGainGrid = () => {
   const { user } = useAuth();
   const [data, setData] = useState([]);
   const { openSnackbar } = useSnackbar();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
 
   useEffect(() => {
@@ -101,7 +101,7 @@ const DeliveryGainGrid = () => {
 
   return (
     <>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Paper
         elevation={5}
         style={{

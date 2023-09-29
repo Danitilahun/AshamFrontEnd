@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
   Button,
@@ -18,7 +18,7 @@ import { useSnackbar } from "../../../contexts/InfoContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import getInternationalDate from "../../../utils/getDate";
 import createCredit from "../../../api/credit/create";
-import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
+import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import { DailyCreditFormValidationSchema } from "../validator/dailyCreditFormValidationSchema";
 import { StaffCreditFormValidationSchema } from "../validator/staffCreditFormValidationSchema";
 import getRequiredUserData from "../../../utils/getBranchInfo";
@@ -29,7 +29,7 @@ const StaffCreditForm = ({ type }) => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
   const userData = getRequiredUserData();
   const [selectedDeliveryGuy, setSelectedDeliveryGuy] = useState("");
@@ -125,7 +125,7 @@ const StaffCreditForm = ({ type }) => {
 
   return (
     <div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       {userClaims.admin ? (
         <div>
           {userClaims.admin ? (

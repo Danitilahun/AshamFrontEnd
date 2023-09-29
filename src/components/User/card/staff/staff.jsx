@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useContext } from "react";
 import {
   Card,
   CardActions,
@@ -12,8 +13,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState } from "react";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { useSnackbar } from "../../../../contexts/InfoContext";
+import { SpinnerContext } from "../../../../contexts/SpinnerContext";
 import deleteUser from "../../../../api/users/delete";
-import LoadingSpinner from "../../../VersatileComponents/LoadingSpinner";
 import UserHeader from "./header";
 import CustomEllipsisTextField from "../../../CustomComponents/CustomEllipsisTextField";
 import EmergencyInformation from "../../common/EmergencyInformation";
@@ -40,7 +41,7 @@ const UserCard = ({ userInfo }) => {
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const { openSnackbar } = useSnackbar();
   const [openDialog, setOpenDialog] = useState(false);
   const branchData = getRequiredUserData();
@@ -113,7 +114,7 @@ const UserCard = ({ userInfo }) => {
 
   return (
     <>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Card
         sx={{
           backgroundColor: theme.palette.background.alt,

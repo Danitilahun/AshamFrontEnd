@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
   TextField,
@@ -16,10 +16,10 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useLocation, useParams } from "react-router-dom";
 import createOrder from "../../api/services/Order/create.order";
 import setActiveness from "../../api/services/DeliveryGuy/setActiveness";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import FormTextField from "../VersatileComponents/FormTextField";
 import { firestore } from "../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
+import { SpinnerContext } from "../../../contexts/SpinnerContext";
 const CardOrderForm = () => {
   const [showForm, setShowForm] = useState(false);
   const [branches, setBranches] = useState([]);
@@ -31,7 +31,7 @@ const CardOrderForm = () => {
   const param = useParams();
   const { pathname } = useLocation();
   console.log("param", param);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const [deliveryman, setDeliveryman] = useState([]);
   let branchName = "";
   let activeTable = "";
@@ -179,7 +179,6 @@ const CardOrderForm = () => {
 
   return (
     <div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
       <Button variant="contained" color="primary" onClick={handleOpen}>
         Create new Card Order
       </Button>

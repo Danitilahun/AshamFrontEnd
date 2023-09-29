@@ -3,7 +3,7 @@
 .DynamicTable {
   text-align: center;
   font-family: Arial, sans-serif;
-  padding: 20px;
+  /* padding: 20px; New */
   margin-top: 20px;
   /* width: 90%; */
 }
@@ -17,7 +17,6 @@
 .table-header {
   position: sticky;
   top: 0;
-  /* background-color: #f0f0f0; */
   z-index: 1;
 }
 
@@ -28,17 +27,43 @@
 
 .custom-table th,
 .custom-table td {
-  border: 2px solid #ddd;
-  padding: 8px;
+  /*border: 2px solid #ddd;*/
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
   max-width: 150px; /* Align header cells with data cells */
+
+  text-align: left; /* New */
+  font-weight: 400; /* New */
 }
 
+/* New */
+.custom-table th:first-child,
+.custom-table td:first-child {
+  padding-left: 33px;
+}
+.custom-table th:last-child,
+.custom-table td:last-child {
+  padding-right: 33px;
+}
+.custom-table tr {
+  height: 72px;
+}
 .ellipsis-cell {
   max-width: 150px;
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera  New */
+.table-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox  New */
+.table-container {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 
 /* Responsive styles for smaller screens */
 @media (max-width: 600px) {

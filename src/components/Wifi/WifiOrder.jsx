@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
   TextField,
@@ -35,7 +35,7 @@ const WifiOrderForm = () => {
   const { user } = useAuth();
   const param = useParams();
   const { pathname } = useLocation();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   console.log("param", param);
   const [deliveryman, setDeliveryman] = useState([]);
   let branchName = "";
@@ -172,7 +172,7 @@ const WifiOrderForm = () => {
 
   return (
     <div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Button variant="contained" color="primary" onClick={handleOpen}>
         Create new Wifi Order
       </Button>

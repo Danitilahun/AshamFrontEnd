@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Button,
   Dialog,
@@ -11,17 +11,18 @@ import { useFormik } from "formik";
 import { useTheme } from "@emotion/react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
-import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
+import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import { BranchFormValidationSchema } from "../validator/BranchFormValidationSchema";
 import CustomTextField from "../createBranchForm/CustomTextField";
 import updateBranch from "../../../api/branch/editBranch";
 import useUserClaims from "../../../hooks/useUserClaims";
 
+
 const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
   const theme = useTheme();
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const userClaims = useUserClaims(user);
   // Handle form submission
   const handleSubmit = async (values) => {
@@ -91,7 +92,7 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
 
   return (
     <div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Dialog
         open={isEditDialogOpen}
         onClose={handleCloseForm}

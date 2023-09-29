@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   CardHeader,
   IconButton,
@@ -14,10 +14,10 @@ import getHumanReadableDate from "../../utils/humanReadableDate";
 import useUserClaims from "../../hooks/useUserClaims";
 import { useAuth } from "../../contexts/AuthContext";
 import FlexBetween from "../VersatileComponents/FlexBetween";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import { useSnackbar } from "../../contexts/InfoContext";
 import { useState } from "react";
 import ChangeSheetStatus from "../../api/branch/changeSheetStatus";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 
 const BranchCardHeader = ({
   anchorEl,
@@ -35,7 +35,7 @@ const BranchCardHeader = ({
   const { user } = useAuth();
   const userClaims = useUserClaims(user);
   const { openSnackbar } = useSnackbar();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
 
   const handleSheetStatusChange = async () => {
     if (!branchData.activeSheet) {
@@ -59,7 +59,6 @@ const BranchCardHeader = ({
   };
   return (
     <>
-      <LoadingSpinner isSubmitting={isSubmitting} />
       <CardHeader
         action={
           <div style={{ display: "flex", justifyContent: "flex-end" }}>

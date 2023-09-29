@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
   TextField,
@@ -29,7 +29,7 @@ const WaterOrderForm = () => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const param = useParams();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   console.log("param", param);
   const { pathname } = useLocation();
   const [deliveryman, setDeliveryman] = useState([]);
@@ -172,7 +172,7 @@ const WaterOrderForm = () => {
 
   return (
     <div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Button variant="contained" color="primary" onClick={handleOpen}>
         Create new Water Order
       </Button>

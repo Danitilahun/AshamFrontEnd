@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useContext } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -16,11 +17,11 @@ import {
 } from "@mui/material";
 import { useSnackbar } from "../../contexts/InfoContext";
 import { useAuth } from "../../contexts/AuthContext";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 import getHumanReadableDate from "../../utils/humanReadableDate";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useBranch } from "../../contexts/BranchContext";
 import { useState } from "react";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import deleteSheet from "../../api/sheet/delete";
 import useUserClaims from "../../hooks/useUserClaims";
@@ -33,7 +34,7 @@ const SheetCard = ({ sheetInfo }) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const params = useParams();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const { changesheetName, changetableDate } = useBranch();
   const [openDialog, setOpenDialog] = React.useState(false);
   const userClaims = useUserClaims(user);
@@ -79,7 +80,7 @@ const SheetCard = ({ sheetInfo }) => {
 
   return (
     <>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Card
         sx={{
           backgroundColor: theme.palette.background.alt,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   CardHeader,
   Avatar,
@@ -16,9 +16,10 @@ import { useAuth } from "../../../../contexts/AuthContext";
 import { useSnackbar } from "../../../../contexts/InfoContext";
 import updateProfileImage from "../../../../api/users/profileImageChange";
 import enableDisable from "../../../../api/users/disable";
-import LoadingSpinner from "../../../VersatileComponents/LoadingSpinner";
 import ProfileImageDialog from "../../common/ProfileImageDialog";
 import FlexBetween from "../../../VersatileComponents/FlexBetween";
+import {SpinnerContext} from "../../../../contexts/SpinnerContext";
+
 
 const UserHeader = ({
   userInfo,
@@ -32,7 +33,7 @@ const UserHeader = ({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
 
   const handleImageSave = async (formData) => {
     setIsSubmitting(true);
@@ -75,7 +76,7 @@ const UserHeader = ({
   };
   return (
     <>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <ProfileImageDialog
         imageUrl={userInfo.profileImage}
         open={isDialogOpen}

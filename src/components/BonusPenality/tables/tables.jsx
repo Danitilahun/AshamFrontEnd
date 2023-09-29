@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, Grid } from "@mui/material";
 import { useCallback } from "react";
 import { useParams } from "react-router-dom";
@@ -7,7 +7,7 @@ import DynamicTable from "../../DynamicTable/DynamicTable";
 import deleteCredit from "../../../api/credit/delete";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
-import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
+import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import fetchFirestoreDataWithFilter from "../../../api/credit/get";
 import Search from "../../../api/utils/search";
@@ -39,7 +39,7 @@ const BonusPenalityTable = ({ type }) => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -204,7 +204,7 @@ const BonusPenalityTable = ({ type }) => {
       />
       {/* <Header title={type} subtitle={`Entire list of ${type}`} /> */}
       {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <DynamicTable
         data={tableData}
         columns={columns}

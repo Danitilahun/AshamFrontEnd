@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Button,
   Dialog,
@@ -11,18 +11,18 @@ import {
 } from "@mui/material";
 import { useSnackbar } from "../../contexts/InfoContext";
 import { useAuth } from "../../contexts/AuthContext";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import getRequiredUserData from "../../utils/getBranchInfo";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import HolidayBonus from "../../api/bonusPenality/holidayBonus";
 import useUserClaims from "../../hooks/useUserClaims";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 const BonusDialog = ({ worker, id = null }) => {
   const [open, setOpen] = useState(false);
   const [bonusText, setBonusText] = useState(0);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const [openDialog, setOpenDialog] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const branchData = getRequiredUserData();
   const theme = useTheme();
   const userClaims = useUserClaims(user);
@@ -91,7 +91,7 @@ const BonusDialog = ({ worker, id = null }) => {
 
   return (
     <div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       {userClaims.admin ? (
         <Button
           variant="contained"

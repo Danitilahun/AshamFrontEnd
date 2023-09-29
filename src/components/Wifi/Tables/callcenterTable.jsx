@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, Grid } from "@mui/material";
 import { useCallback } from "react";
 import { useParams } from "react-router-dom";
@@ -7,7 +7,7 @@ import { useSnackbar } from "../../../contexts/InfoContext";
 import fetchFirestoreDataWithFilter from "../../../api/credit/get";
 import Search from "../../../api/utils/search";
 import SearchInput from "../../VersatileComponents/SearchInput";
-import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
+import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import DynamicTable from "../../DynamicTable/DynamicTable";
 import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import EditWifiOrderForm from "../EditForm/callcenterForm";
@@ -40,7 +40,7 @@ const WifiTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -222,7 +222,7 @@ const WifiTable = () => {
         formComponent={WifiOrderForm}
       />
       {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       {userClaims.callCenter && (
         <Grid container spacing={2}>
           <Grid item xs={3}></Grid>

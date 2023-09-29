@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Grid,
   Button,
@@ -17,9 +17,9 @@ import { useSnackbar } from "../../contexts/InfoContext";
 import { useAuth } from "../../contexts/AuthContext";
 import useUserClaims from "../../hooks/useUserClaims";
 import getInternationalDate from "../../utils/getDate";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import createBank from "../../api/bank/create";
 import CustomTextField from "../Credit/component/CustomTextField";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 
 const BankForm = ({ source }) => {
   const params = useParams();
@@ -28,7 +28,7 @@ const BankForm = ({ source }) => {
   const { user } = useAuth();
   const userClaims = useUserClaims(user);
   const theme = useTheme();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const [transactionType, settransactionType] = useState([
     "Deposit",
     "Withdraw",
@@ -110,7 +110,7 @@ const BankForm = ({ source }) => {
   console.log(formik.values.transactionType);
   return (
     <div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       {userClaims.finance || userClaims.admin ? (
         <div>
           <Button

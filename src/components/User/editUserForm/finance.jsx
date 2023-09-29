@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -18,7 +18,7 @@ import updateUser from "../../../api/users/edit";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import fetchData from "../../../api/services/Users/getUser";
-import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
+import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import CustomTextField from "../../Credit/component/CustomTextField";
 
 // Validation schema using Yup
@@ -54,7 +54,7 @@ const FinanceEditForm = ({ finance, isEditDialogOpen, closeEditDialog }) => {
   const { user, forgotPassword } = useAuth();
   const theme = useTheme();
   const { openSnackbar } = useSnackbar();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
 
   // Handle form submission
   const handleSubmit = async (values) => {
@@ -104,7 +104,7 @@ const FinanceEditForm = ({ finance, isEditDialogOpen, closeEditDialog }) => {
 
   return (
     <div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Dialog
         open={isEditDialogOpen}
         onClose={handleCloseForm}

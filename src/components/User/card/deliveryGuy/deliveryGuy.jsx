@@ -1,4 +1,5 @@
-import * as React from "react";
+import * as React  from "react";
+import  { useContext }  from "react";
 import {
   Card,
   CardActions,
@@ -26,6 +27,7 @@ import handleDeliveryGuyActiveness from "../../../../api/users/handleDeliveryGuy
 import handlePay from "../../../../api/users/handleDeliveruGuyPay";
 import getRequiredUserData from "../../../../utils/getBranchInfo";
 import useUserClaims from "../../../../hooks/useUserClaims";
+import { SpinnerContext } from "../../../../contexts/SpinnerContext";
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -45,7 +47,7 @@ const UserCard = ({ userInfo }) => {
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const { selectedItemId, selectedItem } = useSelector(
     (state) => state.itemDetails
   );
@@ -155,7 +157,7 @@ const UserCard = ({ userInfo }) => {
 
   return (
     <>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Card
         sx={{
           backgroundColor: theme.palette.background.alt,

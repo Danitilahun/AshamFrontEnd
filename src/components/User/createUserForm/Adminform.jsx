@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -20,7 +20,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import CustomTextField from "../../Credit/component/CustomTextField";
 // import fetchData from "../../../api/services/Users/getUser";
 import createUser from "../../../api/users/create";
-import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
+import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import fetchData from "../../../api/utils/getBasedOnCondition";
 import useFilteredCollectionData from "../../../hooks/useFilteredCollectionData";
@@ -72,7 +72,7 @@ const AdminRegisterForm = () => {
   const theme = useTheme();
   const { openSnackbar } = useSnackbar();
   const userClaims = useUserClaims(user);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   // const [branches, setBranches] = useState([]);
   const { data: branches } = useFilteredCollectionData(
     "branches",
@@ -161,7 +161,7 @@ const AdminRegisterForm = () => {
       <Button variant="contained" color="primary" onClick={handleOpen}>
         Create new Admin
       </Button>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Dialog open={showForm} onClose={handleCloseForm} maxWidth="sm" fullWidth>
         <DialogTitle sx={{ backgroundColor: theme.palette.background.alt }}>
           New Admin

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Button,
   Dialog,
@@ -14,14 +14,16 @@ import useUserClaims from "../../../hooks/useUserClaims";
 import { BranchFormValidationSchema } from "../validator/BranchFormValidationSchema";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
-import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
 import createBranch from "../../../api/branch/createBranch";
+import { SpinnerContext } from "../../../contexts/SpinnerContext";
+
 
 const BranchForm = () => {
+
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const theme = useTheme();
   const userClaims = useUserClaims(user);
   const handleOpen = () => {
@@ -91,9 +93,9 @@ const BranchForm = () => {
 
   return (
     <div>
+      
       {userClaims.superAdmin ? (
         <div>
-          <LoadingSpinner isSubmitting={isSubmitting} />
           <Button variant="contained" color="primary" onClick={handleOpen}>
             Create new Branch
           </Button>

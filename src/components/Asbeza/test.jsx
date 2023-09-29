@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
   TextField,
@@ -29,7 +29,7 @@ const AsbezaOrderForm = () => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const param = useParams();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const { pathname } = useLocation();
   const [deliveryman, setDeliveryman] = useState([]);
   let branchName = "";
@@ -207,7 +207,7 @@ const AsbezaOrderForm = () => {
 
   return (
     <div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Button variant="contained" color="primary" onClick={handleOpen}>
         Create new Asbeza Order
       </Button>

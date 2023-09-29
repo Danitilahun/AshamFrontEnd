@@ -1,6 +1,6 @@
 import { Typography, Box, useTheme, Button } from "@mui/material";
 import WarningIcon from "@mui/icons-material/Warning";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FormPopup from "../User/FormPopup";
 // import BranchForm from "../Branch/BranchForm";
 import { useAuth } from "../../contexts/AuthContext";
@@ -11,7 +11,6 @@ import { useParams } from "react-router-dom";
 import ReminderComponent from "./Reminder";
 import CreditForm from "./versatileFrom";
 import BonusDialog from "../BonusPenality/Bonus";
-import LoadingSpinner from "./LoadingSpinner";
 import CustomerCreditForm from "../Credit/createCreditForm/customerCredit";
 import DailyCreditForm from "../Credit/createCreditForm/dailyCredit";
 import StaffCreditForm from "../Credit/createCreditForm/staffCredit";
@@ -47,6 +46,7 @@ import BankForm from "../Bank/createBankForm";
 import FinancialCreditForm from "../Credit/createCreditForm/financeCredit";
 import EssentialForm from "../Essential/createEssentials";
 import ExpenseForm from "../Expense/create";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 
 const Header = ({
   title,
@@ -70,7 +70,7 @@ const Header = ({
   let active = branchData.active;
   let activeSheet = branchData.activeSheet;
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const [userClaims, setUserClaims] = useState({});
   useEffect(() => {
     async function fetchUserClaims() {
@@ -207,8 +207,8 @@ const Header = ({
 
   return (
     <>
-      <LoadingSpinner isSubmitting={isSubmitting} />
-      <Box display="flex" alignItems="center">
+      
+      <Box display="flex" alignItems="center" padding="0">
         <Box flex="1">
           <Typography
             variant="h2"

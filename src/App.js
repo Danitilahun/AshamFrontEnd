@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useContext, useMemo } from "react";
 import AuthContextProvider from "./contexts/AuthContext";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
@@ -23,13 +23,24 @@ import mainFinanceRoutesData from "./routes/financeMainRoute";
 import FinanceMainLayout from "./layouts/financeMainLayout";
 import NotFoundPage from "./pages/InfoPage/NotFoundPage";
 import OfflinePage from "./pages/InfoPage/OfflinePage";
+import { SpinnerContext } from "./contexts/SpinnerContext";
+import SmallScreenMessage from "./components/VersatileComponents/SmallScreenMessage";
 
 const App = () => {
+  /* New */
+  const {isSubmitting} = useContext(SpinnerContext);
+  /* New */
+
   const { mode } = useCustomTheme();
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+  
 
   return (
     <div className="app-container">
+
+      {isSubmitting && <div id="pending"><span id="Loader"></span></div> }  {/* New */}
+      {<SmallScreenMessage/>}  {/* New */}
+
       <BrowserRouter>
         <AuthContextProvider>
           <ThemeProvider theme={theme}>

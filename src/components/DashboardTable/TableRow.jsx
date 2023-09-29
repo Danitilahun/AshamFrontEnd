@@ -5,15 +5,7 @@ import React from "react";
 const TableRow = ({ data, type }) => {
   const theme = useTheme();
   const color =
-    data.Status < 0 ? "red" : data.Status === 0 ? "yellow" : "green";
-
-  // Define padding for the div
-  const statusStyle = {
-    padding: "5px", // Adjust the padding as needed
-    textAlign: "center",
-    color,
-    borderRadius: "10px", // Background color based on data.Status
-  };
+    data.Status < 0 ? "#F93C3C" : data.Status === 0 ? "#DDBD4C" : "#4ADB47";
 
   return (
     <tr
@@ -38,9 +30,7 @@ const TableRow = ({ data, type }) => {
       <td data-cell="Hotel">{data.HotelProfit}</td>
       <td data-cell="Total Inc">{data.TotalProfit}</td>
       <td data-cell="Total Exp">{data.TotalExpense}</td>
-      <td data-cell="Status">
-        <div style={statusStyle}>{data.Status}</div>
-      </td>
+      <td data-cell="Status" style={{color: color}}>{data.Status}</td>
     </tr>
   );
 };

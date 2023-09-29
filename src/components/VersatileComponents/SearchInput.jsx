@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./SearchUI.css";
+
+import { useTheme } from "@emotion/react"; /* New */
+
 const SearchInput = ({ onSearch, onCancel }) => {
   const [searchText, setSearchText] = useState("");
   const [showCancel, setShowCancel] = useState(false);
@@ -17,6 +20,7 @@ const SearchInput = ({ onSearch, onCancel }) => {
 
   const handleSearch = () => {
     onSearch(searchText);
+    console.log("activated")
   };
 
   const handleCancel = () => {
@@ -25,9 +29,21 @@ const SearchInput = ({ onSearch, onCancel }) => {
     onCancel(); // Call the onCancel prop when cancel is clicked
   };
 
+  const theme = useTheme(); /* New */
+
+
   return (
-    <div className="search-container">
+
+    <div className="search-container"
+        style={{
+          border: `1px solid ${theme.palette.mode === "dark" ? "#323E8B": "#C5C7D7"}`, /* New */
+          paddingRight: "1rem"
+        }}
+    >
       <input
+        style={{
+          color: theme.palette.secondary[50], // New
+        }}
         type="text"
         className="search-input"
         placeholder="Search..."
@@ -36,9 +52,7 @@ const SearchInput = ({ onSearch, onCancel }) => {
         onKeyDown={(e) => e.key === "Enter" && handleSearch()}
       />
       {showCancel && (
-        <span className="cancel-button" onClick={handleCancel}>
-          &#10006;
-        </span>
+        <span className="cancel-button" onClick={handleCancel}>&#x2715;</span>
       )}
     </div>
   );

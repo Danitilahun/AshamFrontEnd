@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
   Button,
@@ -13,9 +13,9 @@ import {
 import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup"; // Import Yup for validation
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import { useSnackbar } from "../../contexts/InfoContext";
 import { useAuth } from "../../contexts/AuthContext";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 import getInternationalDate from "../../utils/getDate";
 import CustomTextField from "./CustomTextField";
 import fetchData from "../../api/services/Users/getUser";
@@ -36,7 +36,7 @@ const AsbezaOrderForm = () => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const [branches, setBranches] = useState([]);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
 
@@ -149,7 +149,7 @@ const AsbezaOrderForm = () => {
 
   return (
     <div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Button variant="contained" color="primary" onClick={handleButtonClick}>
         Create new Asbeza Order
       </Button>

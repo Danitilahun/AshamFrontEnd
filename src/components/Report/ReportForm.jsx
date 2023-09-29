@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
   TextField,
@@ -29,7 +29,7 @@ const ReportForm = ({ type }) => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const [deliveryguys, setdeliveryGuys] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const params = useParams();
 
   const { selectedItemId, selectedItem, loading } = useSelector(

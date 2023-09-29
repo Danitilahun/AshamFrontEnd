@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -17,7 +17,7 @@ import * as Yup from "yup";
 import updateUser from "../../../api/users/edit";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
-import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
+import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import CustomTextField from "../../Credit/component/CustomTextField";
 import { useParams } from "react-router-dom";
 import getRequiredUserData from "../../../utils/getBranchInfo";
@@ -48,7 +48,7 @@ const DeliveryGuyEditForm = ({
   const { user, forgotPassword } = useAuth();
   const theme = useTheme();
   const { openSnackbar } = useSnackbar();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const params = useParams();
   const branchData = getRequiredUserData();
   // Handle form submission
@@ -97,7 +97,7 @@ const DeliveryGuyEditForm = ({
 
   return (
     <div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <Dialog
         open={isEditDialogOpen}
         onClose={handleCloseForm}

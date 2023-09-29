@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Grid,
   Button,
@@ -15,8 +15,8 @@ import updateEssential from "../../api/essential/edit";
 import { useSnackbar } from "../../contexts/InfoContext";
 import { useAuth } from "../../contexts/AuthContext";
 import useUserClaims from "../../hooks/useUserClaims";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import CustomTextField from "../Credit/component/CustomTextField";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 
 const EditEssentialForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   const params = useParams();
@@ -24,7 +24,7 @@ const EditEssentialForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
   let active = "";
   const storedData = localStorage.getItem("userData");
@@ -65,12 +65,10 @@ const EditEssentialForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
 
   return (
     <div>
-      {/* <LoadingSpinner isSubmitting={isSubmitting} /> */}
+      {/*  */}
       {userClaims.superAdmin ? (
         <div>
-          {isSubmitting ? (
-            <LoadingSpinner isSubmitting={isSubmitting} />
-          ) : (
+          {!isSubmitting && (
             <Dialog
               open={isEditDialogOpen}
               onClose={handleCloseForm}

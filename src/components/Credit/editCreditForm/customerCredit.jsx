@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Grid,
   Button,
@@ -16,7 +16,7 @@ import { useSnackbar } from "../../../contexts/InfoContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import getInternationalDate from "../../../utils/getDate";
 import createCredit from "../../../api/credit/create";
-import LoadingSpinner from "../../VersatileComponents/LoadingSpinner";
+import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import { CustomerCreditFormValidationSchema } from "../validator/customerCreditValidator";
 import updateCredit from "../../../api/credit/update";
 
@@ -30,7 +30,7 @@ const EditCustomerCreditForm = ({
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
   let active = "";
   const storedData = localStorage.getItem("userData");
@@ -80,7 +80,7 @@ const EditCustomerCreditForm = ({
 
   return (
     <div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       {userClaims.admin ? (
         <div>
           <Dialog

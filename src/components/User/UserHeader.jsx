@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   CardHeader,
   Avatar,
@@ -45,7 +45,7 @@ const UserHeader = ({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
   // const handleImageSave = async (formData) => {
   //   setIsDialogOpen(false); // Close the dialog after saving
   //   try {
@@ -104,7 +104,7 @@ const UserHeader = ({
   };
   return (
     <>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       <ProfileImageDialog
         imageUrl={userInfo.profileImage}
         open={isDialogOpen}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
   TextField,
@@ -34,7 +34,7 @@ const CreditForm = ({ type }) => {
   const { activeness } = useBranch();
   const [transactionType, setTransactionType] = useState("");
   const [userClaims, setUserClaims] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
 
   const { selectedItemId, selectedItem, loading } = useSelector(
     (state) => state.itemDetails
@@ -320,7 +320,7 @@ const CreditForm = ({ type }) => {
 
   return (
     <div>
-      <LoadingSpinner isSubmitting={isSubmitting} />
+      
       {userClaims.superAdmin || userClaims.admin || userClaims.finance ? (
         <div>
           <Button variant="contained" color="primary" onClick={handleOpen}>
