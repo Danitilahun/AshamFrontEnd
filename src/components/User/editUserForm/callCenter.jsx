@@ -52,7 +52,7 @@ const CallcenterEditForm = ({
   const { user, forgotPassword } = useAuth();
   const theme = useTheme();
   const { openSnackbar } = useSnackbar();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
 
   // Handle form submission
   const handleSubmit = async (values) => {
@@ -61,7 +61,7 @@ const CallcenterEditForm = ({
       const name = capitalizeString(values.fullName);
       values.fullName = name;
       // Update the admin with the new data
-      values.emailChange = callcenter.email !== callcenter.email;
+      values.emailChange = values.email !== callcenter.email;
       const res = await updateUser(user, callcenter.id, values, "callCenter");
       // Replace with your API update function
       if (values.email !== callcenter.email) {
@@ -70,10 +70,14 @@ const CallcenterEditForm = ({
       openSnackbar(res.data.message, "success");
       handleCloseForm();
     } catch (error) {
-      openSnackbar(
-        error.response.data.message,
-        error.response.data.type ? error.response.data.type : "error"
-      );
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar("An unexpected error occurred.", "error");
+      }
     }
     setIsSubmitting(false);
   };
@@ -103,7 +107,6 @@ const CallcenterEditForm = ({
 
   return (
     <div>
-      
       <Dialog
         open={isEditDialogOpen}
         onClose={handleCloseForm}

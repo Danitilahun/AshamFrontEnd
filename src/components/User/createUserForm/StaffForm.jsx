@@ -69,7 +69,7 @@ const StaffRegisterForm = () => {
   const theme = useTheme();
   const params = useParams();
   const { openSnackbar } = useSnackbar();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const branchData = getRequiredUserData();
   const userClaims = useUserClaims(user);
   const handleFormSubmit = async (values) => {
@@ -96,10 +96,14 @@ const StaffRegisterForm = () => {
     } catch (error) {
       // Handle errors
       console.log(error);
-      openSnackbar(
-        error.response.data.message,
-        error.response.data.type ? error.response.data.type : "error"
-      );
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar("An unexpected error occurred.", "error");
+      }
     }
     setIsSubmitting(false);
   };
@@ -142,7 +146,7 @@ const StaffRegisterForm = () => {
       <Button variant="contained" color="primary" onClick={handleOpen}>
         Create new Staff
       </Button>
-      
+
       <Dialog open={showForm} onClose={handleCloseForm} maxWidth="sm" fullWidth>
         <DialogTitle sx={{ backgroundColor: theme.palette.background.alt }}>
           New Staff

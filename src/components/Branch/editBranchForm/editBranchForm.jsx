@@ -17,9 +17,8 @@ import CustomTextField from "../createBranchForm/CustomTextField";
 import updateBranch from "../../../api/branch/editBranch";
 import useUserClaims from "../../../hooks/useUserClaims";
 
-
 const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
   const theme = useTheme();
@@ -53,10 +52,14 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
       openSnackbar(res.data.message, "success");
       handleCloseForm();
     } catch (error) {
-      openSnackbar(
-        error.response.data.message,
-        error.response.data.type ? error.response.data.type : "error"
-      );
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar("An unexpected error occurred.", "error");
+      }
     }
     setIsSubmitting(false);
   };
@@ -94,7 +97,6 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
 
   return (
     <div>
-      
       <Dialog
         open={isEditDialogOpen}
         onClose={handleCloseForm}

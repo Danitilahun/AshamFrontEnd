@@ -19,7 +19,17 @@ import { SpinnerContext } from "../../contexts/SpinnerContext";
 const DeliveryGainGrid = () => {
   const theme = useTheme();
   const { user } = useAuth();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({
+    fixedSalary: "",
+    asbezaPrice: "",
+    card_collect_price: "",
+    card_fee_price: "",
+    card_distribute_price: "",
+    water_collect_price: "",
+    wifi_collect_price: "",
+    water_distribute_price: "",
+    wifi_distribute_price: "",
+  });
   const { openSnackbar } = useSnackbar();
   const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
@@ -29,18 +39,18 @@ const DeliveryGainGrid = () => {
     return () => unsubscribe();
   }, []);
 
-  delete data.id;
+  delete data?.id;
   console.log(data);
   const showData = {
-    fixedSalary: data ? data.fixedSalary : "",
-    asbezaPrice: data ? data.asbezaPrice : "",
-    card_collect_price: data ? data.card_collect_price : "",
-    card_fee_price: data ? data.card_fee_price : "",
-    card_distribute_price: data ? data.card_distribute_price : "",
-    water_collect_price: data ? data.water_collect_price : "",
-    wifi_collect_price: data ? data.wifi_collect_price : "",
-    water_distribute_price: data ? data.water_distribute_price : "",
-    wifi_distribute_price: data ? data.wifi_distribute_price : "",
+    fixedSalary: data ? data?.fixedSalary : "",
+    asbezaPrice: data ? data?.asbezaPrice : "",
+    card_collect_price: data ? data?.card_collect_price : "",
+    card_fee_price: data ? data?.card_fee_price : "",
+    card_distribute_price: data ? data?.card_distribute_price : "",
+    water_collect_price: data ? data?.water_collect_price : "",
+    wifi_collect_price: data ? data?.wifi_collect_price : "",
+    water_distribute_price: data ? data?.water_distribute_price : "",
+    wifi_distribute_price: data ? data?.wifi_distribute_price : "",
   };
 
   const names = {
@@ -82,13 +92,19 @@ const DeliveryGainGrid = () => {
   };
 
   const handleSaveButtonClick = async (key) => {
+    if (data[key] === "") {
+      openSnackbar(`${names[key]} cannot be empty!`, "error");
+      setIsSubmitting(false);
+      return;
+    }
+
     setIsSubmitting(true);
     setEditMode((prevEditMode) => ({
       ...prevEditMode,
       [key]: false,
     }));
 
-    console.log({ [key]: parseInt(data[key], 10) });
+    // console.log({ [key]: parseInt(data[key], 10) });
     try {
       // Make an Axios PUT request to update the individual field
       await editPrices(user, { [key]: parseInt(data[key], 10) }, "update");
@@ -96,7 +112,14 @@ const DeliveryGainGrid = () => {
       // Optionally, you can handle success or show a notification to the user
     } catch (error) {
       // Handle error if necessary
-      openSnackbar(error.message, "error");
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar("An unexpected error occurred.", "error");
+      }
     }
     setIsSubmitting(false);
   };
@@ -128,8 +151,9 @@ const DeliveryGainGrid = () => {
                 </Grid>
                 <Grid item xs={4} md={4}>
                   <TextField
-                    value={data[key]}
+                    value={data ? data[key] : ""}
                     type="number"
+                    required={true}
                     onChange={(e) => handleInputChange(key, e.target.value)}
                     disabled={!editMode[key] || !userClaims.superAdmin}
                     fullWidth

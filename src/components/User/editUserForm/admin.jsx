@@ -52,7 +52,7 @@ const AdminEditForm = ({ admin, isEditDialogOpen, closeEditDialog }) => {
   const { user, forgotPassword } = useAuth();
   const theme = useTheme();
   const { openSnackbar } = useSnackbar();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const [branches, setBranches] = useState([]);
   useEffect(() => {
     const unsubscribe = fetchData("branches", setBranches);
@@ -103,10 +103,14 @@ const AdminEditForm = ({ admin, isEditDialogOpen, closeEditDialog }) => {
       openSnackbar(res.data.message, "success");
       handleCloseForm();
     } catch (error) {
-      openSnackbar(
-        error.response.data.message,
-        error.response.data.type ? error.response.data.type : "error"
-      );
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar("An unexpected error occurred.", "error");
+      }
     }
     setIsSubmitting(false);
   };
@@ -139,7 +143,6 @@ const AdminEditForm = ({ admin, isEditDialogOpen, closeEditDialog }) => {
 
   return (
     <div>
-      
       <Dialog
         open={isEditDialogOpen}
         onClose={handleCloseForm}

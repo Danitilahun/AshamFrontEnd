@@ -101,10 +101,14 @@ const AsbezaOrderBranchForm = () => {
         openSnackbar(`${res.data.message}!`, "success");
         handleCloseForm();
       } catch (error) {
-        openSnackbar(
-          error.response.data.message,
-          error.response.data.type ? error.response.data.type : "error"
-        );
+        if (error.response && error.response.data) {
+          openSnackbar(
+            error.response.data.message,
+            error.response.data.type ? error.response.data.type : "error"
+          );
+        } else {
+          openSnackbar("An unexpected error occurred.", "error");
+        }
       }
       setIsSubmitting(false);
     },

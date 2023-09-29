@@ -68,7 +68,7 @@ const CallcenterRegisterForm = () => {
   const { user, forgotPassword } = useAuth();
   const theme = useTheme();
   const { openSnackbar } = useSnackbar();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
   const handleFormSubmit = async (values) => {
     setIsSubmitting(true);
@@ -88,10 +88,14 @@ const CallcenterRegisterForm = () => {
     } catch (error) {
       // Handle errors
       console.log(error);
-      openSnackbar(
-        error.response.data.message,
-        error.response.data.type ? error.response.data.type : "error"
-      );
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar("An unexpected error occurred.", "error");
+      }
     }
     setIsSubmitting(false);
   };
@@ -134,7 +138,7 @@ const CallcenterRegisterForm = () => {
       <Button variant="contained" color="primary" onClick={handleOpen}>
         Create new Call Center
       </Button>
-      
+
       <Dialog open={showForm} onClose={handleCloseForm} maxWidth="sm" fullWidth>
         <DialogTitle sx={{ backgroundColor: theme.palette.background.alt }}>
           New Call Center

@@ -34,7 +34,7 @@ const Calculator = () => {
   const [data, setData] = useState({});
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const [userClaims, setUserClaims] = useState({});
   const userData = getRequiredUserData();
   useEffect(() => {
@@ -95,6 +95,12 @@ const Calculator = () => {
       setIsSubmitting(false);
       return;
     }
+    if (data[key] === "") {
+      openSnackbar(`${key} value can not be null.`, "info");
+      handleInputChange(key, 0);
+      setIsSubmitting(false);
+      return;
+    }
     try {
       const value = {
         [key]: parseInt(data[key]),
@@ -103,10 +109,19 @@ const Calculator = () => {
       const res = await updateCalculator(user, active, value);
       openSnackbar(`${res.data.message}`, "success");
     } catch (error) {
-      openSnackbar(
-        error.response.data.message,
-        error.response.data.type ? error.response.data.type : "error"
-      );
+      // openSnackbar(
+      //   error.response.data.message,
+      //   error.response.data.type ? error.response.data.type : "error"
+      // );
+
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar("Failed to update calculator. Please try again.", "error");
+      }
     }
     setIsSubmitting(false);
   };
@@ -123,7 +138,6 @@ const Calculator = () => {
 
   return (
     <>
-      
       {active && (
         <Paper
           elevation={5}

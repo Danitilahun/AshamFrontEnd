@@ -31,7 +31,7 @@ const WaterDistributeReportForm = () => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
   const [selectedDeliveryGuy, setSelectedDeliveryGuy] = useState("");
 
@@ -145,10 +145,14 @@ const WaterDistributeReportForm = () => {
           setIsSubmitting(false);
         }, 1000);
       } catch (error) {
-        openSnackbar(
-          error.response.data.message,
-          error.response.data.type ? error.response.data.type : "error"
-        );
+        if (error.response && error.response.data) {
+          openSnackbar(
+            error.response.data.message,
+            error.response.data.type ? error.response.data.type : "error"
+          );
+        } else {
+          openSnackbar("An unexpected error occurred.", "error");
+        }
       }
       setIsSubmitting(false);
     },
@@ -186,7 +190,6 @@ const WaterDistributeReportForm = () => {
 
   return (
     <div>
-      
       {userClaims.admin ? (
         <div>
           <Button

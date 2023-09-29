@@ -28,7 +28,7 @@ const BankForm = ({ source }) => {
   const { user } = useAuth();
   const userClaims = useUserClaims(user);
   const theme = useTheme();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const [transactionType, settransactionType] = useState([
     "Deposit",
     "Withdraw",
@@ -93,10 +93,14 @@ const BankForm = ({ source }) => {
         openSnackbar(`${res.data.message} successfully created!`, "success");
         handleCloseForm();
       } catch (error) {
-        openSnackbar(
-          error.response.data.message,
-          error.response.data.type ? error.response.data.type : "error"
-        );
+        if (error.response && error.response.data) {
+          openSnackbar(
+            error.response.data.message,
+            error.response.data.type ? error.response.data.type : "error"
+          );
+        } else {
+          openSnackbar("An unexpected error occurred.", "error");
+        }
       }
       setIsSubmitting(false);
     },
@@ -110,7 +114,6 @@ const BankForm = ({ source }) => {
   console.log(formik.values.transactionType);
   return (
     <div>
-      
       {userClaims.finance || userClaims.admin ? (
         <div>
           <Button

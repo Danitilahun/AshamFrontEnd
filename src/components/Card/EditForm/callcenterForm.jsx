@@ -135,8 +135,8 @@ const EditCardOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
     formik.resetForm();
   };
 
-  const deliveryMan =
-    deliveryGuy[formik.values.branchId ? formik.values.branchId : ""];
+  const deliveryMan = deliveryMan ?
+    deliveryGuy[formik.values.branchId ? formik.values.branchId : ""] : [];
   const deliveryman = deliveryMan?.map((item) => [
     item.deliveryGuyName,
     item.deliveryManId,

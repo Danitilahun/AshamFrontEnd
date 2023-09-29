@@ -17,10 +17,8 @@ import { useSnackbar } from "../../../contexts/InfoContext";
 import createBranch from "../../../api/branch/createBranch";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 
-
 const BranchForm = () => {
-
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
@@ -59,10 +57,14 @@ const BranchForm = () => {
       openSnackbar(res.data.message, "success");
       handleClose();
     } catch (error) {
-      openSnackbar(
-        error.response.data.message,
-        error.response.data.type ? error.response.data.type : "error"
-      );
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar("An unexpected error occurred.", "error");
+      }
     }
     setIsSubmitting(false);
   };
@@ -93,7 +95,6 @@ const BranchForm = () => {
 
   return (
     <div>
-      
       {userClaims.superAdmin ? (
         <div>
           <Button variant="contained" color="primary" onClick={handleOpen}>

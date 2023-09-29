@@ -55,7 +55,7 @@ const FinanceEditForm = ({ finance, isEditDialogOpen, closeEditDialog }) => {
   const { user, forgotPassword } = useAuth();
   const theme = useTheme();
   const { openSnackbar } = useSnackbar();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
 
   // Handle form submission
   const handleSubmit = async (values) => {
@@ -73,10 +73,14 @@ const FinanceEditForm = ({ finance, isEditDialogOpen, closeEditDialog }) => {
       openSnackbar(res.data.message, "success");
       handleCloseForm();
     } catch (error) {
-      openSnackbar(
-        error.response.data.message,
-        error.response.data.type ? error.response.data.type : "error"
-      );
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar("An unexpected error occurred.", "error");
+      }
     }
     setIsSubmitting(false);
   };
@@ -107,7 +111,6 @@ const FinanceEditForm = ({ finance, isEditDialogOpen, closeEditDialog }) => {
 
   return (
     <div>
-      
       <Dialog
         open={isEditDialogOpen}
         onClose={handleCloseForm}

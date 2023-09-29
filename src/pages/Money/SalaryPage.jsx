@@ -159,9 +159,24 @@ const SalaryPage = () => {
         onChange={handleTabChange}
         variant="scrollable"
         scrollButtons="auto"
+        style={{
+          color: theme.palette.secondary[700],
+          backgroundColor: theme.palette.background.alt,
+        }}
       >
         {salaryTable.map((tabData) => (
-          <Tab key={tabData.id} label={tabData.name} value={tabData.id} />
+          <Tab
+            key={tabData.id}
+            label={tabData.name}
+            value={tabData.id}
+            style={{
+              color: theme.palette.secondary[300],
+              ...(selectedTab === tabData.id && {
+                color: theme.palette.secondary[100],
+                borderBottom: `5px solid ${theme.palette.grey[900]}`,
+              }),
+            }}
+          />
         ))}
       </Tabs>
       {salary.length > 0 && <DataTable rows={salary} columns={salaryColumn} />}
@@ -171,9 +186,24 @@ const SalaryPage = () => {
         onChange={handleTabChange2}
         variant="scrollable"
         scrollButtons="auto"
+        style={{
+          color: theme.palette.secondary[700],
+          backgroundColor: theme.palette.background.alt,
+        }}
       >
         {salaryTable.map((tabData) => (
-          <Tab key={tabData.id} label={tabData.name} value={tabData.id} />
+          <Tab
+            key={tabData.id}
+            label={tabData.name}
+            value={tabData.id}
+            style={{
+              color: theme.palette.secondary[300],
+              ...(selectedTab === tabData.id && {
+                color: theme.palette.secondary[100],
+                borderBottom: `5px solid ${theme.palette.grey[900]}`,
+              }),
+            }}
+          />
         ))}
       </Tabs>
 

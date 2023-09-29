@@ -32,7 +32,7 @@ const UserHeader = ({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
 
   const handleImageSave = async (formData) => {
     setIsSubmitting(true);
@@ -42,8 +42,14 @@ const UserHeader = ({
       openSnackbar("Profile image updated successfully.", "success");
       setIsDialogOpen(false);
     } catch (error) {
-      console.log(error);
-      openSnackbar("Failed to update profile image.", "error");
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar("An unexpected error occurred.", "error");
+      }
     }
     setIsSubmitting(false);
   };
@@ -57,11 +63,14 @@ const UserHeader = ({
       });
       openSnackbar(res.data.message, "success");
     } catch (error) {
-      console.log(error);
-      openSnackbar(
-        error.response.data.message,
-        error.response.data.type ? error.response.data.type : "error"
-      );
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar("An unexpected error occurred.", "error");
+      }
     }
     setIsSubmitting(false);
   };
@@ -75,7 +84,6 @@ const UserHeader = ({
   };
   return (
     <>
-      
       <ProfileImageDialog
         imageUrl={userInfo.profileImage}
         open={isDialogOpen}

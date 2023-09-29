@@ -27,7 +27,7 @@ const CustomerCreditForm = ({ type }) => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
   let active = "";
   const storedData = localStorage.getItem("userData");
@@ -70,10 +70,14 @@ const CustomerCreditForm = ({ type }) => {
         openSnackbar(`${res.data.message} successfully created!`, "success");
         handleCloseForm();
       } catch (error) {
-        openSnackbar(
-          error.response.data.message,
-          error.response.data.type ? error.response.data.type : "error"
-        );
+        if (error.response && error.response.data) {
+          openSnackbar(
+            error.response.data.message,
+            error.response.data.type ? error.response.data.type : "error"
+          );
+        } else {
+          openSnackbar("An unexpected error occurred.", "error");
+        }
       }
       setIsSubmitting(false);
     },
@@ -86,7 +90,6 @@ const CustomerCreditForm = ({ type }) => {
 
   return (
     <div>
-      
       {userClaims.admin ? (
         <div>
           {userClaims.admin ? (

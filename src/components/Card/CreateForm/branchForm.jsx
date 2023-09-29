@@ -39,7 +39,7 @@ const CardOrderBranchForm = () => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
   const userData = getRequiredUserData();
   const userClaims = useUserClaims(user);
@@ -99,10 +99,14 @@ const CardOrderBranchForm = () => {
         openSnackbar(`${res.data.message}!`, "success");
         handleCloseForm();
       } catch (error) {
-        openSnackbar(
-          error.response.data.message,
-          error.response.data.type ? error.response.data.type : "error"
-        );
+        if (error.response && error.response.data) {
+          openSnackbar(
+            error.response.data.message,
+            error.response.data.type ? error.response.data.type : "error"
+          );
+        } else {
+          openSnackbar("An unexpected error occurred.", "error");
+        }
       }
       setIsSubmitting(false);
     },
@@ -113,8 +117,9 @@ const CardOrderBranchForm = () => {
     formik.resetForm();
   };
 
-  const deliveryMan =
-    deliveryGuy[formik.values.branchId ? formik.values.branchId : ""];
+  const deliveryMan = deliveryGuy
+    ? deliveryGuy[formik.values.branchId ? formik.values.branchId : ""]
+    : [];
   const deliveryman = deliveryMan?.map((item) => [
     item.deliveryGuyName,
     item.deliveryManId,

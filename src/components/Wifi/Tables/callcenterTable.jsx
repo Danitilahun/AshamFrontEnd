@@ -40,7 +40,7 @@ const WifiTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -95,10 +95,14 @@ const WifiTable = () => {
       openSnackbar(`${res.data.message}!`, "success");
     } catch (error) {
       console.error("Error deleting credit document:", error);
-      openSnackbar(
-        error.response.data.message,
-        error.response.data.type ? error.response.data.type : "error"
-      );
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar("An unexpected error occurred.", "error");
+      }
     }
 
     setIsSubmitting(false);
@@ -222,7 +226,7 @@ const WifiTable = () => {
         formComponent={WifiOrderForm}
       />
       {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
-      
+
       {userClaims.callCenter && (
         <Grid container spacing={2}>
           <Grid item xs={3}></Grid>

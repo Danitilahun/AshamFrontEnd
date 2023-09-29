@@ -40,7 +40,7 @@ const EditAsbezaOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const [branches, setBranches] = useState([]);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
   const userClaims = useUserClaims(user);
@@ -117,10 +117,14 @@ const EditAsbezaOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
         openSnackbar(`${res.data.message}!`, "success");
         handleCloseForm();
       } catch (error) {
-        openSnackbar(
-          error.response.data.message,
-          error.response.data.type ? error.response.data.type : "error"
-        );
+        if (error.response && error.response.data) {
+          openSnackbar(
+            error.response.data.message,
+            error.response.data.type ? error.response.data.type : "error"
+          );
+        } else {
+          openSnackbar("An unexpected error occurred.", "error");
+        }
       }
       setIsSubmitting(false);
     },
@@ -141,8 +145,9 @@ const EditAsbezaOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
     formik.setFieldValue("order", newOrder);
   };
 
-  const deliveryMan =
-    deliveryGuy[formik.values.branchId ? formik.values.branchId : ""];
+  const deliveryMan = deliveryGuy
+    ? deliveryGuy[formik.values.branchId ? formik.values.branchId : ""]
+    : [];
   const deliveryman = deliveryMan?.map((item) => [
     item.deliveryGuyName,
     item.deliveryManId,
@@ -160,8 +165,6 @@ const EditAsbezaOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
 
   return (
     <div>
-      
-
       <Dialog
         open={isEditDialogOpen}
         onClose={handleCloseForm}

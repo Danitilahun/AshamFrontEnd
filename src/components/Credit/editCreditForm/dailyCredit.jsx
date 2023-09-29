@@ -30,7 +30,7 @@ const EditDailyCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const [selectedDeliveryGuy, setSelectedDeliveryGuy] = useState("");
   const userClaims = useUserClaims(user);
 
@@ -79,7 +79,14 @@ const EditDailyCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
         openSnackbar(`${res.data.message} successfully created!`, "success");
         handleCloseForm();
       } catch (error) {
-        openSnackbar(error.message, "error");
+        if (error.response && error.response.data) {
+          openSnackbar(
+            error.response.data.message,
+            error.response.data.type ? error.response.data.type : "error"
+          );
+        } else {
+          openSnackbar("An unexpected error occurred.", "error");
+        }
       }
       setIsSubmitting(false);
     },
@@ -92,7 +99,6 @@ const EditDailyCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
 
   return (
     <div>
-      
       {userClaims.admin ? (
         <div>
           <Dialog

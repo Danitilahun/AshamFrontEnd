@@ -79,6 +79,12 @@ const Calculator = () => {
 
   const handleKeyPress = async (key) => {
     setIsSubmitting(true);
+    if (data[key] === "") {
+      openSnackbar(`${key} value can not be null.`, "info");
+      handleInputChange(key, 0);
+      setIsSubmitting(false);
+      return;
+    }
     try {
       const value = {
         [key]: parseInt(data[key]),
@@ -86,10 +92,14 @@ const Calculator = () => {
       const res = await updateCalculator(user, user.uid, value);
       openSnackbar(`${res.data.message}`, "success");
     } catch (error) {
-      openSnackbar(
-        error.response.data.message,
-        error.response.data.type ? error.response.data.type : "error"
-      );
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar("Failed to update calculator. Please try again.", "error");
+      }
     }
     setIsSubmitting(false);
   };

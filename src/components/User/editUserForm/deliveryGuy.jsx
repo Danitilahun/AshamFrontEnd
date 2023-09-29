@@ -49,7 +49,7 @@ const DeliveryGuyEditForm = ({
   const { user, forgotPassword } = useAuth();
   const theme = useTheme();
   const { openSnackbar } = useSnackbar();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const params = useParams();
   const branchData = getRequiredUserData();
   // Handle form submission
@@ -70,10 +70,14 @@ const DeliveryGuyEditForm = ({
       openSnackbar(res.data.message, "success");
       handleCloseForm();
     } catch (error) {
-      openSnackbar(
-        error.response.data.message,
-        error.response.data.type ? error.response.data.type : "error"
-      );
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar("An unexpected error occurred.", "error");
+      }
     }
     setIsSubmitting(false);
   };
@@ -101,7 +105,6 @@ const DeliveryGuyEditForm = ({
 
   return (
     <div>
-      
       <Dialog
         open={isEditDialogOpen}
         onClose={handleCloseForm}

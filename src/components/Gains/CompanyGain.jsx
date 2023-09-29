@@ -29,16 +29,18 @@ const CompanyGainGrid = () => {
     return () => unsubscribe();
   }, []);
 
-  delete companyData.id;
+  delete companyData?.id;
 
   console.log("company info", companyData);
 
   const showCompanyData = {
-    card_distribute_gain: companyData ? companyData.card_distribute_gain : "",
-    water_distribute_gain: companyData ? companyData.water_distribute_gain : "",
-    wifi_distribute_gain: companyData ? companyData.wifi_distribute_gain : "",
-    card_price: companyData ? companyData.card_price : "",
-    asbeza_profit: companyData ? companyData.asbeza_profit : "",
+    card_distribute_gain: companyData ? companyData?.card_distribute_gain : "",
+    water_distribute_gain: companyData
+      ? companyData?.water_distribute_gain
+      : "",
+    wifi_distribute_gain: companyData ? companyData?.wifi_distribute_gain : "",
+    card_price: companyData ? companyData?.card_price : "",
+    asbeza_profit: companyData ? companyData?.asbeza_profit : "",
   };
 
   console.log(showCompanyData);
@@ -73,6 +75,12 @@ const CompanyGainGrid = () => {
   };
 
   const handleSaveButtonClick = async (key) => {
+    if (companyData[key] === "") {
+      openSnackbar(`${names[key]} cannot be empty!`, "error");
+      setIsSubmitting(false);
+      return;
+    }
+
     setIsSubmitting(true);
     setEditMode((prevEditMode) => ({
       ...prevEditMode,
@@ -91,7 +99,14 @@ const CompanyGainGrid = () => {
       // Optionally, you can handle success or show a notification to the user
     } catch (error) {
       // Handle error if necessary
-      openSnackbar(error.message, "error");
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar("An unexpected error occurred.", "error");
+      }
     }
     setIsSubmitting(false);
   };
@@ -123,7 +138,7 @@ const CompanyGainGrid = () => {
                 </Grid>
                 <Grid item xs={4} md={4}>
                   <TextField
-                    value={companyData[key]}
+                    value={companyData ? companyData[key] : ""}
                     type="number"
                     onChange={(e) => handleInputChange(key, e.target.value)}
                     disabled={!editMode[key] || !userClaims.superAdmin}

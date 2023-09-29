@@ -13,7 +13,6 @@ import {
 import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup"; // Import Yup for validation
-
 import create from "../../../api/orders/create";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { useAuth } from "../../../contexts/AuthContext";
@@ -42,7 +41,7 @@ const EditCardOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
   const userData = getRequiredUserData();
   const userClaims = useUserClaims(user);
@@ -105,22 +104,19 @@ const EditCardOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
     formik.resetForm();
   };
 
-  console.log(deliveryGuy);
-  console.log(userData.requiredId);
-  console.log(formik.values.branchId);
-  const deliveryMan =
-    deliveryGuy[
-      formik.values.callcenterId
-        ? formik.values.callcenterId
-        : userData.requiredId
-    ];
-  console.log(deliveryMan);
+  const deliveryMan = deliveryMan
+    ? deliveryGuy[
+        formik.values.callcenterId
+          ? formik.values.callcenterId
+          : userData.requiredId
+      ]
+    : [];
+
   const deliveryman = deliveryMan?.map((item) => [
     item.deliveryGuyName,
     item.deliveryManId,
   ]);
 
-  console.log(deliveryman);
   useEffect(() => {
     const { branchId, activeTable, branchName } = formik.values;
     if (branchId && !activeTable) {

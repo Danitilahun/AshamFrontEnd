@@ -41,7 +41,7 @@ const UserCard = ({ userInfo }) => {
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const { openSnackbar } = useSnackbar();
   const [openDialog, setOpenDialog] = useState(false);
   const branchData = getRequiredUserData();
@@ -71,8 +71,14 @@ const UserCard = ({ userInfo }) => {
       });
       openSnackbar(`${userInfo.fullName} paid successfully!`, "success");
     } catch (error) {
-      console.error("Error during form submission:", error);
-      openSnackbar(`Error occurred while try to pay Staff.`, "error");
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar("An unexpected error occurred.", "error");
+      }
     }
     setIsSubmitting(false);
   };
@@ -103,10 +109,14 @@ const UserCard = ({ userInfo }) => {
       const res = await deleteUser(user, userInfo.id, "staff");
       openSnackbar(res.data.message, "success");
     } catch (error) {
-      openSnackbar(
-        error.response.data.message,
-        error.response.data.type ? error.response.data.type : "error"
-      );
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar("An unexpected error occurred.", "error");
+      }
     }
     setIsSubmitting(false);
     handleMenuClose();
@@ -114,7 +124,6 @@ const UserCard = ({ userInfo }) => {
 
   return (
     <>
-      
       <Card
         sx={{
           backgroundColor: theme.palette.background.alt,
