@@ -127,7 +127,7 @@ const AsbezaOrderBranchForm = () => {
 
   const deliveryMan = deliveryGuy
     ? deliveryGuy[formik.values.branchId ? formik.values.branchId : ""]
-    : {};
+    : [];
   const deliveryman = deliveryMan?.map((item) => [
     item.deliveryGuyName,
     item.deliveryManId,

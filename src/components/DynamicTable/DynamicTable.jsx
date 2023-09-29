@@ -54,8 +54,9 @@ const getStatusStyle = (status) => {
   let style = {
     borderRadius: "4px",
     width: "fit-content",
+    textAlign: "center",
     margin: "4px",
-    color: "black",
+    color: "white",
     padding: "5px",
     cursor: "pointer", // Add cursor pointer for all cases
   };
@@ -66,6 +67,7 @@ const getStatusStyle = (status) => {
       break;
     case "Assigned":
       style.backgroundColor = "yellow";
+      style.color = "black";
       break;
     case "Completed":
       style.backgroundColor = "green";
