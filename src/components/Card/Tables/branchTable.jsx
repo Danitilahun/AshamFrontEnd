@@ -15,6 +15,7 @@ import CardOrderBranchForm from "../CreateForm/branchForm";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import findDocumentById from "../../../utils/findDocumentById";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
+import useUserClaims from "../../../hooks/useUserClaims";
 
 const CallcenterColumn = [
   { key: "name", title: "Customer Name" },
@@ -37,10 +38,11 @@ const CardTable = () => {
   const params = useParams();
   const [data, setData] = useState([]);
   const { user } = useAuth();
+  const userClaim = useUserClaims(user);
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -246,7 +248,11 @@ const CardTable = () => {
       {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
       <DynamicTable
         data={tableData}
-        columns={selectedView === "callcenter" ? CallcenterColumn : columns}
+        columns={
+          selectedView === "callcenter" || userClaim.superAdmin
+            ? CallcenterColumn
+            : columns
+        }
         loadMoreData={loadMoreData}
         onEdit={handleEdit}
         onDelete={handleDelete}
