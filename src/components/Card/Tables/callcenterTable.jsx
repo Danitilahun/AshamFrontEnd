@@ -166,7 +166,7 @@ const CardTable = () => {
         "callcenterId",
         params.id,
         "blockHouse",
-        searchText
+        searchText.toUpperCase()
       );
     }
   };

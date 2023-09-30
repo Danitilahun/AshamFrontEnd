@@ -170,7 +170,7 @@ const WifiTable = () => {
         "callcenterId",
         params.id,
         "blockHouse",
-        searchText
+        searchText.toUpperCase()
       );
     }
   };

@@ -173,7 +173,7 @@ const WaterTable = () => {
         filterField,
         params.id,
         "blockHouse",
-        searchText
+        searchText.toUpperCase()
       );
     }
   };

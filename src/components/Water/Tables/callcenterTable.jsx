@@ -167,7 +167,7 @@ const WaterTable = () => {
         "callcenterId",
         params.id,
         "blockHouse",
-        searchText
+        searchText.toUpperCase()
       );
     }
   };

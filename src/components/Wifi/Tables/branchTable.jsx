@@ -176,7 +176,7 @@ const WifiTable = () => {
         filterField,
         params.id,
         "blockHouse",
-        searchText
+        searchText.toUpperCase()
       );
     }
   };

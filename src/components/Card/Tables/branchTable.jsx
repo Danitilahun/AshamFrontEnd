@@ -175,7 +175,7 @@ const CardTable = () => {
         filterField,
         params.id,
         "blockHouse",
-        searchText
+        searchText.toUpperCase()
       );
     }
   };
