@@ -16,7 +16,7 @@ const ShowBudget = ({ label, value, marginTop }) => (
           {label}
         </Grid>
         <Grid item xs={6}>
-          <CustomColoredPaper value={value} />
+          {value}
         </Grid>
       </Grid>
     </CustomPaper>
