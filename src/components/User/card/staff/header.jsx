@@ -86,7 +86,7 @@ const UserHeader = ({
           </Avatar>
         }
         action={
-          userInfo.role !== "BranchAdmin" ? (
+          userClaims.admin ? (
             <div
               style={{
                 display: "flex",

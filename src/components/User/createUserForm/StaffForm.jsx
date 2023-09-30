@@ -143,9 +143,13 @@ const StaffRegisterForm = () => {
 
   return (
     <div>
-      <Button variant="contained" color="primary" onClick={handleOpen}>
-        Create new Staff
-      </Button>
+      {userClaims.admin ? (
+        <Button variant="contained" color="primary" onClick={handleOpen}>
+          Create new Staff
+        </Button>
+      ) : (
+        <div></div>
+      )}
 
       <Dialog open={showForm} onClose={handleCloseForm} maxWidth="sm" fullWidth>
         <DialogTitle sx={{ backgroundColor: theme.palette.background.alt }}>

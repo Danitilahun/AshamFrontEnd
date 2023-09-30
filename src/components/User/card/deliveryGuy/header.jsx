@@ -86,29 +86,31 @@ const UserHeader = ({
           </Avatar>
         }
         action={
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              marginTop: "5px",
-            }}
-          >
-            <IconButton
-              onClick={handleMenuOpen}
-              style={{ color: theme.palette.secondary[100] }}
+          userClaims.admin ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginTop: "5px",
+              }}
             >
-              <MoreVertIcon />
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleMenuClose}
-              onClick={handleMenuClose}
-            >
-              <MenuItem onClick={handleEdit}>Edit</MenuItem>
-              <MenuItem onClick={handleDeleteIconClick}>Delete</MenuItem>
-            </Menu>
-          </div>
+              <IconButton
+                onClick={handleMenuOpen}
+                style={{ color: theme.palette.secondary[100] }}
+              >
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+                onClick={handleMenuClose}
+              >
+                <MenuItem onClick={handleEdit}>Edit</MenuItem>
+                <MenuItem onClick={handleDeleteIconClick}>Delete</MenuItem>
+              </Menu>
+            </div>
+          ) : null
         }
         title={
           <FlexBetween>
