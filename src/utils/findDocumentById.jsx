@@ -7,4 +7,4 @@ const findDocumentById = (idToFind, data) => {
   return null; // Return null if no matching document is found
 };
 
-module.exports = findDocumentById;
+export default findDocumentById;
