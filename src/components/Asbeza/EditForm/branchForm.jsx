@@ -118,7 +118,7 @@ const EditAsbezaOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
     formik.setFieldValue("order", newOrder);
   };
 
-  const deliveryMan = deliveryMan
+  const deliveryMan = deliveryGuy
     ? deliveryGuy[formik.values.callcenterId ? formik.values.callcenterId : ""]
     : [];
   const deliveryman = deliveryMan?.map((item) => [
