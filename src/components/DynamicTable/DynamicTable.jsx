@@ -246,6 +246,11 @@ const DynamicTable = ({
   };
 
   const handleStatusClick = async (order) => {
+    if (order.status === "Completed") {
+      openSnackbar("Order is already completed", "info");
+      return;
+    }
+
     console.log("Status clicked:", order);
     setIsSubmitting(true);
     const date = getInternationalDate();
@@ -417,11 +422,15 @@ const DynamicTable = ({
                         <div
                           style={{
                             ...getStatusStyle(row[column.key]),
-                            cursor: userClaims.admin ? "pointer" : "default",
+                            cursor:
+                              userClaims.admin &&
+                              row[column.key] !== "Completed"
+                                ? "pointer"
+                                : "default",
                           }}
-                          disabled={column.key === "Completed"}
+                          disabled={row[column.key] === "Completed"}
                           onClick={
-                            userClaims.admin
+                            userClaims.admin && row[column.key] !== "Completed"
                               ? () => handleStatusClick(row)
                               : null
                           }
