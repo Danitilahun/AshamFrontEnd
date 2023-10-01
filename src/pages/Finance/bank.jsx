@@ -20,16 +20,17 @@ const Bank = () => {
   const theme = useTheme();
   const userClaims = useUserClaims(user);
 
-  console.log("userData", userData);
-  console.log("userClaim", userClaim.finance);
   // const { documentData } = useDocumentById("Bank", user.uid);
   const [tableDate, settableDate] = useState({});
 
   useEffect(() => {
-    const worksRef = doc(
-      collection(firestore, "Bank"),
-      userClaim.finance ? user.uid : userData.requiredId
-    );
+    const docId = userClaim.finance
+      ? user.uid
+      : userData.requiredId
+      ? userData.requiredId
+      : params.id; // Set the document ID
+    if (!docId) return;
+    const worksRef = doc(collection(firestore, "Bank"), docId);
 
     // Subscribe to real-time updates
     const unsubscribe = onSnapshot(worksRef, (doc) => {
@@ -45,10 +46,16 @@ const Bank = () => {
 
   const [financeUser, setFinanceUser] = useState({});
   useEffect(() => {
-    const worksRef = doc(
-      collection(firestore, "finance"),
-      userClaim.finance ? user.uid : userData.requiredId
-    );
+    const docId = userClaim.finance
+      ? user.uid
+      : userData.requiredId
+      ? userData.requiredId
+      : params.id; // Set the document ID
+    if (!docId) {
+      return;
+    }
+    console.log("docId", docId);
+    const worksRef = doc(collection(firestore, "finance"), docId);
 
     // Subscribe to real-time updates
     const unsubscribe = onSnapshot(worksRef, (doc) => {
@@ -63,6 +70,7 @@ const Bank = () => {
   }, [userClaim.finance ? user.uid : userData.requiredId]);
 
   console.log("tableDate", tableDate);
+  console.log("financeUser", financeUser);
   return (
     <Box
       m="1.5rem 2.5rem"

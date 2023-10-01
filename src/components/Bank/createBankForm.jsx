@@ -20,6 +20,7 @@ import getInternationalDate from "../../utils/getDate";
 import createBank from "../../api/bank/create";
 import CustomTextField from "../Credit/component/CustomTextField";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
+import getRequiredUserData from "../../utils/getBranchInfo";
 
 const BankForm = ({ source }) => {
   const params = useParams();
@@ -28,6 +29,7 @@ const BankForm = ({ source }) => {
   const { user } = useAuth();
   const userClaims = useUserClaims(user);
   const theme = useTheme();
+  const userData = getRequiredUserData();
   const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const [transactionType, settransactionType] = useState([
     "Deposit",
@@ -86,6 +88,7 @@ const BankForm = ({ source }) => {
           : params.id
           ? params.id
           : user.displayName;
+        values.calculatorId = userClaims.finance ? user.uid : userData.active;
         values.date = date;
         values.source = source;
         console.log("values", values);

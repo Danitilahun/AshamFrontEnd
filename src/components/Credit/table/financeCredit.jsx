@@ -212,7 +212,7 @@ const FinanceTable = () => {
         <Grid item xs={6}>
           <ShowBudget
             label={"Total Credit"}
-            value={totalCredit.total}
+            value={totalCredit?.total}
             marginTop={10}
           />
         </Grid>

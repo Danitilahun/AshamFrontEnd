@@ -157,6 +157,7 @@ const ExpenseTable = () => {
         loadMoreData={loadMoreData}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        containerHeight={380}
       />
       <ConfirmationDialog
         open={isDeleteDialogOpen}
