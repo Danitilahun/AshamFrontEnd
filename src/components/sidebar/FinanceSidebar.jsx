@@ -21,6 +21,7 @@ import SummarizeIcon from "@mui/icons-material/Summarize";
 import { useAuth } from "../../contexts/AuthContext";
 import { firestore } from "../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
+import useUserClaims from "../../hooks/useUserClaims";
 
 const navItems = [
   {
@@ -69,6 +70,7 @@ const FinanceSidebar = ({
   };
 
   const { user, logout } = useAuth();
+  const userClaims = useUserClaims(user);
 
   useEffect(() => {
     if (!callCenterId) {
@@ -94,9 +96,10 @@ const FinanceSidebar = ({
   }, [callCenterId]);
 
   useEffect(() => {
-    if (!user) {
-      return;
+    if (!userClaims.finance || !user || !user.uid) {
+      return; // Add a check for user and user.uid
     }
+
     const worksRef = doc(collection(firestore, "finance"), user.uid);
 
     // Subscribe to real-time updates
@@ -111,6 +114,7 @@ const FinanceSidebar = ({
     // Clean up the subscription when the component unmounts
     return () => unsubscribe();
   }, [user.uid]);
+
   return (
     <Box component="nav">
       {isSidebarOpen && (

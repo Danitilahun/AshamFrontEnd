@@ -82,32 +82,42 @@ const ServiceSidebar = ({
     if (!user && !callCenterId) {
       return;
     }
-    const worksRef = doc(
-      collection(firestore, "callcenter"),
-      userClaims.callCenter ? user.uid : callCenterId ? callCenterId : params.id
-    );
+    let documentPath;
 
-    // Subscribe to real-time updates
-    const unsubscribe = onSnapshot(worksRef, (doc) => {
-      if (doc.exists()) {
-        localStorage.setItem(
-          "userData",
-          JSON.stringify({
-            ...doc.data(),
-            id: doc.id,
-          })
-        );
-      }
-    });
+    if (userClaims.callCenter) {
+      documentPath = `${user.uid}`;
+    } else if (callCenterId) {
+      documentPath = `${callCenterId}`;
+    } else if (params.id) {
+      documentPath = `${params.id}`;
+    }
 
-    // Clean up the subscription when the component unmounts
-    return () => unsubscribe();
+    if (documentPath) {
+      const worksRef = doc(collection(firestore, "callcenter"), documentPath);
+
+      // Subscribe to real-time updates
+      const unsubscribe = onSnapshot(worksRef, (doc) => {
+        if (doc.exists()) {
+          localStorage.setItem(
+            "userData",
+            JSON.stringify({
+              ...doc.data(),
+              id: doc.id,
+            })
+          );
+        }
+      });
+
+      // Clean up the subscription when the component unmounts
+      return () => unsubscribe();
+    }
   }, [callCenterId]);
 
   useEffect(() => {
-    if (!userClaims.callCenter && !user && !user.uid) {
+    if (!userClaims.callCenter || !user || !user.uid) {
       return; // Add a check for user and user.uid
     }
+
     const worksRef = doc(collection(firestore, "callcenter"), user.uid);
 
     // Subscribe to real-time updates
@@ -121,7 +131,7 @@ const ServiceSidebar = ({
 
     // Clean up the subscription when the component unmounts
     return () => unsubscribe();
-  }, [user.uid]);
+  }, [user, userClaims.callCenter]);
 
   return (
     <Box component="nav">

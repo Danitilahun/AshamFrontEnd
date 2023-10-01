@@ -179,12 +179,13 @@ const BranchSidebar = ({
 }) => {
   const { user, currentUser, logout } = useAuth();
   console.log("user", user);
+  const userClaims = useUserClaims(user);
+  console.log("userClaims", userClaims.admin, user, user.uid);
   const { pathname } = useLocation();
   const params = useParams();
   const branchData = getRequiredUserData();
   const { changeBranchInfo } = useBranch();
   const branchId = branchData.requiredId;
-  const userClaims = useUserClaims(user);
 
   useEffect(() => {
     if (!branchId) {
@@ -213,6 +214,7 @@ const BranchSidebar = ({
     if (!userClaims.admin || !user || !user.uid) {
       return; // Add a check for user and user.uid
     }
+    console.log("askjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjd");
     const worksRef = doc(collection(firestore, "admin"), user.uid);
 
     // Subscribe to real-time updates
@@ -226,7 +228,7 @@ const BranchSidebar = ({
 
     // Clean up the subscription when the component unmounts
     return () => unsubscribe();
-  }, [user.uid]);
+  }, [user.uid, userClaims.admin]);
 
   useEffect(() => {
     if (!userClaims.admin && !user && !user.uid) {
