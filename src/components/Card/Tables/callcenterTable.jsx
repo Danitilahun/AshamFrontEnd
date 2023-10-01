@@ -49,7 +49,7 @@ const CardTable = () => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { openSnackbar } = useSnackbar();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-
+  const [fromWhere, setFromWhere] = useState("edit");
   const handleEdit = (row) => {
     console.log("from the table", row);
     if (row.status !== "new order") {
@@ -59,6 +59,7 @@ const CardTable = () => {
       );
       return;
     }
+    setFromWhere("edit");
     setEditRow(row);
     setIsEditDialogOpen(true);
   };
@@ -68,19 +69,9 @@ const CardTable = () => {
       openSnackbar(`You can only new orders if order is Completed!`, "info");
       return;
     }
-    const newRow = {
-      ...row,
-      amountBirr: "",
-      deliveryguyId: "",
-      deliveryguyName: "",
-      branchId: "",
-      branchName: "",
-      activeTable: "",
-      active: "",
-      activeDailySummery: "",
-    };
 
-    setEditRow(newRow);
+    setFromWhere("new");
+    setEditRow(row);
     setIsEditDialogOpen(true);
   };
 

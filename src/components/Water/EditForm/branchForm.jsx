@@ -34,7 +34,12 @@ const EditWaterOrderFormValidationSchema = Yup.object().shape({
   billPayerName: Yup.string().required("Bill Payer Name is required"),
 });
 
-const EditWaterOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
+const EditWaterOrderForm = ({
+  data,
+  isEditDialogOpen,
+  closeEditDialog,
+  fromWhere,
+}) => {
   const params = useParams();
   const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
@@ -64,12 +69,12 @@ const EditWaterOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
       name: data.name,
       phone: data.phone,
       blockHouse: data.blockHouse,
-      billPayerName: data.billPayerName,
-      customerKey: data.customerKey,
+      billPayerName: fromWhere === "edit" ? data.billPayerName : "",
+      customerKey: fromWhere === "edit" ? data.customerKey : "",
       branchId: data.branchId,
       branchName: data.branchName,
-      deliveryguyId: data.deliveryguyId,
-      deliveryguyName: data.deliveryguyName,
+      deliveryguyId: fromWhere === "edit" ? data.deliveryguyId : "",
+      deliveryguyName: fromWhere === "edit" ? data.deliveryguyName : "",
       activeTable: data.activeTable,
       active: data.active,
       activeDailySummery: data.activeDailySummery,
@@ -83,6 +88,7 @@ const EditWaterOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
       try {
         const date = getInternationalDate();
         values.date = date;
+        values.status = "new order";
         values.blockHouse = values.blockHouse.toUpperCase();
         console.log("values", values);
         const res = await update(user, data.id, values, "water");

@@ -318,7 +318,7 @@ const AsbezaOrderBranchForm = () => {
                           alignItems: "center",
                           justifyContent: "center",
                         }}
-                        variant="outlined"
+                        variant="contained"
                         onClick={() => handleRemoveOrderItem(index)}
                       >
                         Remove

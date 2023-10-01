@@ -34,7 +34,12 @@ const EditAsbezaOrderFormValidationSchema = Yup.object().shape({
   order: Yup.array().of(Yup.string().required("Order item is required")), // Validation for each order item
 });
 
-const EditAsbezaOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
+const EditAsbezaOrderForm = ({
+  data,
+  isEditDialogOpen,
+  closeEditDialog,
+  fromWhere,
+}) => {
   const params = useParams();
   const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
@@ -66,18 +71,17 @@ const EditAsbezaOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
       name: data.name,
       phone: data.phone,
       blockHouse: data.blockHouse,
-      additionalInfo: data.additionalInfo,
-      order: data.order,
+      additionalInfo: fromWhere === "edit" ? data.additionalInfo : "",
+      order: fromWhere === "edit" ? data.order : [],
       branchId: data.branchId,
       branchName: data.branchName,
-      deliveryguyId: data.deliveryguyId,
-      deliveryguyName: data.deliveryguyName,
+      deliveryguyId: fromWhere === "edit" ? data.deliveryguyId : "",
+      deliveryguyName: fromWhere === "edit" ? data.deliveryguyName : "",
       activeTable: data.activeTable,
       active: data.active,
       activeDailySummery: data.activeDailySummery,
       callcenterId: data.callcenterId,
     },
-
     validationSchema: EditAsbezaOrderFormValidationSchema,
     onSubmit: async (values) => {
       // Send formData to the backend
@@ -85,6 +89,7 @@ const EditAsbezaOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
       try {
         const date = getInternationalDate();
         values.date = date;
+        values.status = "new order";
         values.blockHouse = values.blockHouse.toUpperCase();
         console.log("values", values);
         const res = await update(user, data.id, values, "asbeza");
@@ -292,9 +297,6 @@ const EditAsbezaOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
                     </Grid>
 
                     <Grid item xs={3} sm={3} md={3} lg={3}>
-                      {console.log(
-                        formik.errors.order && formik.errors.order[index]
-                      )}
                       <Button
                         sx={{
                           height:
@@ -307,7 +309,7 @@ const EditAsbezaOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
                           alignItems: "center",
                           justifyContent: "center",
                         }}
-                        variant="outlined"
+                        variant="contained"
                         onClick={() => handleRemoveOrderItem(index)}
                       >
                         Remove

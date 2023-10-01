@@ -48,7 +48,7 @@ const WaterTable = () => {
   const { openSnackbar } = useSnackbar();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedView, setSelectedView] = useState("callcenter");
-
+  const [fromWhere, setFromWhere] = useState("edit");
   // Function to handle view selection (Call Center or Branch)
   const handleViewChange = (view) => {
     setSelectedView(view);
@@ -63,6 +63,7 @@ const WaterTable = () => {
       );
       return;
     }
+    setFromWhere("edit");
     setEditRow(row);
     setIsEditDialogOpen(true);
   };
@@ -72,17 +73,9 @@ const WaterTable = () => {
       openSnackbar(`You can only new orders if order is Completed!`, "info");
       return;
     }
-    const newRow = {
-      ...row,
-      billPayerName: "",
-      customerKey: "",
-      deliveryguyId: "",
-      deliveryguyName: "",
-      branchId: "",
-      branchName: "",
-    };
+    setFromWhere("new");
 
-    setEditRow(newRow);
+    setEditRow(row);
     setIsEditDialogOpen(true);
   };
 

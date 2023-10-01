@@ -34,7 +34,12 @@ const EditWifiOrderFormValidationSchema = Yup.object().shape({
   ownerName: Yup.string().required("Owner Name is required"),
 });
 
-const EditWifiOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
+const EditWifiOrderForm = ({
+  data,
+  isEditDialogOpen,
+  closeEditDialog,
+  fromWhere,
+}) => {
   const params = useParams();
   const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
@@ -95,15 +100,15 @@ const EditWifiOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
       name: data.name,
       phone: data.phone,
       blockHouse: data.blockHouse,
-      ownerName: data.ownerName,
-      accountNumber: data.accountNumber,
-      branchId: data.branchId,
-      branchName: data.branchName,
-      deliveryguyId: data.deliveryguyId,
-      deliveryguyName: data.deliveryguyName,
-      activeTable: data.activeTable,
-      active: data.active,
-      activeDailySummery: data.activeDailySummery,
+      ownerName: fromWhere === "edit" ? data.ownerName : "",
+      accountNumber: fromWhere === "edit" ? data.accountNumber : "",
+      branchId: fromWhere === "edit" ? data.branchId : "",
+      branchName: fromWhere === "edit" ? data.branchName : "",
+      deliveryguyId: fromWhere === "edit" ? data.deliveryguyId : "",
+      deliveryguyName: fromWhere === "edit" ? data.deliveryguyName : "",
+      activeTable: fromWhere === "edit" ? data.activeTable : "",
+      active: fromWhere === "edit" ? data.active : "",
+      activeDailySummery: fromWhere === "edit" ? data.activeDailySummery : "",
     },
 
     validationSchema: EditWifiOrderFormValidationSchema,

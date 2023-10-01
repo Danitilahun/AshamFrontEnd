@@ -50,6 +50,7 @@ const AsbezaTable = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedView, setSelectedView] = useState("callcenter");
   const [isSearching, setIsSearching] = useState(false);
+  const [fromWhere, setFromWhere] = useState("edit");
   // Function to handle view selection (Call Center or Branch)
   const handleViewChange = (view) => {
     setSelectedView(view);
@@ -64,6 +65,7 @@ const AsbezaTable = () => {
       return;
     }
     console.log("from the table", row);
+    setFromWhere("edit");
     setEditRow(row);
     setIsEditDialogOpen(true);
   };
@@ -73,19 +75,8 @@ const AsbezaTable = () => {
       openSnackbar(`You can only new orders if order is Completed!`, "info");
       return;
     }
-    const newRow = {
-      ...row,
-      deliveryguyId: "",
-      deliveryguyName: "",
-      branchId: "",
-      branchName: "",
-      order: [],
-      additionalInfo: "",
-      status: "new order",
-    };
-
-    console.log("newRow", newRow);
-    setEditRow(newRow);
+    setFromWhere("new");
+    setEditRow(row);
     setIsEditDialogOpen(true);
   };
 
@@ -273,6 +264,7 @@ const AsbezaTable = () => {
           data={editRow}
           isEditDialogOpen={isEditDialogOpen}
           closeEditDialog={() => setIsEditDialogOpen(false)}
+          fromWhere={fromWhere}
         />
       )}
     </Box>

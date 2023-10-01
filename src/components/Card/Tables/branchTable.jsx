@@ -50,7 +50,7 @@ const CardTable = () => {
   const { openSnackbar } = useSnackbar();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedView, setSelectedView] = useState("callcenter");
-
+  const [fromWhere, setFromWhere] = useState("edit");
   // Function to handle view selection (Call Center or Branch)
   const handleViewChange = (view) => {
     setSelectedView(view);
@@ -65,6 +65,7 @@ const CardTable = () => {
       return;
     }
     console.log("from the table", row);
+    setFromWhere("edit");
     setEditRow(row);
     setIsEditDialogOpen(true);
   };
@@ -74,17 +75,8 @@ const CardTable = () => {
       openSnackbar(`You can only new orders if order is Completed!`, "info");
       return;
     }
-
-    const newRow = {
-      ...row,
-      amountBirr: "",
-      deliveryguyId: "",
-      deliveryguyName: "",
-      branchId: "",
-      branchName: "",
-    };
-
-    setEditRow(newRow);
+    setFromWhere("new");
+    setEditRow(row);
     setIsEditDialogOpen(true);
   };
 

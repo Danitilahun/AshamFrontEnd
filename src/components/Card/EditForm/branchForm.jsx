@@ -35,7 +35,12 @@ const EditCardOrderFormValidationSchema = Yup.object().shape({
     .required("Amount in Birr is required"),
 });
 
-const EditCardOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
+const EditCardOrderForm = ({
+  data,
+  isEditDialogOpen,
+  closeEditDialog,
+  fromWhere,
+}) => {
   const params = useParams();
   const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
@@ -66,15 +71,15 @@ const EditCardOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
       name: data.name,
       phone: data.phone,
       blockHouse: data.blockHouse,
-      amountBirr: data.amountBirr,
       branchId: data.branchId,
       branchName: data.branchName,
-      deliveryguyId: data.deliveryguyId,
-      deliveryguyName: data.deliveryguyName,
       activeTable: data.activeTable,
       active: data.active,
       activeDailySummery: data.activeDailySummery,
       callcenterId: data.callcenterId,
+      amountBirr: fromWhere === "edit" ? data.amountBirr : "",
+      deliveryguyId: fromWhere === "edit" ? data.deliveryguyId : "",
+      deliveryguyName: fromWhere === "edit" ? data.deliveryguyName : "",
     },
 
     validationSchema: EditCardOrderFormValidationSchema,
@@ -84,6 +89,7 @@ const EditCardOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
       try {
         const date = getInternationalDate();
         values.date = date;
+        values.status = "new order";
         values.blockHouse = values.blockHouse.toUpperCase();
         console.log("values", values);
         const res = await update(user, data.id, values, "card");
@@ -104,7 +110,7 @@ const EditCardOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
     formik.resetForm();
   };
 
-  const deliveryMan = deliveryMan
+  const deliveryMan = deliveryGuy
     ? deliveryGuy[
         formik.values.callcenterId
           ? formik.values.callcenterId

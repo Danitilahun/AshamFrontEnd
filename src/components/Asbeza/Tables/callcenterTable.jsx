@@ -48,6 +48,7 @@ const AsbezaTable = () => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
+  const [fromWhere, setFromWhere] = useState("edit");
   const handleEdit = (row) => {
     if (row.status !== "new order") {
       openSnackbar(
@@ -58,6 +59,7 @@ const AsbezaTable = () => {
     }
     console.log("from the table", row);
     setEditRow(row);
+    setFromWhere("edit");
     setIsEditDialogOpen(true);
   };
   const handleNew = (row) => {
@@ -67,20 +69,9 @@ const AsbezaTable = () => {
       openSnackbar(`You can only new orders if order is Completed!`, "info");
       return;
     }
-    const newRow = {
-      ...row,
-      deliveryguyId: "",
-      deliveryguyName: "",
-      branchId: "",
-      branchName: "",
-      order: [],
-      additionalInfo: "",
-      activeTable: "",
-      active: "",
-      activeDailySummery: "",
-    };
 
-    setEditRow(newRow);
+    setEditRow(row);
+    setFromWhere("new");
     setIsEditDialogOpen(true);
   };
 

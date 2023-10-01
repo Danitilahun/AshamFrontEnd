@@ -22,6 +22,7 @@ import getInternationalDate from "../../../utils/getDate";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
 import useUserClaims from "../../../hooks/useUserClaims";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
+import update from "../../../api/orders/edit";
 // Define the validation schema including order item validation
 const EditCardOrderFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -34,13 +35,18 @@ const EditCardOrderFormValidationSchema = Yup.object().shape({
     .required("Amount in Birr is required"),
 });
 
-const EditCardOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
+const EditCardOrderForm = ({
+  data,
+  isEditDialogOpen,
+  closeEditDialog,
+  fromWhere,
+}) => {
   const params = useParams();
   const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const [branches, setBranches] = useState([]);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
   const userClaims = useUserClaims(user);
@@ -96,14 +102,14 @@ const EditCardOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
       name: data.name,
       phone: data.phone,
       blockHouse: data.blockHouse,
-      amountBirr: data.amountBirr,
-      branchId: data.branchId,
-      branchName: data.branchName,
-      deliveryguyId: data.deliveryguyId,
-      deliveryguyName: data.deliveryguyName,
-      activeTable: data.activeTable,
-      active: data.active,
-      activeDailySummery: data.activeDailySummery,
+      amountBirr: fromWhere === "edit" ? data.amountBirr : "",
+      branchId: fromWhere === "edit" ? data.branchId : "",
+      branchName: fromWhere === "edit" ? data.branchName : "",
+      deliveryguyId: fromWhere === "edit" ? data.deliveryguyId : "",
+      deliveryguyName: fromWhere === "edit" ? data.deliveryguyName : "",
+      activeTable: fromWhere === "edit" ? data.activeTable : "",
+      active: fromWhere === "edit" ? data.active : "",
+      activeDailySummery: fromWhere === "edit" ? data.activeDailySummery : "",
     },
 
     validationSchema: EditCardOrderFormValidationSchema,
@@ -116,8 +122,8 @@ const EditCardOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
         values.callcenterId = user.uid;
         values.status = "new order";
         values.blockHouse = values.blockHouse.toUpperCase();
-        console.log("values", values);
-        const res = await create(user, data.id, values, "card");
+        console.log("values here ", values);
+        const res = await update(user, data.id, values, "card");
         openSnackbar(`${res.data.message}!`, "success");
         handleCloseForm();
       } catch (error) {
@@ -135,8 +141,9 @@ const EditCardOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
     formik.resetForm();
   };
 
-  const deliveryMan = deliveryMan ?
-    deliveryGuy[formik.values.branchId ? formik.values.branchId : ""] : [];
+  const deliveryMan = deliveryGuy
+    ? deliveryGuy[formik.values.branchId ? formik.values.branchId : ""]
+    : [];
   const deliveryman = deliveryMan?.map((item) => [
     item.deliveryGuyName,
     item.deliveryManId,

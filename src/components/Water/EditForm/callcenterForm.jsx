@@ -34,7 +34,12 @@ const EditWaterOrderFormValidationSchema = Yup.object().shape({
   billPayerName: Yup.string().required("Bill Payer Name is required"),
 });
 
-const EditWaterOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
+const EditWaterOrderForm = ({
+  data,
+  isEditDialogOpen,
+  closeEditDialog,
+  fromWhere,
+}) => {
   const params = useParams();
   const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
@@ -95,15 +100,15 @@ const EditWaterOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
       name: data.name,
       phone: data.phone,
       blockHouse: data.blockHouse,
-      billPayerName: data.billPayerName,
-      customerKey: data.customerKey,
-      branchId: data.branchId,
-      branchName: data.branchName,
-      deliveryguyId: data.deliveryguyId,
-      deliveryguyName: data.deliveryguyName,
-      activeTable: data.activeTable,
-      active: data.active,
-      activeDailySummery: data.activeDailySummery,
+      billPayerName: fromWhere === "edit" ? data.billPayerName : "",
+      customerKey: fromWhere === "edit" ? data.customerKey : "",
+      branchId: fromWhere === "edit" ? data.branchId : "",
+      branchName: fromWhere === "edit" ? data.branchName : "",
+      deliveryguyId: fromWhere === "edit" ? data.deliveryguyId : "",
+      deliveryguyName: fromWhere === "edit" ? data.deliveryguyName : "",
+      activeTable: fromWhere === "edit" ? data.activeTable : "",
+      active: fromWhere === "edit" ? data.active : "",
+      activeDailySummery: fromWhere === "edit" ? data.activeDailySummery : "",
     },
 
     validationSchema: EditWaterOrderFormValidationSchema,

@@ -34,7 +34,12 @@ const EditAsbezaOrderFormValidationSchema = Yup.object().shape({
   order: Yup.array().of(Yup.string().required("Order item is required")), // Validation for each order item
 });
 
-const EditAsbezaOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
+const EditAsbezaOrderForm = ({
+  data,
+  isEditDialogOpen,
+  closeEditDialog,
+  fromWhere,
+}) => {
   const params = useParams();
   const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
@@ -91,15 +96,15 @@ const EditAsbezaOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
       name: data.name,
       phone: data.phone,
       blockHouse: data.blockHouse,
-      additionalInfo: data.additionalInfo,
-      order: data.order,
-      branchId: data.branchId,
-      branchName: data.branchName,
-      deliveryguyId: data.deliveryguyId,
-      deliveryguyName: data.deliveryguyName,
-      activeTable: data.activeTable,
-      active: data.active,
-      activeDailySummery: data.activeDailySummery,
+      additionalInfo: fromWhere === "edit" ? data.additionalInfo : "",
+      order: fromWhere === "edit" ? data.order : [],
+      branchId: fromWhere === "edit" ? data.branchId : "",
+      branchName: fromWhere === "edit" ? data.branchName : "",
+      deliveryguyId: fromWhere === "edit" ? data.deliveryguyId : "",
+      deliveryguyName: fromWhere === "edit" ? data.deliveryguyName : "",
+      activeTable: fromWhere === "edit" ? data.activeTable : "",
+      active: fromWhere === "edit" ? data.active : "",
+      activeDailySummery: fromWhere === "edit" ? data.activeDailySummery : "",
     },
 
     validationSchema: EditAsbezaOrderFormValidationSchema,
@@ -374,7 +379,7 @@ const EditAsbezaOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
                           alignItems: "center",
                           justifyContent: "center",
                         }}
-                        variant="outlined"
+                        variant="contained"
                         onClick={() => handleRemoveOrderItem(index)}
                       >
                         Remove

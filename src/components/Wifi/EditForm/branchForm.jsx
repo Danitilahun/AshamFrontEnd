@@ -34,7 +34,12 @@ const EditWifiOrderFormValidationSchema = Yup.object().shape({
   ownerName: Yup.string().required("Owner Name is required"),
 });
 
-const EditWifiOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
+const EditWifiOrderForm = ({
+  data,
+  isEditDialogOpen,
+  closeEditDialog,
+  fromWhere,
+}) => {
   const params = useParams();
   const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
@@ -64,12 +69,12 @@ const EditWifiOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
       name: data.name,
       phone: data.phone,
       blockHouse: data.blockHouse,
-      ownerName: data.ownerName,
-      accountNumber: data.accountNumber,
+      ownerName: fromWhere === "edit" ? data.ownerName : "",
+      accountNumber: fromWhere === "edit" ? data.accountNumber : "",
+      deliveryguyId: fromWhere === "edit" ? data.deliveryguyId : "",
+      deliveryguyName: fromWhere === "edit" ? data.deliveryguyName : "",
       branchId: data.branchId,
       branchName: data.branchName,
-      deliveryguyId: data.deliveryguyId,
-      deliveryguyName: data.deliveryguyName,
       activeTable: data.activeTable,
       active: data.active,
       activeDailySummery: data.activeDailySummery,
@@ -83,6 +88,7 @@ const EditWifiOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
       try {
         const date = getInternationalDate();
         values.date = date;
+        values.status = "new order";
         values.blockHouse = values.blockHouse.toUpperCase();
         console.log("values", values);
         const res = await update(user, data.id, values, "wifi");

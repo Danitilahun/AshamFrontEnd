@@ -49,7 +49,7 @@ const WifiTable = () => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { openSnackbar } = useSnackbar();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-
+  const [fromWhere, setFromWhere] = useState("edit");
   const handleEdit = (row) => {
     console.log("from the table", row);
     if (row.status !== "new order") {
@@ -59,6 +59,7 @@ const WifiTable = () => {
       );
       return;
     }
+    setFromWhere("edit");
     setEditRow(row);
     setIsEditDialogOpen(true);
   };
@@ -68,20 +69,8 @@ const WifiTable = () => {
       openSnackbar(`You can only new orders if order is Completed!`, "info");
       return;
     }
-    const newRow = {
-      ...row,
-      accountNumber: "",
-      ownerName: "",
-      deliveryguyId: "",
-      deliveryguyName: "",
-      branchId: "",
-      branchName: "",
-      activeTable: "",
-      active: "",
-      activeDailySummery: "",
-    };
-
-    setEditRow(newRow);
+    setFromWhere("new");
+    setEditRow(row);
     setIsEditDialogOpen(true);
   };
 
