@@ -88,7 +88,7 @@ const BankTable = ({ bankName }) => {
 
   return (
     <Box
-      m="3rem 0"
+      m="1rem 0"
       sx={{
         backgroundColor: theme.palette.background.default,
         height: "30vh",
