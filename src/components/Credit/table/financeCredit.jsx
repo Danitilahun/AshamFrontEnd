@@ -19,6 +19,8 @@ import FinancialCreditForm from "../createCreditForm/financeCredit";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import useUserClaims from "../../../hooks/useUserClaims";
 import capitalizeString from "../../../utils/capitalizeString";
+import useDocumentById from "../../../hooks/useDocumentById";
+import ShowBudget from "../../Budget/ShowBudget";
 
 const columns = [
   { key: "employeeName", title: "Employee Name" },
@@ -49,7 +51,7 @@ const FinanceTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -189,7 +191,10 @@ const FinanceTable = () => {
       );
     };
   }, []);
-
+  const { documentData: totalCredit } = useDocumentById(
+    "totalCredit",
+    params.id ? params.id : user.uid
+  );
   const tableData = searchedData.length > 0 ? searchedData : data;
   console.log(params.id, "params.id");
   console.log(tableData, "tableData");
@@ -202,7 +207,18 @@ const FinanceTable = () => {
         onCancel={handleCancel}
         formComponent={FinancialCreditForm}
       />
-      
+
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <ShowBudget
+            label={"Total Credit"}
+            value={totalCredit.total}
+            marginTop={10}
+          />
+        </Grid>
+        <Grid item xs={6}></Grid>
+      </Grid>
+
       <DynamicTable
         data={tableData}
         columns={userClaim.finance ? columns : NonFinancecolumns}

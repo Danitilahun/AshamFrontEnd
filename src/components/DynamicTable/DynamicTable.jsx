@@ -189,6 +189,7 @@ const DynamicTable = ({
     onEdit(row); // Call the onEdit callback with the selected row data
   };
   const handleNew = (row) => {
+    console.log("row", row);
     onNew(row); // Call the onEdit callback with the selected row data
   };
 
@@ -267,12 +268,10 @@ const DynamicTable = ({
     };
     try {
       console.log("activeData", Data);
-
-      const res = await Assigned(user, Data, orderType);
-
-      if (orderType === "asbeza" && Data.status === "Completed") {
+      if (orderType === "asbeza" && order.status === "Assigned") {
         await AsbezaProfit(user, Data);
       }
+      const res = await Assigned(user, Data, orderType);
       openSnackbar(res.data.message, "success");
     } catch (error) {
       console.error("Error during form submission:", error);

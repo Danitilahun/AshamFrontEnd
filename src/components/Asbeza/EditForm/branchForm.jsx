@@ -60,6 +60,7 @@ const EditAsbezaOrderForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
     setShowForm(true);
   };
 
+  console.log("data from edit", data);
   const formik = useFormik({
     initialValues: {
       name: data.name,

@@ -87,7 +87,7 @@ const BudgetPage = () => {
       status &&
       documentData2
     ) {
-      console.log("banksdkfjnsdf", bank);
+      // console.log("banksdkfjnsdf", bank);
       // Create the new row with the calculated sum
       const date = formatDateRange(status.createdDate);
       const { id, ...restOfStatus } = status;
@@ -100,7 +100,7 @@ const BudgetPage = () => {
           restOfStatus.totalIncome - restOfStatus.totalExpense > 0
             ? "Profit"
             : "Loss",
-        amount: Math.abs(restOfStatus.totalIncome - restOfStatus.totalExpense),
+        amount: restOfStatus.totalIncome - restOfStatus.totalExpense,
       };
 
       console.log(documentData2?.sheetSummary);

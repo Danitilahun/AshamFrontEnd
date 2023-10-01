@@ -68,11 +68,11 @@ const AsbezaTable = () => {
     setIsEditDialogOpen(true);
   };
   const handleNew = (row) => {
+    console.log("from the table", row);
     if (row.status !== "Completed") {
       openSnackbar(`You can only new orders if order is Completed!`, "info");
       return;
     }
-    console.log("from the table", row);
     const newRow = {
       ...row,
       deliveryguyId: "",
@@ -81,8 +81,10 @@ const AsbezaTable = () => {
       branchName: "",
       order: [],
       additionalInfo: "",
+      status: "new order",
     };
 
+    console.log("newRow", newRow);
     setEditRow(newRow);
     setIsEditDialogOpen(true);
   };

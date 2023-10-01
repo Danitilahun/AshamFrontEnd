@@ -10,7 +10,6 @@ const AsbezaProfit = async (user, orderData) => {
     const idTokenResult = await user.getIdTokenResult();
     if (idTokenResult.claims.admin === true) {
       const idToken = await user.getIdToken();
-
       const res = await axios.post(
         `${API_BASE_URL}api/report/asbezaProfit`,
         orderData,

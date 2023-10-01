@@ -74,7 +74,7 @@ const EditFinanceCreditForm = ({
         const date = getInternationalDate();
         values.branchId = params.id;
         values.date = date;
-
+        values.difference = values.amount - credit.amount;
         console.log("values", values);
         const res = await updateCredit(
           user,
