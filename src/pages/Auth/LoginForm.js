@@ -9,6 +9,7 @@ import {
   Paper,
   TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { LockOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import { Formik, Form, Field } from "formik";
@@ -34,6 +35,7 @@ const LoginForm = () => {
   const { login, isLoading } = useAuth();
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const handlePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -131,7 +133,13 @@ const LoginForm = () => {
 
               <Typography
                 variant="body2"
-                sx={{ textAlign: "end", padding: "10px" }}
+                sx={{
+                  textAlign: "end",
+                  padding: "10px",
+                  fontSize: "1rem",
+                  color: theme.palette.text.secondary,
+                  fontWeight: 500,
+                }}
               >
                 <Link
                   to="/forget-password"
