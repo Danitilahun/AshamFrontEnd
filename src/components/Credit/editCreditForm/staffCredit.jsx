@@ -19,9 +19,8 @@ import { useAuth } from "../../../contexts/AuthContext";
 import getInternationalDate from "../../../utils/getDate";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import updateCredit from "../../../api/credit/update";
-import { DailyCreditFormValidationSchema } from "../validator/dailyCreditFormValidationSchema";
-import { StaffCreditFormValidationSchema } from "../validator/staffCreditFormValidationSchema";
 import capitalizeString from "../../../utils/capitalizeString";
+import { StaffCreditFormValidationSchema } from "../validator/edit";
 
 const EditStaffCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
   const params = useParams();
@@ -30,16 +29,8 @@ const EditStaffCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
   const { user } = useAuth();
   const theme = useTheme();
   const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
-  const [selectedDeliveryGuy, setSelectedDeliveryGuy] = useState("");
   const userClaims = useUserClaims(user);
-  const [placementOptions, setPlacementOptions] = useState([
-    "BranchAdmin",
-    "DeliveryGuy",
-    "Cleaner",
-    "Keeper",
-    "Bike Technician",
-    "Wifi Technician",
-  ]);
+
   let active = "";
   let worker = [];
   const storedData = localStorage.getItem("userData");
@@ -51,9 +42,6 @@ const EditStaffCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
 
   const formik = useFormik({
     initialValues: {
-      placement: credit.placement,
-      employeeName: credit.employeeName,
-      employeeId: credit.employeeId,
       amount: credit.amount,
       reason: credit.reason,
     },
@@ -67,10 +55,12 @@ const EditStaffCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
         const date = getInternationalDate();
         values.branchId = params.id;
         values.date = date;
+        values.placement = credit.placement;
+        values.employeeName = credit.employeeName;
+        values.employeeId = credit.employeeId;
         values.active = active;
         values.difference = values.amount - credit.amount;
         values.active = credit.active;
-        console.log("values", values);
         values.employessChange = values.employeeId !== credit.employeeId;
         const res = await updateCredit(user, credit.id, values, "StaffCredit");
         openSnackbar(`${res.data.message} successfully created!`, "success");
@@ -88,19 +78,6 @@ const EditStaffCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
       setIsSubmitting(false);
     },
   });
-
-  let filteredData = worker?.filter(
-    (item) => item.role === formik.values.placement
-  );
-  let transformedData = filteredData?.map((item) => [item.name, item.id]);
-  const handleDeliveryGuyChange = (event) => {
-    setSelectedDeliveryGuy(event.target.value);
-    const Id = event.target.value;
-    const Name =
-      transformedData.find((employee) => employee[1] === Id)?.[0] || "";
-    formik.setFieldValue("employeeName", Name);
-    formik.setFieldValue("employeeId", Id);
-  };
 
   const handleCloseForm = () => {
     closeEditDialog();
@@ -125,91 +102,6 @@ const EditStaffCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
             >
               <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6} md={6} lg={6}>
-                    <TextField
-                      select
-                      name="placement"
-                      label="Placement"
-                      required
-                      value={formik.values.placement}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      fullWidth
-                      InputLabelProps={{
-                        shrink: true,
-                        style: {
-                          marginTop: "8px",
-                          color: theme.palette.secondary[100],
-                        },
-                      }}
-                      SelectProps={{
-                        MenuProps: {
-                          PaperProps: {
-                            style: {
-                              backgroundColor: theme.palette.background.alt,
-                              color: "inherit",
-                            },
-                          },
-                        },
-                      }}
-                    >
-                      <MenuItem value="">Select Placement</MenuItem>
-                      {placementOptions.map((placement) => (
-                        <MenuItem key={placement} value={placement}>
-                          {placement}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6} lg={6}>
-                    <TextField
-                      select
-                      name="employeeId"
-                      variant="outlined"
-                      fullWidth
-                      required
-                      value={formik.values.employeeId}
-                      onChange={handleDeliveryGuyChange}
-                      onBlur={formik.handleBlur} // <-- Add this line
-                      label={
-                        formik.values.placement
-                          ? formik.values.placement
-                          : "Employee"
-                      }
-                      InputLabelProps={{
-                        shrink: true,
-                        style: {
-                          marginTop: "8px",
-                          color: theme.palette.secondary[100],
-                        },
-                      }}
-                      SelectProps={{
-                        MenuProps: {
-                          PaperProps: {
-                            style: {
-                              backgroundColor: theme.palette.background.alt,
-                              color: "inherit",
-                            },
-                          },
-                        },
-                      }}
-                      error={
-                        formik.touched.employeeId &&
-                        Boolean(formik.errors.employeeId)
-                      }
-                      helperText={
-                        formik.touched.employeeId && formik.errors.employeeId
-                      }
-                    >
-                      <MenuItem value="">Select Delivery Guy</MenuItem>
-                      {transformedData?.map((branch) => (
-                        <MenuItem key={branch[1]} value={branch[1]}>
-                          {branch[0]}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </Grid>
-
                   <CustomTextField
                     name="reason" // Use lowercase field name
                     label="Reason" // Use lowercase field name
