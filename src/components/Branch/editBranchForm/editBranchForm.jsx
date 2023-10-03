@@ -16,6 +16,7 @@ import { BranchFormValidationSchema } from "../validator/BranchFormValidationSch
 import CustomTextField from "../createBranchForm/CustomTextField";
 import updateBranch from "../../../api/branch/editBranch";
 import useUserClaims from "../../../hooks/useUserClaims";
+import updateBranchName from "../../../api/branch/nameChange";
 
 const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
   const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
@@ -51,6 +52,9 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
       const res = await updateBranch(user, branch.id, values); // Replace with your API update function
       openSnackbar(res.data.message, "success");
       handleCloseForm();
+      if (values.nameChange) {
+        await updateBranchName(user, branch.id, values);
+      }
     } catch (error) {
       if (error.response && error.response.data) {
         openSnackbar(
