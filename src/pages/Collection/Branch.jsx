@@ -65,7 +65,7 @@ const Branch = () => {
               <ShowBudget
                 label={"Next Budget"}
                 value={
-                  finance?.budget -
+                  parseFloat(finance?.budget) -
                   finance?.credit -
                   finance?.balance +
                   finance?.BudgetSummery
