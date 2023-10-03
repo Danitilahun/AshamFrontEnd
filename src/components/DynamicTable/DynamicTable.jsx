@@ -331,6 +331,9 @@ const DynamicTable = ({
   };
 
   // ... Other code
+
+  const numColumns = columns.length;
+  const columnWidth = numColumns > 0 ? `calc(100vw / ${numColumns})` : "auto";
   return (
     <>
       <div
@@ -358,6 +361,7 @@ const DynamicTable = ({
                   key={column.key}
                   className={`col-${column.key}`}
                   style={{
+                    width: columnWidth,
                     color: theme.palette.secondary[200],
                     backgroundColor: theme.palette.background.alt,
                   }} // Add a class for each column
