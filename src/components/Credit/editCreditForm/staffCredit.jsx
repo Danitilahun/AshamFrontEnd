@@ -50,8 +50,6 @@ const EditStaffCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
       // Send formData to the backend
       setIsSubmitting(true);
       try {
-        const name = capitalizeString(values.employeeName);
-        values.employeeName = name;
         const date = getInternationalDate();
         values.branchId = params.id;
         values.date = date;
