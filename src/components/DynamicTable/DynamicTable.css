@@ -32,7 +32,6 @@
   white-space: nowrap;
   overflow: hidden;
   max-width: 150px; /* Align header cells with data cells */
-
   text-align: left; /* New */
   font-weight: 400; /* New */
 }
@@ -60,10 +59,9 @@
 
 /* Hide scrollbar for IE, Edge and Firefox  New */
 .table-container {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
-
 
 /* Responsive styles for smaller screens */
 @media (max-width: 600px) {
@@ -84,39 +82,6 @@
   .custom-table td {
     font-size: 12px;
   }
-}
-
-/* Set column widths individually */
-.col-id {
-  width: 50px; /* Adjust the width as needed for each column */
-}
-
-.col-name {
-  width: 200px;
-}
-
-.col-age {
-  width: 50px;
-}
-
-.col-city {
-  width: 100px;
-}
-
-.col-email {
-  width: 200px;
-}
-
-.col-phone {
-  width: 100px;
-}
-
-.col-address {
-  width: 250px;
-}
-
-.col-company {
-  width: 150px;
 }
 
 .table-container {
