@@ -256,6 +256,7 @@ const WaterTable = () => {
           data={editRow}
           isEditDialogOpen={isEditDialogOpen}
           closeEditDialog={() => setIsEditDialogOpen(false)}
+          fromWhere={fromWhere}
         />
       )}
     </Box>

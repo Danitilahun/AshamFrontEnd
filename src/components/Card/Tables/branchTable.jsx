@@ -264,6 +264,7 @@ const CardTable = () => {
           data={editRow}
           isEditDialogOpen={isEditDialogOpen}
           closeEditDialog={() => setIsEditDialogOpen(false)}
+          fromWhere={fromWhere}
         />
       )}
     </Box>

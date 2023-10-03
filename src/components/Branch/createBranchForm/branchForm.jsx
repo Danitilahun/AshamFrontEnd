@@ -75,8 +75,6 @@ const BranchForm = () => {
       address: "",
       phone: "",
       ethioTelBill: "",
-      houseKeeper: "",
-      cleanerSalary: "",
       wifi: "",
       houseRent: "",
       account: "",
@@ -141,26 +139,6 @@ const BranchForm = () => {
                     label="Ethio Tel Bill"
                     type="number"
                     value={formik.values.ethioTelBill}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur} // <-- Add this line
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
-                  <CustomTextField
-                    name="houseKeeper"
-                    label="House Keeper"
-                    type="number"
-                    value={formik.values.houseKeeper}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur} // <-- Add this line
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
-                  <CustomTextField
-                    name="cleanerSalary"
-                    label="Cleaner Salary"
-                    type="number"
-                    value={formik.values.cleanerSalary}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur} // <-- Add this line
                     errors={formik.errors}

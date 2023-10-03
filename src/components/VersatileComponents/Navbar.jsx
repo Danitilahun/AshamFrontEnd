@@ -20,11 +20,13 @@ import {
   Paper,
 } from "@mui/material";
 import { useCustomTheme } from "../../contexts/ThemeContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useBranch } from "../../contexts/BranchContext";
 import EssentialComponent from "../Essential/EssentialComponent";
-
+import { firestore } from "../../services/firebase";
+import { collection, doc, onSnapshot } from "firebase/firestore";
+import useDocumentById from "../../hooks/useDocumentById";
 const Navbar = ({
   currentUser,
   isSidebarOpen,
@@ -39,6 +41,7 @@ const Navbar = ({
   const handleClose = () => setAnchorEl(null);
   const { toggleMode } = useCustomTheme();
   const { logout, user } = useAuth();
+  const params = useParams();
 
   const { branchName, branchInfo, sheetName, callCenterName } = useBranch();
   const [userClaims, setUserClaims] = useState({});
@@ -63,8 +66,6 @@ const Navbar = ({
     fetchUserClaims();
   }, [user]);
 
-  console.log("user claim", userClaims.superAdmin === true);
-  console.log("the sheet name is ", sheetName);
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
@@ -83,6 +84,27 @@ const Navbar = ({
     event.preventDefault();
     navigate(`/setting`);
   };
+
+  const [financeData, setFinanceData] = useState({});
+  useEffect(() => {
+    if (!userClaims.finance || !user || !user.uid) {
+      return; // Add a check for user and user.uid
+    }
+
+    const worksRef = doc(collection(firestore, "finance"), user.uid);
+
+    // Subscribe to real-time updates
+    const unsubscribe = onSnapshot(worksRef, (doc) => {
+      if (doc.exists()) {
+        setFinanceData(doc.data());
+      }
+    });
+
+    // Clean up the subscription when the component unmounts
+    return () => unsubscribe();
+  }, [user.uid]);
+
+  console.log("the finance data", financeData);
 
   return (
     <>

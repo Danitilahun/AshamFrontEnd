@@ -80,32 +80,36 @@ const BudgetPage = () => {
       setTotalFromAllBranch(sumFromAllBranch);
     }
     // Calculate the sum and update updatedSheetSummery when bank, totalCredit, or status changes
-    if (
-      status?.totalIncome !== undefined &&
-      bank &&
-      totalCredit &&
-      status &&
-      documentData2
-    ) {
+    if (bank && totalCredit && documentData2) {
       // console.log("banksdkfjnsdf", bank);
       // Create the new row with the calculated sum
-      const date = formatDateRange(status.createdDate);
-      const { id, ...restOfStatus } = status;
+      let newRow = {};
 
-      const newRow = {
-        ...restOfStatus,
-        dayRange: date,
-        totalCredit: totalCredit.total,
-        Sheetstatus:
-          restOfStatus.totalIncome - restOfStatus.totalExpense > 0
-            ? "Profit"
-            : "Loss",
-        amount: restOfStatus.totalIncome - restOfStatus.totalExpense,
-      };
+      if (status) {
+        const date = formatDateRange(status?.createdDate);
+        const { id, ...restOfStatus } = status;
 
+        newRow = {
+          ...restOfStatus,
+          dayRange: date,
+          totalCredit: totalCredit.total,
+          Sheetstatus:
+            restOfStatus.totalIncome - restOfStatus.totalExpense > 0
+              ? "Profit"
+              : "Loss",
+          amount: restOfStatus.totalIncome - restOfStatus.totalExpense,
+        };
+      }
+      console.log("status", status);
+      console.log("newRow", newRow);
       console.log(documentData2?.sheetSummary);
       // Combine the contents of documentData2.sheetSummery and newRow
-      const combinedSummery = [...(documentData2?.sheetSummary ?? []), newRow];
+      let combinedSummery = [];
+      if (Object.keys(newRow).length !== 0) {
+        combinedSummery = [...(documentData2?.sheetSummary ?? []), newRow];
+      } else {
+        combinedSummery = [...(documentData2?.sheetSummary ?? [])];
+      }
 
       // Update the state with the combined summery
       setUpdatedSheetSummery(combinedSummery);
@@ -184,17 +188,17 @@ const BudgetPage = () => {
           {userClaims.finance && (
             <>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <ShowBudget
                     label={"Total Status"}
                     value={documentData2.total}
                     marginTop={10}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <ShowBudget
                     label={"Next Budget"}
-                    value={finance.budget - totalFromAllBranch}
+                    value={finance.budget + totalFromAllBranch}
                     marginTop={10}
                   />
                 </Grid>

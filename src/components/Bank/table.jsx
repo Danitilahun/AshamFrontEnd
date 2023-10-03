@@ -99,7 +99,7 @@ const BankTable = ({ bankName }) => {
         data={data}
         columns={columns}
         loadMoreData={loadMoreData}
-        containerHeight={200}
+        containerHeight={220}
       />
     </Box>
   );

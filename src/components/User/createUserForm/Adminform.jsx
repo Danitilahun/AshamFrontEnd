@@ -80,6 +80,7 @@ const AdminRegisterForm = () => {
     "not assigned"
   );
 
+  console.log(branches);
   const branch = branches.map((item) => [item.name, item.id, item.active]);
 
   const handleBranchChange = (event) => {

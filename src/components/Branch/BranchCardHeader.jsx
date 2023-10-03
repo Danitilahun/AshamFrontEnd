@@ -35,7 +35,7 @@ const BranchCardHeader = ({
   const { user } = useAuth();
   const userClaims = useUserClaims(user);
   const { openSnackbar } = useSnackbar();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
 
   const handleSheetStatusChange = async () => {
     if (!branchData.activeSheet) {
@@ -47,6 +47,7 @@ const BranchCardHeader = ({
       const res = await ChangeSheetStatus(user, {
         branchId: branchData.id,
         previousActive: branchData.activeSheet,
+        active: branchData.active,
       });
       openSnackbar(res.data.message, "success");
     } catch (error) {

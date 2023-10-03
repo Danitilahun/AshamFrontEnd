@@ -7,14 +7,6 @@ export const BranchFormValidationSchema = yup.object().shape({
     .number()
     .typeError("Ethio Tel Bill must be a number")
     .required("Ethio Tel Bill in Birr is required"),
-  houseKeeper: yup
-    .number()
-    .typeError("House Keeper must be a number")
-    .required("House Keeper in Birr is required"),
-  cleanerSalary: yup
-    .number()
-    .typeError("Cleaner Salary must be a number")
-    .required("Cleaner Salary in Birr is required"),
   wifi: yup
     .number()
     .typeError("Wifi must be a number")
