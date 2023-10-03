@@ -68,7 +68,8 @@ const Branch = () => {
                   parseFloat(finance?.budget) -
                   finance?.credit -
                   finance?.balance +
-                  finance?.BudgetSummery
+                  finance?.BudgetSummery -
+                  finance?.totalExpense
                 }
                 marginTop={10}
               />
