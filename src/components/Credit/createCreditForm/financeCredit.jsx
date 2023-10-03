@@ -215,7 +215,7 @@ const FinancialCreditForm = ({ type }) => {
                         formik.touched.employeeId && formik.errors.employeeId
                       }
                     >
-                      <MenuItem value="">Select Delivery Guy</MenuItem>
+                      <MenuItem value="">Select</MenuItem>
                       {transformedData?.map((branch) => (
                         <MenuItem key={branch[1]} value={branch[1]}>
                           {branch[0]}
