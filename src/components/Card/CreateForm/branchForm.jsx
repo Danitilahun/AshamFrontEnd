@@ -93,6 +93,7 @@ const CardOrderBranchForm = () => {
           : user.displayName;
         values.status = "new order";
         values.blockHouse = values.blockHouse.toUpperCase();
+        values.cardBranch = values.callcenterId;
         values.from = "branch";
         console.log("values", values);
         const res = await create(user, values, "card");

@@ -118,6 +118,7 @@ const CardOrderForm = () => {
         values.status = "new order";
         values.blockHouse = values.blockHouse.toUpperCase();
         console.log("values", values);
+        values.cardBranch = values.branchId;
         const res = await create(user, values, "card");
         openSnackbar(`${res.data.message}!`, "success");
         handleCloseForm();

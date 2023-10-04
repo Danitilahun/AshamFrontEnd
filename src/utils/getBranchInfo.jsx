@@ -12,6 +12,7 @@ const extractData = (userData) => {
     activeDailySummery = null,
     active = null,
     bank = null,
+    paid = null,
   } = userData || {};
 
   return {
@@ -26,6 +27,7 @@ const extractData = (userData) => {
     activeDailySummery,
     active,
     bank,
+    paid,
   };
 };
 

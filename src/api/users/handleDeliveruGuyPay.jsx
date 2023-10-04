@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_BASE_URL } from "../utils/config";
 // Arrow function to create a branch using Axios
 
-const handlePay = async (activeSalaryTableId, deliveryGuyId, user) => {
+const handlePay = async (activeSalaryTableId, deliveryGuyId, user, data) => {
   try {
     if (user) {
       const idTokenResult = await user.getIdTokenResult();
@@ -10,7 +10,7 @@ const handlePay = async (activeSalaryTableId, deliveryGuyId, user) => {
         const idToken = await user.getIdToken();
         const response = await axios.put(
           `${API_BASE_URL}api/user/deliveryGuy/pay/${deliveryGuyId}/${activeSalaryTableId}`,
-          {},
+          data,
           {
             headers: {
               "Content-Type": "application/json",

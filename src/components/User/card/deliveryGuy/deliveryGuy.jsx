@@ -62,6 +62,7 @@ const UserCard = ({ userInfo }) => {
   } = useBranch();
   const branchData = getRequiredUserData();
   const [openDialog, setOpenDialog] = useState(false);
+  const [openDialog2, setOpenDialog2] = useState(false);
 
   const handleDeleteIconClick = () => {
     setOpenDialog(true);
@@ -71,6 +72,17 @@ const UserCard = ({ userInfo }) => {
   };
   const handleDialogClose = () => {
     setOpenDialog(false);
+  };
+
+  const handlepayment = () => {
+    if (branchData.paid) {
+      handleSalaryPay();
+    } else {
+      setOpenDialog2(true);
+    }
+  };
+  const handleDialogClose2 = () => {
+    setOpenDialog2(false);
   };
 
   const handleCardClick = (event) => {
@@ -121,10 +133,14 @@ const UserCard = ({ userInfo }) => {
       );
       return;
     }
+    handleDialogClose2();
     setIsSubmitting(true);
 
     try {
-      const res = await handlePay(branchData.active, userInfo.id, user);
+      const res = await handlePay(branchData.active, userInfo.id, user, {
+        branchId: branchData.requiredId,
+        paid: branchData.paid,
+      });
       openSnackbar(res.data.message, "success");
     } catch (error) {
       if (error.response && error.response.data) {
@@ -183,7 +199,7 @@ const UserCard = ({ userInfo }) => {
           handleDeleteIconClick={handleDeleteIconClick}
           handleCardClick={handleCardClick}
           handleClick={handleClick}
-          handleSalaryPay={handleSalaryPay}
+          handleSalaryPay={handlepayment}
           handleEdit={handleEdit}
         />
 
@@ -229,6 +245,15 @@ const UserCard = ({ userInfo }) => {
         handleConfirmed={handleDeleteConfirmed}
         message={`Are you sure you want to delete this Delivery Guy ?`}
         title={`Confirm  Delivery Guy deletion`}
+      />
+      <ConfirmationDialog
+        open={openDialog2}
+        handleDialogClose={handleDialogClose2}
+        handleConfirmed={handleSalaryPay}
+        message={
+          "Are you certain you wish to initiate payments for delivery personnel today? This action implies that all daily table activities have been completed, and no further entries will be added."
+        }
+        title={`Confirm Delivery Guy Salary Pay`}
       />
     </>
   );
