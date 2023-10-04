@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import Header from "../../components/VersatileComponents/Header";
+import React, { useEffect, useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import DynamicTable from "../../components/DynamicTable/DynamicTable";
 import { useCallback } from "react";
@@ -9,7 +8,7 @@ import { useParams } from "react-router-dom";
 import getHumanReadableDate from "../../utils/humanReadableDate";
 import fetchFirestoreDataWithFilter from "../../api/utils/fetchFirestoreDataWithFilter";
 import Search from "../../api/utils/search";
-import { useSnackbar } from "../../contexts/InfoContext";
+import { Helmet } from "react-helmet";
 
 const columns = [
   { key: "name", title: "Name" },
@@ -24,14 +23,12 @@ const columns = [
 ];
 
 const Customer = () => {
-  // const [data, setData] = useState(dummyData);
   const params = useParams();
   const theme = useTheme();
   const [data, setData] = useState([]);
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [searched, setSearched] = useState(false);
-  const { openSnackbar } = useSnackbar();
   const loadInitialData = async () => {
     try {
       await fetchFirestoreDataWithFilter(
@@ -145,84 +142,71 @@ const Customer = () => {
 
   const processedData = processArrayOfObjects(data);
   const searchResult = processArrayOfObjects(searchedData);
-  console.log("data", processedData);
 
   const tableData = searchedData.length > 0 ? searchResult : processedData;
 
-  // useEffect(() => {
-  //   console.log(
-  //     "searchedData",
-  //     searchedData,
-  //     searched,
-  //     searchedData.length === 0,
-  //     searchedData.length === 0 && searched
-  //   );
-  //   if (searchedData.length === 0 && searched) {
-  //     console.log("No result found. Please search based on blockHouse field.");
-  //     openSnackbar(
-  //       "No result found. Please search based on blockHouse field.",
-  //       "info"
-  //     );
-  //   } else {
-  //     setSearched(false);
-  //   }
-  // }, [searchedData, searched]);
-
   return (
-    <Box
-      m="1.5rem 2.5rem"
-      sx={{
-        backgroundColor: theme.palette.background.default,
-        height: "100%",
-        position: "relative",
-      }}
-    >
-      <Grid container spacing={2}>
-        <Grid
-          item
-          xs={6}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            justifyContent: "flex-start",
-          }}
-        >
-          <Box flex="1">
-            <Typography
-              variant="h2"
-              color={theme.palette.secondary[100]}
-              fontWeight="bold"
-              sx={{ mb: "5px" }}
-            >
-              Customer
-            </Typography>
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Customers</title>
+        {/* <link rel="canonical" href="http://localhost:3000/" /> */}
+        <meta name="description" content="List of Customers" />
+      </Helmet>
+      <Box
+        m="1.5rem 2.5rem"
+        sx={{
+          backgroundColor: theme.palette.background.default,
+          height: "100%",
+          position: "relative",
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid
+            item
+            xs={6}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+            }}
+          >
+            <Box flex="1">
+              <Typography
+                variant="h2"
+                color={theme.palette.secondary[100]}
+                fontWeight="bold"
+                sx={{ mb: "5px" }}
+              >
+                Customer
+              </Typography>
 
-            <Typography variant="h5" color={theme.palette.secondary[300]}>
-              Entire list of Customers
-            </Typography>
-          </Box>
+              <Typography variant="h5" color={theme.palette.secondary[300]}>
+                Entire list of Customers
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
+          </Grid>
         </Grid>
-        <Grid
-          item
-          xs={6}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
-        </Grid>
-      </Grid>
-      {/* <Header title="Customer" subtitle="Entire list of Customers" /> */}
-      {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
-      <DynamicTable
-        data={tableData}
-        columns={columns}
-        loadMoreData={loadMoreData}
-      />
-    </Box>
+
+        <DynamicTable
+          data={tableData}
+          columns={columns}
+          loadMoreData={loadMoreData}
+        />
+      </Box>
+    </>
   );
 };
 

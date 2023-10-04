@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import { useParams } from "react-router-dom";
 import Header from "../../components/VersatileComponents/Header";
@@ -9,7 +9,7 @@ import useTableDate from "../../hooks/useTableDate";
 import generateCustomID from "../../utils/generateCustomID";
 import { columns, summery2Column } from "../../utils/tableColumns";
 import { useTheme } from "@emotion/react";
-
+import { Helmet } from "react-helmet";
 const TablesPage = () => {
   const params = useParams();
   const sheetId = params.sheet;
@@ -34,49 +34,56 @@ const TablesPage = () => {
   const customID2 = generateCustomID(`${sheetId}-${branchId}`);
   const customID3 = generateCustomID(`${sheetId}-${branchId}-16day`);
 
-  console.log("customID", customID3);
   const { data: table } = useTableData(customID);
   const { data: tableSummary } = useTableData(customID2);
   const { data: tableDaySummary } = useTableData(customID3);
 
   return (
-    <Box
-      m="1.5rem 2.5rem"
-      sx={{
-        backgroundColor: theme.palette.background.default,
-        height: "100%",
-        position: "relative",
-      }}
-    >
-      <Header
-        title="Table"
-        subtitle="Entire list of tables"
-        tableId={table.length > 0 ? customID : "None"}
-      />
-      <TableTab
-        tableDate={tableDate}
-        selectedTab={selectedTab}
-        handleTabChange={handleTabChange}
-      />
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Sheet tables </title>
+        {/* <link rel="canonical" href="http://localhost:3000/" /> */}
+        <meta name="description" content="List of sheet table" />
+      </Helmet>
+      <Box
+        m="1.5rem 2.5rem"
+        sx={{
+          backgroundColor: theme.palette.background.default,
+          height: "100%",
+          position: "relative",
+        }}
+      >
+        <Header
+          title="Table"
+          subtitle="Entire list of tables"
+          tableId={table.length > 0 ? customID : "None"}
+        />
+        <TableTab
+          tableDate={tableDate}
+          selectedTab={selectedTab}
+          handleTabChange={handleTabChange}
+        />
 
-      {table.length > 0 && <DataTable rows={table} columns={columns} />}
+        {table.length > 0 && <DataTable rows={table} columns={columns} />}
 
-      <Header title="Summery Daily Table" subtitle="" />
+        <Header title="Summery Daily Table" subtitle="" />
 
-      {/* DataTable component for daily summary table */}
+        {/* DataTable component for daily summary table */}
 
-      {tableDaySummary.length > 0 && (
-        <DataTable rows={tableDaySummary} columns={summery2Column} />
-      )}
+        {tableDaySummary.length > 0 && (
+          <DataTable rows={tableDaySummary} columns={summery2Column} />
+        )}
 
-      <Header title="Summery Person Table" subtitle="" />
+        <Header title="Summery Person Table" subtitle="" />
 
-      {/* DataTable component for person summary table */}
+        {/* DataTable component for person summary table */}
 
-      {tableSummary.length > 0 && (
-        <DataTable rows={tableSummary} columns={columns} />
-      )}
-    </Box>
+        {tableSummary.length > 0 && (
+          <DataTable rows={tableSummary} columns={columns} />
+        )}
+      </Box>
+    </>
   );
 };
 

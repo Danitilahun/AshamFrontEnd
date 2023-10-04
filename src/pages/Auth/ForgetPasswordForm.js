@@ -7,6 +7,7 @@ import { Avatar } from "@mui/material";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import ErrorAlert from "../../components/VersatileComponents/ErrorAlert";
+import { Helmet } from "react-helmet";
 
 const initialValues = {
   email: "",
@@ -21,76 +22,84 @@ const ForgetPasswordForm = () => {
   const { forgotPassword } = useAuth();
   const [error, setError] = useState(null);
   return (
-    <Container
-      component="main"
-      maxWidth="xs"
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      <Paper
-        elevation={3}
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Forget Password</title>
+        {/* <link rel="canonical" href="http://localhost:3000/" /> */}
+        <meta name="description" content="forget password" />
+      </Helmet>
+      <Container
+        component="main"
+        maxWidth="xs"
         style={{
-          padding: 16,
           display: "flex",
-          flexDirection: "column",
+          justifyContent: "center",
           alignItems: "center",
+          height: "100vh",
         }}
       >
-        <Avatar style={{ backgroundColor: "#1976D2", margin: 8 }}>
-          <LockOutlined />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Forget Password
-        </Typography>
-        {error && (
-          <ErrorAlert message={error} /> // Show the error alert if error exists
-        )}
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={(values) => {
-            forgotPassword(values.email)
-              .then(() => {
-                navigate("/success", { state: { email: values.email } });
-              })
-              .catch((error) => {
-                setError(error.code);
-              });
+        <Paper
+          elevation={3}
+          style={{
+            padding: 16,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          {({ errors, touched }) => (
-            <Form style={{ width: "100%", marginTop: 8 }}>
-              <Field
-                as={TextField}
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                helperText={touched.email ? errors.email : ""}
-                error={touched.email && Boolean(errors.email)}
-              />
-
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                style={{ margin: "24px 0 16px" }}
-              >
-                Send Reset Link
-              </Button>
-            </Form>
+          <Avatar style={{ backgroundColor: "#1976D2", margin: 8 }}>
+            <LockOutlined />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Forget Password
+          </Typography>
+          {error && (
+            <ErrorAlert message={error} /> // Show the error alert if error exists
           )}
-        </Formik>
-      </Paper>
-    </Container>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={(values) => {
+              forgotPassword(values.email)
+                .then(() => {
+                  navigate("/success", { state: { email: values.email } });
+                })
+                .catch((error) => {
+                  setError(error.code);
+                });
+            }}
+          >
+            {({ errors, touched }) => (
+              <Form style={{ width: "100%", marginTop: 8 }}>
+                <Field
+                  as={TextField}
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  helperText={touched.email ? errors.email : ""}
+                  error={touched.email && Boolean(errors.email)}
+                />
+
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  style={{ margin: "24px 0 16px" }}
+                >
+                  Send Reset Link
+                </Button>
+              </Form>
+            )}
+          </Formik>
+        </Paper>
+      </Container>
+    </>
   );
 };
 

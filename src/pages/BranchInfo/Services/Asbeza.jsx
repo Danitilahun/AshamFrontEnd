@@ -1,46 +1,29 @@
-import React, { useContext, useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Grid,
-  TextField,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import AsbezaCard from "../../../components/Asbeza/AsbezaCard";
-import Header from "../../../components/VersatileComponents/Header";
-import { useParams } from "react-router-dom";
-import getData from "../../../api/services/DeliveryGuy/getDeliveryGuy";
+import React from "react";
+import { Box, useTheme } from "@mui/material";
 import AsbezaTable from "../../../components/Asbeza/Tables/branchTable";
+import { Helmet } from "react-helmet";
 
 const BranchAsbeza = () => {
-  const [admins, setAdmins] = useState([]);
-  const param = useParams();
   const theme = useTheme();
-
-  useEffect(() => {
-    const unsubscribe = getData("Asbeza", "branch", param.id, setAdmins);
-    return () => unsubscribe();
-  }, []);
-
-  console.log("asbeza", admins);
-
   return (
-    <Box
-      m="1.5rem 2.5rem"
-      sx={{
-        backgroundColor: theme.palette.background.default,
-        height: "100%",
-        position: "relative",
-      }}
-    >
-      {/* <Header
-        title="Asbeza Order"
-        subtitle="Entire list of Asbeza Orders"
-        from="branch"
-      /> */}
-      <AsbezaTable />
-    </Box>
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Asbeza </title>
+        {/* <link rel="canonical" href="http://localhost:3000/" /> */}
+        <meta name="description" content="List of Asbeza orders" />
+      </Helmet>
+      <Box
+        m="1.5rem 2.5rem"
+        sx={{
+          backgroundColor: theme.palette.background.default,
+          height: "100%",
+          position: "relative",
+        }}
+      >
+        <AsbezaTable />
+      </Box>
+    </>
   );
 };
 

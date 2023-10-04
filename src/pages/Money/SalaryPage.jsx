@@ -1,17 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box, Tab, Tabs, useTheme } from "@mui/material";
 import Header from "../../components/VersatileComponents/Header";
-import { salaryColumn, staffSalaryColumn } from "../../utils/tableColumns";
+import { salaryColumn } from "../../utils/tableColumns";
 import DataTable from "../../components/VersatileComponents/DataTable";
 import useTableData from "../../hooks/useTableData";
-import { Button } from "@mui/material";
 import BonusDialog from "../../components/BonusPenality/Bonus";
 import { useAuth } from "../../contexts/AuthContext";
 import useUserClaims from "../../hooks/useUserClaims";
-
+import { Helmet } from "react-helmet";
 const SalaryPage = () => {
-  // Step 1
-  const [tabsData, setTabsData] = useState([]); // Store your data here
   let active = "";
   let salaryTable = [];
 
@@ -126,9 +123,6 @@ const SalaryPage = () => {
     },
   ];
 
-  const handleAddBonus = (id) => {
-    console.log(id);
-  };
   if (!active) {
     active = "abcedafkas";
   }
@@ -145,77 +139,89 @@ const SalaryPage = () => {
     setSelectedTabTwo(newValue);
   };
   return (
-    <Box
-      m="1.5rem 2.5rem"
-      sx={{
-        backgroundColor: theme.palette.background.default,
-        height: "100%",
-        position: "relative",
-      }}
-    >
-      <Header title="Delivery guys Salary Table" subtitle="" />
-      <Tabs
-        value={selectedTab}
-        onChange={handleTabChange}
-        variant="scrollable"
-        scrollButtons="auto"
-        style={{
-          color: theme.palette.secondary[700],
-          backgroundColor: theme.palette.background.alt,
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Salary</title>
+        {/* <link rel="canonical" href="http://localhost:3000/" /> */}
+        <meta name="description" content="Salary pages" />
+      </Helmet>
+      <Box
+        m="1.5rem 2.5rem"
+        sx={{
+          backgroundColor: theme.palette.background.default,
+          height: "100%",
+          position: "relative",
         }}
       >
-        {salaryTable.map((tabData) => (
-          <Tab
-            key={tabData.id}
-            label={tabData.name}
-            value={tabData.id}
-            style={{
-              color: theme.palette.secondary[300],
-              ...(selectedTab === tabData.id && {
-                color: theme.palette.secondary[100],
-                borderBottom: `5px solid ${theme.palette.grey[900]}`,
-              }),
-            }}
-          />
-        ))}
-      </Tabs>
-      {salary.length > 0 && <DataTable rows={salary} columns={salaryColumn} />}
-      <Header title="Staff Salary Table" subtitle="" />
-      <Tabs
-        value={selectedTab2}
-        onChange={handleTabChange2}
-        variant="scrollable"
-        scrollButtons="auto"
-        style={{
-          color: theme.palette.secondary[700],
-          backgroundColor: theme.palette.background.alt,
-        }}
-      >
-        {salaryTable.map((tabData) => (
-          <Tab
-            key={tabData.id}
-            label={tabData.name}
-            value={tabData.id}
-            style={{
-              color: theme.palette.secondary[300],
-              ...(selectedTab === tabData.id && {
-                color: theme.palette.secondary[100],
-                borderBottom: `5px solid ${theme.palette.grey[900]}`,
-              }),
-            }}
-          />
-        ))}
-      </Tabs>
+        <Header title="Delivery guys Salary Table" subtitle="" />
+        <Tabs
+          value={selectedTab}
+          onChange={handleTabChange}
+          variant="scrollable"
+          scrollButtons="auto"
+          style={{
+            color: theme.palette.secondary[700],
+            backgroundColor: theme.palette.background.alt,
+          }}
+        >
+          {salaryTable.map((tabData) => (
+            <Tab
+              key={tabData.id}
+              label={tabData.name}
+              value={tabData.id}
+              style={{
+                color: theme.palette.secondary[300],
+                ...(selectedTab === tabData.id && {
+                  color: theme.palette.secondary[100],
+                  borderBottom: `5px solid ${theme.palette.grey[900]}`,
+                }),
+              }}
+            />
+          ))}
+        </Tabs>
+        {salary.length > 0 && (
+          <DataTable rows={salary} columns={salaryColumn} />
+        )}
+        <Header title="Staff Salary Table" subtitle="" />
+        <Tabs
+          value={selectedTab2}
+          onChange={handleTabChange2}
+          variant="scrollable"
+          scrollButtons="auto"
+          style={{
+            color: theme.palette.secondary[700],
+            backgroundColor: theme.palette.background.alt,
+          }}
+        >
+          {salaryTable.map((tabData) => (
+            <Tab
+              key={tabData.id}
+              label={tabData.name}
+              value={tabData.id}
+              style={{
+                color: theme.palette.secondary[300],
+                ...(selectedTab === tabData.id && {
+                  color: theme.palette.secondary[100],
+                  borderBottom: `5px solid ${theme.palette.grey[900]}`,
+                }),
+              }}
+            />
+          ))}
+        </Tabs>
 
-      {staffSalary.length > 0 && (
-        <DataTable
-          rows={staffSalary}
-          columns={
-            userClaims.admin ? staffSalaryColumn : staffSalaryColumnForNonAdmin
-          }
-        />
-      )}
-    </Box>
+        {staffSalary.length > 0 && (
+          <DataTable
+            rows={staffSalary}
+            columns={
+              userClaims.admin
+                ? staffSalaryColumn
+                : staffSalaryColumnForNonAdmin
+            }
+          />
+        )}
+      </Box>
+    </>
   );
 };
 

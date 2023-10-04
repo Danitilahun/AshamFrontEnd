@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import DynamicTable from "../../components/DynamicTable/DynamicTable";
 import { useCallback } from "react";
@@ -7,7 +7,7 @@ import SearchInput from "../../components/VersatileComponents/SearchInput";
 import getHumanReadableDate from "../../utils/humanReadableDate";
 import fetchFirestoreDataWithFilter from "../../api/utils/pagination";
 import Search from "../../api/utils/oneConditionSearch";
-
+import { Helmet } from "react-helmet";
 const columns = [
   { key: "name", title: "Name" },
   { key: "phone", title: "Phone" },
@@ -22,16 +22,14 @@ const columns = [
 ];
 
 const Customer = () => {
-  // const [data, setData] = useState(dummyData);
   const theme = useTheme();
   const [searchedData, setSearchedData] = useState([]);
   const [data, setData] = useState([]);
-  const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
+  const [lastDoc, setLastDoc] = useState(null);
 
   const loadInitialData = async () => {
     try {
       fetchFirestoreDataWithFilter("customer", null, 10, data, setData);
-      // Set the last document for pagination
     } catch (error) {
       console.error("Error loading initial data:", error);
     }
@@ -48,10 +46,6 @@ const Customer = () => {
   }, [data]);
 
   const handleSearch = (searchText) => {
-    console.log("Search Text:", searchText);
-
-    // Perform additional actions when searching here
-
     if (searchText.trim() === "") {
       setSearchedData([]);
       loadInitialData();
@@ -108,10 +102,6 @@ const Customer = () => {
     const currentDate = new Date();
 
     return data?.map((item) => {
-      // Convert properties
-      // console.log("check", Boolean(item.Asbeza) === true);
-      // Calculate day difference
-
       const createdDate = new Date(item.createdDate);
       const dayDifference = Math.floor(
         (currentDate - createdDate) / (1000 * 60 * 60 * 24)
@@ -126,60 +116,68 @@ const Customer = () => {
   const searchResult = processArrayOfObjects(searchedData);
   const tableData = searchedData.length > 0 ? searchResult : processedData;
   return (
-    <Box
-      m="1.5rem 2.5rem"
-      sx={{
-        backgroundColor: theme.palette.background.default,
-        height: "100%",
-        position: "relative",
-      }}
-    >
-      <Grid container spacing={2}>
-        <Grid
-          item
-          xs={6}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            justifyContent: "flex-start",
-          }}
-        >
-          <Box flex="1">
-            <Typography
-              variant="h2"
-              color={theme.palette.secondary[100]}
-              fontWeight="bold"
-              sx={{ mb: "5px" }}
-            >
-              Customer
-            </Typography>
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Customer </title>
+        {/* <link rel="canonical" href="http://localhost:3000/" /> */}
+        <meta name="description" content="List of customers" />
+      </Helmet>
+      <Box
+        m="1.5rem 2.5rem"
+        sx={{
+          backgroundColor: theme.palette.background.default,
+          height: "100%",
+          position: "relative",
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid
+            item
+            xs={6}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+            }}
+          >
+            <Box flex="1">
+              <Typography
+                variant="h2"
+                color={theme.palette.secondary[100]}
+                fontWeight="bold"
+                sx={{ mb: "5px" }}
+              >
+                Customer
+              </Typography>
 
-            <Typography variant="h5" color={theme.palette.secondary[300]}>
-              Entire list of Customers
-            </Typography>
-          </Box>
+              <Typography variant="h5" color={theme.palette.secondary[300]}>
+                Entire list of Customers
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
+          </Grid>
         </Grid>
-        <Grid
-          item
-          xs={6}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
-        </Grid>
-      </Grid>
-      {/* <Header title="Customer" subtitle="Entire list of Customers" />
+        {/* <Header title="Customer" subtitle="Entire list of Customers" />
       <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
-      <DynamicTable
-        data={tableData}
-        columns={columns}
-        loadMoreData={loadMoreData}
-      />
-    </Box>
+        <DynamicTable
+          data={tableData}
+          columns={columns}
+          loadMoreData={loadMoreData}
+        />
+      </Box>
+    </>
   );
 };
 

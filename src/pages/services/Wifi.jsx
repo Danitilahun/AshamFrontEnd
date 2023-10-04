@@ -1,12 +1,17 @@
 import React from "react";
 import { Box, useTheme } from "@mui/material";
-import Header from "../../components/VersatileComponents/Header";
 import WifiTable from "../../components/Wifi/Tables/callcenterTable";
-
+import { Helmet } from "react-helmet";
 const Wifi = () => {
   const theme = useTheme();
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Wifi</title>
+        {/* <link rel="canonical" href="http://localhost:3000/" /> */}
+        <meta name="description" content="List of wifi orders" />
+      </Helmet>
       <Box
         m="1.5rem 2.5rem"
         sx={{
@@ -15,11 +20,6 @@ const Wifi = () => {
           position: "relative",
         }}
       >
-        {/* <Header
-          title="Wifi Order"
-          subtitle="Entire list of Wifi Orders"
-          from={"callcenter"}
-        /> */}
         <WifiTable />
       </Box>
     </>

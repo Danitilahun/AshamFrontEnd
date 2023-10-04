@@ -1,18 +1,14 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Grid, useTheme } from "@mui/material";
 import Header from "../../components/VersatileComponents/Header";
 import Calculator from "../../components/VersatileComponents/financeCalculator";
-import DynamicTable from "../../components/DynamicTable/DynamicTable";
 import { useParams } from "react-router-dom";
-import loadDataFromFirestore from "../../api/utils/loadDataFromFirestore";
-import { useAuth } from "../../contexts/AuthContext";
 import { firestore } from "../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 import ShowBudget from "../../components/Budget/ShowBudget";
 import ExpenseTable from "../../components/Expense/table";
-
+import { Helmet } from "react-helmet";
 const Expenses = () => {
-  const { user } = useAuth();
   const params = useParams();
   const theme = useTheme();
   const [financeUser, setFinanceUser] = useState({});
@@ -31,32 +27,39 @@ const Expenses = () => {
     return () => unsubscribe();
   }, [params.id]);
 
-  console.log("finance", financeUser);
   return (
-    <Box
-      m="1.5rem 2.5rem"
-      sx={{
-        backgroundColor: theme.palette.background.default,
-        height: "100%",
-        position: "relative",
-      }}
-    >
-      <Header title="Expense" subtitle="Entire list of Expense" />
-      <Grid container spacing={2}>
-        <Grid item xs={6} sx={{ mt: 3 }}>
-          <ExpenseTable />
-          <ShowBudget
-            label={"Total Expense"}
-            value={financeUser ? financeUser.totalExpense : "not available"}
-            marginTop={10}
-          />
-        </Grid>
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title> Expense </title>
+        {/* <link rel="canonical" href="http://localhost:3000/" /> */}
+        <meta name="description" content="List of expense" />
+      </Helmet>
+      <Box
+        m="1.5rem 2.5rem"
+        sx={{
+          backgroundColor: theme.palette.background.default,
+          height: "100%",
+          position: "relative",
+        }}
+      >
+        <Header title="Expense" subtitle="Entire list of Expense" />
+        <Grid container spacing={2}>
+          <Grid item xs={6} sx={{ mt: 3 }}>
+            <ExpenseTable />
+            <ShowBudget
+              label={"Total Expense"}
+              value={financeUser ? financeUser.totalExpense : "not available"}
+              marginTop={10}
+            />
+          </Grid>
 
-        <Grid item xs={6}>
-          <Calculator />
+          <Grid item xs={6}>
+            <Calculator />
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </>
   );
 };
 

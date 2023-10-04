@@ -1,26 +1,32 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Box, Grid, Paper, useTheme } from "@mui/material";
-import Header from "../../../components/VersatileComponents/Header";
+import React from "react";
+import { Box, Grid, useTheme } from "@mui/material";
 import StaffCreditTable from "../../../components/Credit/table/staffCredit";
-
+import { Helmet } from "react-helmet";
 const Staff = () => {
   const theme = useTheme();
   return (
-    <Box
-      m="1.5rem 2.5rem"
-      sx={{
-        backgroundColor: theme.palette.background.default,
-        height: "100vh",
-        position: "relative",
-      }}
-    >
-      {/* <Header title="Staff credit" subtitle="Entire list of Customer credits" /> */}
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <StaffCreditTable />
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Staff Credit </title>
+        {/* <link rel="canonical" href="http://localhost:3000/" /> */}
+        <meta name="description" content="List of branch delivery guys" />
+      </Helmet>
+      <Box
+        m="1.5rem 2.5rem"
+        sx={{
+          backgroundColor: theme.palette.background.default,
+          height: "100vh",
+          position: "relative",
+        }}
+      >
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <StaffCreditTable />
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </>
   );
 };
 

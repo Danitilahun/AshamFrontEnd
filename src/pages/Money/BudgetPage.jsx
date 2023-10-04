@@ -1,22 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Grid, useTheme } from "@mui/material";
-import Header from "../../components/VersatileComponents/Header";
-import getHumanReadableDate from "../../utils/humanReadableDate";
-import CustomInfoRow from "../../components/CustomComponents/CustomInfoRow";
 import useDocumentById from "../../hooks/useDocumentById";
-import BudgetHeader from "../../components/Budget/BudgetHeader";
-import TransactionTable from "../../components/Budget/TransactionTable";
-import BudgetSummary from "../../components/Budget/BudgetSummary";
-import BankSummary from "../../components/Budget/BankSummary";
 import DynamicTable from "../../components/DynamicTable/DynamicTable";
 import ShowBudget from "../../components/Budget/ShowBudget";
-import { useParams } from "react-router-dom";
-import calculateDayDifference from "../../utils/calculateDayDifference";
 import formatDateRange from "../../utils/formatDateRange";
 import useUserClaims from "../../hooks/useUserClaims";
 import { useAuth } from "../../contexts/AuthContext";
 import useCollectionData from "../../hooks/useCollectionData";
-
+import { Helmet } from "react-helmet";
 const columns = [
   { key: "dayRange", title: "Date" },
   { key: "totalExpense", title: "Total Expense" },
@@ -27,7 +18,6 @@ const columns = [
 ];
 
 const BudgetPage = () => {
-  const params = useParams();
   const theme = useTheme();
   const storedData = localStorage.getItem("userData");
   let openingDate = "";
@@ -64,9 +54,6 @@ const BudgetPage = () => {
   );
   const { documentData: bank } = useDocumentById("Bank", branchId);
 
-  // const date = getHumanReadableDate(openingDate);
-  // const Data = documentData2 ? documentData2.sheetSummery : [];
-
   const [updatedSheetSummery, setUpdatedSheetSummery] = useState([]);
   const [totalFromAllBranch, setTotalFromAllBranch] = useState(0);
   useEffect(() => {
@@ -81,8 +68,6 @@ const BudgetPage = () => {
     }
     // Calculate the sum and update updatedSheetSummery when bank, totalCredit, or status changes
     if (bank && totalCredit && documentData2) {
-      // console.log("banksdkfjnsdf", bank);
-      // Create the new row with the calculated sum
       let newRow = {};
 
       if (status) {
@@ -100,10 +85,7 @@ const BudgetPage = () => {
           amount: restOfStatus.totalIncome - restOfStatus.totalExpense,
         };
       }
-      console.log("status", status);
-      console.log("newRow", newRow);
-      console.log(documentData2?.sheetSummary);
-      // Combine the contents of documentData2.sheetSummery and newRow
+
       let combinedSummery = [];
       if (Object.keys(newRow).length !== 0) {
         combinedSummery = [...(documentData2?.sheetSummary ?? []), newRow];
@@ -115,101 +97,108 @@ const BudgetPage = () => {
       setUpdatedSheetSummery(combinedSummery);
     }
   }, [bank, totalCredit, status, documentData2]);
-  console.log("updatedSheetSummery", updatedSheetSummery);
   return (
-    <Box
-      m="1.5rem 2.5rem"
-      sx={{
-        backgroundColor: theme.palette.background.default,
-        height: "100%",
-        position: "relative",
-      }}
-    >
-      {documentData2 ? (
-        <>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <ShowBudget
-                label={"Total Budget"}
-                value={
-                  userClaims.finance ? finance.budget : documentData2.budget
-                }
-                marginTop={10}
-              />
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Budget </title>
+        {/* <link rel="canonical" href="http://localhost:3000/" /> */}
+        <meta name="description" content="budget page" />
+      </Helmet>
+      <Box
+        m="1.5rem 2.5rem"
+        sx={{
+          backgroundColor: theme.palette.background.default,
+          height: "100%",
+          position: "relative",
+        }}
+      >
+        {documentData2 ? (
+          <>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <ShowBudget
+                  label={"Total Budget"}
+                  value={
+                    userClaims.finance ? finance.budget : documentData2.budget
+                  }
+                  marginTop={10}
+                />
+              </Grid>
+              <Grid item xs={6}></Grid>
             </Grid>
-            <Grid item xs={6}></Grid>
-          </Grid>
 
-          <DynamicTable
-            data={updatedSheetSummery}
-            columns={columns}
-            // loadMoreData={loadMoreData}
-          />
+            <DynamicTable
+              data={updatedSheetSummery}
+              columns={columns}
+              // loadMoreData={loadMoreData}
+            />
 
-          {!userClaims.finance && (
-            <>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <ShowBudget
-                    label={"Final Budget"}
-                    value={documentData2?.budget}
-                    marginTop={10}
-                  />
+            {!userClaims.finance && (
+              <>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <ShowBudget
+                      label={"Final Budget"}
+                      value={documentData2?.budget}
+                      marginTop={10}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <ShowBudget
+                      label={"All Credit"}
+                      value={totalCredit?.total}
+                      marginTop={10}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={6}>
-                  <ShowBudget
-                    label={"All Credit"}
-                    value={totalCredit?.total}
-                    marginTop={10}
-                  />
-                </Grid>
-              </Grid>
 
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <ShowBudget
-                    label={"Next Budget"}
-                    value={
-                      documentData2?.budget - totalCredit?.total - bank?.total
-                    }
-                    marginTop={10}
-                  />
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <ShowBudget
+                      label={"Next Budget"}
+                      value={
+                        documentData2?.budget - totalCredit?.total - bank?.total
+                      }
+                      marginTop={10}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <ShowBudget
+                      label={"Bank Balance"}
+                      value={bank?.total}
+                      marginTop={10}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={6}>
-                  <ShowBudget
-                    label={"Bank Balance"}
-                    value={bank?.total}
-                    marginTop={10}
-                  />
+              </>
+            )}
+            {userClaims.finance && (
+              <>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <ShowBudget
+                      label={"Total Status"}
+                      value={documentData2.total}
+                      marginTop={10}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <ShowBudget
+                      label={"Next Budget"}
+                      value={finance.budget + totalFromAllBranch}
+                      marginTop={10}
+                    />
+                  </Grid>
                 </Grid>
-              </Grid>
-            </>
-          )}
-          {userClaims.finance && (
-            <>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <ShowBudget
-                    label={"Total Status"}
-                    value={documentData2.total}
-                    marginTop={10}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <ShowBudget
-                    label={"Next Budget"}
-                    value={finance.budget + totalFromAllBranch}
-                    marginTop={10}
-                  />
-                </Grid>
-              </Grid>
-            </>
-          )}
-        </>
-      ) : (
-        <></>
-      )}
-    </Box>
+              </>
+            )}
+          </>
+        ) : (
+          <></>
+        )}
+      </Box>
+    </>
   );
 };
 

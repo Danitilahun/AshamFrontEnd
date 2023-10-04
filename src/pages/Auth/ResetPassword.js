@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Button,
@@ -15,7 +15,7 @@ import * as Yup from "yup";
 import { useAuth } from "../../contexts/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import ErrorAlert from "../../components/VersatileComponents/ErrorAlert";
-
+import { Helmet } from "react-helmet";
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
@@ -55,128 +55,136 @@ const ResetPasswordForm = () => {
   };
 
   return (
-    <Container
-      component="main"
-      maxWidth="xs"
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      <Paper
-        elevation={3}
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title> Reset Password </title>
+        {/* <link rel="canonical" href="http://localhost:3000/" /> */}
+        <meta name="description" content="reset password" />
+      </Helmet>
+      <Container
+        component="main"
+        maxWidth="xs"
         style={{
-          padding: 16,
           display: "flex",
-          flexDirection: "column",
+          justifyContent: "center",
           alignItems: "center",
+          height: "100vh",
         }}
       >
-        <Avatar style={{ backgroundColor: "#1976D2", margin: 8 }}>
-          <LockOutlined />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Reset Password
-        </Typography>
-        {error && (
-          <ErrorAlert message={error} /> // Show the error alert if error exists
-        )}
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={(values) => {
-            resetPassword(query.get("oobCode"), values.password)
-              .then(() => {
-                navigate("/login");
-              })
-              .catch((error) => {
-                console.log(error.code);
-                setError(error.code);
-              });
+        <Paper
+          elevation={3}
+          style={{
+            padding: 16,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          {({ errors, touched }) => (
-            <Form style={{ width: "100%", marginTop: 8 }}>
-              <Field
-                as={TextField}
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="password"
-                label="New Password"
-                name="password"
-                type={showPassword ? "text" : "password"}
-                autoComplete="new-password"
-                helperText={touched.password ? errors.password : ""}
-                error={touched.password && Boolean(errors.password)}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        edge="end"
-                        aria-label="toggle password visibility"
-                        onClick={handlePasswordVisibility}
-                        onMouseDown={(e) => e.preventDefault()}
-                      >
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-
-              <Field
-                as={TextField}
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="confirmPassword"
-                label="Confirm New Password"
-                name="confirmPassword"
-                type={showConfirmPassword ? "text" : "password"}
-                autoComplete="new-password"
-                helperText={
-                  touched.confirmPassword ? errors.confirmPassword : ""
-                }
-                error={
-                  touched.confirmPassword && Boolean(errors.confirmPassword)
-                }
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        edge="end"
-                        aria-label="toggle confirm password visibility"
-                        onClick={handleConfirmPasswordVisibility}
-                        onMouseDown={(e) => e.preventDefault()}
-                      >
-                        {showConfirmPassword ? (
-                          <Visibility />
-                        ) : (
-                          <VisibilityOff />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                style={{ margin: "24px 0 16px" }}
-              >
-                Reset Password
-              </Button>
-            </Form>
+          <Avatar style={{ backgroundColor: "#1976D2", margin: 8 }}>
+            <LockOutlined />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Reset Password
+          </Typography>
+          {error && (
+            <ErrorAlert message={error} /> // Show the error alert if error exists
           )}
-        </Formik>
-      </Paper>
-    </Container>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={(values) => {
+              resetPassword(query.get("oobCode"), values.password)
+                .then(() => {
+                  navigate("/login");
+                })
+                .catch((error) => {
+                  console.log(error.code);
+                  setError(error.code);
+                });
+            }}
+          >
+            {({ errors, touched }) => (
+              <Form style={{ width: "100%", marginTop: 8 }}>
+                <Field
+                  as={TextField}
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="password"
+                  label="New Password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="new-password"
+                  helperText={touched.password ? errors.password : ""}
+                  error={touched.password && Boolean(errors.password)}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          edge="end"
+                          aria-label="toggle password visibility"
+                          onClick={handlePasswordVisibility}
+                          onMouseDown={(e) => e.preventDefault()}
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+
+                <Field
+                  as={TextField}
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="confirmPassword"
+                  label="Confirm New Password"
+                  name="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  autoComplete="new-password"
+                  helperText={
+                    touched.confirmPassword ? errors.confirmPassword : ""
+                  }
+                  error={
+                    touched.confirmPassword && Boolean(errors.confirmPassword)
+                  }
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          edge="end"
+                          aria-label="toggle confirm password visibility"
+                          onClick={handleConfirmPasswordVisibility}
+                          onMouseDown={(e) => e.preventDefault()}
+                        >
+                          {showConfirmPassword ? (
+                            <Visibility />
+                          ) : (
+                            <VisibilityOff />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  style={{ margin: "24px 0 16px" }}
+                >
+                  Reset Password
+                </Button>
+              </Form>
+            )}
+          </Formik>
+        </Paper>
+      </Container>
+    </>
   );
 };
 

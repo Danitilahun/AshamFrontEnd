@@ -1,26 +1,33 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Box, Grid, Paper, useTheme } from "@mui/material";
-import Header from "../../../components/VersatileComponents/Header";
+import React from "react";
+import { Box, Grid, useTheme } from "@mui/material";
 import WaterDistributeTable from "../../../components/Report/tables/waterDIstribute";
-
+import { Helmet } from "react-helmet";
 const WaterDistribute = () => {
   const theme = useTheme();
   return (
-    <Box
-      m="1.5rem 2.5rem"
-      sx={{
-        backgroundColor: theme.palette.background.default,
-        height: "100%",
-        position: "relative",
-      }}
-    >
-      {/* <Header title="Water Report" subtitle="Entire list of water Reports" /> */}
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <WaterDistributeTable />
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Water Report </title>
+        {/* <link rel="canonical" href="http://localhost:3000/" /> */}
+        <meta name="description" content="List of water reports" />
+      </Helmet>
+      <Box
+        m="1.5rem 2.5rem"
+        sx={{
+          backgroundColor: theme.palette.background.default,
+          height: "100%",
+          position: "relative",
+        }}
+      >
+        {/* <Header title="Water Report" subtitle="Entire list of water Reports" /> */}
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <WaterDistributeTable />
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </>
   );
 };
 
