@@ -29,12 +29,13 @@ import FlexBetween from "../VersatileComponents/FlexBetween";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import CalculateIcon from "@mui/icons-material/Calculate";
-// import getDocumentById from "../../api/utils/try";
 import { firestore } from "../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 import { useAuth } from "../../contexts/AuthContext";
 import getRequiredUserData from "../../utils/getBranchInfo";
 import useUserClaims from "../../hooks/useUserClaims";
+import NetworkWifiIcon from "@mui/icons-material/NetworkWifi";
+import LocationCityIcon from "@mui/icons-material/LocationCity";
 const navItems = [
   {
     text: "Delivery Guy",
@@ -64,17 +65,17 @@ const navItems = [
       {
         text: "Wifi Distribute",
         path: "wifidistribute",
-        icon: <Money />,
+        icon: <NetworkWifiIcon />,
       },
       {
         text: "Water Distribute",
         path: "waterdistribute",
-        icon: <MiscellaneousServicesIcon />,
+        icon: <WaterIcon />,
       },
       {
         text: "Hotel Profit",
         path: "hotelprofit",
-        icon: <DvrIcon />,
+        icon: <LocationCityIcon />,
       },
     ],
   },
@@ -178,9 +179,7 @@ const BranchSidebar = ({
   isNonMobile,
 }) => {
   const { user, currentUser, logout } = useAuth();
-  console.log("user", user);
   const userClaims = useUserClaims(user);
-  console.log("userClaims", userClaims.admin, user, user.uid);
   const { pathname } = useLocation();
   const params = useParams();
   const branchData = getRequiredUserData();
@@ -214,7 +213,6 @@ const BranchSidebar = ({
     if (!userClaims.admin || !user || !user.uid) {
       return; // Add a check for user and user.uid
     }
-    console.log("askjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjd");
     const worksRef = doc(collection(firestore, "admin"), user.uid);
 
     // Subscribe to real-time updates
@@ -239,8 +237,6 @@ const BranchSidebar = ({
     }
   }, [user.uid]);
 
-  // console.log("branch info", documentData2);
-
   const [active, setActive] = useState(
     `deliveryguy/${branchId ? branchId : params.id}`
   );
@@ -253,7 +249,6 @@ const BranchSidebar = ({
 
   useEffect(() => {
     if (params.id === "null") {
-      console.log("params.id", params.id === "null");
       const pathnameSegments = pathname.split("/");
 
       // Filter out 'null' segments
@@ -262,16 +257,13 @@ const BranchSidebar = ({
       );
       // Join the filtered segments back together
       const newPathname = filteredSegments.join("/");
-      console.log("newPathname", newPathname);
       setActive(`${newPathname}/${branchId}`);
-      console.log("active", active);
       navigate(`${newPathname}/${branchId}`);
     } else {
       setActive(pathname);
     }
   }, [pathname]);
 
-  console.log(pathname, "param", params, "branchId", branchId);
   const handleCardClick = (event) => {
     event.preventDefault();
     navigate(`/`);
@@ -323,15 +315,6 @@ const BranchSidebar = ({
                         >
                           ASHAM
                         </Typography>
-                      </Grid>
-                      <Grid item xs={4}>
-                        {/* <img
-                          width={"50px"}
-                          height={"50px"}
-                          src="/assets/delivery.png" // Replace with the actual image source
-                          alt="Image Alt Text" // Provide alt text for accessibility
-                          style={{ marginRight: "10px", cursor: "pointer" }} // Add some margin for spacing
-                        /> */}
                       </Grid>
                     </Grid>
                   </div>
