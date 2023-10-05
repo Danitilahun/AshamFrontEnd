@@ -185,6 +185,30 @@ const BudgetPage = () => {
                     />
                   </Grid>
                 </Grid>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    {console.log(
+                      documentData2?.budget,
+                      totalCredit?.total,
+                      bank?.total,
+                      status?.totalIncome,
+                      status?.totalExpense
+                    )}
+                    <ShowBudget
+                      label={"Total Expense"}
+                      value={documentData2 ? documentData2?.total : 0}
+                      marginTop={10}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    {/* <ShowBudget
+                      label={"Bank Balance"}
+                      value={bank?.total}
+                      marginTop={10}
+                    /> */}
+                  </Grid>
+                </Grid>
               </>
             )}
             {userClaims.finance && (
