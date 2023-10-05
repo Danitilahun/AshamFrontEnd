@@ -166,14 +166,14 @@ const BudgetPage = () => {
                     )}
                     <ShowBudget
                       label={"Next Budget"}
-                      value={
+                      value={(
                         documentData2?.budget -
                         totalCredit?.total -
                         bank?.total +
                         (status
                           ? status?.totalIncome - status?.totalExpense
                           : 0)
-                      }
+                      ).toFixed(2)}
                       marginTop={10}
                     />
                   </Grid>

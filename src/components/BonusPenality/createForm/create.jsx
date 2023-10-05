@@ -30,7 +30,7 @@ const CreateForm = ({ type }) => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
   const [selectedDeliveryGuy, setSelectedDeliveryGuy] = useState("");
   const [placementOptions, setPlacementOptions] = useState([
@@ -49,8 +49,9 @@ const CreateForm = ({ type }) => {
         "You do not have Salary Table.Create salary table before.",
         "info"
       );
+    } else {
+      setShowForm(true);
     }
-    setShowForm(true);
   };
   const formik = useFormik({
     initialValues: {
@@ -105,7 +106,6 @@ const CreateForm = ({ type }) => {
 
   return (
     <div>
-      
       {userClaims.admin ? (
         <div>
           <Button

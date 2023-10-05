@@ -165,7 +165,7 @@ const EssentialTable = () => {
         onEdit={handleEdit}
         onDelete={handleDelete}
         from={"Essential"}
-        containerHeight={150}
+        containerHeight={250}
       />
       <ConfirmationDialog
         open={isDeleteDialogOpen}

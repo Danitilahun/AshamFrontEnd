@@ -18,6 +18,7 @@ import StaffCreditForm from "../createCreditForm/staffCredit";
 import MyHeaderComponent from "../../VersatileComponents/creditHeader";
 import useUserClaims from "../../../hooks/useUserClaims";
 import capitalizeString from "../../../utils/capitalizeString";
+import getRequiredUserData from "../../../utils/getBranchInfo";
 
 const columns = [
   { key: "employeeName", title: "Employee Name" },
@@ -48,14 +49,19 @@ const StaffCreditTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { openSnackbar } = useSnackbar();
+  const branchData = getRequiredUserData();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const handleEdit = (row) => {
+    if (branchData.active !== row.active) {
+      openSnackbar("You can only edit the credit of the active sheet.", "info");
+      return;
+    }
     console.log("from the table", row);
     setEditRow(row);
     setIsEditDialogOpen(true);
@@ -203,7 +209,7 @@ const StaffCreditTable = () => {
         formComponent={StaffCreditForm}
         formProps={formProps}
       />
-      
+
       <DynamicTable
         data={tableData}
         columns={userClaim.admin ? columns : NonAdmincolumns}

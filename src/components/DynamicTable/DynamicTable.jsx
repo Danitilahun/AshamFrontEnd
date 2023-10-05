@@ -33,6 +33,7 @@ import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import AsbezaProfit from "../../api/orders/asbezaProfit";
 import returnedCard from "../../api/report/cardReturnHandle";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
+import getRequiredUserData from "../../utils/getBranchInfo";
 
 const getColor = (statusNumber) => {
   let style = {
@@ -98,7 +99,7 @@ const DynamicTable = ({
   const [prevScrollPosition, setPrevScrollPosition] = useState(0); // Store the previous scroll position
   const { openSnackbar } = useSnackbar();
   const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
-
+  const branchData = getRequiredUserData();
   const handleScroll = () => {
     const tableContainer = tableContainerRef.current;
     const scrollPosition = tableContainer.scrollTop;
@@ -247,6 +248,10 @@ const DynamicTable = ({
   };
 
   const handleStatusClick = async (order) => {
+    if (branchData.active !== order.active) {
+      openSnackbar("You can only edit the credit of the active sheet.", "info");
+      return;
+    }
     if (order.status === "Completed") {
       openSnackbar("Order is already completed", "info");
       return;

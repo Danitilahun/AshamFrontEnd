@@ -149,7 +149,7 @@ const LoginForm = () => {
                 >
                   <Link
                     to="/forget-password"
-                    color="primary"
+                    color="secondary"
                     style={{ textDecoration: "none" }}
                   >
                     Forgot Password

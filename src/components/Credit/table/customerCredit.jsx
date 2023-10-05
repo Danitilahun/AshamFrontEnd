@@ -16,6 +16,7 @@ import CustomerCreditForm from "../createCreditForm/customerCredit";
 import MyHeaderComponent from "../../VersatileComponents/creditHeader";
 import useUserClaims from "../../../hooks/useUserClaims";
 import capitalizeString from "../../../utils/capitalizeString";
+import getRequiredUserData from "../../../utils/getBranchInfo";
 
 const columns = [
   { key: "name", title: "Name" },
@@ -52,11 +53,12 @@ const CustomerCreditTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { openSnackbar } = useSnackbar();
+  const branchData = getRequiredUserData();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const handleEdit = (row) => {
@@ -225,7 +227,7 @@ const CustomerCreditTable = () => {
         formComponent={CustomerCreditForm}
         formProps={formProps}
       />
-      
+
       <DynamicTable
         data={tableData}
         columns={userClaim.admin ? columns : NonAdmincolumns}

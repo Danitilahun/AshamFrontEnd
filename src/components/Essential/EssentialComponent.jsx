@@ -28,7 +28,7 @@ const EssentialComponent = ({ isVisible }) => {
         left: "50%",
         transform: "translateX(-40%)",
         width: "70vw",
-        height: "40vh",
+        height: "50vh",
         backgroundColor: theme.palette.background.alt,
         boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.8)", // Shadow
         // display: "flex",
@@ -37,6 +37,8 @@ const EssentialComponent = ({ isVisible }) => {
         zIndex: 1000,
         visibility: isVisible ? "visible" : "hidden",
         padding: "20px",
+        transition: "opacity 0.4s ease-in-out, transform 0.4s ease-in-out",
+        opacity: isVisible ? 1 : 0,
         // marginTop: "10px", // Adding margin from the top
       }}
     >
