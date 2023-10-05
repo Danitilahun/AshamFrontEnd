@@ -30,7 +30,7 @@ const updateFields = (targetObject, sourceObject) => {
   }
 };
 
-const Calculator = () => {
+const Calculator = ({ Expenses }) => {
   const theme = useTheme();
   const [data, setData] = useState({});
   const { user } = useAuth();
@@ -181,7 +181,7 @@ const Calculator = () => {
           </Grid>
           <Grid item xs={4}>
             <Typography variant="subtitle1" align="left">
-              {calculator ? calculator.actual : 0}
+              {calculator ? calculator.actual - Expenses : 0}
             </Typography>
           </Grid>
           <Grid item xs={4}>

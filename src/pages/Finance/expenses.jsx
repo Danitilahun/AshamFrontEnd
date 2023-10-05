@@ -55,7 +55,9 @@ const Expenses = () => {
           </Grid>
 
           <Grid item xs={6}>
-            <Calculator />
+            <Calculator
+              Expenses={financeUser.totalExpense ? financeUser.totalExpense : 0}
+            />
           </Grid>
         </Grid>
       </Box>
