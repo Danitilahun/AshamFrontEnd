@@ -44,7 +44,7 @@ const EssentialTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -157,8 +157,7 @@ const EssentialTable = () => {
 
   console.log(data, "data");
   return (
-    <Box m="1rem 0">
-      
+    <Box sx={{ width: "100%", height: "100%" }}>
       <DynamicTable
         data={data}
         columns={userClaims.superAdmin ? columns : NonSupercolumns}

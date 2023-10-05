@@ -43,7 +43,7 @@ const AsbezaOrderForm = () => {
   const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const [branches, setBranches] = useState([]);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
-  const userData = getRequiredUserData();
+
   const userClaims = useUserClaims(user);
   useEffect(() => {
     const unsubscribe = fetchData("branches", setBranches);

@@ -97,6 +97,8 @@ const BudgetPage = () => {
       setUpdatedSheetSummery(combinedSummery);
     }
   }, [bank, totalCredit, status, documentData2]);
+
+  console.log("updatedSheetSummery", updatedSheetSummery);
   return (
     <>
       <Helmet>
@@ -155,10 +157,22 @@ const BudgetPage = () => {
 
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
+                    {console.log(
+                      documentData2?.budget,
+                      totalCredit?.total,
+                      bank?.total,
+                      status?.totalIncome,
+                      status?.totalExpense
+                    )}
                     <ShowBudget
                       label={"Next Budget"}
                       value={
-                        documentData2?.budget - totalCredit?.total - bank?.total
+                        documentData2?.budget -
+                        totalCredit?.total -
+                        bank?.total +
+                        (status
+                          ? status?.totalIncome - status?.totalExpense
+                          : 0)
                       }
                       marginTop={10}
                     />
@@ -184,11 +198,14 @@ const BudgetPage = () => {
                     />
                   </Grid>
                   <Grid item xs={6}>
-                    <ShowBudget
+                    {/* <ShowBudget
                       label={"Next Budget"}
-                      value={finance.budget + totalFromAllBranch}
+                      value={
+                        parseFloat(finance.budget) +
+                        parseFloat(totalFromAllBranch)
+                      }
                       marginTop={10}
-                    />
+                    /> */}
                   </Grid>
                 </Grid>
               </>

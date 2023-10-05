@@ -35,9 +35,6 @@ export default function AuthContextProvider({ children }) {
 
   async function getUser(user) {
     try {
-      // const auth = getAuth(); // Assuming you have initialized Firebase Auth
-
-      // Get the user's ID token result using the then method
       return user.getIdTokenResult().then(async (idTokenResult) => {
         const customClaims = idTokenResult.claims;
 
@@ -61,14 +58,12 @@ export default function AuthContextProvider({ children }) {
         const userDocSnapshot = await getDoc(userDocRef);
 
         if (userDocSnapshot.exists()) {
-          console.log("User data:", userDocSnapshot.data());
           return userDocSnapshot.data();
         }
 
         return null; // Return null if the user document doesn't exist
       });
     } catch (error) {
-      console.error("Error fetching user data:", error);
       return null; // Return null if there's an error
     }
   }
@@ -78,13 +73,10 @@ export default function AuthContextProvider({ children }) {
 
     try {
       const userData = await getUser(authenticatedUser);
-      console.log("user--------------------Data", userData);
       if (userData) {
-        console.log("User data: try sdjnak", userData);
         setCurrentUser(userData);
       }
     } catch (error) {
-      console.error("Error fetching user data:", error);
     } finally {
       setGettingUser(false);
     }

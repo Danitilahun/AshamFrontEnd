@@ -5,6 +5,7 @@ const useDocumentById = (collection, documentId) => {
   const [documentData, setDocumentData] = useState({});
 
   useEffect(() => {
+    if (!collection || !documentId) return;
     const unsubscribe = getDocumentById(
       collection,
       documentId,
