@@ -151,25 +151,16 @@ const FinanceSidebar = ({
                       spacing={1}
                       justifyContent="center"
                       alignItems="center"
+                      // marginLeft={1}
                     >
-                      <Grid item xs={4}></Grid>
-                      <Grid item xs={4}>
+                      <Grid item xs={12}>
                         <Typography
                           variant="h3"
                           fontWeight="bold"
                           style={{ cursor: "pointer" }}
                         >
-                          ASHAM
+                          ASHAM LOLE
                         </Typography>
-                      </Grid>
-                      <Grid item xs={4}>
-                        {/* <img
-                          width={"50px"}
-                          height={"50px"}
-                          src="/assets/delivery.png" // Replace with the actual image source
-                          alt="Image Alt Text" // Provide alt text for accessibility
-                          style={{ marginRight: "10px", cursor: "pointer" }} // Add some margin for spacing
-                        /> */}
                       </Grid>
                     </Grid>
                   </div>

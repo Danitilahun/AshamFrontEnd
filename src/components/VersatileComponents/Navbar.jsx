@@ -131,7 +131,7 @@ const Navbar = ({
                     color={theme.palette.secondary.main}
                     style={{ cursor: "pointer" }}
                   >
-                    ASHAM
+                    ASHAM LOLE
                   </Typography>
                 </div>
               </Box>

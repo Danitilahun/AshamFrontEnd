@@ -305,15 +305,15 @@ const BranchSidebar = ({
                       spacing={1}
                       justifyContent="center"
                       alignItems="center"
+                      marginLeft={1}
                     >
-                      <Grid item xs={4}></Grid>
-                      <Grid item xs={4}>
+                      <Grid item xs={12}>
                         <Typography
                           variant="h3"
                           fontWeight="bold"
                           style={{ cursor: "pointer" }}
                         >
-                          ASHAM
+                          ASHAM LOLE
                         </Typography>
                       </Grid>
                     </Grid>
