@@ -118,6 +118,15 @@ const Bank = () => {
                 {bankName}
               </Typography>
               <BankTable bankName={bankName} />
+              <ShowBudget
+                label={"Balance"}
+                value={
+                  documentData && documentData[bankName]
+                    ? documentData[bankName]
+                    : "not available"
+                }
+                marginTop={0}
+              />
             </Grid>
           ))}
         </Grid>

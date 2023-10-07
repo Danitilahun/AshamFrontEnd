@@ -71,6 +71,7 @@ const BankForm = ({ source }) => {
     }
     setShowForm(true);
   };
+
   const formik = useFormik({
     initialValues: {
       transactionType: "",
@@ -93,10 +94,11 @@ const BankForm = ({ source }) => {
           : params.id
           ? params.id
           : user.displayName;
+
         values.calculatorId = userClaims.finance ? user.uid : userData.active;
         values.date = date;
         values.source = source;
-        console.log("values", values);
+
         const res = await createBank(user, values);
         openSnackbar(`${res.data.message} successfully created!`, "success");
         handleCloseForm();

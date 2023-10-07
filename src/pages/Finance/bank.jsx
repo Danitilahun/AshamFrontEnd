@@ -10,6 +10,7 @@ import useUserClaims from "../../hooks/useUserClaims";
 import getRequiredUserData from "../../utils/getBranchInfo";
 import BankForm from "../../components/Bank/createBankForm";
 import { Helmet } from "react-helmet";
+
 const Bank = () => {
   const params = useParams();
   const { user } = useAuth();
@@ -143,6 +144,15 @@ const Bank = () => {
                 {bankName}
               </Typography>
               <BankTable bankName={bankName} />
+              <ShowBudget
+                label={"Balance"}
+                value={
+                  tableDate && tableDate[bankName]
+                    ? tableDate[bankName]
+                    : "not available"
+                }
+                marginTop={0}
+              />
             </Grid>
           ))}
         </Grid>
