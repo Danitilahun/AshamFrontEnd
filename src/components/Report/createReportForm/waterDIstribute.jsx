@@ -42,10 +42,10 @@ const WaterDistributeReportForm = () => {
   const storedData = localStorage.getItem("userData");
   if (storedData) {
     const userData = JSON.parse(storedData);
-    active = userData ? userData.active : "not sheer";
+    active = userData ? userData.active : "";
     worker = userData ? userData.worker : [];
-    activeTable = userData ? userData.activeTable : "not daily ative table";
-    activeDailySummery = userData ? userData.activeDailySummery : "not sheet";
+    activeTable = userData ? userData.activeTable : "";
+    activeDailySummery = userData ? userData.activeDailySummery : "";
   }
 
   let filteredData = worker?.filter((item) => item.role === "DeliveryGuy");

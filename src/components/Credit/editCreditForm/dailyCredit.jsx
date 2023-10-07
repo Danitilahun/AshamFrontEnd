@@ -39,7 +39,7 @@ const EditDailyCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
   const storedData = localStorage.getItem("userData");
   if (storedData) {
     const userData = JSON.parse(storedData);
-    active = userData ? userData.active : "try";
+    active = userData ? userData.active : "";
     worker = userData ? userData.worker : [];
   }
 

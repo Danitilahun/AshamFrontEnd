@@ -42,10 +42,10 @@ const HotelProfitReportForm = () => {
   const storedData = localStorage.getItem("userData");
   if (storedData) {
     const userData = JSON.parse(storedData);
-    active = userData ? userData.active : "not sheer";
+    active = userData ? userData.active : "";
     worker = userData ? userData.worker : [];
-    activeTable = userData ? userData.activeTable : "not daily ative table";
-    activeDailySummery = userData ? userData.activeDailySummery : "not sheet";
+    activeTable = userData ? userData.activeTable : "";
+    activeDailySummery = userData ? userData.activeDailySummery : "";
   }
 
   let filteredData = worker?.filter((item) => item.role === "DeliveryGuy");
@@ -137,7 +137,6 @@ const HotelProfitReportForm = () => {
         values.active = active;
         values.activeTable = activeTable;
         values.activeDailySummery = activeDailySummery;
-        console.log("values", values);
         const res = await createReport(user, values, "hotelProfit");
         openSnackbar(`${res.data.message} successfully created!`, "success");
         handleCloseForm();
