@@ -47,7 +47,7 @@ const StaffCreditForm = ({ type }) => {
   const storedData = localStorage.getItem("userData");
   if (storedData) {
     const userData = JSON.parse(storedData);
-    active = userData ? userData.active : "not sheet";
+    active = userData ? userData.active : "";
     worker = userData ? userData.worker : [];
   }
 

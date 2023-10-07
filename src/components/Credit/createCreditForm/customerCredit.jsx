@@ -33,7 +33,7 @@ const CustomerCreditForm = ({ type }) => {
   const storedData = localStorage.getItem("userData");
   if (storedData) {
     const userData = JSON.parse(storedData);
-    active = userData ? userData.active : "try";
+    active = userData ? userData.active : "";
   }
 
   const userData = getRequiredUserData();
@@ -50,7 +50,6 @@ const CustomerCreditForm = ({ type }) => {
     },
     validationSchema: CustomerCreditFormValidationSchema,
     onSubmit: async (values) => {
-      // Send formData to the backend
       setIsSubmitting(true);
       try {
         const date = getInternationalDate();
@@ -61,13 +60,16 @@ const CustomerCreditForm = ({ type }) => {
           : userData.requiredId;
 
         const name = capitalizeString(values.name);
+
         values.name = name;
         values.date = date;
         values.type = type;
         values.active = active;
-        console.log("values", values);
+
         const res = await createCredit(user, values, "CustomerCredit");
+
         openSnackbar(`${res.data.message} successfully created!`, "success");
+
         handleCloseForm();
       } catch (error) {
         if (error.response && error.response.data) {
