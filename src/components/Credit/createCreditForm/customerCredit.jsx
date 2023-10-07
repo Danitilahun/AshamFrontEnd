@@ -29,12 +29,6 @@ const CustomerCreditForm = ({ type }) => {
   const theme = useTheme();
   const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
-  let active = "";
-  const storedData = localStorage.getItem("userData");
-  if (storedData) {
-    const userData = JSON.parse(storedData);
-    active = userData ? userData.active : "";
-  }
 
   const userData = getRequiredUserData();
   const handleButtonClick = () => {
@@ -64,7 +58,7 @@ const CustomerCreditForm = ({ type }) => {
         values.name = name;
         values.date = date;
         values.type = type;
-        values.active = active;
+        values.active = userData.active;
 
         const res = await createCredit(user, values, "CustomerCredit");
 
