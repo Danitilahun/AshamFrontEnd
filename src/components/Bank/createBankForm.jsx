@@ -31,6 +31,7 @@ const BankForm = ({ source }) => {
   const theme = useTheme();
   const userData = getRequiredUserData();
   const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+
   const [transactionType, settransactionType] = useState([
     "Deposit",
     "Withdraw",
@@ -64,6 +65,10 @@ const BankForm = ({ source }) => {
   ]);
 
   const handleButtonClick = () => {
+    if (!userData.active) {
+      openSnackbar("Please create sheet before.", "info");
+      return;
+    }
     setShowForm(true);
   };
   const formik = useFormik({
