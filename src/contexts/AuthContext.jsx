@@ -107,7 +107,7 @@ export default function AuthContextProvider({ children }) {
   function forgotPassword(email) {
     return sendPasswordResetEmail(auth, email, {
       // url: `http://localhost:3000/login`,
-      url: `https://asham-front-end.vercel.app/login`,
+      url: `https://ashamlole.vercel.app/login`,
     });
   }
 
