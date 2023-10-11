@@ -12,8 +12,8 @@ import BankForm from "../../components/Bank/createBankForm";
 import { Helmet } from "react-helmet";
 
 const Bank = () => {
-  const params = useParams();
   const { user } = useAuth();
+  const params = useParams();
   const userClaim = useUserClaims(user);
   const userData = getRequiredUserData();
   const theme = useTheme();
@@ -67,6 +67,7 @@ const Bank = () => {
     return () => unsubscribe();
   }, [userClaim.finance ? user.uid : userData.requiredId]);
 
+  console.log("financeUser", financeUser);
   return (
     <>
       <Helmet>

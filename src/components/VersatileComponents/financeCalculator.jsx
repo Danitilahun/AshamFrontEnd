@@ -4,7 +4,7 @@ import getData from "../../api/services/DeliveryGuy/getDeliveryGuy";
 import { useAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "../../contexts/InfoContext";
 import LoadingSpinner from "./LoadingSpinner";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import updateCalculator from "../../api/calculator/updateCalculator";
 import getRequiredUserData from "../../utils/getBranchInfo";
 import useUserClaims from "../../hooks/useUserClaims";
@@ -34,8 +34,11 @@ const updateFields = (targetObject, sourceObject) => {
 
 const Calculator = ({ Expenses }) => {
   const theme = useTheme();
-  const [data, setData] = useState({});
+  const params = useParams();
   const { user } = useAuth();
+  const userClaim = useUserClaims(user);
+  const userData = getRequiredUserData();
+  const [data, setData] = useState({});
   const userClaims = useUserClaims(user);
   const { openSnackbar } = useSnackbar();
   const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
@@ -67,16 +70,43 @@ const Calculator = ({ Expenses }) => {
     return () => unsubscribe();
   }, [user.uid]);
 
+  const [financeUser, setFinanceUser] = useState({});
+  useEffect(() => {
+    const docId = userClaim.finance
+      ? user.uid
+      : userData.requiredId
+      ? userData.requiredId
+      : params.id; // Set the document ID
+    if (!docId) {
+      return;
+    }
+
+    const worksRef = doc(collection(firestore, "finance"), docId);
+
+    // Subscribe to real-time updates
+    const unsubscribe = onSnapshot(worksRef, (doc) => {
+      if (doc.exists()) {
+        setFinanceUser(doc.data());
+      } else {
+        setFinanceUser({});
+      }
+    });
+    // Clean up the subscription when the component unmounts
+    return () => unsubscribe();
+  }, [userClaim.finance ? user.uid : userData.requiredId]);
+
+  console.log("financeUser", financeUser);
   useEffect(() => {
     if (!user || !user.uid) {
       return;
     }
-    const unsubscribe = getData(
-      "Calculator",
-      "active",
-      user.uid,
-      setCalculator
-    );
+
+    const docId = userClaim.finance
+      ? user.uid
+      : userData.requiredId
+      ? userData.requiredId
+      : params.id; // Set the document ID
+    const unsubscribe = getData("Calculator", "active", docId, setCalculator);
     if (!calculator) {
       console.log("the calculator is", calculator);
       setCalculator({
@@ -138,6 +168,7 @@ const Calculator = ({ Expenses }) => {
     setIsSubmitting(false);
   };
 
+  console.log(calculator);
   return (
     <>
       <Paper
@@ -215,12 +246,15 @@ const Calculator = ({ Expenses }) => {
           </Grid>
           <Grid item xs={4}>
             <Typography variant="subtitle1" align="left">
-              {calculator ? finance.budget + calculator.actual - Expenses : 0}
+              {calculator
+                ? parseFloat(financeUser.budget) + calculator.actual - Expenses
+                : 0}
             </Typography>
           </Grid>
           <Grid item xs={4}>
             <Typography variant="subtitle1" align="left">
-              {calculator ? calculator.balance - finance.budget : 0}
+              {calculator &&
+                calculator.balance - parseFloat(financeUser.budget)}
             </Typography>
           </Grid>
         </Grid>
