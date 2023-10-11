@@ -8,12 +8,25 @@ import useDocumentById from "../../hooks/useDocumentById";
 import useUserClaims from "../../hooks/useUserClaims";
 import ShowBudget from "../../components/Budget/ShowBudget";
 import { Helmet } from "react-helmet";
+import { useLocation, useParams } from "react-router-dom";
+import getRequiredUserData from "../../utils/getBranchInfo";
 const Branch = () => {
   const theme = useTheme();
+  const userData = getRequiredUserData();
   const { user } = useAuth();
+  const params = useParams();
   const userClaim = useUserClaims(user);
   const { data: branches } = useCollectionData("branches");
-  const { documentData: finance } = useDocumentById("finance", user.uid);
+  const docId = userClaim.finance
+    ? user.uid
+    : userData.requiredId
+    ? userData.requiredId
+    : params.id; // Set the document ID
+  const { documentData: finance } = useDocumentById("finance", docId);
+  const location = useLocation();
+  const basePath = "/mainFinance";
+  const startsWithMainFinance = location.pathname.startsWith(basePath);
+  console.log("startsWithMainFinance", startsWithMainFinance);
   return (
     <>
       <Helmet>
@@ -30,7 +43,7 @@ const Branch = () => {
           position: "relative",
         }}
       >
-        {userClaim.finance ? (
+        {startsWithMainFinance || userClaim.finance ? (
           <Grid container spacing={2} style={{ marginBottom: "50px" }}>
             <Grid
               item
@@ -67,15 +80,17 @@ const Branch = () => {
                 //   margin: "0 30",
               }}
             >
-              {userClaim.finance ? (
+              {userClaim.finance || startsWithMainFinance ? (
                 <ShowBudget
                   label={"Next Budget"}
                   value={
-                    parseFloat(finance?.budget) -
-                    finance?.credit -
-                    finance?.balance +
-                    finance?.BudgetSummery -
-                    finance?.totalExpense
+                    finance
+                      ? parseFloat(finance?.budget) -
+                        finance?.credit -
+                        finance?.balance +
+                        finance?.BudgetSummery -
+                        finance?.totalExpense
+                      : 0
                   }
                   marginTop={10}
                 />
@@ -83,7 +98,7 @@ const Branch = () => {
             </Grid>
           </Grid>
         ) : null}
-        {userClaim.superAdmin ? (
+        {userClaim.superAdmin && !startsWithMainFinance ? (
           <Header title="Branch" subtitle="Entire list of Branches" />
         ) : null}
         <Grid container spacing={2}>
