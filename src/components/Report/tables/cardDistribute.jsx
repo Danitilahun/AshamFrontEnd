@@ -18,7 +18,7 @@ import capitalizeString from "../../../utils/capitalizeString";
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
   { key: "numberOfCard", title: "Number Of Card" },
-  { key: "amount", title: "Amount" },
+  { key: "total", title: "Amount" },
   { key: "date", title: "Date" },
   { key: "time", title: "Time" },
 ];

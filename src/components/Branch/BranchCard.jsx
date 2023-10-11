@@ -38,7 +38,7 @@ const BranchCard = ({ branchData }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [operation, setOperation] = useState("");
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
   const theme = useTheme();
@@ -121,10 +121,17 @@ const BranchCard = ({ branchData }) => {
       openSnackbar(res.data.message, "success");
       setIsSubmitting(false);
     } catch (error) {
-      openSnackbar(
-        error.response.data.message,
-        error.response.data.type ? error.response.data.type : "error"
-      );
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar(
+          "An unexpected error occurred.Please kindly check your connection.",
+          "error"
+        );
+      }
     }
     handleMenuClose();
   };
@@ -146,7 +153,17 @@ const BranchCard = ({ branchData }) => {
       setIsSubmitting(false);
       handleCloseForm();
     } catch (error) {
-      openSnackbar(`Error occurred while performing updating Branch.`, "error");
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar(
+          "An unexpected error occurred.Please kindly check your connection.",
+          "error"
+        );
+      }
     }
   };
 

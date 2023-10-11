@@ -86,14 +86,16 @@ const WifiTable = () => {
       const res = await Delete(user, deleteItemId, "wifi");
       openSnackbar(`${res.data.message}!`, "success");
     } catch (error) {
-      console.error("Error deleting credit document:", error);
       if (error.response && error.response.data) {
         openSnackbar(
           error.response.data.message,
           error.response.data.type ? error.response.data.type : "error"
         );
       } else {
-        openSnackbar("An unexpected error occurred.", "error");
+        openSnackbar(
+          "An unexpected error occurred.Please kindly check your connection.",
+          "error"
+        );
       }
     }
 

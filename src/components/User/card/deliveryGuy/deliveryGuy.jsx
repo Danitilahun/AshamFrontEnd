@@ -63,9 +63,14 @@ const UserCard = ({ userInfo }) => {
   const branchData = getRequiredUserData();
   const [openDialog, setOpenDialog] = useState(false);
   const [openDialog2, setOpenDialog2] = useState(false);
+  const [openDialog3, setOpenDialog3] = useState(false);
 
   const handleDeleteIconClick = () => {
     setOpenDialog(true);
+  };
+
+  const handleOpen = () => {
+    setOpenDialog3(true);
   };
   const handleEdit = () => {
     setDialogOpen(true);
@@ -76,13 +81,16 @@ const UserCard = ({ userInfo }) => {
 
   const handlepayment = () => {
     if (branchData.paid) {
-      handleSalaryPay();
+      setOpenDialog3(true);
     } else {
       setOpenDialog2(true);
     }
   };
   const handleDialogClose2 = () => {
     setOpenDialog2(false);
+  };
+  const handleDialogClose3 = () => {
+    setOpenDialog3(false);
   };
 
   const handleCardClick = (event) => {
@@ -119,7 +127,10 @@ const UserCard = ({ userInfo }) => {
           error.response.data.type ? error.response.data.type : "error"
         );
       } else {
-        openSnackbar("An unexpected error occurred.", "error");
+        openSnackbar(
+          "An unexpected error occurred.Please kindly check your connection.",
+          "error"
+        );
       }
     }
     setIsSubmitting(false);
@@ -134,6 +145,7 @@ const UserCard = ({ userInfo }) => {
       return;
     }
     handleDialogClose2();
+    handleDialogClose3();
     setIsSubmitting(true);
 
     try {
@@ -149,7 +161,10 @@ const UserCard = ({ userInfo }) => {
           error.response.data.type ? error.response.data.type : "error"
         );
       } else {
-        openSnackbar("An unexpected error occurred.", "error");
+        openSnackbar(
+          "An unexpected error occurred.Please kindly check your connection.",
+          "error"
+        );
       }
     }
     setIsSubmitting(false);
@@ -174,7 +189,10 @@ const UserCard = ({ userInfo }) => {
           error.response.data.type ? error.response.data.type : "error"
         );
       } else {
-        openSnackbar("An unexpected error occurred.", "error");
+        openSnackbar(
+          "An unexpected error occurred.Please kindly check your connection.",
+          "error"
+        );
       }
     }
     setIsSubmitting(false);
@@ -242,14 +260,21 @@ const UserCard = ({ userInfo }) => {
       <ConfirmationDialog
         open={openDialog}
         handleDialogClose={handleDialogClose}
-        handleConfirmed={handleDeleteConfirmed}
+        handleConfirmed={handleSalaryPay}
         message={`Are you sure you want to delete this Delivery Guy ?`}
         title={`Confirm  Delivery Guy deletion`}
       />
       <ConfirmationDialog
+        open={openDialog3}
+        handleDialogClose={handleDialogClose3}
+        handleConfirmed={handleSalaryPay}
+        message={`Are you ensuring that you receive the daily credit from the delivery guy before paying his salary? If not, please receive it and delete it from the daily credit, as otherwise, it will be transferred to his staff credit.`}
+        title={`Confirm  Daily Salary Pay`}
+      />
+      <ConfirmationDialog
         open={openDialog2}
         handleDialogClose={handleDialogClose2}
-        handleConfirmed={handleSalaryPay}
+        handleConfirmed={handleOpen}
         message={
           "Are you certain you wish to initiate payments for delivery personnel today? This action implies that all daily table activities have been completed, and no further entries will be added."
         }

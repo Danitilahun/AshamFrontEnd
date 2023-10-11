@@ -106,7 +106,10 @@ const StaffCreditForm = ({ type }) => {
             error.response.data.type ? error.response.data.type : "error"
           );
         } else {
-          openSnackbar("An unexpected error occurred.", "error");
+          openSnackbar(
+            "An unexpected error occurred.Please kindly check your connection.",
+            "error"
+          );
         }
       }
       setIsSubmitting(false);

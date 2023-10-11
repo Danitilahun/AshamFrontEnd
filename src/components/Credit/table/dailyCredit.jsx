@@ -21,7 +21,7 @@ import capitalizeString from "../../../utils/capitalizeString";
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
   { key: "reason", title: "Reason" },
-  { key: "amount", title: "Amount" },
+  { key: "total", title: "Amount" },
   {
     key: "edit",
     title: "Edit",
@@ -45,7 +45,7 @@ const DailyCreditTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -78,11 +78,17 @@ const DailyCreditTable = () => {
       // Check if the deletion was successful
       openSnackbar(`${res.data.message}!`, "success");
     } catch (error) {
-      console.error("Error deleting credit document:", error);
-      openSnackbar(
-        error.response.data.message,
-        error.response.data.type ? error.response.data.type : "error"
-      );
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar(
+          "An unexpected error occurred.Please kindly check your connection.",
+          "error"
+        );
+      }
     }
 
     setIsSubmitting(false);
@@ -206,7 +212,7 @@ const DailyCreditTable = () => {
         formComponent={DailyCreditForm}
         formProps={formProps}
       />
-      
+
       <DynamicTable
         data={tableData}
         columns={userClaim.admin ? columns : NonAdmincolumns}

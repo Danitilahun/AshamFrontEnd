@@ -123,6 +123,7 @@ const CardDistributeReportForm = () => {
       deliveryguyName: "",
       deliveryguyId: "",
       numberOfCard: "",
+      amount: "",
     },
     validationSchema: ReportFormValidationSchema,
     onSubmit: async (values) => {
@@ -319,6 +320,17 @@ const CardDistributeReportForm = () => {
                         ))}
                       </TextField>
                     </Grid>
+
+                    <CustomTextField
+                      name="amount"
+                      label="Amount"
+                      value={formik.values.amount}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                      type="number"
+                    />
 
                     <CustomTextField
                       name="numberOfCard" // Use lowercase field name

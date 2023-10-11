@@ -120,6 +120,7 @@ const WaterDistributeReportForm = () => {
       deliveryguyName: "",
       deliveryguyId: "",
       numberOfCard: "",
+      amount: "",
     },
     validationSchema: ReportFormValidationSchema,
     onSubmit: async (values) => {
@@ -323,6 +324,17 @@ const WaterDistributeReportForm = () => {
                       value={formik.values.numberOfCard}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur} // <-- Add this line
+                      errors={formik.errors}
+                      touched={formik.touched}
+                      type="number"
+                    />
+
+                    <CustomTextField
+                      name="amount"
+                      label="Amount"
+                      value={formik.values.amount}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                       errors={formik.errors}
                       touched={formik.touched}
                       type="number"

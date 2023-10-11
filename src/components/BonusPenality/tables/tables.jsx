@@ -48,7 +48,7 @@ const BonusPenalityTable = ({ type }) => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -84,8 +84,17 @@ const BonusPenalityTable = ({ type }) => {
         openSnackbar("Deletion was successful.", "success");
       }
     } catch (error) {
-      console.error("Error deleting credit document:", error);
-      openSnackbar("Error occurred while deleting.", "error");
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar(
+          "An unexpected error occurred.Please kindly check your connection.",
+          "error"
+        );
+      }
     }
 
     setIsSubmitting(false);
@@ -214,7 +223,7 @@ const BonusPenalityTable = ({ type }) => {
       />
       {/* <Header title={type} subtitle={`Entire list of ${type}`} /> */}
       {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
-      
+
       <DynamicTable
         data={tableData}
         columns={userClaim.admin ? columns : NonAdmincolumns}

@@ -5,26 +5,32 @@ export const BranchFormValidationSchema = yup.object().shape({
   phone: yup.string().required("Phone is required"),
   ethioTelBill: yup
     .number()
+    .positive("Amount must be a positive number")
     .typeError("Ethio Tel Bill must be a number")
     .required("Ethio Tel Bill in Birr is required"),
   wifi: yup
     .number()
+    .positive("Amount must be a positive number")
     .typeError("Wifi must be a number")
     .required("Wifi in Birr is required"),
   houseRent: yup
     .number()
+    .positive("Amount must be a positive number")
     .typeError("House Rent must be a number")
     .required("House Rent in Birr is required"),
   account: yup
     .number()
+    .positive("Amount must be a positive number")
     .typeError("Account must be a number")
     .required("Account in Birr is required"),
   budget: yup
     .number()
+    .positive("Amount must be a positive number")
     .typeError("Budget must be a number")
     .required("Budget in Birr is required"),
   taxPersentage: yup
     .number()
+    .positive("Amount must be a positive number")
     .typeError("Tax percentage must be a number")
     .min(0, "Tax percentage must be non-negative")
     .max(100, "Tax percentage cannot exceed 100")

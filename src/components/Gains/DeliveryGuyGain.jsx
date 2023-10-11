@@ -154,7 +154,13 @@ const DeliveryGainGrid = () => {
                     value={data ? data[key] : ""}
                     type="number"
                     required={true}
-                    onChange={(e) => handleInputChange(key, e.target.value)}
+                    // onChange={(e) => handleInputChange(key, e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange(
+                        key,
+                        Math.abs(parseFloat(e.target.value))
+                      )
+                    }
                     disabled={!editMode[key] || !userClaims.superAdmin}
                     fullWidth
                   />

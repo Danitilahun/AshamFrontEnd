@@ -9,6 +9,8 @@ import updateCalculator from "../../api/calculator/updateCalculator";
 import getRequiredUserData from "../../utils/getBranchInfo";
 import useUserClaims from "../../hooks/useUserClaims";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
+import { firestore } from "../../services/firebase";
+import { collection, doc, onSnapshot } from "firebase/firestore";
 
 const initialValues = {
   200: 0,
@@ -42,6 +44,28 @@ const Calculator = ({ Expenses }) => {
     actual: 0,
     balance: 0,
   });
+
+  const [finance, setFinance] = useState({});
+
+  useEffect(() => {
+    if (!userClaims.finance || !user || !user.uid) {
+      return; // Add a check for user and user.uid
+    }
+
+    const worksRef = doc(collection(firestore, "finance"), user.uid);
+
+    // Subscribe to real-time updates
+    const unsubscribe = onSnapshot(worksRef, (doc) => {
+      if (doc.exists()) {
+        if (doc.data().disable) {
+          setFinance(doc.data());
+        }
+      }
+    });
+
+    // Clean up the subscription when the component unmounts
+    return () => unsubscribe();
+  }, [user.uid]);
 
   useEffect(() => {
     if (!user || !user.uid) {
@@ -87,7 +111,7 @@ const Calculator = ({ Expenses }) => {
     }
     try {
       const value = {
-        [key]: parseInt(data[key]),
+        [key]: Math.abs(parseInt(data[key])),
       };
       const res = await updateCalculator(user, user.uid, value);
       openSnackbar(`${res.data.message}`, "success");
@@ -98,7 +122,17 @@ const Calculator = ({ Expenses }) => {
           error.response.data.type ? error.response.data.type : "error"
         );
       } else {
-        openSnackbar("Failed to update calculator. Please try again.", "error");
+        if (error.response && error.response.data) {
+          openSnackbar(
+            error.response.data.message,
+            error.response.data.type ? error.response.data.type : "error"
+          );
+        } else {
+          openSnackbar(
+            "An unexpected error occurred.Please kindly check your connection.",
+            "error"
+          );
+        }
       }
     }
     setIsSubmitting(false);
@@ -181,12 +215,12 @@ const Calculator = ({ Expenses }) => {
           </Grid>
           <Grid item xs={4}>
             <Typography variant="subtitle1" align="left">
-              {calculator ? calculator.actual - Expenses : 0}
+              {calculator ? finance.budget + calculator.actual - Expenses : 0}
             </Typography>
           </Grid>
           <Grid item xs={4}>
             <Typography variant="subtitle1" align="left">
-              {calculator ? calculator.balance : 0}
+              {calculator ? calculator.balance - finance.budget : 0}
             </Typography>
           </Grid>
         </Grid>

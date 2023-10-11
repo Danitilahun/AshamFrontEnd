@@ -7,7 +7,7 @@ export const CustomerCreditFormValidationSchema = yup.object().shape({
   reason: yup.string().required("Reason is required"),
   amount: yup
     .number()
+    .positive("Amount must be a positive number")
     .typeError("Amount must be a number")
-    .required("Amount in Birr is required")
-    .positive("Amount must be a positive number"),
+    .required("Amount in Birr is required"),
 });

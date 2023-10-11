@@ -38,8 +38,8 @@ const validationSchema = Yup.object().shape({
     .email("Invalid email format")
     .required("Email is required"),
   bankAccount: Yup.number()
-    .typeError("Bank Account must be a number")
     .positive("Bank Account must be a positive number")
+    .typeError("Bank Account must be a number")
     .required("Bank Account is required"),
   fullAddress: Yup.string().required("Full Address is required"),
   securityName: Yup.string().required("Security Name is required"),
@@ -114,14 +114,16 @@ const AdminRegisterForm = () => {
       handleCloseForm();
     } catch (error) {
       // Handle errors
-      console.log(error);
       if (error.response && error.response.data) {
         openSnackbar(
           error.response.data.message,
           error.response.data.type ? error.response.data.type : "error"
         );
       } else {
-        openSnackbar("An unexpected error occurred.", "error");
+        openSnackbar(
+          "An unexpected error occurred.Please kindly check your connection.",
+          "error"
+        );
       }
     }
     setIsSubmitting(false);

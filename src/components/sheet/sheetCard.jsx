@@ -34,7 +34,7 @@ const SheetCard = ({ sheetInfo }) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const params = useParams();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const { changesheetName, changetableDate } = useBranch();
   const [openDialog, setOpenDialog] = React.useState(false);
   const userClaims = useUserClaims(user);
@@ -63,8 +63,17 @@ const SheetCard = ({ sheetInfo }) => {
       await deleteSheet(user, sheetInfo.id);
       openSnackbar(`Sheet deleted successfully!`, "success");
     } catch (error) {
-      console.log(error);
-      openSnackbar(`Error occurred while performing deleting sheet.`, "error");
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar(
+          "An unexpected error occurred.Please kindly check your connection.",
+          "error"
+        );
+      }
     }
     setIsSubmitting(false);
   };
@@ -80,7 +89,6 @@ const SheetCard = ({ sheetInfo }) => {
 
   return (
     <>
-      
       <Card
         sx={{
           backgroundColor: theme.palette.background.alt,

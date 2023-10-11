@@ -140,7 +140,13 @@ const CompanyGainGrid = () => {
                   <TextField
                     value={companyData ? companyData[key] : ""}
                     type="number"
-                    onChange={(e) => handleInputChange(key, e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange(
+                        key,
+                        Math.abs(parseFloat(e.target.value))
+                      )
+                    }
+                    // onChange={(e) => handleInputChange(key, e.target.value)}
                     disabled={!editMode[key] || !userClaims.superAdmin}
                     fullWidth
                   />

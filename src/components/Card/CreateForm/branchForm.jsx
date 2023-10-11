@@ -30,6 +30,7 @@ const CardOrderFormValidationSchema = Yup.object().shape({
   deliveryguyId: Yup.string().required("Please select a Delivery Guy"),
   branchId: Yup.string().required("Please select a Branch"),
   amountBirr: Yup.number()
+    .positive("Amount must be a positive number")
     .typeError("Amount must be a number")
     .required("Amount in Birr is required"),
 });
@@ -106,7 +107,10 @@ const CardOrderBranchForm = () => {
             error.response.data.type ? error.response.data.type : "error"
           );
         } else {
-          openSnackbar("An unexpected error occurred.", "error");
+          openSnackbar(
+            "An unexpected error occurred.Please kindly check your connection.",
+            "error"
+          );
         }
       }
       setIsSubmitting(false);

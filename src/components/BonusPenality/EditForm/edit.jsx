@@ -64,7 +64,17 @@ const EditForm = ({ data, isEditDialogOpen, closeEditDialog, type }) => {
         openSnackbar(`${res.data.message} successfully created!`, "success");
         handleCloseForm();
       } catch (error) {
-        openSnackbar(error.message, "error");
+        if (error.response && error.response.data) {
+          openSnackbar(
+            error.response.data.message,
+            error.response.data.type ? error.response.data.type : "error"
+          );
+        } else {
+          openSnackbar(
+            "An unexpected error occurred.Please kindly check your connection.",
+            "error"
+          );
+        }
       }
       setIsSubmitting(false);
     },

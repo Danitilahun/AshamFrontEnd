@@ -4,6 +4,7 @@ export const StaffCreditFormValidationSchema = yup.object().shape({
   amount: yup
     .number()
     .typeError("Amount must be a number")
+    .positive("Amount must be a positive number")
     .required("Amount in Birr is required"),
   reason: yup.string().required("Reason is required"),
   placement: yup.string().required("Placement is required"),

@@ -279,11 +279,17 @@ const DynamicTable = ({
       const res = await Assigned(user, Data, orderType);
       openSnackbar(res.data.message, "success");
     } catch (error) {
-      console.error("Error during form submission:", error);
-      openSnackbar(
-        error.response.data.message,
-        error.response.data.type ? error.response.data.type : "error"
-      );
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar(
+          "An unexpected error occurred.Please kindly check your connection.",
+          "error"
+        );
+      }
     }
     setIsSubmitting(false);
   };
@@ -326,11 +332,17 @@ const DynamicTable = ({
       openSnackbar(res.data.message, "success");
       closeRegisterDialog();
     } catch (error) {
-      console.error("Error during form submission:", error);
-      openSnackbar(
-        error.response.data.message,
-        error.response.data.type ? error.response.data.type : "error"
-      );
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar(
+          "An unexpected error occurred.Please kindly check your connection.",
+          "error"
+        );
+      }
     }
     setIsSubmitting(false);
   };

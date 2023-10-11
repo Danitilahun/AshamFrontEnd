@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import updateCalculator from "../../api/calculator/updateCalculator";
 import getRequiredUserData from "../../utils/getBranchInfo";
 import useUserClaims from "../../hooks/useUserClaims";
+import useDocumentById from "../../hooks/useDocumentById";
 
 const initialValues = {
   200: 0,
@@ -51,6 +52,10 @@ const Calculator = () => {
 
   let active = userData.active;
 
+  const { documentData: documentData2 } = useDocumentById(
+    "Budget",
+    userData.requiredId ? userData.requiredId : "try"
+  );
   const [calculator, setCalculator] = useState({
     sum: 0,
     actual: 0,
@@ -109,18 +114,16 @@ const Calculator = () => {
       const res = await updateCalculator(user, active, value);
       openSnackbar(`${res.data.message}`, "success");
     } catch (error) {
-      // openSnackbar(
-      //   error.response.data.message,
-      //   error.response.data.type ? error.response.data.type : "error"
-      // );
-
       if (error.response && error.response.data) {
         openSnackbar(
           error.response.data.message,
           error.response.data.type ? error.response.data.type : "error"
         );
       } else {
-        openSnackbar("Failed to update calculator. Please try again.", "error");
+        openSnackbar(
+          "An unexpected error occurred.Please kindly check your connection.",
+          "error"
+        );
       }
     }
     setIsSubmitting(false);
@@ -214,12 +217,12 @@ const Calculator = () => {
             </Grid>
             <Grid item xs={4}>
               <Typography variant="subtitle1" align="left">
-                {calculator ? calculator.actual : 0}
+                {calculator ? documentData2.budget + calculator.actual : 0}
               </Typography>
             </Grid>
             <Grid item xs={4}>
               <Typography variant="subtitle1" align="left">
-                {calculator ? calculator.balance : 0}
+                {calculator ? calculator.balance - documentData2.budget : 0}
               </Typography>
             </Grid>
           </Grid>

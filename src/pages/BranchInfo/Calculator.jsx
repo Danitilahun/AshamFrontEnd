@@ -2,8 +2,15 @@ import React from "react";
 import { Box, Grid, useTheme } from "@mui/material";
 import Calculator from "../../components/VersatileComponents/MoneyNoteCalculator";
 import { Helmet } from "react-helmet";
+import useDocumentById from "../../hooks/useDocumentById";
+import getRequiredUserData from "../../utils/getBranchInfo";
 const BranchCalculator = () => {
   const theme = useTheme();
+  const branchData = getRequiredUserData();
+  const { documentData: documentData2 } = useDocumentById(
+    "Budget",
+    branchData.requiredId ? branchData.requiredId : branchData.id
+  );
 
   return (
     <>
