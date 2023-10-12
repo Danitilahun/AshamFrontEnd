@@ -550,6 +550,8 @@ const DynamicTable = ({
                             {row[column.key]}
                           </span>
                         </div>
+                      ) : typeof row[column.key] === "number" ? (
+                        row[column.key].toFixed(2)
                       ) : (
                         row[column.key]
                       )}
