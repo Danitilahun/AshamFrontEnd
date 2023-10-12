@@ -72,6 +72,7 @@ const EditDailyCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
         const date = getInternationalDate();
         values.branchId = params.id;
         values.date = date;
+        values.gain = values.amount;
         values.active = active;
         values.difference = values.amount - credit.amount;
         console.log("values", values);

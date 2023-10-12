@@ -41,9 +41,18 @@ const DailyCreditForm = ({ type }) => {
     active = userData ? userData.active : "";
     worker = userData ? userData.worker : [];
   }
+
   const handleButtonClick = () => {
-    setShowForm(true);
+    if (active) {
+      setShowForm(true);
+    } else {
+      openSnackbar(
+        `There is not salary table for this branch, please create one first!`,
+        "info"
+      );
+    }
   };
+
   let filteredData = worker?.filter((item) => item.role === "DeliveryGuy");
   let transformedData = filteredData?.map((item) => [item.name, item.id]);
   const handleDeliveryGuyChange = (event) => {
@@ -74,6 +83,7 @@ const DailyCreditForm = ({ type }) => {
           ? user.displayName
           : userData.requiredId;
         values.date = date;
+        values.gain = values.amount;
         values.type = type;
         values.active = active;
         const name = capitalizeString(values.deliveryguyName);

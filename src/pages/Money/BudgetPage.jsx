@@ -168,12 +168,13 @@ const BudgetPage = () => {
                       label={"Next Budget"}
                       value={(
                         documentData2?.budget -
-                        totalCredit?.total -
-                        bank?.total +
-                        (status
-                          ? status?.totalIncome - status?.totalExpense
-                          : 0)
+                        totalCredit?.total +
+                        status?.totalIncome
                       ).toFixed(2)}
+                      // bank?.total +
+                      // (status
+                      //   ? status?.totalIncome - status?.totalExpense
+                      //   : 0)
                       marginTop={10}
                     />
                   </Grid>
