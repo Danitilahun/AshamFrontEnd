@@ -34,7 +34,7 @@ import AsbezaProfit from "../../api/orders/asbezaProfit";
 import returnedCard from "../../api/report/cardReturnHandle";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
 import getRequiredUserData from "../../utils/getBranchInfo";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
+// import ReactHTMLTableToExcel from "react-html-table-to-excel";
 const getColor = (statusNumber) => {
   let style = {
     color: "black",
@@ -367,7 +367,7 @@ const DynamicTable = ({
           backgroundColor: theme.palette.background.alt,
         }}
       >
-        {TableId !== "normal" ? (
+        {/* {TableId !== "normal" ? (
           <div class="flex-container">
             <ReactHTMLTableToExcel
               id="test-table-xls-button"
@@ -382,7 +382,7 @@ const DynamicTable = ({
               buttonText="Download as XLS"
             />
           </div>
-        ) : null}
+        ) : null} */}
         <div
           className="table-container"
           ref={tableContainerRef}
