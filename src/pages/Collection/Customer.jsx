@@ -175,6 +175,7 @@ const Customer = () => {
           data={tableData}
           columns={columns}
           loadMoreData={loadMoreData}
+          TableId="customer"
         />
       </Box>
     </>

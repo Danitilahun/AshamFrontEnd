@@ -132,3 +132,11 @@
   z-index: 1;
   max-width: 150px; /* Adjust the width as needed for each column */
 }
+
+.flex-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  height: 40px; /* Set a height if needed */
+  padding: 10px;
+}

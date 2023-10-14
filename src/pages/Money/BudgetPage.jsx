@@ -169,7 +169,7 @@ const BudgetPage = () => {
                       value={(
                         documentData2?.budget -
                         totalCredit?.total +
-                        status?.totalIncome
+                        (status?.totalIncome ? status?.totalIncome : 0)
                       ).toFixed(2)}
                       // bank?.total +
                       // (status

@@ -34,7 +34,7 @@ import AsbezaProfit from "../../api/orders/asbezaProfit";
 import returnedCard from "../../api/report/cardReturnHandle";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
 import getRequiredUserData from "../../utils/getBranchInfo";
-
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 const getColor = (statusNumber) => {
   let style = {
     color: "black",
@@ -87,6 +87,7 @@ const DynamicTable = ({
   onEdit,
   onDelete,
   onNew,
+  TableId = "normal",
   orderType = "asbeza",
   containerHeight = 500,
   from = "other",
@@ -351,8 +352,14 @@ const DynamicTable = ({
 
   const numColumns = columns.length;
   const columnWidth = numColumns > 0 ? `calc(100vw / ${numColumns})` : "auto";
+
+  const tableRef = useRef(null);
+
   return (
     <>
+      {/* <Button onClick={}>
+
+    </Button> */}
       <div
         className="DynamicTable"
         style={{
@@ -360,6 +367,22 @@ const DynamicTable = ({
           backgroundColor: theme.palette.background.alt,
         }}
       >
+        {TableId !== "normal" ? (
+          <div class="flex-container">
+            <ReactHTMLTableToExcel
+              id="test-table-xls-button"
+              className="download-table-xls-button"
+              table={TableId}
+              buttonStyles={{
+                padding: "20px",
+                margin: "10px",
+              }}
+              filename="tablexls"
+              sheet="tablexls"
+              buttonText="Download as XLS"
+            />
+          </div>
+        ) : null}
         <div
           className="table-container"
           ref={tableContainerRef}
@@ -371,7 +394,7 @@ const DynamicTable = ({
             borderRadius: ".1rem",
           }}
         >
-          <table className="custom-table">
+          <table id={TableId} className="custom-table" width={"100vw"}>
             <colgroup>
               {columns.map((column) => (
                 <col
@@ -550,7 +573,8 @@ const DynamicTable = ({
                             {row[column.key]}
                           </span>
                         </div>
-                      ) : typeof row[column.key] === "number" ? (
+                      ) : typeof row[column.key] === "number" &&
+                        column.key !== "numberOfCard" ? (
                         row[column.key].toFixed(2)
                       ) : (
                         row[column.key]

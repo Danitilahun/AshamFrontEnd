@@ -217,12 +217,17 @@ const Calculator = () => {
             </Grid>
             <Grid item xs={4}>
               <Typography variant="subtitle1" align="left">
-                {calculator ? documentData2.budget + calculator.actual : 0}
+                {documentData2 && calculator
+                  ? documentData2.budget + calculator.actual - calculator.bank
+                  : 0}
               </Typography>
             </Grid>
             <Grid item xs={4}>
               <Typography variant="subtitle1" align="left">
-                {calculator ? calculator.balance - documentData2.budget : 0}
+                {documentData2 && calculator
+                  ? calculator.sum -
+                    (documentData2.budget + calculator.actual - calculator.bank)
+                  : 0}
               </Typography>
             </Grid>
           </Grid>
