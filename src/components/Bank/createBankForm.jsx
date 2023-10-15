@@ -250,18 +250,15 @@ const BankForm = ({ source }) => {
                       touched={formik.touched}
                     />
                   )}
-                  {formik.values.transactionType === "Deposit" && (
-                    <CustomTextField
-                      name="reason"
-                      label="Reason"
-                      value={formik.values.reason}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      errors={formik.errors}
-                      touched={formik.touched}
-                    />
-                  )}
-
+                  <CustomTextField
+                    name="reason"
+                    label="Reason"
+                    value={formik.values.reason}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    errors={formik.errors}
+                    touched={formik.touched}
+                  />
                   {formik.values.transactionType === "Deposit" && (
                     <CustomTextField
                       name="placement"
@@ -273,7 +270,6 @@ const BankForm = ({ source }) => {
                       touched={formik.touched}
                     />
                   )}
-
                   <CustomTextField
                     name="amount"
                     label="Amount"
@@ -284,7 +280,6 @@ const BankForm = ({ source }) => {
                     touched={formik.touched}
                     type="number"
                   />
-
                   <Grid
                     item
                     xs={12}

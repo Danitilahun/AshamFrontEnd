@@ -21,11 +21,13 @@ const CallcenterColumn = [
   { key: "name", title: "Customer Name" },
   { key: "phone", title: "Phone" },
   { key: "blockHouse", title: "Block House" },
+  { key: "callcenterName", title: "Callcenter Name" },
   { key: "ownerName", title: "Owner Name" },
   { key: "accountNumber", title: "Account Number" },
   { key: "deliveryguyName", title: "Delivery Guy Name" },
   { key: "status", title: "Status" }, // Added "Status" column
 ];
+
 const columns = [
   ...CallcenterColumn,
   { key: "edit", title: "Edit" },

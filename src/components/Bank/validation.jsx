@@ -6,7 +6,7 @@ export const BankFormValidationSchema = yup.object().shape({
     .positive("Amount must be a positive number")
     .typeError("Amount must be a number")
     .required("Amount in Birr is required"),
-  // reason: yup.string().required("Reason is required"),
+  reason: yup.string().required("Reason is required"),
   // name: yup.string().required("Name is required"),
   // placement: yup.string().required("Placement is required"),
   bankName: yup.string().required("Please select a Bank"),

@@ -40,17 +40,27 @@
 /* New */
 .custom-table th:first-child,
 .custom-table td:first-child {
-  padding-left: 33px;
+  padding-left: 10px !important;
+  text-overflow: ellipsis !important;
 }
 .custom-table th:last-child,
 .custom-table td:last-child {
-  padding-right: 33px;
+  padding-right: 3px !important;
 }
+
 .custom-table tr {
-  height: 72px;
+  height: 50px !important;
+  text-overflow: ellipsis !important;
 }
+
+/* .custom-table tr th {
+  height: 50px !important;
+} */
+
 .ellipsis-cell {
-  max-width: 150px;
+  padding-left: 3px !important;
+  max-width: 5px !important;
+  text-overflow: ellipsis !important;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera  New */
@@ -83,39 +93,6 @@
   .custom-table td {
     font-size: 12px;
   }
-}
-
-/* Set column widths individually */
-.col-id {
-  width: 50px; /* Adjust the width as needed for each column */
-}
-
-.col-name {
-  width: 200px;
-}
-
-.col-age {
-  width: 50px;
-}
-
-.col-city {
-  width: 100px;
-}
-
-.col-email {
-  width: 200px;
-}
-
-.col-phone {
-  width: 100px;
-}
-
-.col-address {
-  width: 250px;
-}
-
-.col-company {
-  width: 150px;
 }
 
 .table-container {

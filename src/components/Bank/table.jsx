@@ -91,7 +91,7 @@ const BankTable = ({ bankName }) => {
       m="1rem 0"
       sx={{
         backgroundColor: theme.palette.background.default,
-        height: "60vh",
+        height: "50vh",
         position: "relative",
       }}
     >
@@ -99,7 +99,7 @@ const BankTable = ({ bankName }) => {
         data={data}
         columns={columns}
         loadMoreData={loadMoreData}
-        containerHeight={450}
+        containerHeight={350}
       />
     </Box>
   );

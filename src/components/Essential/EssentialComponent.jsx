@@ -5,6 +5,7 @@ import Header from "../VersatileComponents/Header";
 import fetchData from "../../api/services/Users/getUser";
 import GridItem from "./GridItem";
 import EssentialTable from "./table";
+
 const gridItemsStyle = {
   maxHeight: "150px",
   padding: "5px 0 10px 0", // Adjust as needed
@@ -28,18 +29,14 @@ const EssentialComponent = ({ isVisible }) => {
         left: "50%",
         transform: "translateX(-40%)",
         width: "70vw",
-        height: "50vh",
+        height: "65vh",
         backgroundColor: theme.palette.background.alt,
         boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.8)", // Shadow
-        // display: "flex",
-        // alignItems: "center",
-        // justifyContent: "center",
         zIndex: 1000,
         visibility: isVisible ? "visible" : "hidden",
         padding: "20px",
         transition: "opacity 0.4s ease-in-out, transform 0.4s ease-in-out",
         opacity: isVisible ? 1 : 0,
-        // marginTop: "10px", // Adding margin from the top
       }}
     >
       <Header title="Essentials" subtitle="" />

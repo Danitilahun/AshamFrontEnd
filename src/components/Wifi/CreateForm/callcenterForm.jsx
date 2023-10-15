@@ -23,6 +23,8 @@ import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
 import getRequiredUserData from "../../../utils/getBranchInfo";
 import useUserClaims from "../../../hooks/useUserClaims";
+import { firestore } from "../../../services/firebase";
+import { collection, doc, onSnapshot } from "firebase/firestore";
 // Define the validation schema including order item validation
 const WifiOrderFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -45,6 +47,22 @@ const WifiOrderForm = () => {
   const [deliveryGuy, setDeliveryGuy] = useState([]);
   const userData = getRequiredUserData();
   const useClaim = useUserClaims(user);
+
+  const [staff, setStaff] = useState({});
+  useEffect(() => {
+    const worksRef = doc(collection(firestore, "ashamStaff"), "ashamStaff");
+    // Subscribe to real-time updates
+    const unsubscribe = onSnapshot(worksRef, (doc) => {
+      if (doc.exists()) {
+        setStaff(doc.data());
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  console.log("staff", staff.member);
+  const result = staff?.member?.filter((item) => item.id === user.uid);
+
   useEffect(() => {
     const unsubscribe = fetchData("branches", setBranches);
     return () => unsubscribe();
@@ -115,6 +133,7 @@ const WifiOrderForm = () => {
         const date = getInternationalDate();
         values.date = date;
         values.callcenterId = user.uid;
+        values.callcenterName = result ? result[0].name : "";
         values.status = "new order";
         values.blockHouse = values.blockHouse.toUpperCase();
         console.log("values", values);

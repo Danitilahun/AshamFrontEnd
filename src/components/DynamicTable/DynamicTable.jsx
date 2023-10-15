@@ -401,6 +401,7 @@ const DynamicTable = ({
                   key={column.key}
                   className={`col-${column.key}`}
                   style={{
+                    // height: "3rem",
                     width: columnWidth,
                     color: theme.palette.secondary[200],
                     backgroundColor: theme.palette.background.alt,
@@ -412,8 +413,10 @@ const DynamicTable = ({
               <tr>
                 {columns.map((column) => (
                   <th
+                    className="header-cell ellipsis-cell"
                     style={{
                       // New
+                      // height: "3rem",
                       color: theme.palette.secondary[50], // New
                       backgroundColor: theme.palette.background.alt, // New
                       borderBottom: `1px solid ${
@@ -421,6 +424,7 @@ const DynamicTable = ({
                       }` /* New */,
                     }}
                     key={column.key}
+                    title={column.key}
                   >
                     {column.title}
                   </th>
@@ -522,17 +526,13 @@ const DynamicTable = ({
                         <IconButton onClick={() => openOrderPopup(row.order)}>
                           <VisibilityIcon />
                         </IconButton>
-                      ) : column.key === "transactionType" &&
-                        row[column.key] === "Deposit" ? (
+                      ) : column.key === "transactionType" ? (
                         <div
                           onClick={() => {
-                            row[column.key] === "Deposit" && openPopup(row);
+                            openPopup(row);
                           }}
                           style={{
-                            cursor:
-                              row[column.key] === "Deposit"
-                                ? "pointer"
-                                : "default",
+                            cursor: "pointer",
                           }}
                         >
                           {row[column.key]}
@@ -609,9 +609,18 @@ const DynamicTable = ({
             }}
           >
             <div>
-              <p>Name: {selectedItem.name}</p>
-              <p>Reason: {selectedItem.reason}</p>
-              <p>Placement: {selectedItem.placement}</p>
+              {/* {row.transactionType ==="Deposit" ? (<p>Name: {selectedItem.name}</p>
+              <p>Reason: {selectedItem.reason}</p>) : null} */}
+              {selectedItem.transactionType === "Deposit" ? (
+                <p>Name: {selectedItem.name}</p>
+              ) : null}
+              {selectedItem.transactionType === "Deposit" ? (
+                <p>Placement: {selectedItem.placement}</p>
+              ) : null}
+              <p>
+                Reason:{" "}
+                {selectedItem.reason ? selectedItem.reason : "not provided."}
+              </p>
             </div>
           </DialogContent>
           <DialogActions

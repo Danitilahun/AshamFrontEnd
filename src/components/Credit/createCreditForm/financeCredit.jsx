@@ -53,6 +53,7 @@ const FinancialCreditForm = ({ type }) => {
     });
     return () => unsubscribe();
   }, []);
+
   const handleButtonClick = () => {
     setShowForm(true);
   };

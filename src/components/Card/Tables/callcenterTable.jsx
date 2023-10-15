@@ -25,6 +25,7 @@ const CallcenterColumn = [
   { key: "remaingMoney", title: "Money Remain" },
   { key: "deliveryguyName", title: "Delivery Guy Name" },
   { key: "branchName", title: "Branch Name" },
+  { key: "callcenterName", title: "Callcenter Name" },
   { key: "amountBirr", title: "Amount" },
   { key: "status", title: "Status" },
 ];
