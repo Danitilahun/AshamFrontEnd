@@ -148,6 +148,18 @@ const EditAsbezaOrderForm = ({
           };
         }
 
+        if (!values.callcenterId) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Call center information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
         values.status = "new order";
         values.blockHouse = values.blockHouse.toUpperCase();
         console.log("values", values);
