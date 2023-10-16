@@ -117,6 +117,18 @@ const UserCard = ({ userInfo }) => {
     };
 
     try {
+      if (!userInfo.branchId) {
+        throw {
+          response: {
+            data: {
+              message:
+                "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+              type: "error",
+            },
+          },
+        };
+      }
+
       console.log("activeData", activeData);
       const res = await handleDeliveryGuyActiveness(activeData, user);
       openSnackbar(res.data.message, "success");

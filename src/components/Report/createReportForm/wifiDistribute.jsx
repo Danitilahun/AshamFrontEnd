@@ -175,7 +175,7 @@ const WifiDistributeReportForm = () => {
             response: {
               data: {
                 message:
-                  "You do not have Salary Table or Daily Table.Create salary table and daily table before.",
+                  "You do not have Salary Table or Daily Table.Create salary table and daily table before.If this is not the issue, please review your internet connection, refresh your web browser, and attempt the action once more.",
                 type: "info",
               },
             },
