@@ -17,19 +17,23 @@ import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import findDocumentById from "../../../utils/findDocumentById";
 import useUserClaims from "../../../hooks/useUserClaims";
 
-const CallcenterColumn = [
+const main = [
   { key: "name", title: "Customer Name" },
   { key: "phone", title: "Phone" },
   { key: "blockHouse", title: "Block House" },
-  { key: "callcenterName", title: "Callcenter Name" },
   { key: "ownerName", title: "Owner Name" },
   { key: "accountNumber", title: "Account Number" },
   { key: "deliveryguyName", title: "Delivery Guy Name" },
-  { key: "status", title: "Status" }, // Added "Status" column
 ];
 
+const CallcenterColumn = [
+  ...main,
+  { key: "callcenterName", title: "Callcenter Name" },
+  { key: "status", title: "Status" }, // Added "Status" column
+];
 const columns = [
-  ...CallcenterColumn,
+  ...main,
+  { key: "status", title: "Status" }, // Added "Status" column
   { key: "edit", title: "Edit" },
   { key: "delete", title: "Delete" },
   { key: "new", title: "New" }, // Added "New" column

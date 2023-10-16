@@ -273,6 +273,18 @@ const DynamicTable = ({
       status: order.status === "new order" ? "Assigned" : "Completed",
     };
     try {
+      if (!branchId) {
+        throw {
+          response: {
+            data: {
+              message:
+                "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+              type: "error",
+            },
+          },
+        };
+      }
+
       console.log("activeData", Data);
       if (orderType === "asbeza" && order.status === "Assigned") {
         await AsbezaProfit(user, Data);

@@ -49,7 +49,7 @@
 }
 
 .custom-table tr {
-  height: 50px !important;
+  height: 75px !important;
   text-overflow: ellipsis !important;
 }
 

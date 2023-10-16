@@ -75,6 +75,18 @@ const FinancialCreditForm = ({ type }) => {
         values.employeeName = name;
         const date = getInternationalDate();
         values.branchId = params.id ? params.id : user.uid;
+        if (!values.branchId) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Finance information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
         values.date = date;
         const res = await createCredit(user, values, "financeCredit");
         openSnackbar(`${res.data.message} successfully created!`, "success");

@@ -132,6 +132,52 @@ const WaterOrderForm = () => {
         values.date = date;
         values.callcenterId = user.uid;
         values.callcenterName = result ? result[0].name : "";
+
+        if (!values.deliveryguyId || !values.deliveryguyName) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Delivery guy information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
+
+        if (
+          !values.branchId ||
+          !values.branchName ||
+          !values.activeTable ||
+          !values.active ||
+          !values.activeDailySummery
+        ) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
+
+        if (!values.callcenterName || !values.callcenterId) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Call center information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
+
         values.status = "new order";
         values.blockHouse = values.blockHouse.toUpperCase();
         console.log("values", values);

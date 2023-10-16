@@ -17,18 +17,22 @@ import WaterOrderBranchForm from "../CreateForm/branchForm";
 import findDocumentById from "../../../utils/findDocumentById";
 import useUserClaims from "../../../hooks/useUserClaims";
 
-const CallcenterColumn = [
+const main = [
   { key: "name", title: "Customer Name" },
   { key: "phone", title: "Phone" },
   { key: "blockHouse", title: "Block House" },
   { key: "billPayerName", title: "Bill Payer Name" },
-  { key: "callcenterName", title: "Callcenter Name" },
   { key: "customerKey", title: "Customer Key" },
   { key: "deliveryguyName", title: "Delivery Guy Name" },
+];
+const CallcenterColumn = [
+  ...main,
+  { key: "callcenterName", title: "Callcenter Name" },
   { key: "status", title: "Status" }, // Added "Status" column
 ];
 const columns = [
-  ...CallcenterColumn,
+  ...main,
+  { key: "status", title: "Status" }, // Added "Status" column
   { key: "edit", title: "Edit" },
   { key: "delete", title: "Delete" },
   { key: "new", title: "New" }, // Added "New" column

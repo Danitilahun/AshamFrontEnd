@@ -57,8 +57,32 @@ const EditCustomerCreditForm = ({
         values.name = name;
         const date = getInternationalDate();
         values.branchId = params.id;
+        if (!values.branchId) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
         values.date = date;
         values.active = active;
+        if (!values.active) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "You do not have Salary Table.Create salary table before.",
+                type: "info",
+              },
+            },
+          };
+        }
         values.difference = values.amount - credit.amount;
         console.log("values", values);
         const res = await updateCredit(

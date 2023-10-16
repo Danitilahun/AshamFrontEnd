@@ -111,6 +111,17 @@ const Calculator = () => {
         [key]: parseInt(data[key]),
       };
       console.log("the value is", value);
+      if (!active) {
+        throw {
+          response: {
+            data: {
+              message:
+                "Calculator information is not found. Please check your connection, refresh your browser, and try again.",
+              type: "error",
+            },
+          },
+        };
+      }
       const res = await updateCalculator(user, active, value);
       openSnackbar(`${res.data.message}`, "success");
     } catch (error) {

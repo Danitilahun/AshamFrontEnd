@@ -36,6 +36,18 @@ const ExpenseEditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
       setIsSubmitting(true);
       try {
         values.financeId = user.uid;
+        if (!values.financeId) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Finance information is missing.Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
         values.difference = values.amount - credit.amount;
         const res = await updateExpense(user, credit.id, values);
         openSnackbar(`${res.data.message} successfully created!`, "success");

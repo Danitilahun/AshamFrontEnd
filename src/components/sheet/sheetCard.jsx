@@ -60,6 +60,16 @@ const SheetCard = ({ sheetInfo }) => {
     setIsSubmitting(true);
     handleDialogClose();
     try {
+      if (!sheetInfo.id) {
+        throw {
+          response: {
+            data: {
+              message: "sheet is not found.",
+              type: "error",
+            },
+          },
+        };
+      }
       await deleteSheet(user, sheetInfo.id);
       openSnackbar(`Sheet deleted successfully!`, "success");
     } catch (error) {

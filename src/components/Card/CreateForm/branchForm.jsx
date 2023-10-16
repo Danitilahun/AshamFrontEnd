@@ -74,9 +74,9 @@ const CardOrderBranchForm = () => {
       blockHouse: "",
       amountBirr: "",
       deliveryguyName: "",
+      deliveryguyId: "",
       branchName: userData.branchName,
       branchId: userData.requiredId,
-      deliveryguyId: "",
       activeTable: userData.activeTable,
       active: userData.active,
       activeDailySummery: userData.activeDailySummery,
@@ -87,6 +87,38 @@ const CardOrderBranchForm = () => {
       // Send formData to the backend
       setIsSubmitting(true);
       try {
+        if (!values.deliveryguyId || !values.deliveryguyName) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Delivery guy information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
+
+        if (
+          !values.branchId ||
+          !values.branchName ||
+          !values.activeTable ||
+          !values.active ||
+          !values.activeDailySummery
+        ) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
+
         const date = getInternationalDate();
         values.date = date;
         values.callcenterId = userData.requiredId

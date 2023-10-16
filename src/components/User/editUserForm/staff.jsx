@@ -62,6 +62,19 @@ const StaffEditForm = ({ staff, isEditDialogOpen, closeEditDialog }) => {
         ? branchData.requiredId
         : params.id;
       values.active = branchData.active;
+
+      if (!values.branchId) {
+        handleCloseForm();
+        throw {
+          response: {
+            data: {
+              message:
+                "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+              type: "error",
+            },
+          },
+        };
+      }
       values.salaryChange = values.salary !== staff.salary;
       if (values.salaryChange) {
         values.difference = values.salary - staff.salary;

@@ -138,6 +138,50 @@ const CardFeeReportForm = () => {
         values.activeDailySummery = activeDailySummery;
         values.returnCardNumber = 0;
         values.reason = "";
+
+        if (!values.deliveryguyId || !values.deliveryguyName) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Delivery guy information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
+
+        if (!values.branchId) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
+
+        if (
+          !values.active ||
+          !values.activeTable ||
+          !values.activeDailySummery
+        ) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "You do not have Salary Table or Daily Table.Create salary table and daily table before.",
+                type: "info",
+              },
+            },
+          };
+        }
+
         console.log("values", values);
         const res = await createReport(user, values, "CardFee");
         openSnackbar(`${res.data.message} successfully created!`, "success");

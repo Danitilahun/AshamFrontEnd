@@ -94,6 +94,18 @@ const AdminEditForm = ({ admin, isEditDialogOpen, closeEditDialog }) => {
         branch.find((branch) => branch[1] === values.branchId)?.[2] || "";
       values.active = active;
 
+      if (!values.branchId) {
+        handleCloseForm();
+        throw {
+          response: {
+            data: {
+              message:
+                "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+              type: "error",
+            },
+          },
+        };
+      }
       // Update the admin with the new data
       const res = await updateUser(user, admin.id, values, "admin");
       // Replace with your API update function

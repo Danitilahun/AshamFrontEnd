@@ -74,6 +74,18 @@ const EditFinanceCreditForm = ({
         values.employeeName = name;
         const date = getInternationalDate();
         values.branchId = params.id;
+        if (!values.branchId) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Finance information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
         values.date = date;
         values.difference = values.amount - credit.amount;
         console.log("values", values);

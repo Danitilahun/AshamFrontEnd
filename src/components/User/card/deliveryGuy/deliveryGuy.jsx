@@ -149,6 +149,29 @@ const UserCard = ({ userInfo }) => {
     setIsSubmitting(true);
 
     try {
+      if (!branchData.requiredId) {
+        throw {
+          response: {
+            data: {
+              message:
+                "Calculator information is not found. Please check your connection, refresh your browser, and try again.",
+              type: "error",
+            },
+          },
+        };
+      }
+
+      if (!branchData.active) {
+        throw {
+          response: {
+            data: {
+              message:
+                "Sorry, we cannot process your payment at the moment because the salary table is unavailable.",
+              type: "error",
+            },
+          },
+        };
+      }
       const res = await handlePay(branchData.active, userInfo.id, user, {
         branchId: branchData.requiredId,
         paid: branchData.paid,
@@ -260,7 +283,7 @@ const UserCard = ({ userInfo }) => {
       <ConfirmationDialog
         open={openDialog}
         handleDialogClose={handleDialogClose}
-        handleConfirmed={handleSalaryPay}
+        handleConfirmed={handleDeleteConfirmed}
         message={`Are you sure you want to delete this Delivery Guy ?`}
         title={`Confirm  Delivery Guy deletion`}
       />

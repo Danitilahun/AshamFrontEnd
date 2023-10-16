@@ -98,10 +98,10 @@ const EditAsbezaOrderForm = ({
       blockHouse: data.blockHouse,
       additionalInfo: fromWhere === "edit" ? data.additionalInfo : "",
       order: fromWhere === "edit" ? data.order : [],
-      branchId: fromWhere === "edit" ? data.branchId : "",
-      branchName: fromWhere === "edit" ? data.branchName : "",
       deliveryguyId: fromWhere === "edit" ? data.deliveryguyId : "",
       deliveryguyName: fromWhere === "edit" ? data.deliveryguyName : "",
+      branchId: fromWhere === "edit" ? data.branchId : "",
+      branchName: fromWhere === "edit" ? data.branchName : "",
       activeTable: fromWhere === "edit" ? data.activeTable : "",
       active: fromWhere === "edit" ? data.active : "",
       activeDailySummery: fromWhere === "edit" ? data.activeDailySummery : "",
@@ -115,6 +115,39 @@ const EditAsbezaOrderForm = ({
         const date = getInternationalDate();
         values.date = date;
         values.callcenterId = user.uid;
+
+        if (!values.deliveryguyId || !values.deliveryguyName) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Delivery guy information is not found. Please check your connection and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
+
+        if (
+          !values.branchId ||
+          !values.branchName ||
+          !values.activeTable ||
+          !values.active ||
+          !values.activeDailySummery
+        ) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
+
         values.status = "new order";
         values.blockHouse = values.blockHouse.toUpperCase();
         console.log("values", values);

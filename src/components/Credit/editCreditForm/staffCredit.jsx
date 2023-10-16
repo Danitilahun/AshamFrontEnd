@@ -52,11 +52,48 @@ const EditStaffCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
       try {
         const date = getInternationalDate();
         values.branchId = params.id;
+        if (!values.branchId) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
         values.date = date;
         values.placement = credit.placement;
         values.employeeName = credit.employeeName;
         values.employeeId = credit.employeeId;
+
+        if (!values.employeeId || !values.employeeName) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Employees Information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
         values.active = active;
+        if (!values.active) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "You do not have Salary Table.Create salary table before.",
+                type: "info",
+              },
+            },
+          };
+        }
         values.difference = values.amount - credit.amount;
         values.active = credit.active;
         values.employessChange = values.employeeId !== credit.employeeId;

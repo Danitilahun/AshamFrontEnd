@@ -41,6 +41,18 @@ const ExpenseForm = ({ type }) => {
       setIsSubmitting(true);
       try {
         values.financeId = user.uid;
+        if (!values.financeId) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Finance information is missing.Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
         const res = await createExpense(user, values, "CustomerCredit");
         openSnackbar(`${res.data.message} successfully created!`, "success");
         handleCloseForm();

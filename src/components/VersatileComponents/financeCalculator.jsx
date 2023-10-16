@@ -143,6 +143,18 @@ const Calculator = ({ Expenses }) => {
       const value = {
         [key]: Math.abs(parseInt(data[key])),
       };
+
+      if (!user || !user.uid) {
+        throw {
+          response: {
+            data: {
+              message:
+                "Calculator information is not found. Please check your connection, refresh your browser, and try again.",
+              type: "error",
+            },
+          },
+        };
+      }
       const res = await updateCalculator(user, user.uid, value);
       openSnackbar(`${res.data.message}`, "success");
     } catch (error) {

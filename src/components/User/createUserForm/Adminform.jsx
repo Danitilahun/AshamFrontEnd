@@ -100,6 +100,18 @@ const AdminRegisterForm = () => {
       values.fullName = name;
       const formData = new FormData();
       // Loop through the initial values and append them to the formData
+      if (!values.branchId || !values.branchName) {
+        handleCloseForm();
+        throw {
+          response: {
+            data: {
+              message:
+                "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+              type: "error",
+            },
+          },
+        };
+      }
       for (const key in values) {
         formData.append(key, values[key]);
       }

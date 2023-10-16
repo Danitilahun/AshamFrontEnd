@@ -12,6 +12,7 @@ import { useSnackbar } from "../../contexts/InfoContext";
 import getDataFromCollectionWithCriteria from "../../api/utils/getDataFromCollectionWithCriteria";
 import Reminder from "../../api/orders/reminder";
 import { useTheme } from "@mui/material";
+import { SpinnerContext } from "../../contexts/SpinnerContext";
 
 function ReminderComponent({ type }) {
   const [selectedDate, setSelectedDate] = useState("");
@@ -22,7 +23,7 @@ function ReminderComponent({ type }) {
   const { openSnackbar } = useSnackbar();
   const [documentData, setDocumentData] = useState(null);
   const [daysDifference, setDaysDifference] = useState(0); // Initialize with 0
-
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   function calculateDateDifference(targetDate) {
     const currentDate = new Date();
     const targetDateObject = new Date(targetDate);
@@ -72,10 +73,23 @@ function ReminderComponent({ type }) {
   };
 
   const handleConfirm = async () => {
+    setIsSubmitting(true);
     if (selectedDate) {
       console.log("Selected date:", selectedDate);
       setOpen(false);
       try {
+        if (!user || !user.uid) {
+          throw {
+            response: {
+              data: {
+                message:
+                  "Call center information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
+
         const formData = {
           date: selectedDate,
           callcenterId: params.id ? params.id : user.uid,
@@ -88,6 +102,7 @@ function ReminderComponent({ type }) {
         openSnackbar(error.message, "error");
       }
     }
+    setIsSubmitting(false);
   };
 
   return (
@@ -118,6 +133,7 @@ function ReminderComponent({ type }) {
           <Button
             variant="contained"
             color="primary"
+            disabled={isSubmitting}
             onClick={handleSetReminder}
             height="50%"
           >

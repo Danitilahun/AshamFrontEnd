@@ -55,10 +55,36 @@ const CustomerCreditForm = ({ type }) => {
 
         const name = capitalizeString(values.name);
 
+        if (!values.branchId) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
+
         values.name = name;
         values.date = date;
         values.type = type;
         values.active = userData.active;
+
+        if (!values.active) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "You do not have Salary Table.Create salary table before.",
+                type: "info",
+              },
+            },
+          };
+        }
 
         const res = await createCredit(user, values, "CustomerCredit");
 

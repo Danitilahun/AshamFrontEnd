@@ -54,11 +54,48 @@ const EditForm = ({ data, isEditDialogOpen, closeEditDialog, type }) => {
       try {
         const date = getInternationalDate();
         values.branchId = params.id;
+        if (!values.branchId) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
         values.date = date;
         values.active = active;
+        if (!values.active) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "You do not have Salary Table.Create salary table before.",
+                type: "info",
+              },
+            },
+          };
+        }
         values.placement = data.placement;
         values.employeeName = data.employeeName;
         values.employeeId = data.employeeId;
+
+        if (!values.employeeId || !values.employeeName) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Employees Information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
         values.difference = values.amount - data.amount;
         const res = await updateIncentive(data.id, user, values, type);
         openSnackbar(`${res.data.message} successfully created!`, "success");

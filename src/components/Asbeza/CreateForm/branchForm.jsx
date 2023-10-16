@@ -87,6 +87,39 @@ const AsbezaOrderBranchForm = () => {
       try {
         const date = getInternationalDate();
         const name = capitalizeString(values.name);
+
+        if (!values.deliveryguyId || !values.deliveryguyName) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Delivery guy information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
+
+        if (
+          !values.branchId ||
+          !values.branchName ||
+          !values.activeTable ||
+          !values.active ||
+          !values.activeDailySummery
+        ) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Branch information is not found. Please check your connection, refresh your browser, and try again",
+                type: "error",
+              },
+            },
+          };
+        }
+
         values.name = name;
         values.date = date;
         values.callcenterId = userData.requiredId

@@ -18,18 +18,23 @@ import capitalizeString from "../../../utils/capitalizeString";
 import useUserClaims from "../../../hooks/useUserClaims";
 import findDocumentById from "../../../utils/findDocumentById";
 
-const CallcenterColumn = [
+const main = [
   { key: "name", title: "Customer Name" },
   { key: "phone", title: "Phone" },
   { key: "blockHouse", title: "Block House" },
-  { key: "callcenterName", title: "Callcenter Name" },
   { key: "deliveryguyName", title: "Delivery Guy Name" },
   { key: "order", title: "Order" },
   { key: "additionalInfo", title: "Additional Info" },
+];
+
+const CallcenterColumn = [
+  ...main,
+  { key: "callcenterName", title: "Callcenter Name" },
   { key: "status", title: "Status" }, // Added "Status" column
 ];
 const columns = [
-  ...CallcenterColumn,
+  ...main,
+  { key: "status", title: "Status" }, // Added "Status" column
   { key: "edit", title: "Edit" },
   { key: "delete", title: "Delete" },
   { key: "new", title: "New" }, // Added "New" column

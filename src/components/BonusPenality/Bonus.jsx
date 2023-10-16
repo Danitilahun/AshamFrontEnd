@@ -95,7 +95,7 @@ const BonusDialog = ({ worker, id = null }) => {
       {userClaims.admin ? (
         <Button
           variant="contained"
-          disabled={userClaims.superAdmin}
+          disabled={userClaims.superAdmin || isSubmitting}
           color="primary"
           onClick={handleOpen}
           sx={{ backgroundColor: id ? "green" : "none" }}

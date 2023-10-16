@@ -90,6 +90,39 @@ const WifiOrderBranchForm = () => {
         values.callcenterId = userData.requiredId
           ? userData.requiredId
           : user.displayName;
+
+        if (!values.deliveryguyId || !values.deliveryguyName) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Delivery guy information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
+
+        if (
+          !values.branchId ||
+          !values.branchName ||
+          !values.activeTable ||
+          !values.active ||
+          !values.activeDailySummery
+        ) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
+
         values.status = "new order";
         values.blockHouse = values.blockHouse.toUpperCase();
         values.from = "branch";

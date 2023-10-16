@@ -132,14 +132,58 @@ const CardDistributeReportForm = () => {
       try {
         const name = capitalizeString(values.deliveryguyName);
         values.deliveryguyName = name;
+
+        if (!values.deliveryguyId || !values.deliveryguyName) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Delivery guy information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
         const currentTimeString = getCurrentTime();
         const date = getInternationalDate();
         values.time = currentTimeString;
         values.branchId = params.id;
+
+        if (!values.branchId) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
+
         values.date = date;
         values.active = active;
         values.activeTable = activeTable;
         values.activeDailySummery = activeDailySummery;
+
+        if (
+          !values.active ||
+          !values.activeTable ||
+          !values.activeDailySummery
+        ) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "You do not have Salary Table or Daily Table.Create salary table and daily table before.",
+                type: "info",
+              },
+            },
+          };
+        }
         console.log("values", values);
         const res = await createReport(user, values, "cardDistribute");
         openSnackbar(`${res.data.message} successfully created!`, "success");

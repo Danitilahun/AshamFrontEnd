@@ -95,7 +95,32 @@ const BankForm = ({ source }) => {
           ? params.id
           : user.displayName;
 
+        if (!values.branchId) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
         values.calculatorId = userClaims.finance ? user.uid : userData.active;
+
+        if (!values.calculatorId) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Calculator information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
         values.date = date;
         values.source = source;
 

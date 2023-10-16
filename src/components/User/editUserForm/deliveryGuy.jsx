@@ -59,6 +59,19 @@ const DeliveryGuyEditForm = ({
       values.branchId = params.id ? params.id : branchData.requiredId;
       values.active = branchData.active;
       values.activeTable = branchData.activeTable;
+
+      if (!values.branchId) {
+        handleCloseForm();
+        throw {
+          response: {
+            data: {
+              message:
+                "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+              type: "error",
+            },
+          },
+        };
+      }
       const name = capitalizeString(values.fullName);
       values.fullName = name;
       values.nameChange = values.fullName !== deliveryguy.fullName;

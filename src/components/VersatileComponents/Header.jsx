@@ -70,7 +70,7 @@ const Header = ({
   let active = branchData.active;
   let activeSheet = branchData.activeSheet;
 
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const [userClaims, setUserClaims] = useState({});
   useEffect(() => {
     async function fetchUserClaims() {
@@ -153,6 +153,17 @@ const Header = ({
         openSnackbar("There is no active sheet.You can't create a", "info");
         return;
       }
+      if (!branchId) {
+        throw {
+          response: {
+            data: {
+              message:
+                "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+              type: "error",
+            },
+          },
+        };
+      }
       const res = await createTable(user, branchId, activeSheet);
       openSnackbar(res.data.message, "success");
     } catch (error) {
@@ -176,6 +187,17 @@ const Header = ({
     handleDialogClose();
     setIsSubmitting(true);
     try {
+      if (!branchId || !activeSheet || !active) {
+        throw {
+          response: {
+            data: {
+              message:
+                "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+              type: "error",
+            },
+          },
+        };
+      }
       const date = getInternationalDate();
 
       const count = await getNumberOfDocumentsInCollection(
@@ -207,7 +229,6 @@ const Header = ({
 
   return (
     <>
-      
       <Box display="flex" alignItems="center" padding="0">
         <Box flex="1">
           <Typography

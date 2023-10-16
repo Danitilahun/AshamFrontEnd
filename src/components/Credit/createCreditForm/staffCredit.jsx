@@ -90,11 +90,50 @@ const StaffCreditForm = ({ type }) => {
           : user.displayName
           ? user.displayName
           : userData.requiredId;
+
+        if (!values.branchId) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
         const name = capitalizeString(values.employeeName);
         values.employeeName = name;
+
+        if (!values.employeeId || !values.employeeName) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "Employees Information is not found. Please check your connection, refresh your browser, and try again.",
+                type: "error",
+              },
+            },
+          };
+        }
         values.date = date;
         values.type = type;
         values.active = active;
+
+        if (!values.active) {
+          handleCloseForm();
+          throw {
+            response: {
+              data: {
+                message:
+                  "You do not have Salary Table.Create salary table before.",
+                type: "info",
+              },
+            },
+          };
+        }
         console.log("values", values);
         const res = await createCredit(user, values, "StaffCredit");
         openSnackbar(`${res.data.message} successfully created!`, "success");

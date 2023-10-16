@@ -87,6 +87,18 @@ const StaffRegisterForm = () => {
         branchData.requiredId ? branchData.requiredId : ""
       );
       formData.append("active", branchData.active ? branchData.active : "");
+      if (!branchData.requiredId) {
+        handleCloseForm();
+        throw {
+          response: {
+            data: {
+              message:
+                "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+              type: "error",
+            },
+          },
+        };
+      }
       const unique =
         branchData.uniqueName + `S-${branchData.numberofworker + 1}`;
       formData.append("uniqueName", unique);
