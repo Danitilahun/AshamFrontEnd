@@ -92,7 +92,7 @@ const EditDailyCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
             response: {
               data: {
                 message:
-                  "You do not have Salary Table.Create salary table before.",
+                  "To create new daily credit, ensure you have the calculator available. If not, check your internet connection, refresh your browser, and try again.",
                 type: "info",
               },
             },

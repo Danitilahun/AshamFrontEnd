@@ -105,7 +105,7 @@ const CreateForm = ({ type }) => {
             response: {
               data: {
                 message:
-                  "You do not have Salary Table.Create salary table before. Please create sheet if you don't have . If that is not the case , please check your connection, refresh your browser, and try again.",
+                  "You currently do not have a salary table. Please create a salary table before proceeding. If you do not have a sheet already, kindly create one. If this is not the issue, please review your internet connection, refresh your web browser, and attempt the action once more.",
                 type: "info",
               },
             },
