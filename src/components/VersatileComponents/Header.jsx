@@ -187,7 +187,7 @@ const Header = ({
     handleDialogClose();
     setIsSubmitting(true);
     try {
-      if (!branchId || !activeSheet || !active) {
+      if (!branchId) {
         throw {
           response: {
             data: {
