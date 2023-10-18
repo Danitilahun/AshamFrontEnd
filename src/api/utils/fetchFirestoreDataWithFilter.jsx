@@ -16,12 +16,14 @@ const fetchFirestoreDataWithFilter = (
   existingData,
   setData,
   fieldToFilter,
-  valueToMatch
+  valueToMatch,
+  match = "createdAt",
+  way = "desc"
 ) => {
   //   console.log("-----------start after", fieldToFilter, valueToMatch);
   const dataCollection = collection(firestore, collectionName);
 
-  let firestoreQuery = query(dataCollection, orderBy("createdAt", "desc"));
+  let firestoreQuery = query(dataCollection, orderBy(match, way));
 
   if (fieldToFilter && valueToMatch !== undefined) {
     firestoreQuery = query(

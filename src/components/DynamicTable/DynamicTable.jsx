@@ -34,6 +34,7 @@ import AsbezaProfit from "../../api/orders/asbezaProfit";
 import returnedCard from "../../api/report/cardReturnHandle";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
 import getRequiredUserData from "../../utils/getBranchInfo";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 // import ReactHTMLTableToExcel from "react-html-table-to-excel";
 const getColor = (statusNumber) => {
   let style = {
@@ -367,6 +368,10 @@ const DynamicTable = ({
 
   const tableRef = useRef(null);
 
+  // console.log(isLargeScreen, isMediumScreen, isSmallScreen);
+  const { screenWidth, screenHeight } = useWindowDimensions();
+  // console.log(screenWidth / 1536);
+  const fontSize = screenWidth >= 1536 ? 15 : (screenWidth / 1536) * 15 + "px";
   return (
     <>
       {/* <Button onClick={}>
@@ -377,6 +382,7 @@ const DynamicTable = ({
         style={{
           color: theme.palette.secondary[200],
           backgroundColor: theme.palette.background.alt,
+          fontSize: fontSize,
         }}
       >
         {/* {TableId !== "normal" ? (

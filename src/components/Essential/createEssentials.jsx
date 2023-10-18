@@ -78,7 +78,7 @@ const EssentialForm = ({ type }) => {
 
   return (
     <div style={{ zIndex: 6000 }}>
-      {userClaims.superAdmin ? (
+      {userClaims.superAdmin || userClaims.admin || userClaims.callCenter ? (
         <div>
           <Button
             variant="contained"

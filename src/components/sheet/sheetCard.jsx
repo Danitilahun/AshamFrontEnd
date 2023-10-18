@@ -26,6 +26,7 @@ import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import deleteSheet from "../../api/sheet/delete";
 import useUserClaims from "../../hooks/useUserClaims";
 import FlexBetween from "../VersatileComponents/FlexBetween";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const SheetCard = ({ sheetInfo }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -97,6 +98,13 @@ const SheetCard = ({ sheetInfo }) => {
     navigate(`/table/${params.id}/${sheetInfo.id}`);
   };
 
+  const { screenWidth, screenHeight } = useWindowDimensions();
+  // console.log(screenWidth / 1536);
+
+  const avatarSize =
+    screenWidth >= 1536 ? 50 : (screenWidth / 1536) * 50 + "px";
+  const fontSize = screenWidth >= 1536 ? 18 : (screenWidth / 1536) * 18 + "px";
+
   return (
     <>
       <Card
@@ -148,16 +156,13 @@ const SheetCard = ({ sheetInfo }) => {
               <Tooltip title={sheetInfo.name}>
                 <Typography
                   variant="h6"
-                  fontSize={18}
+                  fontSize={fontSize}
                   sx={{
                     color: "text.secondary",
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
-                    maxWidth: "150px", // Set a maximum width to control truncation
-                    // "&:hover": {
-                    //   maxWidth: "none", // Remove the maximum width on hover
-                    // },
+                    maxWidth: screenWidth < 1300 ? "80px" : "100%",
                   }}
                 >
                   {sheetInfo.name}

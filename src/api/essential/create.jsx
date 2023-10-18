@@ -7,7 +7,11 @@ const createExpense = async (user, CreditData) => {
   try {
     if (user) {
       const idTokenResult = await user.getIdTokenResult();
-      if (idTokenResult.claims.superAdmin === true) {
+      if (
+        idTokenResult.claims.superAdmin === true ||
+        idTokenResult.claims.admin === true ||
+        idTokenResult.claims.callCenter === true
+      ) {
         const idToken = await user.getIdToken();
         const response = await axios.post(
           `${API_BASE_URL}api/essential`,

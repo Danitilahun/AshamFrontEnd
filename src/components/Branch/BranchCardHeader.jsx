@@ -18,6 +18,7 @@ import { useSnackbar } from "../../contexts/InfoContext";
 import { useState } from "react";
 import ChangeSheetStatus from "../../api/branch/changeSheetStatus";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const BranchCardHeader = ({
   anchorEl,
@@ -62,6 +63,11 @@ const BranchCardHeader = ({
     }
     setIsSubmitting(false);
   };
+
+  // console.log(isLargeScreen, isMediumScreen, isSmallScreen);
+  const { screenWidth, screenHeight } = useWindowDimensions();
+  // console.log(screenWidth / 1536);
+  const fontSize = screenWidth >= 1536 ? 18 : (screenWidth / 1536) * 18 + "px";
   return (
     <>
       <CardHeader
@@ -98,14 +104,14 @@ const BranchCardHeader = ({
               <div onClick={handleCardClick}>
                 <Typography
                   variant="h6"
-                  fontSize={18}
+                  fontSize={fontSize}
                   sx={{
                     color: "text.secondary",
                     color: "text.secondary",
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
-                    maxWidth: "150px",
+                    maxWidth: screenWidth < 1250 ? "150px" : "100%",
                   }}
                   style={typographyStyles}
                 >

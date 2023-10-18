@@ -28,19 +28,21 @@ import SmallScreenMessage from "./components/VersatileComponents/SmallScreenMess
 
 const App = () => {
   /* New */
-  const {isSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting } = useContext(SpinnerContext);
   /* New */
 
   const { mode } = useCustomTheme();
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-  
 
   return (
     <div className="app-container">
-
-      {isSubmitting && <div id="pending"><span id="Loader"></span></div> }  {/* New */}
-      {<SmallScreenMessage/>}  {/* New */}
-
+      {isSubmitting && (
+        <div id="pending">
+          <span id="Loader"></span>
+        </div>
+      )}{" "}
+      {/* New */}
+      {/* {<SmallScreenMessage/>} */}
       <BrowserRouter>
         <AuthContextProvider>
           <ThemeProvider theme={theme}>

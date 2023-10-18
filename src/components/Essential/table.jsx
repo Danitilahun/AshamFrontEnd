@@ -34,6 +34,10 @@ const NonSupercolumns = [
   { key: "phone", title: "Phone" },
   { key: "company", title: "Company" },
   { key: "sector", title: "Sector" },
+  {
+    key: "edit",
+    title: "Edit",
+  },
 ];
 
 const EssentialTable = () => {

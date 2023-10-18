@@ -28,6 +28,9 @@ import handlePay from "../../../../api/users/handleDeliveruGuyPay";
 import getRequiredUserData from "../../../../utils/getBranchInfo";
 import useUserClaims from "../../../../hooks/useUserClaims";
 import { SpinnerContext } from "../../../../contexts/SpinnerContext";
+import { useEffect } from "react";
+import useScreenSize from "../../../../hooks/useScreenSize";
+import useWindowDimensions from "../../../../hooks/useWindowDimensions";
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -234,14 +237,23 @@ const UserCard = ({ userInfo }) => {
     handleMenuClose();
   };
 
+  const { isSmallScreen, isMediumScreen, isLargeScreen } = useScreenSize();
+
+  console.log(isLargeScreen, isMediumScreen, isSmallScreen);
+  const { screenWidth, screenHeight } = useWindowDimensions();
+  console.log(screenWidth / 1536);
   return (
     <>
+      {/* <p style={{ color: "blue" }}>Screen Width: {screenWidth}px</p>
+      <p style={{ color: "red" }}>Screen Height: {screenHeight}px</p> */}
       <Card
         sx={{
           backgroundColor: theme.palette.background.alt,
           borderRadius: "0.55rem",
           color: theme.palette.secondary[700],
           marginTop: "1rem",
+          width: "100%",
+          // height: `${100 - parseInt((parseInt(screenWidth) * 100) / 1536)}%`,
         }}
       >
         <UserHeader

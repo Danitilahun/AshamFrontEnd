@@ -20,6 +20,9 @@ import ProfileImageDialog from "../../common/ProfileImageDialog";
 import FlexBetween from "../../../VersatileComponents/FlexBetween";
 import useUserClaims from "../../../../hooks/useUserClaims";
 import getRequiredUserData from "../../../../utils/getBranchInfo";
+import useScreenSize from "../../../../hooks/useScreenSize";
+import { useEffect } from "react";
+import useWindowDimensions from "../../../../hooks/useWindowDimensions";
 
 const UserHeader = ({
   userInfo,
@@ -69,6 +72,17 @@ const UserHeader = ({
   const closeDialog = () => {
     setIsDialogOpen(false);
   };
+
+  const { isSmallScreen, isMediumScreen, isLargeScreen } = useScreenSize();
+
+  console.log(isLargeScreen, isMediumScreen, isSmallScreen);
+  const { screenWidth, screenHeight } = useWindowDimensions();
+  // console.log(screenWidth / 1536);
+
+  const avatarSize =
+    screenWidth >= 1536 ? 50 : (screenWidth / 1536) * 50 + "px";
+  const fontSize = screenWidth >= 1536 ? 18 : (screenWidth / 1536) * 18 + "px";
+
   return (
     <>
       <ProfileImageDialog
@@ -80,7 +94,12 @@ const UserHeader = ({
       <CardHeader
         avatar={
           <Avatar
-            sx={{ bgcolor: theme.palette.background.alt, cursor: "pointer" }}
+            sx={{
+              bgcolor: theme.palette.background.alt,
+              cursor: "pointer",
+              width: avatarSize,
+              height: avatarSize,
+            }}
             src={userInfo.profileImage}
             aria-label="members image"
             onClick={openDialog}
@@ -109,8 +128,24 @@ const UserHeader = ({
                 onClose={handleMenuClose}
                 onClick={handleMenuClose}
               >
+                {/* <MenuItem onClick={handleEdit}>Edit</MenuItem> */}
                 <MenuItem onClick={handleEdit}>Edit</MenuItem>
+
                 <MenuItem onClick={handleDeleteIconClick}>Delete</MenuItem>
+                <MenuItem
+                  onClick={handleSalaryPay}
+                  sx={{
+                    cursor: "pointer",
+                    backgroundColor: userInfo.paid ? "green" : "red",
+                    color: "white",
+                    "&:hover": {
+                      backgroundColor: userInfo.paid ? "darkgreen" : "darkred",
+                    },
+                  }}
+                  disabled={userInfo.paid || !branchData.active}
+                >
+                  {userInfo.paid ? "Paid" : "Waiting"}
+                </MenuItem>
               </Menu>
             </div>
           ) : null
@@ -120,16 +155,18 @@ const UserHeader = ({
             <Tooltip title={userInfo.fullName}>
               <Typography
                 variant="h6"
-                fontSize={18}
+                fontSize={fontSize}
                 sx={{
                   color: "text.secondary",
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  maxWidth: "150px", // Set a maximum width to control truncation
-                  // "&:hover": {
-                  //   maxWidth: "none", // Remove the maximum width on hover
-                  // },
+                  maxWidth:
+                    screenWidth < 1250
+                      ? userClaims.superAdmin
+                        ? "100px"
+                        : "50px"
+                      : "100%",
                 }}
               >
                 {userInfo.fullName}
@@ -145,19 +182,9 @@ const UserHeader = ({
                     cursor: "pointer",
                     backgroundColor: userInfo.activeness ? "green" : "red",
                     color: "white",
-                  }}
-                />
-              ) : null}
-              {userClaims.admin ? (
-                <Chip
-                  label={userInfo.paid ? "Paid" : "Waiting"}
-                  onClick={handleSalaryPay}
-                  disabled={userInfo.paid || !branchData.active}
-                  style={{
-                    cursor: "pointer",
-                    marginLeft: 10,
-                    backgroundColor: userInfo.paid ? "green" : "red",
-                    color: "white",
+                    width: "80px",
+                    height: "30px",
+                    fontSize: 10,
                   }}
                 />
               ) : null}

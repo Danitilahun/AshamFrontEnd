@@ -76,7 +76,7 @@ const EditEssentialForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   return (
     <div>
       {/*  */}
-      {userClaims.superAdmin ? (
+      {userClaims.superAdmin || userClaims.admin || userClaims.callCenter ? (
         <div>
           {!isSubmitting && (
             <Dialog

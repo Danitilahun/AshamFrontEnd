@@ -270,7 +270,7 @@ const BranchSidebar = ({
   };
 
   return (
-    <Box component="nav">
+    <Box component="nav" style={{ zIndex: 100 }}>
       {isSidebarOpen && (
         <Drawer
           open={isSidebarOpen}

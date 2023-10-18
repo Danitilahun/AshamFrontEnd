@@ -19,6 +19,7 @@ import enableDisable from "../../../../api/users/disable";
 import ProfileImageDialog from "../../common/ProfileImageDialog";
 import FlexBetween from "../../../VersatileComponents/FlexBetween";
 import { SpinnerContext } from "../../../../contexts/SpinnerContext";
+import useWindowDimensions from "../../../../hooks/useWindowDimensions";
 
 const UserHeader = ({
   userInfo,
@@ -88,6 +89,14 @@ const UserHeader = ({
   const closeDialog = () => {
     setIsDialogOpen(false);
   };
+
+  // console.log(isLargeScreen, isMediumScreen, isSmallScreen);
+  const { screenWidth, screenHeight } = useWindowDimensions();
+  // console.log(screenWidth / 1536);
+
+  const avatarSize =
+    screenWidth >= 1536 ? 50 : (screenWidth / 1536) * 50 + "px";
+  const fontSize = screenWidth >= 1536 ? 18 : (screenWidth / 1536) * 18 + "px";
   return (
     <>
       <ProfileImageDialog
@@ -139,16 +148,13 @@ const UserHeader = ({
             <Tooltip title={userInfo.fullName}>
               <Typography
                 variant="h6"
-                fontSize={18}
+                fontSize={fontSize}
                 sx={{
                   color: "text.secondary",
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  maxWidth: "150px", // Set a maximum width to control truncation
-                  // "&:hover": {
-                  //   maxWidth: "none", // Remove the maximum width on hover
-                  // },
+                  maxWidth: screenWidth < 1250 ? "100px" : "100%",
                 }}
               >
                 {userInfo.fullName}

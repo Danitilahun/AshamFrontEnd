@@ -145,6 +145,15 @@ const Customer = () => {
 
   const tableData = searchedData.length > 0 ? searchResult : processedData;
 
+  // tableData.sort((a, b) => {
+  //   return b.name.localeCompare(a.name);
+  // });
+
+  tableData.sort((a, b) => {
+    return a.name.localeCompare(b.name);
+  });
+  console.log(tableData);
+
   return (
     <>
       <Helmet>

@@ -13,11 +13,13 @@ const fetchFirestoreDataWithFilter = (
   lastDoc,
   limitNumber,
   existingData,
-  setData
+  setData,
+  match = "createdAt",
+  way = "desc"
 ) => {
   const dataCollection = collection(firestore, collectionName);
 
-  let firestoreQuery = query(dataCollection, orderBy("createdAt", "desc"));
+  let firestoreQuery = query(dataCollection, orderBy(match, way));
 
   if (lastDoc) {
     firestoreQuery = query(firestoreQuery, startAfter(lastDoc.createdAt));
