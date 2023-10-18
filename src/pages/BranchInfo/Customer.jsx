@@ -9,6 +9,8 @@ import getHumanReadableDate from "../../utils/humanReadableDate";
 import fetchFirestoreDataWithFilter from "../../api/utils/fetchFirestoreDataWithFilter";
 import Search from "../../api/utils/search";
 import { Helmet } from "react-helmet";
+import ShowBudget from "../../components/Budget/ShowBudget";
+import useDocumentById from "../../hooks/useDocumentById";
 
 const columns = [
   { key: "name", title: "Name" },
@@ -149,11 +151,15 @@ const Customer = () => {
   //   return b.name.localeCompare(a.name);
   // });
 
-  tableData.sort((a, b) => {
-    return a.name.localeCompare(b.name);
-  });
+  // tableData.sort((a, b) => {
+  //   return a.name.localeCompare(b.name);
+  // });
   console.log(tableData);
 
+  const { documentData: documentData2 } = useDocumentById(
+    "branches",
+    params.id
+  );
   return (
     <>
       <Helmet>
@@ -173,7 +179,7 @@ const Customer = () => {
         <Grid container spacing={2}>
           <Grid
             item
-            xs={6}
+            xs={4}
             sx={{
               display: "flex",
               flexDirection: "column",
@@ -196,9 +202,10 @@ const Customer = () => {
               </Typography>
             </Box>
           </Grid>
+
           <Grid
             item
-            xs={6}
+            xs={4}
             sx={{
               display: "flex",
               justifyContent: "center",
@@ -206,6 +213,20 @@ const Customer = () => {
             }}
           >
             <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
+          </Grid>
+
+          <Grid item xs={4}>
+            <ShowBudget
+              label={"Total customer"}
+              value={
+                documentData2
+                  ? documentData2.customerNumber
+                    ? documentData2.customerNumber
+                    : "Not Available"
+                  : "Not Available"
+              }
+              marginTop={10}
+            />
           </Grid>
         </Grid>
 

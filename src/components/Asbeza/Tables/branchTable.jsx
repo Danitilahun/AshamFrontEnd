@@ -231,6 +231,10 @@ const AsbezaTable = () => {
   }, []);
 
   const tableData = searchedData.length > 0 ? searchedData : data;
+
+  // tableData.sort((a, b) => {
+  //   return a.name.localeCompare(b.name);
+  // });
   return (
     <Box m="1rem 0">
       <MyHeaderComponent
