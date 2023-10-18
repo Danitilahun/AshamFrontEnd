@@ -11,6 +11,7 @@ import DynamicTable from "../DynamicTable/DynamicTable";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import useUserClaims from "../../hooks/useUserClaims";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const columns = [
   { key: "name", title: "Name" },
@@ -160,8 +161,19 @@ const EssentialTable = () => {
   }, []);
 
   console.log(data, "data");
+
+  // console.log(isLargeScreen, isMediumScreen, isSmallScreen);
+  const { screenWidth, screenHeight } = useWindowDimensions();
+  // console.log(screenWidth / 1536);
+
+  const avatarSize =
+    screenWidth >= 1536 ? 50 : (screenWidth / 1536) * 50 + "px";
+  const fontSize = screenWidth >= 1536 ? 18 : (screenWidth / 1536) * 18 + "px";
+
+  console.log("fontSize", fontSize);
   return (
     <Box sx={{ width: "100%", height: "100%" }}>
+      <p> size : {(screenHeight * 65) / 100}</p>
       <DynamicTable
         data={data}
         columns={userClaims.superAdmin ? columns : NonSupercolumns}
@@ -169,7 +181,7 @@ const EssentialTable = () => {
         onEdit={handleEdit}
         onDelete={handleDelete}
         from={"Essential"}
-        containerHeight={360}
+        containerHeight={(screenHeight * 50) / 100}
       />
       <ConfirmationDialog
         open={isDeleteDialogOpen}
