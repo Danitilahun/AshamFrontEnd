@@ -42,7 +42,7 @@ const App = () => {
         </div>
       )}{" "}
       {/* New */}
-      {/* {<SmallScreenMessage/>} */}
+      {<SmallScreenMessage />}
       <BrowserRouter>
         <AuthContextProvider>
           <ThemeProvider theme={theme}>
