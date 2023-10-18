@@ -98,7 +98,7 @@ const HotelProfitReportForm = () => {
   const startCountdown = () => {
     if (!isCountdownActive && !isFormSubmitted) {
       setIsCountdownActive(true); // Start countdown
-      setCountdown(10); // Set the countdown time (e.g., 10 seconds)
+      setCountdown(5); // Set the countdown time (e.g., 10 seconds)
     }
   };
 
@@ -272,7 +272,7 @@ const HotelProfitReportForm = () => {
                   >
                     <CircularProgress
                       variant="determinate"
-                      value={(countdown / 10) * 100}
+                      value={(countdown / 5) * 100}
                       color="secondary"
                     />
                     <Typography
