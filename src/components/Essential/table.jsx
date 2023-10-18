@@ -170,10 +170,10 @@ const EssentialTable = () => {
     screenWidth >= 1536 ? 50 : (screenWidth / 1536) * 50 + "px";
   const fontSize = screenWidth >= 1536 ? 18 : (screenWidth / 1536) * 18 + "px";
 
-  console.log("fontSize", fontSize);
+  // console.log("fontSize", fontSize);
   return (
     <Box sx={{ width: "100%", height: "100%" }}>
-      <p> size : {(screenHeight * 65) / 100}</p>
+      {/* <p> size : {(screenHeight * 65) / 100}</p> */}
       <DynamicTable
         data={data}
         columns={userClaims.superAdmin ? columns : NonSupercolumns}
