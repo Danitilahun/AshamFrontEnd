@@ -4,10 +4,8 @@ import getData from "../../api/services/DeliveryGuy/getDeliveryGuy";
 import { useAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "../../contexts/InfoContext";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
-import { useLocation } from "react-router-dom";
 import updateCalculator from "../../api/calculator/updateCalculator";
 import getRequiredUserData from "../../utils/getBranchInfo";
-import useUserClaims from "../../hooks/useUserClaims";
 import useDocumentById from "../../hooks/useDocumentById";
 
 const initialValues = {

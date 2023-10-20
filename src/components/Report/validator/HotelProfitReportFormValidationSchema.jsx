@@ -5,6 +5,7 @@ export const HotelProfitReportFormValidationSchema = yup.object().shape({
     .number()
     .positive("Amount must be a positive number")
     .typeError("Amount must be a number")
-    .required("Amount in Birr is required"),
+    .required("Amount in Birr is required")
+    .min(150, "Amount cannot be less than 150 Birr"),
   deliveryguyId: yup.string().required("Please select a Delivery Guy"),
 });
