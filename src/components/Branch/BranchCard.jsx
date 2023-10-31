@@ -120,7 +120,6 @@ const BranchCard = ({ branchData }) => {
     try {
       const res = await deleteBranch(user, branchData.id);
       openSnackbar(res.data.message, "success");
-      setIsSubmitting(false);
     } catch (error) {
       if (error.response && error.response.data) {
         openSnackbar(
@@ -134,6 +133,7 @@ const BranchCard = ({ branchData }) => {
         );
       }
     }
+    setIsSubmitting(false);
     handleMenuClose();
   };
 
