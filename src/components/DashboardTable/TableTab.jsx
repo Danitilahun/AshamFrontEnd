@@ -1,7 +1,7 @@
 import React from "react";
 import { Tabs, Tab, Paper, useTheme } from "@mui/material";
 
-const TableTab = ({ tableDate, selectedTab, handleTabChange }) => {
+const TableTab = ({ tableDate, selectedTab, handleTabChange, from = null }) => {
   const theme = useTheme();
 
   return (
@@ -10,6 +10,8 @@ const TableTab = ({ tableDate, selectedTab, handleTabChange }) => {
       style={{
         marginTop: "10px",
         backgroundColor: theme.palette.background.alt,
+        width: from ? "100%" : "76vw",
+        overflowX: "auto",
       }}
     >
       <Tabs
@@ -19,6 +21,9 @@ const TableTab = ({ tableDate, selectedTab, handleTabChange }) => {
           color: theme.palette.secondary[700],
           backgroundColor: theme.palette.background.alt,
         }}
+        scrollable
+        scrollButtons="auto"
+        indicatorColor="primary"
       >
         {tableDate.length &&
           tableDate?.map((entry, index) => (

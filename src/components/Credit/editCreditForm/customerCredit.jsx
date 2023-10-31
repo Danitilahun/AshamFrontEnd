@@ -55,7 +55,7 @@ const EditCustomerCreditForm = ({
       try {
         const name = capitalizeString(values.name);
         values.name = name;
-        const date = getInternationalDate();
+
         values.branchId = params.id;
         if (!values.branchId) {
           handleCloseForm();
@@ -69,7 +69,6 @@ const EditCustomerCreditForm = ({
             },
           };
         }
-        values.date = date;
         values.active = active;
         if (!values.active) {
           handleCloseForm();

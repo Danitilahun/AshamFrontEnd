@@ -12,6 +12,9 @@ import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import useUserClaims from "../../hooks/useUserClaims";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
+import fetchFirestoreDataWithPagination from "../../api/credit/fetchFirestoreDataWithPagination";
+import MyHeaderComponent from "../VersatileComponents/MyHeaderComponent";
+import Search from "../../api/utils/EssentialSearch";
 
 const columns = [
   { key: "name", title: "Name" },
@@ -97,15 +100,7 @@ const EssentialTable = () => {
 
   const loadInitialData = async () => {
     try {
-      await fetchFirestoreDataWithFilter(
-        "Essentials",
-        null,
-        5,
-        data,
-        setData,
-        null,
-        null
-      );
+      fetchFirestoreDataWithPagination("Essentials", null, 5, data, setData);
       // Set the last document for pagination
     } catch (error) {
       console.error("Error loading initial data:", error);
@@ -122,17 +117,40 @@ const EssentialTable = () => {
     }
   }, [data]);
 
+  const handleSearch = async (searchText, field) => {
+    if (searchText.trim() === "") {
+      setSearchedData([]);
+      loadInitialData();
+      // Perform actions when the search input is empty
+    } else {
+      const capitalizedText =
+        searchText.charAt(0).toUpperCase() + searchText.slice(1);
+      Search(
+        "Essentials",
+        null,
+        1000,
+        searchedData,
+        setSearchedData,
+        "name",
+        capitalizedText
+      );
+    }
+  };
+
+  const handleCancel = () => {
+    setSearchedData([]);
+    loadInitialData();
+  };
+
   const loadMoreData = useCallback(async () => {
     try {
       if (lastDoc) {
-        fetchFirestoreDataWithFilter(
+        fetchFirestoreDataWithPagination(
           "Essentials",
           lastDoc,
           5,
           data,
-          setData,
-          null,
-          null
+          setData
         );
 
         if (data.length > 0) {
@@ -160,28 +178,32 @@ const EssentialTable = () => {
     };
   }, []);
 
-  console.log(data, "data");
-
-  // console.log(isLargeScreen, isMediumScreen, isSmallScreen);
   const { screenWidth, screenHeight } = useWindowDimensions();
   // console.log(screenWidth / 1536);
-
+  console.log("searchedData", searchedData);
+  const tableData = searchedData.length > 0 ? searchedData : data;
+  console.log("data", tableData);
   const avatarSize =
     screenWidth >= 1536 ? 50 : (screenWidth / 1536) * 50 + "px";
   const fontSize = screenWidth >= 1536 ? 18 : (screenWidth / 1536) * 18 + "px";
 
-  // console.log("fontSize", fontSize);
   return (
     <Box sx={{ width: "100%", height: "100%" }}>
       {/* <p> size : {(screenHeight * 65) / 100}</p> */}
+      <MyHeaderComponent
+        title=""
+        subtitle=""
+        onSearch={handleSearch}
+        onCancel={handleCancel}
+      />
       <DynamicTable
-        data={data}
+        data={tableData}
         columns={userClaims.superAdmin ? columns : NonSupercolumns}
         loadMoreData={loadMoreData}
         onEdit={handleEdit}
         onDelete={handleDelete}
         from={"Essential"}
-        containerHeight={(screenHeight * 52) / 100}
+        containerHeight={(screenHeight * 39) / 100}
       />
       <ConfirmationDialog
         open={isDeleteDialogOpen}

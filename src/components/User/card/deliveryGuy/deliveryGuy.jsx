@@ -31,6 +31,8 @@ import { SpinnerContext } from "../../../../contexts/SpinnerContext";
 import { useEffect } from "react";
 import useScreenSize from "../../../../hooks/useScreenSize";
 import useWindowDimensions from "../../../../hooks/useWindowDimensions";
+import getInternationalDate from "../../../../utils/getDate";
+import CompleteTask from "../../../../api/users/CompleteTask";
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -83,11 +85,7 @@ const UserCard = ({ userInfo }) => {
   };
 
   const handlepayment = () => {
-    if (branchData.paid) {
-      setOpenDialog3(true);
-    } else {
-      setOpenDialog2(true);
-    }
+    setOpenDialog3(true);
   };
   const handleDialogClose2 = () => {
     setOpenDialog2(false);
@@ -107,6 +105,85 @@ const UserCard = ({ userInfo }) => {
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleComplete = async () => {
+    const date = getInternationalDate();
+    setIsSubmitting(true);
+    const activeData = {
+      deliveryguyId: userInfo.id,
+      branchId: userInfo.branchId,
+      active: branchData.active,
+      activeDailySummery: branchData.activeDailySummery,
+      activeTable: branchData.activeTable,
+      date: date,
+    };
+
+    try {
+      if (!userInfo.branchId) {
+        throw {
+          response: {
+            data: {
+              message:
+                "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+              type: "error",
+            },
+          },
+        };
+      }
+
+      if (!branchData.active) {
+        throw {
+          response: {
+            data: {
+              message:
+                "Sorry, we cannot process your payment at the moment because the transaction table is unavailable.",
+              type: "error",
+            },
+          },
+        };
+      }
+
+      if (!branchData.activeDailySummery) {
+        throw {
+          response: {
+            data: {
+              message:
+                "Sorry, we cannot process your payment at the moment because the transaction table is unavailable.",
+              type: "error",
+            },
+          },
+        };
+      }
+
+      if (!branchData.activeTable) {
+        throw {
+          response: {
+            data: {
+              message:
+                "Sorry, we cannot process your payment at the moment because the daily table is unavailable.",
+              type: "error",
+            },
+          },
+        };
+      }
+      console.log("activeData", activeData);
+      const res = await CompleteTask(user, activeData);
+      openSnackbar(res.data.message, "success");
+    } catch (error) {
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar(
+          "An unexpected error occurred.Please kindly check your connection.",
+          "error"
+        );
+      }
+    }
+    setIsSubmitting(false);
   };
 
   const handleClick = async () => {
@@ -266,6 +343,7 @@ const UserCard = ({ userInfo }) => {
           handleClick={handleClick}
           handleSalaryPay={handlepayment}
           handleEdit={handleEdit}
+          handleComplete={handleComplete}
         />
 
         <CardContent>
@@ -318,7 +396,7 @@ const UserCard = ({ userInfo }) => {
         message={`Are you ensuring that you receive the daily credit from the delivery guy before paying his salary? If not, please receive it and delete it from the daily credit, as otherwise, it will be transferred to his staff credit.`}
         title={`Confirm  Daily Salary Pay`}
       />
-      <ConfirmationDialog
+      {/* <ConfirmationDialog
         open={openDialog2}
         handleDialogClose={handleDialogClose2}
         handleConfirmed={handleOpen}
@@ -326,7 +404,7 @@ const UserCard = ({ userInfo }) => {
           "Are you certain you wish to initiate payments for delivery personnel today? This action implies that all daily table activities have been completed, and no further entries will be added."
         }
         title={`Confirm Delivery Guy Salary Pay`}
-      />
+      /> */}
     </>
   );
 };

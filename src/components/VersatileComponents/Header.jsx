@@ -318,7 +318,7 @@ const Header = ({
             <AsbezaOrderForm />
           ) : title === "Branch" ? (
             <BranchForm />
-          ) : title === "Sheet" ? (
+          ) : title === "Current Expense Table" ? null : title === "Sheet" ? (
             <>
               {userClaims.admin ? (
                 <Button

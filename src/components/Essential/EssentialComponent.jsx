@@ -15,12 +15,7 @@ const gridItemsStyle = {
 const EssentialComponent = ({ isVisible }) => {
   const theme = useTheme();
   const [data, setData] = useState([]);
-  useEffect(() => {
-    const unsubscribe = fetchData("Essentials", setData);
-    return () => unsubscribe();
-  }, []);
 
-  console.log("Essential Data", data);
   return (
     <Box
       sx={{

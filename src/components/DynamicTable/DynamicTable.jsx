@@ -60,11 +60,10 @@ const getStatusStyle = (status) => {
     margin: "4px",
     color: "white",
     padding: "5px",
-    cursor: "pointer", // Add cursor pointer for all cases
   };
 
   switch (status) {
-    case "new order":
+    case "New Order":
       style = { ...style, background: "red" };
       break;
     case "Assigned":
@@ -95,7 +94,6 @@ const DynamicTable = ({
 }) => {
   const tableContainerRef = useRef(null);
   const theme = useTheme();
-  console.log("data", data);
   const { user } = useAuth();
   const userClaims = useUserClaims(user);
   const [prevScrollPosition, setPrevScrollPosition] = useState(0); // Store the previous scroll position
@@ -249,64 +247,55 @@ const DynamicTable = ({
     setReturnCardPopupOpen(false);
   };
 
-  const handleStatusClick = async (order) => {
-    if (branchData.active !== order.active) {
-      openSnackbar("You can only edit the credit of the active sheet.", "info");
-      return;
-    }
-    if (order.status === "Completed") {
-      openSnackbar("Order is already completed", "info");
-      return;
-    }
+  // const handleStatusClick = async (order) => {
+  //   if (branchData.active !== order.active) {
+  //     openSnackbar("You can only edit the credit of the active sheet.", "info");
+  //     return;
+  //   }
 
-    console.log("Status clicked:", order);
-    setIsSubmitting(true);
-    const date = getInternationalDate();
-    const branchId = getFirstPartOrOriginalString(order.branchId);
-    const Data = {
-      active: order.active,
-      activeDailySummery: order.activeDailySummery,
-      activeTable: order.activeTable,
-      deliveryguyId: order.deliveryguyId,
-      date: order.date,
-      branchId: branchId,
-      id: order.id,
-      status: order.status === "new order" ? "Assigned" : "Completed",
-    };
-    try {
-      if (!branchId) {
-        throw {
-          response: {
-            data: {
-              message:
-                "Branch information is not found. Please check your connection, refresh your browser, and try again.",
-              type: "error",
-            },
-          },
-        };
-      }
+  //   setIsSubmitting(true);
+  //   const date = getInternationalDate();
+  //   const branchId = getFirstPartOrOriginalString(order.branchId);
+  //   const Data = {
+  //     active: order.active,
+  //     activeDailySummery: order.activeDailySummery,
+  //     activeTable: order.activeTable,
+  //     deliveryguyId: order.deliveryguyId,
+  //     date: order.date,
+  //     branchId: branchId,
+  //     id: order.id,
+  //     status: "Assigned",
+  //   };
+  //   try {
+  //     if (!branchId) {
+  //       throw {
+  //         response: {
+  //           data: {
+  //             message:
+  //               "Branch information is not found. Please check your connection, refresh your browser, and try again.",
+  //             type: "error",
+  //           },
+  //         },
+  //       };
+  //     }
 
-      console.log("activeData", Data);
-      if (orderType === "asbeza" && order.status === "Assigned") {
-        await AsbezaProfit(user, Data);
-      }
-      const res = await Assigned(user, Data, orderType);
-      openSnackbar(res.data.message, "success");
-    } catch (error) {
-      if (error.response && error.response.data) {
-        openSnackbar(
-          error.response.data.message,
-          error.response.data.type ? error.response.data.type : "error"
-        );
-      } else {
-        openSnackbar(
-          "An unexpected error occurred.Please kindly check your connection.",
-          "error"
-        );
-      }
-    }
-    setIsSubmitting(false);
-  };
+  //     const res = await Assigned(user, Data, orderType);
+  //     openSnackbar(res.data.message, "success");
+  //   } catch (error) {
+  //     if (error.response && error.response.data) {
+  //       openSnackbar(
+  //         error.response.data.message,
+  //         error.response.data.type ? error.response.data.type : "error"
+  //       );
+  //     } else {
+  //       openSnackbar(
+  //         "An unexpected error occurred.Please kindly check your connection.",
+  //         "error"
+  //       );
+  //     }
+  //   }
+  //   setIsSubmitting(false);
+  // };
 
   // Inside your component function
   // State variables for dialog
@@ -385,22 +374,6 @@ const DynamicTable = ({
           fontSize: fontSize,
         }}
       >
-        {/* {TableId !== "normal" ? (
-          <div class="flex-container">
-            <ReactHTMLTableToExcel
-              id="test-table-xls-button"
-              className="download-table-xls-button"
-              table={TableId}
-              buttonStyles={{
-                padding: "20px",
-                margin: "10px",
-              }}
-              filename="tablexls"
-              sheet="tablexls"
-              buttonText="Download as XLS"
-            />
-          </div>
-        ) : null} */}
         <div
           className="table-container"
           ref={tableContainerRef}
@@ -487,18 +460,7 @@ const DynamicTable = ({
                         <div
                           style={{
                             ...getStatusStyle(row[column.key]),
-                            cursor:
-                              userClaims.admin &&
-                              row[column.key] !== "Completed"
-                                ? "pointer"
-                                : "default",
                           }}
-                          disabled={row[column.key] === "Completed"}
-                          onClick={
-                            userClaims.admin && row[column.key] !== "Completed"
-                              ? () => handleStatusClick(row)
-                              : null
-                          }
                         >
                           {row[column.key]}
                         </div>
@@ -592,7 +554,9 @@ const DynamicTable = ({
                           </span>
                         </div>
                       ) : typeof row[column.key] === "number" &&
-                        column.key !== "numberOfCard" ? (
+                        column.key !== "numberOfCard" &&
+                        column.key !== "no" &&
+                        column.key !== "dayRemain" ? (
                         row[column.key].toFixed(2)
                       ) : (
                         row[column.key]

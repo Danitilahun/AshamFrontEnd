@@ -21,7 +21,6 @@ import FlexBetween from "../../../VersatileComponents/FlexBetween";
 import useUserClaims from "../../../../hooks/useUserClaims";
 import getRequiredUserData from "../../../../utils/getBranchInfo";
 import useScreenSize from "../../../../hooks/useScreenSize";
-import { useEffect } from "react";
 import useWindowDimensions from "../../../../hooks/useWindowDimensions";
 
 const UserHeader = ({
@@ -33,6 +32,7 @@ const UserHeader = ({
   handleDeleteIconClick,
   handleClick,
   handleSalaryPay,
+  handleComplete,
 }) => {
   const theme = useTheme();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -113,7 +113,7 @@ const UserHeader = ({
               style={{
                 display: "flex",
                 justifyContent: "flex-end",
-                marginTop: "5px",
+                marginTop: "10px",
               }}
             >
               <IconButton
@@ -138,6 +138,7 @@ const UserHeader = ({
                     cursor: "pointer",
                     backgroundColor: userInfo.paid ? "green" : "red",
                     color: "white",
+                    margin: "3px",
                     "&:hover": {
                       backgroundColor: userInfo.paid ? "darkgreen" : "darkred",
                     },
@@ -145,6 +146,24 @@ const UserHeader = ({
                   disabled={userInfo.paid || !branchData.active}
                 >
                   {userInfo.paid ? "Paid" : "Waiting"}
+                </MenuItem>
+                <MenuItem
+                  onClick={handleComplete}
+                  sx={{
+                    cursor: "pointer",
+                    backgroundColor: "green",
+                    color: "white",
+                    margin: "3px",
+
+                    "&:hover": {
+                      backgroundColor: userInfo.completed
+                        ? "darkgreen"
+                        : "darkred",
+                    },
+                  }}
+                  disabled={userInfo.completed || !branchData.active}
+                >
+                  {"Completed"}
                 </MenuItem>
               </Menu>
             </div>

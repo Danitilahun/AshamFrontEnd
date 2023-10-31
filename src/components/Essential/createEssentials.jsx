@@ -50,6 +50,8 @@ const EssentialForm = ({ type }) => {
       setIsSubmitting(true);
       try {
         values.branchId = params.id;
+        values.name =
+          values.name.charAt(0).toUpperCase() + values.name.slice(1);
         console.log("values", values);
         const res = await createEssential(user, values);
         openSnackbar(`${res.data.message}`, "success");

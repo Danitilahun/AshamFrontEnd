@@ -15,7 +15,23 @@ import getRequiredUserData from "../../../utils/getBranchInfo";
 import fetchFirestoreDataWithFilter from "../../../api/utils/filterBasedOnTwoCriterial";
 import Search from "../../../api/utils/searchMore";
 import capitalizeString from "../../../utils/capitalizeString";
+import { ExportToExcel } from "../../../utils/ExportToExcel";
 
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
+  alignItems: "center",
+  // backgroundColor: "green",
+};
+
+const flexItemStyle = {
+  flex: 9,
+};
+
+const flexItemStyles = {
+  flex: 1,
+};
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
   { key: "amount", title: "Amount" },
@@ -30,7 +46,7 @@ const HotelProfitTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -154,6 +170,20 @@ const HotelProfitTable = () => {
         onCancel={handleCancel}
         formComponent={HotelProfitReportForm}
       />
+
+      <div style={containerStyle}>
+        <div style={flexItemStyle}></div>
+        <div style={flexItemStyles}>
+          <ExportToExcel
+            file={"hotelProfit"}
+            branchId={branchData.requiredId}
+            id={""}
+            endpoint={"hotelP"}
+            clear={false}
+            name={`HotelProfitTable-Branch ${branchData.branchName}`}
+          />
+        </div>
+      </div>
       <DynamicTable
         data={tableData}
         columns={columns}

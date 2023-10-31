@@ -12,7 +12,23 @@ import fetchFirestoreDataWithFilter from "../../../api/utils/filterBasedOnTwoCri
 import Search from "../../../api/utils/searchMore";
 //import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import capitalizeString from "../../../utils/capitalizeString";
+import { ExportToExcel } from "../../../utils/ExportToExcel";
 
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
+  alignItems: "center",
+  // backgroundColor: "green",
+};
+
+const flexItemStyle = {
+  flex: 9,
+};
+
+const flexItemStyles = {
+  flex: 1,
+};
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
   { key: "numberOfCard", title: "Number Of Card" },
@@ -154,6 +170,20 @@ const WifiDistributeTable = () => {
         onCancel={handleCancel}
         formComponent={WifiDistributeReportForm}
       />
+
+      <div style={containerStyle}>
+        <div style={flexItemStyle}></div>
+        <div style={flexItemStyles}>
+          <ExportToExcel
+            file={"wifiDistribute"}
+            branchId={branchData.requiredId}
+            id={""}
+            endpoint={"wifiD"}
+            clear={false}
+            name={`WifiDistributeTable-Branch ${branchData.branchName}`}
+          />
+        </div>
+      </div>
       <DynamicTable
         data={tableData}
         columns={columns}

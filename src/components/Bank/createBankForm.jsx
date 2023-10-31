@@ -65,7 +65,7 @@ const BankForm = ({ source }) => {
   ]);
 
   const handleButtonClick = () => {
-    if (!userData.active) {
+    if (source != "finance" && !userData.active) {
       openSnackbar("Please create sheet before.", "info");
       return;
     }

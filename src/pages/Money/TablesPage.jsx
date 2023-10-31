@@ -10,6 +10,7 @@ import generateCustomID from "../../utils/generateCustomID";
 import { columns, summery2Column } from "../../utils/tableColumns";
 import { useTheme } from "@emotion/react";
 import { Helmet } from "react-helmet";
+import { ExportToExcel } from "../../utils/ExportToExcel";
 const TablesPage = () => {
   const params = useParams();
   const sheetId = params.sheet;
@@ -38,6 +39,23 @@ const TablesPage = () => {
   const { data: tableSummary } = useTableData(customID2);
   const { data: tableDaySummary } = useTableData(customID3);
 
+  const containerStyle = {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    alignItems: "center",
+    margin: "1rem",
+    // backgroundColor: "green",
+  };
+
+  const flexItemStyle = {
+    flex: 13,
+  };
+
+  const flexItemStyles = {
+    flex: 1,
+  };
+
   return (
     <>
       <Helmet>
@@ -59,10 +77,12 @@ const TablesPage = () => {
           subtitle="Entire list of tables"
           tableId={table.length > 0 ? customID : "None"}
         />
+
         <TableTab
           tableDate={tableDate}
           selectedTab={selectedTab}
           handleTabChange={handleTabChange}
+          from="table"
         />
 
         {table.length > 0 && <DataTable rows={table} columns={columns} />}
@@ -70,13 +90,38 @@ const TablesPage = () => {
         <Header title="Summery Daily Table" subtitle="" />
 
         {/* DataTable component for daily summary table */}
-
+        <div style={containerStyle}>
+          <div style={flexItemStyle}></div>
+          <div style={flexItemStyles}>
+            <ExportToExcel
+              file={"tables"}
+              branchId={branchId}
+              id={customID3}
+              endpoint={"dailySummeryForSheet"}
+              clear={false}
+              name="DailySummeryForSheet"
+            />
+          </div>
+        </div>
         {tableDaySummary.length > 0 && (
           <DataTable rows={tableDaySummary} columns={summery2Column} />
         )}
 
         <Header title="Summery Person Table" subtitle="" />
 
+        <div style={containerStyle}>
+          <div style={flexItemStyle}></div>
+          <div style={flexItemStyles}>
+            <ExportToExcel
+              file={"tables"}
+              branchId={branchId}
+              id={customID2}
+              endpoint={"delveryGuyTables"}
+              clear={false}
+              name="DeliveryGuys15DayWorkSummery"
+            />
+          </div>
+        </div>
         {/* DataTable component for person summary table */}
 
         {tableSummary.length > 0 && (

@@ -8,6 +8,9 @@ import useUserClaims from "../../hooks/useUserClaims";
 import { useAuth } from "../../contexts/AuthContext";
 import useCollectionData from "../../hooks/useCollectionData";
 import { Helmet } from "react-helmet";
+import { ExportToExcel } from "../../utils/ExportToExcel";
+import getRequiredUserData from "../../utils/getBranchInfo";
+
 const columns = [
   { key: "dayRange", title: "Date" },
   { key: "totalExpense", title: "Total Expense" },
@@ -17,12 +20,29 @@ const columns = [
   { key: "amount", title: "amount" },
 ];
 
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
+  alignItems: "center",
+  // backgroundColor: "green",
+};
+
+const flexItemStyle = {
+  flex: 9,
+};
+
+const flexItemStyles = {
+  flex: 1,
+};
+
 const BudgetPage = () => {
   const theme = useTheme();
   const storedData = localStorage.getItem("userData");
   let openingDate = "";
   let active = "";
   let branchId = "";
+  const userData = getRequiredUserData();
   if (storedData) {
     const userData = JSON.parse(storedData);
     active = userData ? userData.active : "try";
@@ -47,11 +67,14 @@ const BudgetPage = () => {
     "Status",
     active ? active : branchId
   );
+
   const { data: AllBranch } = useCollectionData("Budget");
+
   const { documentData: totalCredit } = useDocumentById(
     "totalCredit",
     branchId
   );
+
   const { documentData: bank } = useDocumentById("Bank", branchId);
 
   const [updatedSheetSummery, setUpdatedSheetSummery] = useState([]);
@@ -72,7 +95,16 @@ const BudgetPage = () => {
 
       if (status) {
         const date = formatDateRange(status?.createdDate);
-        const { id, ...restOfStatus } = status;
+        const {
+          id,
+          ethioTelAccount,
+          ethioTelOwnerName,
+          wifiOwnerName,
+          wifiAccount,
+          houseRentOwnerName,
+          houseRentAccount,
+          ...restOfStatus
+        } = status;
 
         newRow = {
           ...restOfStatus,
@@ -115,6 +147,19 @@ const BudgetPage = () => {
           position: "relative",
         }}
       >
+        <div style={containerStyle}>
+          <div style={flexItemStyle}></div>
+          <div style={flexItemStyles}>
+            <ExportToExcel
+              file={"Budget"}
+              branchId={branchId}
+              id={""}
+              endpoint={"budget"}
+              clear={true}
+              name={`Budget-${userData.branchName}`}
+            />
+          </div>
+        </div>
         {documentData2 ? (
           <>
             <Grid container spacing={2}>

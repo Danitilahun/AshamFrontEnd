@@ -21,6 +21,8 @@ import useUserClaims from "../../../hooks/useUserClaims";
 import capitalizeString from "../../../utils/capitalizeString";
 import useDocumentById from "../../../hooks/useDocumentById";
 import ShowBudget from "../../Budget/ShowBudget";
+import { ExportToExcel } from "../../../utils/ExportToExcel";
+import getRequiredUserData from "../../../utils/getBranchInfo";
 
 const columns = [
   { key: "employeeName", title: "Employee Name" },
@@ -43,6 +45,21 @@ const NonFinancecolumns = [
   { key: "amount", title: "Amount" },
 ];
 
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
+  alignItems: "center",
+  // backgroundColor: "green",
+};
+
+const flexItemStyle = {
+  flex: 9,
+};
+
+const flexItemStyles = {
+  flex: 1,
+};
 const FinanceTable = () => {
   const params = useParams();
   const [data, setData] = useState([]);
@@ -57,6 +74,7 @@ const FinanceTable = () => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { openSnackbar } = useSnackbar();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const financeData = getRequiredUserData();
 
   const handleEdit = (row) => {
     console.log("from the table", row);
@@ -225,6 +243,19 @@ const FinanceTable = () => {
         <Grid item xs={6}></Grid>
       </Grid>
 
+      <div style={containerStyle}>
+        <div style={flexItemStyle}></div>
+        <div style={flexItemStyles}>
+          <ExportToExcel
+            file={"FinanceCredit"}
+            branchId={financeData.requiredId}
+            id={""}
+            endpoint={"financeC"}
+            clear={false}
+            name={`FinanceCreditTable-Branch`}
+          />
+        </div>
+      </div>
       <DynamicTable
         data={tableData}
         columns={userClaim.finance ? columns : NonFinancecolumns}

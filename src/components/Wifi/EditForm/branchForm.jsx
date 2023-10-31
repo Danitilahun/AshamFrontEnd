@@ -120,7 +120,9 @@ const EditWifiOrderForm = ({
 
         const date = getInternationalDate();
         values.date = date;
-        values.status = "new order";
+        values.branchKey = values.callcenterId;
+        values.status = "Assigned";
+        values.fromWhere = fromWhere;
         values.blockHouse = values.blockHouse.toUpperCase();
         console.log("values", values);
         const res = await update(user, data.id, values, "wifi");

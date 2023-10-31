@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Box, Grid, Tab, Tabs, Typography } from "@mui/material";
 import { useCallback } from "react";
+import { format } from "date-fns";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
@@ -17,6 +18,11 @@ import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import capitalizeString from "../../../utils/capitalizeString";
 import useUserClaims from "../../../hooks/useUserClaims";
 import findDocumentById from "../../../utils/findDocumentById";
+import getPast15Days from "../../../utils/getPast15Days";
+import TableTab from "../../DashboardTable/TableTab";
+import { ExportToExcel } from "../../../utils/ExportToExcel";
+import DeleteConfirmationDialog from "../../VersatileComponents/OrderDelete";
+import getRequiredUserData from "../../../utils/getBranchInfo";
 
 const main = [
   { key: "name", title: "Customer Name" },
@@ -24,10 +30,11 @@ const main = [
   { key: "blockHouse", title: "Block House" },
   { key: "deliveryguyName", title: "Delivery Guy Name" },
   { key: "order", title: "Order" },
+  { key: "date", title: "Date" },
   { key: "additionalInfo", title: "Additional Info" },
 ];
 
-const CallcenterColumn = [
+let CallcenterColumn = [
   ...main,
   { key: "callcenterName", title: "Callcenter Name" },
   { key: "status", title: "Status" }, // Added "Status" column
@@ -39,6 +46,37 @@ const columns = [
   { key: "delete", title: "Delete" },
   { key: "new", title: "New" }, // Added "New" column
 ];
+
+function pushOrUpdateWithKey(arr, newElement) {
+  const existingIndex = arr.findIndex(
+    (element) => element.key === newElement.key
+  );
+
+  if (existingIndex !== -1) {
+    // An element with the same key already exists, you can replace it here.
+    arr[existingIndex] = newElement;
+  } else {
+    // Insert the new element as the second-to-last item
+    arr.splice(arr.length - 1, 0, newElement);
+  }
+  return arr;
+}
+
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
+  alignItems: "center",
+  // backgroundColor: "green",
+};
+
+const flexItemStyle = {
+  flex: 9,
+};
+
+const flexItemStyles = {
+  flex: 1,
+};
 
 const AsbezaTable = () => {
   const params = useParams();
@@ -57,26 +95,38 @@ const AsbezaTable = () => {
   const [selectedView, setSelectedView] = useState("callcenter");
   const [isSearching, setIsSearching] = useState(false);
   const [fromWhere, setFromWhere] = useState("edit");
+  const userData = getRequiredUserData();
   // Function to handle view selection (Call Center or Branch)
   const handleViewChange = (view) => {
     setSelectedView(view);
   };
 
+  // Get the current date
+  const currentDate = new Date();
+  // Get an array of the past 15 days including the current date
+  const past15Days = getPast15Days(currentDate);
+  // Format and display the dates in a human-readable format (e.g., "YYYY-MM-DD")
+  const formattedDates = past15Days.map((date) => format(date, "MMMM d, y"));
+  console.log(formattedDates);
+  const [selectedTab, setSelectedTab] = useState(0);
+  const handleTabChange = (event, newValue) => {
+    setSelectedTab(newValue);
+  };
+
   const handleEdit = (row) => {
-    if (row.status !== "new order") {
+    if (row.status !== "Assigned") {
       openSnackbar(
-        `You can only edit new orders! This order Already ${row.status}`,
+        `You can only edit Assigned! This order Already ${row.status}`,
         "info"
       );
       return;
     }
-    console.log("from the table", row);
+
     setFromWhere("edit");
     setEditRow(row);
     setIsEditDialogOpen(true);
   };
   const handleNew = (row) => {
-    console.log("from the table", row);
     if (row.status !== "Completed") {
       openSnackbar(`You can only new orders if order is Completed!`, "info");
       return;
@@ -90,12 +140,36 @@ const AsbezaTable = () => {
     openDeleteConfirmationDialog(id);
   };
 
-  const handleDeleteConfirmed = async () => {
+  const handlePayDeleteConfirmed = async () => {
     setIsSubmitting(true);
     closeDeleteConfirmationDialog();
     try {
       // Attempt to delete the credit document
-      const res = await Delete(user, deleteItemId, "asbeza");
+      const res = await Delete(user, deleteItemId, "asbeza", "pay");
+      openSnackbar(`${res.data.message}!`, "success");
+    } catch (error) {
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar(
+          "An unexpected error occurred.Please kindly check your connection.",
+          "error"
+        );
+      }
+    }
+
+    setIsSubmitting(false);
+    setDeleteItemId(null);
+  };
+  const handleUnPayDeleteConfirmed = async () => {
+    setIsSubmitting(true);
+    closeDeleteConfirmationDialog();
+    try {
+      // Attempt to delete the credit document
+      const res = await Delete(user, deleteItemId, "asbeza", "unpay");
       openSnackbar(`${res.data.message}!`, "success");
     } catch (error) {
       if (error.response && error.response.data) {
@@ -117,9 +191,9 @@ const AsbezaTable = () => {
 
   const openDeleteConfirmationDialog = (id) => {
     const doc = findDocumentById(id, data);
-    if (doc.status !== "new order") {
+    if (doc.status === "Completed") {
       openSnackbar(
-        `You can only delete new orders! This order Already ${doc.status}`,
+        `Deleting individual completed order is not efficient. When you export to excel, we will export it and delete it from the database.`,
         "info"
       );
       return;
@@ -134,6 +208,7 @@ const AsbezaTable = () => {
 
   const loadInitialData = async () => {
     try {
+      setIsSubmitting(true);
       const filterField =
         selectedView === "callcenter" ? "branchId" : "callcenterId";
       console.log("filterField", filterField);
@@ -144,17 +219,20 @@ const AsbezaTable = () => {
         data,
         setData,
         filterField,
-        params.id
+        params.id,
+        "date",
+        formattedDates[selectedTab]
       );
       // Set the last document for pagination
     } catch (error) {
       console.error("Error loading initial data:", error);
     }
+    setIsSubmitting(false);
   };
 
   useEffect(() => {
     loadInitialData();
-  }, [selectedView]);
+  }, [selectedView, formattedDates[selectedTab]]);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -162,7 +240,7 @@ const AsbezaTable = () => {
     }
   }, [data]);
 
-  const handleSearch = async (searchText) => {
+  const handleSearch = async (searchText, field) => {
     setIsSearching(true);
     if (searchText.trim() === "") {
       setSearchedData([]);
@@ -202,7 +280,9 @@ const AsbezaTable = () => {
           data,
           setData,
           filterField,
-          params.id
+          params.id,
+          "date",
+          formattedDates[selectedTab]
         );
 
         if (data.length > 0) {
@@ -212,7 +292,7 @@ const AsbezaTable = () => {
     } catch (error) {
       console.error("Error loading more data:", error);
     }
-  }, [lastDoc, data, selectedView]);
+  }, [lastDoc, data, selectedView, formattedDates[selectedTab]]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
@@ -231,10 +311,20 @@ const AsbezaTable = () => {
   }, []);
 
   const tableData = searchedData.length > 0 ? searchedData : data;
+  if (userClaim.superAdmin && selectedView === "branch") {
+    console.log(selectedView);
+    CallcenterColumn = CallcenterColumn.filter(
+      (column) => column.key !== "callcenterName"
+    );
+    console.log("the new column", CallcenterColumn);
+  } else if (userClaim.superAdmin && selectedView !== "branch") {
+    CallcenterColumn = pushOrUpdateWithKey(CallcenterColumn, {
+      key: "callcenterName",
+      title: "Callcenter Name",
+    });
+  }
 
-  // tableData.sort((a, b) => {
-  //   return a.name.localeCompare(b.name);
-  // });
+  console.log("selectedTab", formattedDates[selectedTab]);
   return (
     <Box m="1rem 0">
       <MyHeaderComponent
@@ -244,37 +334,75 @@ const AsbezaTable = () => {
         onCancel={handleCancel}
         formComponent={AsbezaOrderBranchForm}
       />
-      <Tabs
-        value={selectedView}
-        onChange={(e, newValue) => handleViewChange(newValue)}
-        indicatorColor="secondary"
-        textColor="secondary"
-      >
-        <Tab label="Call Center" value="callcenter" />
-        <Tab label="Branch" value="branch" />
-      </Tabs>
 
-      {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
+      <div style={containerStyle}>
+        <div style={flexItemStyle}>
+          <Tabs
+            value={selectedView}
+            onChange={(e, newValue) => handleViewChange(newValue)}
+            indicatorColor="secondary"
+            textColor="secondary"
+          >
+            <Tab label="Call Center" value="callcenter" />
+            <Tab label="Branch" value="branch" />
+          </Tabs>
+        </div>
+        <div style={flexItemStyles}>
+          <ExportToExcel
+            file={"Asbeza"}
+            branchId={userData.requiredId}
+            id={""}
+            endpoint={"asbeza"}
+            clear={true}
+            name={`AsbezaTable-Branch ${userData.branchName}`}
+          />
+        </div>
+      </div>
 
-      <DynamicTable
-        data={tableData}
-        columns={
-          selectedView === "callcenter" || userClaim.superAdmin
-            ? CallcenterColumn
-            : columns
-        }
-        loadMoreData={loadMoreData}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        onNew={handleNew}
+      <TableTab
+        tableDate={formattedDates}
+        selectedTab={selectedTab}
+        handleTabChange={handleTabChange}
       />
-      <ConfirmationDialog
+
+      {tableData.length > 0 ? (
+        <>
+          <DynamicTable
+            data={tableData}
+            columns={
+              selectedView === "callcenter" || userClaim.superAdmin
+                ? CallcenterColumn
+                : columns
+            }
+            loadMoreData={loadMoreData}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            onNew={handleNew}
+          />
+        </>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60vh",
+            fontSize: "2.5rem",
+          }}
+        >
+          <p>There are no Asbeza orders in this day.</p>
+        </div>
+      )}
+
+      <DeleteConfirmationDialog
         open={isDeleteDialogOpen}
         handleDialogClose={closeDeleteConfirmationDialog}
-        handleConfirmed={handleDeleteConfirmed}
-        message="Are you sure you want to delete this item?"
+        handleUnPayConfirmed={handleUnPayDeleteConfirmed}
+        handlePayConfirmed={handlePayDeleteConfirmed}
+        message="You have two options: If you choose 'Pay' it means you are confirming payment for the service. Selecting 'Unpay' indicates that the delivery guy did not make the trip, and payment should not be processed. Are you sure you want to delete this item?"
         title="Delete Confirmation"
       />
+
       {isEditDialogOpen && (
         <EditAsbezaOrderForm
           data={editRow}

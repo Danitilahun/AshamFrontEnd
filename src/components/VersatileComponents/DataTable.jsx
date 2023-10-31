@@ -14,7 +14,7 @@ const DataTable = ({ rows, columns }) => {
 
   return (
     <Box
-      mt="40px"
+      mt="10px"
       mb="30px"
       height="75vh"
       sx={{

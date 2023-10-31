@@ -18,6 +18,8 @@ import CreateForm from "../createForm/create";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import useUserClaims from "../../../hooks/useUserClaims";
 import capitalizeString from "../../../utils/capitalizeString";
+import { ExportToExcel } from "../../../utils/ExportToExcel";
+import getRequiredUserData from "../../../utils/getBranchInfo";
 
 const columns = [
   { key: "employeeName", title: "Employee Name" },
@@ -33,6 +35,22 @@ const columns = [
     title: "Delete",
   },
 ];
+
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
+  alignItems: "center",
+  // backgroundColor: "green",
+};
+
+const flexItemStyle = {
+  flex: 9,
+};
+
+const flexItemStyles = {
+  flex: 1,
+};
 const NonAdmincolumns = [
   { key: "employeeName", title: "Employee Name" },
   { key: "placement", title: "Placement" },
@@ -54,6 +72,7 @@ const BonusPenalityTable = ({ type }) => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { openSnackbar } = useSnackbar();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const branchData = getRequiredUserData();
 
   const handleEdit = (row) => {
     console.log("from the table", row);
@@ -224,6 +243,19 @@ const BonusPenalityTable = ({ type }) => {
       {/* <Header title={type} subtitle={`Entire list of ${type}`} /> */}
       {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
 
+      <div style={containerStyle}>
+        <div style={flexItemStyle}></div>
+        <div style={flexItemStyles}>
+          <ExportToExcel
+            file={type}
+            branchId={branchData.requiredId}
+            id={""}
+            endpoint={type === "Bonus" ? "bonus" : "penality"}
+            clear={false}
+            name={`${type}Table-Branch ${branchData.branchName}`}
+          />
+        </div>
+      </div>
       <DynamicTable
         data={tableData}
         columns={userClaim.admin ? columns : NonAdmincolumns}

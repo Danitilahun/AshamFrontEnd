@@ -165,7 +165,9 @@ const EditWifiOrderForm = ({
           };
         }
 
-        values.status = "new order";
+        values.status = "Assigned";
+        values.fromWhere = fromWhere;
+        values.branchKey = values.branchId;
         values.blockHouse = values.blockHouse.toUpperCase();
         console.log("values", values);
         const res = await update(user, data.id, values, "wifi");

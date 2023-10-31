@@ -231,7 +231,9 @@ const Navbar = ({
           </FlexBetween>
         </Toolbar>
       </AppBar>
-      <EssentialComponent isVisible={isButtonVisible} />
+      {isButtonVisible ? (
+        <EssentialComponent isVisible={isButtonVisible} />
+      ) : null}
     </>
   );
 };

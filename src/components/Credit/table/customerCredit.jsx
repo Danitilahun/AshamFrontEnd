@@ -17,6 +17,7 @@ import MyHeaderComponent from "../../VersatileComponents/creditHeader";
 import useUserClaims from "../../../hooks/useUserClaims";
 import capitalizeString from "../../../utils/capitalizeString";
 import getRequiredUserData from "../../../utils/getBranchInfo";
+import { ExportToExcel } from "../../../utils/ExportToExcel";
 
 const columns = [
   { key: "name", title: "Name" },
@@ -45,6 +46,21 @@ const NonAdmincolumns = [
   { key: "daysSinceBorrowed", title: "Days Since Borrowed" },
 ];
 
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
+  alignItems: "center",
+  // backgroundColor: "green",
+};
+
+const flexItemStyle = {
+  flex: 9,
+};
+
+const flexItemStyles = {
+  flex: 1,
+};
 const CustomerCreditTable = () => {
   const params = useParams();
   const [data, setData] = useState([]);
@@ -233,6 +249,19 @@ const CustomerCreditTable = () => {
         formComponent={CustomerCreditForm}
         formProps={formProps}
       />
+      <div style={containerStyle}>
+        <div style={flexItemStyle}></div>
+        <div style={flexItemStyles}>
+          <ExportToExcel
+            file={"CustomerCredit"}
+            branchId={branchData.requiredId}
+            id={""}
+            endpoint={"customerC"}
+            clear={false}
+            name={`CustomerCreditTable-Branch ${branchData.branchName}`}
+          />
+        </div>
+      </div>
 
       <DynamicTable
         data={tableData}

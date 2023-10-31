@@ -166,7 +166,9 @@ const EditCardOrderForm = ({
             },
           };
         }
-        values.status = "new order";
+        values.status = "Assigned";
+        values.branchKey = values.branchId;
+        values.fromWhere = fromWhere;
         values.blockHouse = values.blockHouse.toUpperCase();
         console.log("values here ", values);
         const res = await update(user, data.id, values, "card");

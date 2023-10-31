@@ -10,6 +10,23 @@ import useUserClaims from "../../hooks/useUserClaims";
 import getRequiredUserData from "../../utils/getBranchInfo";
 import BankForm from "../../components/Bank/createBankForm";
 import { Helmet } from "react-helmet";
+import { ExportToExcel } from "../../utils/ExportToExcel";
+
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
+  alignItems: "center",
+  // backgroundColor: "green",
+};
+
+const flexItemStyle = {
+  flex: 9,
+};
+
+const flexItemStyles = {
+  flex: 1,
+};
 
 const Bank = () => {
   const { user } = useAuth();
@@ -137,6 +154,20 @@ const Bank = () => {
             <BankForm source="finance" />
           </Grid>
         </Grid>
+
+        <div style={containerStyle}>
+          <div style={flexItemStyle}></div>
+          <div style={flexItemStyles}>
+            <ExportToExcel
+              file={"finance"}
+              branchId={userData.requiredId}
+              id={""}
+              endpoint={"bank"}
+              clear={true}
+              name={`FinanceBankTable`}
+            />
+          </div>
+        </div>
 
         <Grid container spacing={2} marginTop={"10px"}>
           {financeUser.bank?.map((bankName, index) => (

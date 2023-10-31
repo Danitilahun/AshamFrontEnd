@@ -13,7 +13,6 @@ import {
 import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup"; // Import Yup for validation
-
 import create from "../../../api/orders/create";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { useAuth } from "../../../contexts/AuthContext";
@@ -181,7 +180,8 @@ const CardOrderForm = () => {
           };
         }
 
-        values.status = "new order";
+        values.branchKey = values.branchId;
+        values.status = "Assigned";
         values.blockHouse = values.blockHouse.toUpperCase();
         console.log("values", values);
         values.cardBranch = values.branchId;

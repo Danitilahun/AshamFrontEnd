@@ -14,7 +14,23 @@ import getRequiredUserData from "../../../utils/getBranchInfo";
 import Search from "../../../api/utils/searchMore";
 //import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import capitalizeString from "../../../utils/capitalizeString";
+import { ExportToExcel } from "../../../utils/ExportToExcel";
 
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
+  alignItems: "center",
+  // backgroundColor: "green",
+};
+
+const flexItemStyle = {
+  flex: 9,
+};
+
+const flexItemStyles = {
+  flex: 1,
+};
 const columns = [
   { key: "deliveryguyName", title: "Delivery Guy Name" },
   { key: "numberOfCard", title: "Number Of Card" },
@@ -156,55 +172,20 @@ const CardDistributeTable = () => {
         onCancel={handleCancel}
         formComponent={CardDistributeReportForm}
       />
-      {/* <Grid container spacing={2}> */}
-      {/* <Grid
-          item
-          xs={4}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "flex-start",
-          }}
-        >
-          <Box flex="1">
-            <Typography
-              variant="h2"
-              color={theme.palette.secondary[100]}
-              fontWeight="bold"
-              sx={{ mb: "5px" }}
-            >
-              Card Distribute Report
-            </Typography>
 
-            <Typography variant="h5" color={theme.palette.secondary[300]}>
-              Entire list of Card Distribute Reports
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid
-          item
-          xs={5}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
-        </Grid>
-        <Grid
-          item
-          xs={3}
-          sx={{
-            display: "flex",
-            justifyContent: "end",
-            alignItems: "center",
-          }}
-        >
-          <CardDistributeReportForm />
-        </Grid>
-      </Grid> */}
+      <div style={containerStyle}>
+        <div style={flexItemStyle}></div>
+        <div style={flexItemStyles}>
+          <ExportToExcel
+            file={"cardDistribute"}
+            branchId={branchData.requiredId}
+            id={""}
+            endpoint={"cardD"}
+            clear={false}
+            name={`CardDistributeTable-Branch ${branchData.branchName}`}
+          />
+        </div>
+      </div>
 
       <DynamicTable
         data={tableData}
@@ -218,144 +199,3 @@ const CardDistributeTable = () => {
 };
 
 export default CardDistributeTable;
-
-// import * as React from 'react';
-// import {
-//   DataGridPremium,
-//   GridToolbarContainer,
-//   GridToolbarExport,
-//   GridColDef,
-//   GridRowsProp,
-// } from '@mui/x-data-grid-premium';
-
-// const rows: GridRowsProp = [
-//   {
-//     jobTitle: 'Head of Human Resources',
-//     recruitmentDate: new Date(2020, 8, 12),
-//     contract: 'full time',
-//     id: 0,
-//   },
-//   {
-//     jobTitle: 'Head of Sales',
-//     recruitmentDate: new Date(2017, 3, 4),
-//     contract: 'full time',
-//     id: 1,
-//   },
-//   {
-//     jobTitle: 'Sales Person',
-//     recruitmentDate: new Date(2020, 11, 20),
-//     contract: 'full time',
-//     id: 2,
-//   },
-//   {
-//     jobTitle: 'Sales Person',
-//     recruitmentDate: new Date(2020, 10, 14),
-//     contract: 'part time',
-//     id: 3,
-//   },
-//   {
-//     jobTitle: 'Sales Person',
-//     recruitmentDate: new Date(2017, 10, 29),
-//     contract: 'part time',
-//     id: 4,
-//   },
-//   {
-//     jobTitle: 'Sales Person',
-//     recruitmentDate: new Date(2020, 7, 21),
-//     contract: 'full time',
-//     id: 5,
-//   },
-//   {
-//     jobTitle: 'Sales Person',
-//     recruitmentDate: new Date(2020, 7, 20),
-//     contract: 'intern',
-//     id: 6,
-//   },
-//   {
-//     jobTitle: 'Sales Person',
-//     recruitmentDate: new Date(2019, 6, 28),
-//     contract: 'full time',
-//     id: 7,
-//   },
-//   {
-//     jobTitle: 'Head of Engineering',
-//     recruitmentDate: new Date(2016, 3, 14),
-//     contract: 'full time',
-//     id: 8,
-//   },
-//   {
-//     jobTitle: 'Tech lead front',
-//     recruitmentDate: new Date(2016, 5, 17),
-//     contract: 'full time',
-//     id: 9,
-//   },
-//   {
-//     jobTitle: 'Front-end developer',
-//     recruitmentDate: new Date(2019, 11, 7),
-//     contract: 'full time',
-//     id: 10,
-//   },
-//   {
-//     jobTitle: 'Tech lead devops',
-//     recruitmentDate: new Date(2021, 7, 1),
-//     contract: 'full time',
-//     id: 11,
-//   },
-//   {
-//     jobTitle: 'Tech lead back',
-//     recruitmentDate: new Date(2017, 0, 12),
-//     contract: 'full time',
-//     id: 12,
-//   },
-//   {
-//     jobTitle: 'Back-end developer',
-//     recruitmentDate: new Date(2019, 2, 22),
-//     contract: 'intern',
-//     id: 13,
-//   },
-//   {
-//     jobTitle: 'Back-end developer',
-//     recruitmentDate: new Date(2018, 4, 19),
-//     contract: 'part time',
-//     id: 14,
-//   },
-// ];
-
-// const columns: GridColDef[] = [
-//   { field: 'jobTitle', headerName: 'Job Title', width: 200 },
-//   {
-//     field: 'recruitmentDate',
-//     headerName: 'Recruitment Date',
-//     type: 'date',
-//     width: 150,
-//   },
-//   {
-//     field: 'contract',
-//     headerName: 'Contract Type',
-//     type: 'singleSelect',
-//     valueOptions: ['full time', 'part time', 'intern'],
-//     width: 150,
-//   },
-// ];
-
-// function CustomToolbar() {
-//   return (
-//     <GridToolbarContainer>
-//       <GridToolbarExport />
-//     </GridToolbarContainer>
-//   );
-// }
-
-// export default function ExcelExport() {
-//   return (
-//     <div style={{ height: 300, width: '100%' }}>
-//       <DataGridPremium
-//         rows={rows}
-//         columns={columns}
-//         slots={{
-//           toolbar: CustomToolbar,
-//         }}
-//       />
-//     </div>
-//   );
-// }

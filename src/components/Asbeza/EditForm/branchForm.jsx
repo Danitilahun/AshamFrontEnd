@@ -87,6 +87,7 @@ const EditAsbezaOrderForm = ({
       // Send formData to the backend
       setIsSubmitting(true);
       try {
+        console.log("values before", values);
         if (!values.deliveryguyId || !values.deliveryguyName) {
           handleCloseForm();
           throw {
@@ -121,9 +122,12 @@ const EditAsbezaOrderForm = ({
 
         const date = getInternationalDate();
         values.date = date;
-        values.status = "new order";
+        values.branchKey = values.callcenterId;
+        values.fromWhere = fromWhere;
+        values.status = "Assigned";
         values.blockHouse = values.blockHouse.toUpperCase();
         console.log("values", values);
+
         const res = await update(user, data.id, values, "asbeza");
         openSnackbar(`${res.data.message}!`, "success");
         handleCloseForm();

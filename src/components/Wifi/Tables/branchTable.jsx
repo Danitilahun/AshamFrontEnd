@@ -16,17 +16,23 @@ import WifiOrderBranchForm from "../CreateForm/branchForm";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import findDocumentById from "../../../utils/findDocumentById";
 import useUserClaims from "../../../hooks/useUserClaims";
-
+import { format } from "date-fns";
+import getPast15Days from "../../../utils/getPast15Days";
+import TableTab from "../../DashboardTable/TableTab";
+import { ExportToExcel } from "../../../utils/ExportToExcel";
+import getRequiredUserData from "../../../utils/getBranchInfo";
+import DeleteConfirmationDialog from "../../VersatileComponents/OrderDelete";
 const main = [
   { key: "name", title: "Customer Name" },
   { key: "phone", title: "Phone" },
   { key: "blockHouse", title: "Block House" },
   { key: "ownerName", title: "Owner Name" },
   { key: "accountNumber", title: "Account Number" },
+  { key: "date", title: "Date" },
   { key: "deliveryguyName", title: "Delivery Guy Name" },
 ];
 
-const CallcenterColumn = [
+let CallcenterColumn = [
   ...main,
   { key: "callcenterName", title: "Callcenter Name" },
   { key: "status", title: "Status" }, // Added "Status" column
@@ -38,6 +44,37 @@ const columns = [
   { key: "delete", title: "Delete" },
   { key: "new", title: "New" }, // Added "New" column
 ];
+
+function pushOrUpdateWithKey(arr, newElement) {
+  const existingIndex = arr.findIndex(
+    (element) => element.key === newElement.key
+  );
+
+  if (existingIndex !== -1) {
+    // An element with the same key already exists, you can replace it here.
+    arr[existingIndex] = newElement;
+  } else {
+    // Insert the new element as the second-to-last item
+    arr.splice(arr.length - 1, 0, newElement);
+  }
+  return arr;
+}
+
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
+  alignItems: "center",
+  // backgroundColor: "green",
+};
+
+const flexItemStyle = {
+  flex: 9,
+};
+
+const flexItemStyles = {
+  flex: 1,
+};
 
 const WifiTable = () => {
   const params = useParams();
@@ -55,14 +92,25 @@ const WifiTable = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedView, setSelectedView] = useState("callcenter");
   const [fromWhere, setFromWhere] = useState("edit");
+  const userData = getRequiredUserData();
   // Function to handle view selection (Call Center or Branch)
   const handleViewChange = (view) => {
     setSelectedView(view);
   };
 
+  // Get the current date
+  const currentDate = new Date();
+  // Get an array of the past 15 days including the current date
+  const past15Days = getPast15Days(currentDate);
+  // Format and display the dates in a human-readable format (e.g., "YYYY-MM-DD")
+  const formattedDates = past15Days.map((date) => format(date, "MMMM d, y"));
+  console.log(formattedDates);
+  const [selectedTab, setSelectedTab] = useState(0);
+  const handleTabChange = (event, newValue) => {
+    setSelectedTab(newValue);
+  };
   const handleEdit = (row) => {
-    console.log("from the table", row);
-    if (row.status !== "new order") {
+    if (row.status !== "Assigned") {
       openSnackbar(
         `You can only edit new orders! This order Already ${row.status}`,
         "info"
@@ -87,15 +135,39 @@ const WifiTable = () => {
   const handleDelete = (id) => {
     openDeleteConfirmationDialog(id);
   };
-  const handleDeleteConfirmed = async () => {
+
+  const handlePayDeleteConfirmed = async () => {
     setIsSubmitting(true);
     closeDeleteConfirmationDialog();
     try {
       // Attempt to delete the credit document
-      const res = await Delete(user, deleteItemId, "wifi");
+      const res = await Delete(user, deleteItemId, "wifi", "pay");
       openSnackbar(`${res.data.message}!`, "success");
     } catch (error) {
-      console.error("Error deleting credit document:", error);
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar(
+          "An unexpected error occurred.Please kindly check your connection.",
+          "error"
+        );
+      }
+    }
+
+    setIsSubmitting(false);
+    setDeleteItemId(null);
+  };
+  const handleUnPayDeleteConfirmed = async () => {
+    setIsSubmitting(true);
+    closeDeleteConfirmationDialog();
+    try {
+      // Attempt to delete the credit document
+      const res = await Delete(user, deleteItemId, "wifi", "unpay");
+      openSnackbar(`${res.data.message}!`, "success");
+    } catch (error) {
       if (error.response && error.response.data) {
         openSnackbar(
           error.response.data.message,
@@ -115,9 +187,9 @@ const WifiTable = () => {
 
   const openDeleteConfirmationDialog = (id) => {
     const doc = findDocumentById(id, data);
-    if (doc.status !== "new order") {
+    if (doc.status === "Completed") {
       openSnackbar(
-        `You can only delete new orders! This order Already ${doc.status}`,
+        `Deleting individual completed order is not efficient. When you export to excel, we will export it and delete it from the database.`,
         "info"
       );
       return;
@@ -142,7 +214,9 @@ const WifiTable = () => {
         data,
         setData,
         filterField,
-        params.id
+        params.id,
+        "date",
+        formattedDates[selectedTab]
       );
       // Set the last document for pagination
     } catch (error) {
@@ -152,7 +226,7 @@ const WifiTable = () => {
 
   useEffect(() => {
     loadInitialData();
-  }, [selectedView]);
+  }, [selectedView, formattedDates[selectedTab]]);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -199,7 +273,9 @@ const WifiTable = () => {
           data,
           setData,
           filterField,
-          params.id
+          params.id,
+          "date",
+          formattedDates[selectedTab]
         );
 
         if (data.length > 0) {
@@ -209,7 +285,7 @@ const WifiTable = () => {
     } catch (error) {
       console.error("Error loading more data:", error);
     }
-  }, [lastDoc, data, selectedView]);
+  }, [lastDoc, data, selectedView, formattedDates[selectedTab]]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
@@ -228,6 +304,20 @@ const WifiTable = () => {
   }, []);
 
   const tableData = searchedData.length > 0 ? searchedData : data;
+
+  if (userClaim.superAdmin && selectedView === "branch") {
+    console.log(selectedView);
+    CallcenterColumn = CallcenterColumn.filter(
+      (column) => column.key !== "callcenterName"
+    );
+    console.log("the new column", CallcenterColumn);
+  } else if (userClaim.superAdmin && selectedView !== "branch") {
+    CallcenterColumn = pushOrUpdateWithKey(CallcenterColumn, {
+      key: "callcenterName",
+      title: "Callcenter Name",
+    });
+  }
+
   return (
     <Box m="1rem 0">
       <MyHeaderComponent
@@ -237,36 +327,72 @@ const WifiTable = () => {
         onCancel={handleCancel}
         formComponent={WifiOrderBranchForm}
       />
-      <Tabs
-        value={selectedView}
-        onChange={(e, newValue) => handleViewChange(newValue)}
-        indicatorColor="secondary"
-        textColor="secondary"
-      >
-        <Tab label="Call Center" value="callcenter" />
-        <Tab label="Branch" value="branch" />
-      </Tabs>
 
+      <div style={containerStyle}>
+        <div style={flexItemStyle}>
+          <Tabs
+            value={selectedView}
+            onChange={(e, newValue) => handleViewChange(newValue)}
+            indicatorColor="secondary"
+            textColor="secondary"
+          >
+            <Tab label="Call Center" value="callcenter" />
+            <Tab label="Branch" value="branch" />
+          </Tabs>
+        </div>
+        <div style={flexItemStyles}>
+          <ExportToExcel
+            file={"Wifi"}
+            branchId={userData.requiredId}
+            id={""}
+            endpoint={"wifi"}
+            clear={true}
+            name={`WifiTable-Branch ${userData.branchName}`}
+          />
+        </div>
+      </div>
+
+      <TableTab
+        tableDate={formattedDates}
+        selectedTab={selectedTab}
+        handleTabChange={handleTabChange}
+      />
       {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
 
-      <DynamicTable
-        data={tableData}
-        columns={
-          selectedView === "callcenter" || userClaim.superAdmin
-            ? CallcenterColumn
-            : columns
-        }
-        loadMoreData={loadMoreData}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        onNew={handleNew}
-        orderType="wifi"
-      />
-      <ConfirmationDialog
+      {tableData.length > 0 ? (
+        <DynamicTable
+          data={tableData}
+          columns={
+            selectedView === "callcenter" || userClaim.superAdmin
+              ? CallcenterColumn
+              : columns
+          }
+          loadMoreData={loadMoreData}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          onNew={handleNew}
+          orderType="wifi"
+        />
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60vh",
+            fontSize: "2.5rem",
+          }}
+        >
+          <p>There are no Wifi orders in this day.</p>
+        </div>
+      )}
+
+      <DeleteConfirmationDialog
         open={isDeleteDialogOpen}
         handleDialogClose={closeDeleteConfirmationDialog}
-        handleConfirmed={handleDeleteConfirmed}
-        message="Are you sure you want to delete this item?"
+        handleUnPayConfirmed={handleUnPayDeleteConfirmed}
+        handlePayConfirmed={handlePayDeleteConfirmed}
+        message="You have two options: If you choose 'Pay' it means you are confirming payment for the service. Selecting 'Unpay' indicates that the delivery guy did not make the trip, and payment should not be processed. Are you sure you want to delete this item?"
         title="Delete Confirmation"
       />
       {isEditDialogOpen && (

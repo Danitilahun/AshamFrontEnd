@@ -124,7 +124,8 @@ const CardOrderBranchForm = () => {
         values.callcenterId = userData.requiredId
           ? userData.requiredId
           : user.displayName;
-        values.status = "new order";
+        values.branchKey = values.callcenterId;
+        values.status = "Assigned";
         values.blockHouse = values.blockHouse.toUpperCase();
         values.cardBranch = values.callcenterId;
         values.from = "branch";

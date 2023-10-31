@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Box, Grid, Tab, Tabs } from "@mui/material";
 import { useCallback } from "react";
 import { useParams } from "react-router-dom";
+import { format } from "date-fns";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import fetchFirestoreDataWithFilter from "../../../api/credit/get";
@@ -16,7 +17,28 @@ import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import useUserClaims from "../../../hooks/useUserClaims";
 import findDocumentById from "../../../utils/findDocumentById";
+import getPast15Days from "../../../utils/dayRemain";
+import TableTab from "../../DashboardTable/cardTab";
+import { ExportToExcel } from "../../../utils/ExportToExcel";
+import getRequiredUserData from "../../../utils/getBranchInfo";
+import DeleteConfirmationDialog from "../../VersatileComponents/OrderDelete";
 // import findDocumentById from "../../../utils/findDocumentById";
+
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
+  alignItems: "center",
+  // backgroundColor: "green",
+};
+
+const flexItemStyle = {
+  flex: 9,
+};
+
+const flexItemStyles = {
+  flex: 1,
+};
 
 const main = [
   { key: "name", title: "Customer Name" },
@@ -25,10 +47,11 @@ const main = [
   { key: "amountBirr", title: "Amount" },
   { key: "dayRemain", title: "Day Remain" },
   { key: "remaingMoney", title: "Money Remain" },
+  { key: "date", title: "Date" },
   { key: "deliveryguyName", title: "Delivery Guy Name" },
 ];
 
-const CallcenterColumn = [
+let CallcenterColumn = [
   ...main,
   { key: "callcenterName", title: "Callcenter Name" },
   { key: "status", title: "Status" },
@@ -41,6 +64,20 @@ const columns = [
   { key: "new", title: "New" }, // Added "New" column
 ];
 
+function pushOrUpdateWithKey(arr, newElement) {
+  const existingIndex = arr.findIndex(
+    (element) => element.key === newElement.key
+  );
+
+  if (existingIndex !== -1) {
+    // An element with the same key already exists, you can replace it here.
+    arr[existingIndex] = newElement;
+  } else {
+    // Insert the new element as the second-to-last item
+    arr.splice(arr.length - 1, 0, newElement);
+  }
+  return arr;
+}
 const CardTable = () => {
   const params = useParams();
   const [data, setData] = useState([]);
@@ -57,13 +94,25 @@ const CardTable = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedView, setSelectedView] = useState("callcenter");
   const [fromWhere, setFromWhere] = useState("edit");
+  const userData = getRequiredUserData();
   // Function to handle view selection (Call Center or Branch)
   const handleViewChange = (view) => {
+    console.log("view change", view);
     setSelectedView(view);
   };
 
+  // Get an array of the past 15 days including the current date
+  const past15Days = getPast15Days();
+  // Format and display the dates in a human-readable format (e.g., "YYYY-MM-DD")
+  const formattedDates = past15Days;
+  console.log(formattedDates);
+  const [selectedTab, setSelectedTab] = useState(0);
+  const handleTabChange = (event, newValue) => {
+    setSelectedTab(newValue);
+  };
+
   const handleEdit = (row) => {
-    if (row.status !== "new order") {
+    if (row.status !== "Assigned") {
       openSnackbar(
         `You can only edit new orders! This order Already ${row.status}`,
         "info"
@@ -90,12 +139,12 @@ const CardTable = () => {
     openDeleteConfirmationDialog(id);
   };
 
-  const handleDeleteConfirmed = async () => {
+  const handlePayDeleteConfirmed = async () => {
     setIsSubmitting(true);
     closeDeleteConfirmationDialog();
     try {
       // Attempt to delete the credit document
-      const res = await Delete(user, deleteItemId, "card");
+      const res = await Delete(user, deleteItemId, "card", "pay");
       openSnackbar(`${res.data.message}!`, "success");
     } catch (error) {
       if (error.response && error.response.data) {
@@ -114,12 +163,35 @@ const CardTable = () => {
     setIsSubmitting(false);
     setDeleteItemId(null);
   };
+  const handleUnPayDeleteConfirmed = async () => {
+    setIsSubmitting(true);
+    closeDeleteConfirmationDialog();
+    try {
+      // Attempt to delete the credit document
+      const res = await Delete(user, deleteItemId, "card", "unpay");
+      openSnackbar(`${res.data.message}!`, "success");
+    } catch (error) {
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar(
+          "An unexpected error occurred.Please kindly check your connection.",
+          "error"
+        );
+      }
+    }
 
+    setIsSubmitting(false);
+    setDeleteItemId(null);
+  };
   const openDeleteConfirmationDialog = (id) => {
     const doc = findDocumentById(id, data);
-    if (doc.status !== "new order") {
+    if (doc.status === "Completed") {
       openSnackbar(
-        `You can only delete new orders! This order Already ${doc.status}`,
+        `Deleting individual completed order is not efficient. When you export to excel, we will export it and delete it from the database.`,
         "info"
       );
       return;
@@ -144,7 +216,9 @@ const CardTable = () => {
         data,
         setData,
         filterField,
-        params.id
+        params.id,
+        "dayRemain",
+        formattedDates[selectedTab]
       );
       // Set the last document for pagination
     } catch (error) {
@@ -154,7 +228,7 @@ const CardTable = () => {
 
   useEffect(() => {
     loadInitialData();
-  }, [selectedView]);
+  }, [selectedView, formattedDates[selectedTab]]);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -201,7 +275,9 @@ const CardTable = () => {
           data,
           setData,
           filterField,
-          params.id
+          params.id,
+          "dayRemain",
+          formattedDates[selectedTab]
         );
 
         if (data.length > 0) {
@@ -211,7 +287,7 @@ const CardTable = () => {
     } catch (error) {
       console.error("Error loading more data:", error);
     }
-  }, [lastDoc, data, selectedView]);
+  }, [lastDoc, data, selectedView, formattedDates[selectedTab]]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
@@ -230,6 +306,20 @@ const CardTable = () => {
   }, []);
 
   const tableData = searchedData.length > 0 ? searchedData : data;
+
+  if (userClaim.superAdmin && selectedView === "branch") {
+    console.log(selectedView);
+    CallcenterColumn = CallcenterColumn.filter(
+      (column) => column.key !== "callcenterName"
+    );
+    console.log("the new column", CallcenterColumn);
+  } else if (userClaim.superAdmin && selectedView !== "branch") {
+    CallcenterColumn = pushOrUpdateWithKey(CallcenterColumn, {
+      key: "callcenterName",
+      title: "Callcenter Name",
+    });
+  }
+
   return (
     <Box m="1rem 0">
       <MyHeaderComponent
@@ -240,37 +330,74 @@ const CardTable = () => {
         formComponent={CardOrderBranchForm}
       />
 
-      <Tabs
-        value={selectedView}
-        onChange={(e, newValue) => handleViewChange(newValue)}
-        indicatorColor="secondary"
-        textColor="secondary"
-      >
-        <Tab label="Call Center" value="callcenter" />
-        <Tab label="Branch" value="branch" />
-      </Tabs>
+      <div style={containerStyle}>
+        <div style={flexItemStyle}>
+          <Tabs
+            value={selectedView}
+            onChange={(e, newValue) => handleViewChange(newValue)}
+            indicatorColor="secondary"
+            textColor="secondary"
+          >
+            <Tab label="Call Center" value="callcenter" />
+            <Tab label="Branch" value="branch" />
+          </Tabs>
+        </div>
+        <div style={flexItemStyles}>
+          <ExportToExcel
+            file={"Card"}
+            branchId={userData.requiredId}
+            id={""}
+            endpoint={"card"}
+            clear={true}
+            name={`CardTable-Branch${userData.branchName}`}
+          />
+        </div>
+      </div>
 
-      {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
-      <DynamicTable
-        data={tableData}
-        columns={
-          selectedView === "callcenter" || userClaim.superAdmin
-            ? CallcenterColumn
-            : columns
-        }
-        loadMoreData={loadMoreData}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        onNew={handleNew}
-        orderType="card"
+      <TableTab
+        tableDate={formattedDates}
+        selectedTab={selectedTab}
+        handleTabChange={handleTabChange}
       />
-      <ConfirmationDialog
+      {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
+
+      {tableData.length > 0 ? (
+        <DynamicTable
+          data={tableData}
+          columns={
+            selectedView === "callcenter" || userClaim.superAdmin
+              ? CallcenterColumn
+              : columns
+          }
+          loadMoreData={loadMoreData}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          onNew={handleNew}
+          orderType="card"
+        />
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60vh",
+            fontSize: "2.5rem",
+          }}
+        >
+          <p>There are no Card orders in this day.</p>
+        </div>
+      )}
+
+      <DeleteConfirmationDialog
         open={isDeleteDialogOpen}
         handleDialogClose={closeDeleteConfirmationDialog}
-        handleConfirmed={handleDeleteConfirmed}
-        message="Are you sure you want to delete this item?"
+        handleUnPayConfirmed={handleUnPayDeleteConfirmed}
+        handlePayConfirmed={handlePayDeleteConfirmed}
+        message="You have two options: If you choose 'Pay' it means you are confirming payment for the service. Selecting 'Unpay' indicates that the delivery guy did not make the trip, and payment should not be processed. Are you sure you want to delete this item?"
         title="Delete Confirmation"
       />
+
       {isEditDialogOpen && (
         <EditCardOrderForm
           data={editRow}

@@ -88,8 +88,12 @@ const RequireAuth = ({ children }) => {
     } else if (location.pathname === "/") {
       user.getIdTokenResult().then((idTokenResult) => {
         if (idTokenResult.claims.admin !== undefined) {
-          const newRoute = `/deliveryguy/${user.displayName}`;
-          setNavigationPath(newRoute);
+          if (!user.displayName) {
+            setNavigationPath("/");
+          } else {
+            const newRoute = `/deliveryguy/${user.displayName}`;
+            setNavigationPath(newRoute);
+          }
         } else if (idTokenResult.claims.callCenter !== undefined) {
           const newRoute = `/service/asbeza/${user.uid}`;
           changecallCenterId(user.uid);

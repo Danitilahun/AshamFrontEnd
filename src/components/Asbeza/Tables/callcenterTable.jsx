@@ -16,6 +16,7 @@ import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import AsbezaOrderForm from "../CreateForm/callcenterForm";
 import useUserClaims from "../../../hooks/useUserClaims";
 import findDocumentById from "../../../utils/findDocumentById";
+import DeleteConfirmationDialog from "../../VersatileComponents/OrderDelete";
 
 const CallcenterColumn = [
   { key: "name", title: "Customer Name" },
@@ -25,6 +26,7 @@ const CallcenterColumn = [
   { key: "branchName", title: "Branch Name" },
   { key: "callcenterName", title: "Callcenter Name" },
   { key: "order", title: "Order" },
+  { key: "date", title: "Date" },
   { key: "additionalInfo", title: "Additional Info" },
   { key: "status", title: "Status" },
 ];
@@ -52,7 +54,7 @@ const AsbezaTable = () => {
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [fromWhere, setFromWhere] = useState("edit");
   const handleEdit = (row) => {
-    if (row.status !== "new order") {
+    if (row.status !== "Assigned") {
       openSnackbar(
         `You can only edit new orders! This order Already ${row.status}`,
         "info"
@@ -83,12 +85,36 @@ const AsbezaTable = () => {
     openDeleteConfirmationDialog(id);
   };
 
-  const handleDeleteConfirmed = async () => {
+  const handlePayDeleteConfirmed = async () => {
     setIsSubmitting(true);
     closeDeleteConfirmationDialog();
     try {
       // Attempt to delete the credit document
-      const res = await Delete(user, deleteItemId, "asbeza");
+      const res = await Delete(user, deleteItemId, "asbeza", "pay");
+      openSnackbar(`${res.data.message}!`, "success");
+    } catch (error) {
+      if (error.response && error.response.data) {
+        openSnackbar(
+          error.response.data.message,
+          error.response.data.type ? error.response.data.type : "error"
+        );
+      } else {
+        openSnackbar(
+          "An unexpected error occurred.Please kindly check your connection.",
+          "error"
+        );
+      }
+    }
+
+    setIsSubmitting(false);
+    setDeleteItemId(null);
+  };
+  const handleUnPayDeleteConfirmed = async () => {
+    setIsSubmitting(true);
+    closeDeleteConfirmationDialog();
+    try {
+      // Attempt to delete the credit document
+      const res = await Delete(user, deleteItemId, "asbeza", "unpay");
       openSnackbar(`${res.data.message}!`, "success");
     } catch (error) {
       if (error.response && error.response.data) {
@@ -110,9 +136,9 @@ const AsbezaTable = () => {
 
   const openDeleteConfirmationDialog = (id) => {
     const doc = findDocumentById(id, data);
-    if (doc.status !== "new order") {
+    if (doc.status === "Completed") {
       openSnackbar(
-        `You can only delete new orders! This order Already ${doc.status}`,
+        `Deleting individual completed order is not efficient. When you export to excel, we will export it and delete it from the database.`,
         "info"
       );
       return;
@@ -120,7 +146,6 @@ const AsbezaTable = () => {
     setDeleteItemId(id);
     setIsDeleteDialogOpen(true);
   };
-
   const closeDeleteConfirmationDialog = () => {
     setIsDeleteDialogOpen(false);
   };
@@ -236,13 +261,16 @@ const AsbezaTable = () => {
         onNew={handleNew}
         orderType="asbeza"
       />
-      <ConfirmationDialog
+
+      <DeleteConfirmationDialog
         open={isDeleteDialogOpen}
         handleDialogClose={closeDeleteConfirmationDialog}
-        handleConfirmed={handleDeleteConfirmed}
-        message="Are you sure you want to delete this item?"
+        handleUnPayConfirmed={handleUnPayDeleteConfirmed}
+        handlePayConfirmed={handlePayDeleteConfirmed}
+        message="You have two options: If you choose 'Pay' it means you are confirming payment for the service. Selecting 'Unpay' indicates that the delivery guy did not make the trip, and payment should not be processed. Are you sure you want to delete this item?"
         title="Delete Confirmation"
       />
+
       {isEditDialogOpen && (
         <EditAsbezaOrderForm
           data={editRow}

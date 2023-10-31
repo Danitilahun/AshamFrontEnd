@@ -14,6 +14,7 @@ import BranchCardContent from "./BranchCardContent";
 import EditBranchForm from "./editBranchForm/editBranchForm";
 import deleteBranch from "../../api/branch/deleteBranch";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
+import useDocumentById from "../../hooks/useDocumentById";
 
 const updateFields = (targetObject, sourceObject) => {
   // Loop through the keys in the source object
@@ -166,6 +167,12 @@ const BranchCard = ({ branchData }) => {
       }
     }
   };
+
+  const { documentData: budget } = useDocumentById("Budget", branchData.id);
+  const { documentData: status } = useDocumentById("Status", branchData.active);
+
+  branchData.status = status || {};
+  branchData.budget = budget;
 
   return (
     <>

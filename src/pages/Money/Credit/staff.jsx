@@ -2,7 +2,8 @@ import React from "react";
 import { Box, Grid, useTheme } from "@mui/material";
 import StaffCreditTable from "../../../components/Credit/table/staffCredit";
 import { Helmet } from "react-helmet";
-const Staff = () => {
+import ShowBudget from "../../../components/Budget/ShowBudget";
+const Staff = ({ StaffCredit }) => {
   const theme = useTheme();
   return (
     <>
@@ -22,7 +23,7 @@ const Staff = () => {
       >
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <StaffCreditTable />
+            <StaffCreditTable StaffCredit={StaffCredit} />
           </Grid>
         </Grid>
       </Box>

@@ -11,6 +11,8 @@ import Search from "../../api/utils/search";
 import { Helmet } from "react-helmet";
 import ShowBudget from "../../components/Budget/ShowBudget";
 import useDocumentById from "../../hooks/useDocumentById";
+import { ExportToExcel } from "../../utils/ExportToExcel";
+import getRequiredUserData from "../../utils/getBranchInfo";
 
 const columns = [
   { key: "name", title: "Name" },
@@ -24,6 +26,22 @@ const columns = [
   { key: "Wifi", title: "Wifi" },
 ];
 
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
+  alignItems: "center",
+  // backgroundColor: "green",
+};
+
+const flexItemStyle = {
+  flex: 9,
+};
+
+const flexItemStyles = {
+  flex: 1,
+};
+
 const Customer = () => {
   const params = useParams();
   const theme = useTheme();
@@ -31,6 +49,7 @@ const Customer = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [searched, setSearched] = useState(false);
+  const userData = getRequiredUserData();
   const loadInitialData = async () => {
     try {
       await fetchFirestoreDataWithFilter(
@@ -229,6 +248,20 @@ const Customer = () => {
             />
           </Grid>
         </Grid>
+
+        <div style={containerStyle}>
+          <div style={flexItemStyle}></div>
+          <div style={flexItemStyles}>
+            <ExportToExcel
+              file={"customer"}
+              branchId={userData.requiredId}
+              id={""}
+              endpoint={"branchCustomer"}
+              clear={false}
+              name={`BranchCustomerTable-Branch ${userData.branchName}`}
+            />
+          </div>
+        </div>
 
         <DynamicTable
           data={tableData}

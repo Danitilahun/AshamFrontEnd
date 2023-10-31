@@ -124,7 +124,8 @@ const WaterOrderBranchForm = () => {
           };
         }
 
-        values.status = "new order";
+        values.status = "Assigned";
+        values.branchKey = values.callcenterId;
         values.blockHouse = values.blockHouse.toUpperCase();
         values.from = "branch";
         console.log("values", values);

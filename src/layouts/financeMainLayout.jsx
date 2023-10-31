@@ -1,7 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Box, useMediaQuery } from "@mui/material";
 import { Outlet, useLocation } from "react-router-dom";
-import BranchSidebar from "../components/sidebar/BranchSidebar";
 import Navbar from "../components/VersatileComponents/Navbar";
 import { useAuth } from "../contexts/AuthContext";
 import { useBranch } from "../contexts/BranchContext";
@@ -14,9 +13,7 @@ const FinanceMainLayout = () => {
   const { changeBranchInfo } = useBranch();
   changeBranchInfo("");
 
-  const location = useLocation(); // Get the location object
-
-  // Extract the current URL and the dynamic "id" parameter from the location object
+  const location = useLocation();
 
   return (
     <Box display={isNonMobile ? "flex" : "block"} width="100%" height="100%">

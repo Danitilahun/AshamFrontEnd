@@ -7,6 +7,7 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import { green } from "@mui/material/colors";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import {
   Chip,
   Menu,
@@ -27,6 +28,7 @@ import deleteSheet from "../../api/sheet/delete";
 import useUserClaims from "../../hooks/useUserClaims";
 import FlexBetween from "../VersatileComponents/FlexBetween";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
+import { ExportToExcel } from "../../utils/ExportToExcel";
 
 const SheetCard = ({ sheetInfo }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -104,7 +106,6 @@ const SheetCard = ({ sheetInfo }) => {
   const avatarSize =
     screenWidth >= 1536 ? 50 : (screenWidth / 1536) * 50 + "px";
   const fontSize = screenWidth >= 1536 ? 18 : (screenWidth / 1536) * 18 + "px";
-
   return (
     <>
       <Card
@@ -162,26 +163,35 @@ const SheetCard = ({ sheetInfo }) => {
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
-                    maxWidth: screenWidth < 1300 ? "80px" : "100%",
+                    maxWidth: screenWidth < 1300 ? "50px" : "50%",
                   }}
                 >
                   {sheetInfo.name}
                 </Typography>
               </Tooltip>
 
-              <Chip
-                label={sheetInfo.sheetStatus}
-                style={{
-                  marginLeft: 10,
-                  backgroundColor:
-                    sheetInfo.sheetStatus === "Completed" ? "green" : "red",
-                  color: "white",
-                }}
-              />
+              {/* <Gri container>
+                <Grid item></Grid>
+                <Grid item></Grid>
+              </Grid> */}
+              {!userClaims.superAdmin ? (
+                <Chip
+                  label={sheetInfo.sheetStatus}
+                  style={{
+                    marginLeft: "3px",
+                    backgroundColor:
+                      sheetInfo.sheetStatus === "Completed" ? "green" : "red",
+                    color: "white",
+                  }}
+                />
+              ) : null}
+
+              {/* <ExportToExcel file={sheetInfo.name} branchId={params.id} /> */}
             </FlexBetween>
           }
           subheader={humanReadableDate}
         />
+
         <div onClick={handleCardClick}>
           <CardMedia
             component="img"

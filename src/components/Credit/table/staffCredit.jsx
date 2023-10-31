@@ -19,6 +19,8 @@ import MyHeaderComponent from "../../VersatileComponents/creditHeader";
 import useUserClaims from "../../../hooks/useUserClaims";
 import capitalizeString from "../../../utils/capitalizeString";
 import getRequiredUserData from "../../../utils/getBranchInfo";
+import ShowBudget from "../../Budget/ShowBudget";
+import { ExportToExcel } from "../../../utils/ExportToExcel";
 
 const columns = [
   { key: "employeeName", title: "Employee Name" },
@@ -41,7 +43,23 @@ const NonAdmincolumns = [
   { key: "amount", title: "Amount" },
 ];
 
-const StaffCreditTable = () => {
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
+  alignItems: "center",
+  // backgroundColor: "green",
+};
+
+const flexItemStyle = {
+  flex: 9,
+};
+
+const flexItemStyles = {
+  flex: 1,
+};
+
+const StaffCreditTable = ({ StaffCredit }) => {
   const params = useParams();
   const [data, setData] = useState([]);
   const { user } = useAuth();
@@ -215,6 +233,35 @@ const StaffCreditTable = () => {
         formComponent={StaffCreditForm}
         formProps={formProps}
       />
+
+      <div style={containerStyle}>
+        <div style={flexItemStyle}></div>
+        <div style={flexItemStyles}>
+          <ExportToExcel
+            file={"StaffCredit"}
+            branchId={branchData.requiredId}
+            id={""}
+            endpoint={"staffC"}
+            clear={false}
+            name={`StaffCreditTable-Branch ${branchData.branchName}`}
+          />
+        </div>
+      </div>
+      {/* {userClaim.finance ? ( */}
+
+      {/* <Grid container spacing={3}>
+        <Grid item xs={6}></Grid>
+        <Grid item xs={6}>
+          {StaffCredit ? (
+            <ShowBudget
+              label={"TotalStaffCredit"}
+              value={StaffCredit ? StaffCredit : "not available"}
+              marginTop={10}
+            />
+          ) : null}
+        </Grid>
+      </Grid> */}
+      {/* ) : null} */}
 
       <DynamicTable
         data={tableData}

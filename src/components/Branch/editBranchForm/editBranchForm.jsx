@@ -77,8 +77,14 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
       address: branch.address,
       phone: branch.phone,
       ethioTelBill: branch.ethioTelBill,
+      ethioTelAccount: branch.ethioTelAccount,
+      ethioTelOwnerName: branch.ethioTelOwnerName,
       wifi: branch.wifi,
+      wifiAccount: branch.wifiAccount,
+      wifiOwnerName: branch.wifiOwnerName,
       houseRent: branch.houseRent,
+      houseRentAccount: branch.houseRentAccount,
+      houseRentOwnerName: branch.houseRentOwnerName,
       account: branch.account,
       budget: branch.budget,
       taxPersentage: branch.taxPersentage,
@@ -153,6 +159,25 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
               />
 
               <CustomTextField
+                name="ethioTelAccount"
+                label="Ethio Tele Account"
+                value={formik.values.ethioTelAccount}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur} // <-- Add this line
+                errors={formik.errors}
+                touched={formik.touched}
+              />
+
+              <CustomTextField
+                name="ethioTelOwnerName"
+                label="Ethio Tele Phone Owner Name"
+                value={formik.values.ethioTelOwnerName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur} // <-- Add this line
+                errors={formik.errors}
+                touched={formik.touched}
+              />
+              <CustomTextField
                 name="wifi"
                 label="Wifi"
                 type="number"
@@ -162,6 +187,26 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
                 errors={formik.errors}
                 touched={formik.touched}
               />
+
+              <CustomTextField
+                name="wifiAccount"
+                label="Wifi Account"
+                value={formik.values.wifiAccount}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur} // <-- Add this line
+                errors={formik.errors}
+                touched={formik.touched}
+              />
+              <CustomTextField
+                name="wifiOwnerName"
+                label="Wifi Owner Name"
+                value={formik.values.wifiOwnerName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur} // <-- Add this line
+                errors={formik.errors}
+                touched={formik.touched}
+              />
+
               <CustomTextField
                 name="houseRent"
                 label="House Rent"
@@ -172,6 +217,26 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
                 errors={formik.errors}
                 touched={formik.touched}
               />
+
+              <CustomTextField
+                name="houseRentAccount"
+                label="House Owner Account"
+                value={formik.values.houseRentAccount}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur} // <-- Add this line
+                errors={formik.errors}
+                touched={formik.touched}
+              />
+              <CustomTextField
+                name="houseRentOwnerName"
+                label="House Owner Name"
+                value={formik.values.houseRentOwnerName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur} // <-- Add this line
+                errors={formik.errors}
+                touched={formik.touched}
+              />
+
               <CustomTextField
                 name="account"
                 label="Account"

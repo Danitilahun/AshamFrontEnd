@@ -64,10 +64,14 @@ const EditAsbezaOrderForm = ({
     const Id = event.target.value;
     const Name = branch.find((branch) => branch[1] === Id)?.[0] || "";
     const ActiveTable = branch.find((branch) => branch[1] === Id)?.[2] || "";
-
+    const Active = branch.find((branch) => branch[1] === Id)?.[3] || "";
+    const ActiveDailySummery =
+      branch.find((branch) => branch[1] === Id)?.[4] || "";
     formik.setFieldValue("branchId", Id);
     formik.setFieldValue("branchName", Name);
     formik.setFieldValue("activeTable", ActiveTable);
+    formik.setFieldValue("active", Active);
+    formik.setFieldValue("activeDailySummery", ActiveDailySummery);
   };
 
   const handleDeliveryGuyChange = (event) => {
@@ -115,6 +119,7 @@ const EditAsbezaOrderForm = ({
         const date = getInternationalDate();
         values.date = date;
         values.callcenterId = user.uid;
+        console.log("values before", values);
 
         if (!values.deliveryguyId || !values.deliveryguyName) {
           handleCloseForm();
@@ -160,7 +165,9 @@ const EditAsbezaOrderForm = ({
             },
           };
         }
-        values.status = "new order";
+        values.status = "Assigned";
+        values.fromWhere = fromWhere;
+        values.branchKey = values.branchId;
         values.blockHouse = values.blockHouse.toUpperCase();
         console.log("values", values);
         const res = await update(user, data.id, values, "asbeza");

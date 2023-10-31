@@ -16,20 +16,28 @@ const fetchFirestoreDataWithFilter = (
   existingData,
   setData,
   fieldToFilter,
-  valueToMatch
+  valueToMatch,
+  secondFieldToFilter = null,
+  secondValueToMatch = null
 ) => {
-  //   console.log("-----------start after", fieldToFilter, valueToMatch);
   const dataCollection = collection(firestore, collectionName);
 
   let firestoreQuery = query(dataCollection, orderBy("createdAt", "desc"));
 
-  if (fieldToFilter && valueToMatch !== undefined) {
+  if (fieldToFilter && valueToMatch) {
     firestoreQuery = query(
       firestoreQuery,
       where(fieldToFilter, "==", valueToMatch)
     );
   }
 
+  // Check if secondFieldToFilter and secondValueToMatch are provided and not null
+  if (secondFieldToFilter !== null && secondValueToMatch !== null) {
+    firestoreQuery = query(
+      firestoreQuery,
+      where(secondFieldToFilter, "==", secondValueToMatch)
+    );
+  }
   if (lastDoc) {
     firestoreQuery = query(firestoreQuery, startAfter(lastDoc.createdAt));
   }

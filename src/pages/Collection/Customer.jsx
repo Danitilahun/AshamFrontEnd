@@ -8,6 +8,7 @@ import getHumanReadableDate from "../../utils/humanReadableDate";
 import fetchFirestoreDataWithFilter from "../../api/utils/pagination";
 import Search from "../../api/utils/oneConditionSearch";
 import { Helmet } from "react-helmet";
+import { ExportToExcel } from "../../utils/ExportToExcel";
 const columns = [
   { key: "name", title: "Name" },
   { key: "phone", title: "Phone" },
@@ -20,6 +21,22 @@ const columns = [
   { key: "Water", title: "Water" },
   { key: "Wifi", title: "Wifi" },
 ];
+
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
+  alignItems: "center",
+  // backgroundColor: "green",
+};
+
+const flexItemStyle = {
+  flex: 9,
+};
+
+const flexItemStyles = {
+  flex: 1,
+};
 
 const Customer = () => {
   const theme = useTheme();
@@ -169,8 +186,20 @@ const Customer = () => {
             <SearchInput onSearch={handleSearch} onCancel={handleCancel} />
           </Grid>
         </Grid>
-        {/* <Header title="Customer" subtitle="Entire list of Customers" />
-      <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
+
+        <div style={containerStyle}>
+          <div style={flexItemStyle}></div>
+          <div style={flexItemStyles}>
+            <ExportToExcel
+              file={"customer"}
+              branchId={""}
+              id={""}
+              endpoint={"customer"}
+              clear={false}
+              name={`CustomerListOfCompany`}
+            />
+          </div>
+        </div>
         <DynamicTable
           data={tableData}
           columns={columns}

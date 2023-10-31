@@ -179,7 +179,8 @@ const AsbezaOrderForm = () => {
           };
         }
 
-        values.status = "new order";
+        values.status = "Assigned";
+        values.branchKey = values.branchId;
         values.blockHouse = values.blockHouse.toUpperCase();
         console.log("values", values);
         const res = await create(user, values, "asbeza");

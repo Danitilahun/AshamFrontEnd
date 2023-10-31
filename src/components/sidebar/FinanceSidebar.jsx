@@ -39,6 +39,11 @@ const navItems = [
     path: "genzeb/bonuspenality",
     icon: <SummarizeIcon />,
   },
+  {
+    text: "Credit",
+    path: "genzeb/credit",
+    icon: <Money />,
+  },
 ];
 
 const FinanceSidebar = ({

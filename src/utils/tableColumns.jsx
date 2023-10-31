@@ -143,11 +143,6 @@ export const salaryColumn = [
     flex: 0.4,
   },
   {
-    field: "totalCredit",
-    headerName: "Total Credit",
-    flex: 0.4,
-  },
-  {
     field: "holidayBonus",
     headerName: "Holiday Bonus",
     flex: 0.4,

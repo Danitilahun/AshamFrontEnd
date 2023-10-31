@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { API_BASE_URL } from "../utils/config";
 
-const Delete = async (user, Id, type) => {
+const Delete = async (user, Id, type, cn) => {
   try {
     if (!user) {
       console.log("User is not authenticated.");
@@ -15,11 +15,14 @@ const Delete = async (user, Id, type) => {
       idTokenResult.claims.callCenter === true
     ) {
       const idToken = await user.getIdToken();
-      const res = await axios.delete(`${API_BASE_URL}api/order/${type}/${Id}`, {
-        headers: {
-          Authorization: `Bearer ${idToken}`,
-        },
-      });
+      const res = await axios.delete(
+        `${API_BASE_URL}api/order/${type}/${Id}/${cn}`,
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        }
+      );
       // Handle successful deletion
 
       return res;

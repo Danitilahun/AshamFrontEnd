@@ -8,9 +8,30 @@ import BonusDialog from "../../components/BonusPenality/Bonus";
 import { useAuth } from "../../contexts/AuthContext";
 import useUserClaims from "../../hooks/useUserClaims";
 import { Helmet } from "react-helmet";
+import NewExpenseTable from "../../components/Expense/NewExpense";
+import { ExportToExcel } from "../../utils/ExportToExcel";
+
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
+  alignItems: "center",
+  margin: "1rem",
+  // backgroundColor: "green",
+};
+
+const flexItemStyle = {
+  flex: 13,
+};
+
+const flexItemStyles = {
+  flex: 1,
+};
+
 const SalaryPage = () => {
   let active = "";
   let salaryTable = [];
+  let branchId = "";
 
   const storedData = localStorage.getItem("userData");
   if (storedData) {
@@ -18,7 +39,11 @@ const SalaryPage = () => {
     active = userData.active !== undefined ? userData.active : "";
     salaryTable =
       userData.salaryTable !== undefined ? userData.salaryTable : [];
+    branchId = userData.id !== undefined ? userData.id : [];
   }
+
+  console.log("testing branch id ", branchId);
+
   const theme = useTheme();
   const { user } = useAuth();
   const userClaims = useUserClaims(user);
@@ -58,11 +83,6 @@ const SalaryPage = () => {
     {
       field: "fixedSalary",
       headerName: "Fixed Salary",
-      flex: 0.4,
-    },
-    {
-      field: "totalCredit",
-      headerName: "Total Credit",
       flex: 0.4,
     },
 
@@ -105,11 +125,6 @@ const SalaryPage = () => {
       headerName: "Fixed Salary",
       flex: 0.4,
     },
-    {
-      field: "totalCredit",
-      headerName: "Total Credit",
-      flex: 0.4,
-    },
 
     {
       field: "holidayBonus",
@@ -138,6 +153,7 @@ const SalaryPage = () => {
   const handleTabChange2 = (event, newValue) => {
     setSelectedTabTwo(newValue);
   };
+
   return (
     <>
       <Helmet>
@@ -146,81 +162,131 @@ const SalaryPage = () => {
         {/* <link rel="canonical" href="http://localhost:3000/" /> */}
         <meta name="description" content="Salary pages" />
       </Helmet>
-      <Box
-        m="1.5rem 2.5rem"
-        sx={{
-          backgroundColor: theme.palette.background.default,
-          height: "100%",
-          position: "relative",
-        }}
-      >
-        <Header title="Delivery guys Salary Table" subtitle="" />
-        <Tabs
-          value={selectedTab}
-          onChange={handleTabChange}
-          variant="scrollable"
-          scrollButtons="auto"
-          style={{
-            color: theme.palette.secondary[700],
-            backgroundColor: theme.palette.background.alt,
+      {active !== "abcedafkas" ? (
+        <Box
+          m="1.5rem 2.5rem"
+          sx={{
+            backgroundColor: theme.palette.background.default,
+            height: "100%",
+            position: "relative",
           }}
         >
-          {salaryTable.map((tabData) => (
-            <Tab
-              key={tabData.id}
-              label={tabData.name}
-              value={tabData.id}
-              style={{
-                color: theme.palette.secondary[300],
-                ...(selectedTab === tabData.id && {
-                  color: theme.palette.secondary[100],
-                  borderBottom: `5px solid ${theme.palette.grey[900]}`,
-                }),
-              }}
-            />
-          ))}
-        </Tabs>
-        {salary.length > 0 && (
-          <DataTable rows={salary} columns={salaryColumn} />
-        )}
-        <Header title="Staff Salary Table" subtitle="" />
-        <Tabs
-          value={selectedTab2}
-          onChange={handleTabChange2}
-          variant="scrollable"
-          scrollButtons="auto"
-          style={{
-            color: theme.palette.secondary[700],
-            backgroundColor: theme.palette.background.alt,
-          }}
-        >
-          {salaryTable.map((tabData) => (
-            <Tab
-              key={tabData.id}
-              label={tabData.name}
-              value={tabData.id}
-              style={{
-                color: theme.palette.secondary[300],
-                ...(selectedTab === tabData.id && {
-                  color: theme.palette.secondary[100],
-                  borderBottom: `5px solid ${theme.palette.grey[900]}`,
-                }),
-              }}
-            />
-          ))}
-        </Tabs>
+          <Header title="Delivery guys Salary Table" subtitle="" />
+          <Tabs
+            value={selectedTab}
+            onChange={handleTabChange}
+            variant="scrollable"
+            scrollButtons="auto"
+            style={{
+              color: theme.palette.secondary[700],
+              backgroundColor: theme.palette.background.alt,
+            }}
+          >
+            {salaryTable.map((tabData) => (
+              <Tab
+                key={tabData.id}
+                label={tabData.name}
+                value={tabData.id}
+                style={{
+                  color: theme.palette.secondary[300],
+                  ...(selectedTab === tabData.id && {
+                    color: theme.palette.secondary[100],
+                    borderBottom: `5px solid ${theme.palette.grey[900]}`,
+                  }),
+                }}
+              />
+            ))}
+          </Tabs>
 
-        {staffSalary.length > 0 && (
-          <DataTable
-            rows={staffSalary}
-            columns={
-              userClaims.admin
-                ? staffSalaryColumn
-                : staffSalaryColumnForNonAdmin
-            }
-          />
-        )}
-      </Box>
+          <div style={containerStyle}>
+            <div style={flexItemStyle}></div>
+            <div style={flexItemStyles}>
+              <ExportToExcel
+                file={"salary"}
+                branchId={"non"}
+                id={active}
+                endpoint={"delSal"}
+                clear={false}
+                name="DeliverySalaryTable"
+              />
+            </div>
+          </div>
+
+          {salary.length > 0 && (
+            <DataTable rows={salary} columns={salaryColumn} />
+          )}
+
+          <Header title="Staff Salary Table" subtitle="" />
+          <Tabs
+            value={selectedTab2}
+            onChange={handleTabChange2}
+            variant="scrollable"
+            scrollButtons="auto"
+            style={{
+              color: theme.palette.secondary[700],
+              backgroundColor: theme.palette.background.alt,
+            }}
+          >
+            {salaryTable.map((tabData) => (
+              <Tab
+                key={tabData.id}
+                label={tabData.name}
+                value={tabData.id}
+                style={{
+                  color: theme.palette.secondary[300],
+                  ...(selectedTab === tabData.id && {
+                    color: theme.palette.secondary[100],
+                    borderBottom: `5px solid ${theme.palette.grey[900]}`,
+                  }),
+                }}
+              />
+            ))}
+          </Tabs>
+
+          <div style={containerStyle}>
+            <div style={flexItemStyle}></div>
+            <div style={flexItemStyles}>
+              <ExportToExcel
+                file={"staffSalary"}
+                branchId={branchId}
+                id={active}
+                endpoint={"staffsalary"}
+                clear={false}
+                name="StaffSalaryTable"
+              />
+            </div>
+          </div>
+
+          {staffSalary.length > 0 && (
+            <DataTable
+              rows={staffSalary}
+              columns={
+                userClaims.admin
+                  ? staffSalaryColumn
+                  : staffSalaryColumnForNonAdmin
+              }
+            />
+          )}
+
+          <Header title="Current Expense Table" subtitle="" />
+
+          <div style={containerStyle}>
+            <div style={flexItemStyle}></div>
+            <div style={flexItemStyles}>
+              <ExportToExcel
+                file={"Status"}
+                branchId={branchId}
+                id={active}
+                endpoint={"sheetstatus"}
+                clear={false}
+                name="SheetStatusTable"
+              />
+            </div>
+          </div>
+
+          {branchId ? <NewExpenseTable id={active} /> : null}
+        </Box>
+      ) : null}
     </>
   );
 };

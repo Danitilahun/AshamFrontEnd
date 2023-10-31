@@ -13,6 +13,24 @@ import { firestore } from "../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
+import { ExportToExcel } from "../../utils/ExportToExcel";
+
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
+  alignItems: "center",
+  // backgroundColor: "green",
+};
+
+const flexItemStyle = {
+  flex: 9,
+};
+
+const flexItemStyles = {
+  flex: 1,
+};
+
 const Bank = () => {
   const params = useParams();
   const theme = useTheme();
@@ -110,6 +128,20 @@ const Bank = () => {
             <BankForm source="branches" />
           </Grid>
         </Grid>
+
+        <div style={containerStyle}>
+          <div style={flexItemStyle}></div>
+          <div style={flexItemStyles}>
+            <ExportToExcel
+              file={"branches"}
+              branchId={branchData.requiredId}
+              id={""}
+              endpoint={"bank"}
+              clear={true}
+              name={`BankTable-Branch ${branchData.branchName}`}
+            />
+          </div>
+        </div>
 
         <Grid container spacing={2} marginTop={"10px"}>
           {branch?.bank?.map((bankName, index) => (
