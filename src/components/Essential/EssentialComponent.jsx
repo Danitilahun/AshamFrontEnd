@@ -14,7 +14,6 @@ const gridItemsStyle = {
 
 const EssentialComponent = ({ isVisible }) => {
   const theme = useTheme();
-  const [data, setData] = useState([]);
 
   return (
     <Box
