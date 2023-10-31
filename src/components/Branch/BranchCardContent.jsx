@@ -21,23 +21,23 @@ const BranchCardContent = ({ branchData, showMore, handleSeeMore }) => {
       <CustomEllipsisTextField
         label="TotalIncome"
         value={
-          branchData?.budget?.totalIncome +
+          branchData?.budgets?.totalIncome +
           (branchData?.status?.totalIncome || 0)
         }
       />
       <CustomEllipsisTextField
         label="TotalExpense"
         value={
-          branchData?.budget?.totalExpense +
+          branchData?.budgets?.totalExpense +
           (branchData?.status?.totalExpense || 0)
         }
       />
       <CustomEllipsisTextField
         label="Net"
         value={
-          branchData?.budget?.totalIncome +
+          branchData?.budgets?.totalIncome +
           (branchData?.status?.totalIncome || 0) -
-          (branchData?.budget?.totalExpense +
+          (branchData?.budgets?.totalExpense +
             (branchData?.status?.totalExpense || 0))
         }
       />

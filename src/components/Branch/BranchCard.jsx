@@ -172,7 +172,7 @@ const BranchCard = ({ branchData }) => {
   const { documentData: status } = useDocumentById("Status", branchData.active);
 
   branchData.status = status || {};
-  branchData.budget = budget;
+  branchData.budgets = budget;
 
   return (
     <>
