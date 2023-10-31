@@ -51,14 +51,14 @@ const StaffCreditForm = ({ type }) => {
     worker = userData ? userData.worker : [];
   }
 
-  useEffect(() => {
-    if (!active) {
-      openSnackbar(
-        `There is not salary table for this branch, please create one first!`,
-        "info"
-      );
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!active) {
+  //     openSnackbar(
+  //       `There is not salary table for this branch, please create one first!`,
+  //       "info"
+  //     );
+  //   }
+  // }, []);
 
   const handleButtonClick = () => {
     if (active) {
