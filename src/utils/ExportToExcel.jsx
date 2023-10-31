@@ -22,7 +22,7 @@ export const ExportToExcel = ({
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
   const date = getInternationalDate();
-  const { setIsSubmitting } = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const theme = useTheme();
   const fileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
@@ -110,9 +110,11 @@ export const ExportToExcel = ({
     setIsSubmitting(false);
   };
 
-  return (
+  console.log(isSubmitting, "isSubmitting");
+  return isSubmitting ? null : (
     <button
       onClick={handleClick}
+      disabled={isSubmitting}
       style={{
         color: theme.palette.secondary[100],
         backgroundColor: theme.palette.background.alt,
@@ -120,12 +122,9 @@ export const ExportToExcel = ({
         padding: "10px 20px",
         border: "none",
         marginLeft: "10px",
-        cursor: "pointer", // Cursor style
-        fontSize: "16px", // Font size
-        transition: "transform 0.2s", // Transition for the scale effect
-        "&:hover": {
-          transform: "scale(1.1)", // Scale effect on hover
-        },
+        cursor: isSubmitting ? "normal" : "pointer",
+        fontSize: "16px",
+        transition: "transform 0.2s",
       }}
     >
       Export

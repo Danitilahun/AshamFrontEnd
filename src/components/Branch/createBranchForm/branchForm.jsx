@@ -103,7 +103,12 @@ const BranchForm = () => {
     <div>
       {userClaims.superAdmin ? (
         <div>
-          <Button variant="contained" color="primary" onClick={handleOpen}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleOpen}
+            disabled={isSubmitting}
+          >
             Create new Branch
           </Button>
           <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
@@ -342,6 +347,7 @@ const BranchForm = () => {
                   <Button
                     variant="contained"
                     onClick={handleClose}
+                    disabled={isSubmitting}
                     sx={{
                       color: theme.palette.secondary[100],
                       "&:hover": {
@@ -354,6 +360,7 @@ const BranchForm = () => {
                   <Button
                     variant="contained"
                     type="submit"
+                    disabled={isSubmitting}
                     backgroundColor={theme.palette.background.alt}
                     sx={{
                       color: theme.palette.secondary[100],

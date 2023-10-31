@@ -348,6 +348,7 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
             >
               <Button
                 variant="contained"
+                disabled={isSubmitting}
                 onClick={handleCloseForm}
                 sx={{
                   color: theme.palette.secondary[100],
@@ -361,6 +362,7 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
               <Button
                 variant="contained"
                 type="submit"
+                disabled={isSubmitting}
                 backgroundColor={theme.palette.background.alt}
                 sx={{
                   color: theme.palette.secondary[100],
