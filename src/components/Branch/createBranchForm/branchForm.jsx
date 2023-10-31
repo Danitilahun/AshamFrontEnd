@@ -138,25 +138,6 @@ const BranchForm = () => {
                     errors={formik.errors}
                     touched={formik.touched}
                   />
-                  <CustomTextField
-                    name="phone"
-                    label="Phone"
-                    value={formik.values.phone}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur} // <-- Add this line
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
-                  <CustomTextField
-                    name="account"
-                    label="Account"
-                    type="number"
-                    value={formik.values.account}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur} // <-- Add this line
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
 
                   <CustomTextField
                     name="ethioTelBill"
@@ -168,10 +149,32 @@ const BranchForm = () => {
                     errors={formik.errors}
                     touched={formik.touched}
                   />
+
+                  <CustomTextField
+                    name="phone"
+                    label="Phone"
+                    value={formik.values.phone}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur} // <-- Add this line
+                    errors={formik.errors}
+                    touched={formik.touched}
+                  />
+
                   <CustomTextField
                     name="ethioTelAccount"
                     label="Ethio Tele Account"
                     value={formik.values.ethioTelAccount}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur} // <-- Add this line
+                    errors={formik.errors}
+                    touched={formik.touched}
+                  />
+
+                  <CustomTextField
+                    name="wifi"
+                    label="Wifi"
+                    type="number"
+                    value={formik.values.wifi}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur} // <-- Add this line
                     errors={formik.errors}
@@ -189,16 +192,6 @@ const BranchForm = () => {
                   />
 
                   <CustomTextField
-                    name="wifi"
-                    label="Wifi"
-                    type="number"
-                    value={formik.values.wifi}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur} // <-- Add this line
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
-                  <CustomTextField
                     name="wifiAccount"
                     label="Wifi Account"
                     value={formik.values.wifiAccount}
@@ -207,20 +200,22 @@ const BranchForm = () => {
                     errors={formik.errors}
                     touched={formik.touched}
                   />
-                  <CustomTextField
-                    name="wifiOwnerName"
-                    label="Wifi Owner Name"
-                    value={formik.values.wifiOwnerName}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur} // <-- Add this line
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
+
                   <CustomTextField
                     name="houseRent"
                     label="House Rent"
                     type="number"
                     value={formik.values.houseRent}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur} // <-- Add this line
+                    errors={formik.errors}
+                    touched={formik.touched}
+                  />
+
+                  <CustomTextField
+                    name="wifiOwnerName"
+                    label="Wifi Owner Name"
+                    value={formik.values.wifiOwnerName}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur} // <-- Add this line
                     errors={formik.errors}
@@ -235,6 +230,18 @@ const BranchForm = () => {
                     errors={formik.errors}
                     touched={formik.touched}
                   />
+
+                  <CustomTextField
+                    name="account"
+                    label="Account"
+                    type="number"
+                    value={formik.values.account}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur} // <-- Add this line
+                    errors={formik.errors}
+                    touched={formik.touched}
+                  />
+
                   <CustomTextField
                     name="houseRentOwnerName"
                     label="House Owner Name"
