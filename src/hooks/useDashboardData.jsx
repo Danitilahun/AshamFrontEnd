@@ -71,6 +71,20 @@ const useDashboardData = () => {
           newBarData3.push(adminsOne[key]);
         }
       }
+
+      const totalObject = {
+        BranchName: "Total",
+      };
+
+      newBarData3?.forEach((item) => {
+        for (const key in item) {
+          if (key !== "BranchName") {
+            totalObject[key] = (totalObject[key] || 0) + item[key];
+          }
+        }
+      });
+
+      newBarData3.push(totalObject);
       setDashTableData(newBarData3);
     });
 
