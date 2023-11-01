@@ -17,11 +17,13 @@ import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import useUserClaims from "../../../hooks/useUserClaims";
 import findDocumentById from "../../../utils/findDocumentById";
-import getPast15Days from "../../../utils/dayRemain";
 import TableTab from "../../DashboardTable/cardTab";
 import { ExportToExcel } from "../../../utils/ExportToExcel";
 import getRequiredUserData from "../../../utils/getBranchInfo";
 import DeleteConfirmationDialog from "../../VersatileComponents/OrderDelete";
+import getPastDays from "../../../utils/dayRemain";
+import getPast15Days from "../../../utils/getPast15Days";
+import CardTableTab from "../../DashboardTable/cardDateTab";
 // import findDocumentById from "../../../utils/findDocumentById";
 
 const containerStyle = {
@@ -102,13 +104,26 @@ const CardTable = () => {
   };
 
   // Get an array of the past 15 days including the current date
-  const past15Days = getPast15Days();
+  const past15Days = getPastDays(3);
+  const currentDate = new Date();
+  const getDates = getPast15Days(currentDate, 3);
   // Format and display the dates in a human-readable format (e.g., "YYYY-MM-DD")
-  const formattedDates = past15Days;
+  // const formattedDates = past15Days;
+  const formattedDates = getDates.map((date) => format(date, "MMMM d, y"));
   console.log(formattedDates);
-  const [selectedTab, setSelectedTab] = useState(0);
+
+  const [selectedTab, setSelectedTab] = useState(null);
+  const [selectedTab1, setSelectedTab1] = useState(0);
+  const [field, setField] = useState("date");
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
+    setField("dayRemain");
+    setSelectedTab1(null);
+  };
+  const handleTabChange1 = (event, newValue) => {
+    setSelectedTab1(newValue);
+    setField("date");
+    setSelectedTab(null);
   };
 
   const handleEdit = (row) => {
@@ -209,6 +224,9 @@ const CardTable = () => {
       const filterField =
         selectedView === "callcenter" ? "branchId" : "callcenterId";
       console.log("filterField", filterField);
+      const value =
+        field == "date" ? formattedDates[selectedTab1] : selectedTab;
+      console.log(field, value);
       fetchFirestoreDataWithFilter(
         "Card",
         null,
@@ -217,8 +235,8 @@ const CardTable = () => {
         setData,
         filterField,
         params.id,
-        "dayRemain",
-        formattedDates[selectedTab]
+        field,
+        value
       );
       // Set the last document for pagination
     } catch (error) {
@@ -228,7 +246,7 @@ const CardTable = () => {
 
   useEffect(() => {
     loadInitialData();
-  }, [selectedView, formattedDates[selectedTab]]);
+  }, [selectedView, formattedDates[selectedTab], field, selectedTab1]);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -268,6 +286,9 @@ const CardTable = () => {
       if (lastDoc) {
         const filterField =
           selectedView === "callcenter" ? "branchId" : "callcenterId";
+        const value =
+          field == "date" ? formattedDates[selectedTab1] : selectedTab;
+
         fetchFirestoreDataWithFilter(
           "Card",
           lastDoc,
@@ -276,8 +297,8 @@ const CardTable = () => {
           setData,
           filterField,
           params.id,
-          "dayRemain",
-          formattedDates[selectedTab]
+          field,
+          value
         );
 
         if (data.length > 0) {
@@ -287,7 +308,14 @@ const CardTable = () => {
     } catch (error) {
       console.error("Error loading more data:", error);
     }
-  }, [lastDoc, data, selectedView, formattedDates[selectedTab]]);
+  }, [
+    lastDoc,
+    data,
+    selectedView,
+    formattedDates[selectedTab],
+    field,
+    selectedTab1,
+  ]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
@@ -320,6 +348,7 @@ const CardTable = () => {
     });
   }
 
+  console.log("the new column", field, selectedTab1, selectedTab);
   return (
     <Box m="1rem 0">
       <MyHeaderComponent
@@ -342,6 +371,7 @@ const CardTable = () => {
             <Tab label="Branch" value="branch" />
           </Tabs>
         </div>
+
         <div style={flexItemStyles}>
           <ExportToExcel
             file={"Card"}
@@ -354,11 +384,24 @@ const CardTable = () => {
         </div>
       </div>
 
-      <TableTab
-        tableDate={formattedDates}
-        selectedTab={selectedTab}
-        handleTabChange={handleTabChange}
-      />
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <CardTableTab
+            tableDate={formattedDates}
+            selectedTab={selectedTab1}
+            handleTabChange={handleTabChange1}
+            from="card"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TableTab
+            tableDate={past15Days}
+            selectedTab={selectedTab}
+            handleTabChange={handleTabChange}
+            from="card"
+          />
+        </Grid>
+      </Grid>
       {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
 
       {tableData.length > 0 ? (
@@ -385,7 +428,10 @@ const CardTable = () => {
             fontSize: "2.5rem",
           }}
         >
-          <p>There are no Card orders in this day.</p>
+          <p>
+            There are no Card orders{" "}
+            {field == "date" ? "in this day" : "remain this much day"}.
+          </p>
         </div>
       )}
 

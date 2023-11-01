@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
-import fetchFirestoreDataWithFilter from "../../../api/credit/get";
+import { format } from "date-fns";
 import Search from "../../../api/utils/search";
 import SearchInput from "../../VersatileComponents/SearchInput";
 import DynamicTable from "../../DynamicTable/DynamicTable";
@@ -17,6 +17,11 @@ import findDocumentById from "../../../utils/findDocumentById";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import useUserClaims from "../../../hooks/useUserClaims";
 import DeleteConfirmationDialog from "../../VersatileComponents/OrderDelete";
+import CardTableTab from "../../DashboardTable/cardDateTab";
+import TableTab from "../../DashboardTable/cardTab";
+import getPast15Days from "../../../utils/getPast15Days";
+import getPastDays from "../../../utils/dayRemain";
+import fetchFirestoreDataWithFilter from "../../../api/credit/get";
 
 const CallcenterColumn = [
   { key: "name", title: "Customer Name" },
@@ -53,6 +58,30 @@ const CardTable = () => {
   const { openSnackbar } = useSnackbar();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [fromWhere, setFromWhere] = useState("edit");
+
+  // Get an array of the past 15 days including the current date
+  const past15Days = getPastDays(3);
+  const currentDate = new Date();
+  const getDates = getPast15Days(currentDate, 3);
+  // Format and display the dates in a human-readable format (e.g., "YYYY-MM-DD")
+  // const formattedDates = past15Days;
+  const formattedDates = getDates.map((date) => format(date, "MMMM d, y"));
+  console.log(formattedDates);
+
+  const [selectedTab, setSelectedTab] = useState(null);
+  const [selectedTab1, setSelectedTab1] = useState(0);
+  const [field, setField] = useState("date");
+  const handleTabChange = (event, newValue) => {
+    setSelectedTab(newValue);
+    setField("dayRemain");
+    setSelectedTab1(null);
+  };
+  const handleTabChange1 = (event, newValue) => {
+    setSelectedTab1(newValue);
+    setField("date");
+    setSelectedTab(null);
+  };
+
   const handleEdit = (row) => {
     console.log("from the table", row);
     if (row.status !== "Assigned") {
@@ -149,6 +178,9 @@ const CardTable = () => {
 
   const loadInitialData = async () => {
     try {
+      const value =
+        field == "date" ? formattedDates[selectedTab1] : selectedTab;
+      console.log(field, value);
       fetchFirestoreDataWithFilter(
         "Card",
         null,
@@ -156,17 +188,35 @@ const CardTable = () => {
         data,
         setData,
         "callcenterId",
-        params.id
+        params.id,
+        field,
+        value
       );
       // Set the last document for pagination
     } catch (error) {
       console.error("Error loading initial data:", error);
     }
   };
+  // const loadInitialData = async () => {
+  //   try {
+  //     fetchFirestoreDataWithFilter(
+  //       "Card",
+  //       null,
+  //       10,
+  //       data,
+  //       setData,
+  //       "callcenterId",
+  //       params.id
+  //     );
+  //     // Set the last document for pagination
+  //   } catch (error) {
+  //     console.error("Error loading initial data:", error);
+  //   }
+  // };
 
   useEffect(() => {
     loadInitialData();
-  }, []);
+  }, [formattedDates[selectedTab], field, selectedTab1]);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -201,6 +251,9 @@ const CardTable = () => {
 
   const loadMoreData = useCallback(async () => {
     try {
+      const value =
+        field == "date" ? formattedDates[selectedTab1] : selectedTab;
+      console.log(field, value);
       if (lastDoc) {
         fetchFirestoreDataWithFilter(
           "Card",
@@ -209,7 +262,9 @@ const CardTable = () => {
           data,
           setData,
           "callcenterId",
-          params.id
+          params.id,
+          field,
+          value
         );
 
         if (data.length > 0) {
@@ -219,7 +274,7 @@ const CardTable = () => {
     } catch (error) {
       console.error("Error loading more data:", error);
     }
-  }, [lastDoc, data]);
+  }, [lastDoc, data, formattedDates[selectedTab], field, selectedTab1]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
@@ -247,16 +302,53 @@ const CardTable = () => {
         onCancel={handleCancel}
         formComponent={CardOrderForm}
       />
+
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <CardTableTab
+            tableDate={formattedDates}
+            selectedTab={selectedTab1}
+            handleTabChange={handleTabChange1}
+            from="card"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TableTab
+            tableDate={past15Days}
+            selectedTab={selectedTab}
+            handleTabChange={handleTabChange}
+            from="card"
+          />
+        </Grid>
+      </Grid>
       {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
-      <DynamicTable
-        data={tableData}
-        columns={userClaims.superAdmin ? CallcenterColumn : columns}
-        loadMoreData={loadMoreData}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        onNew={handleNew}
-        orderType="card"
-      />
+
+      {tableData.length > 0 ? (
+        <DynamicTable
+          data={tableData}
+          columns={userClaims.superAdmin ? CallcenterColumn : columns}
+          loadMoreData={loadMoreData}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          onNew={handleNew}
+          orderType="card"
+        />
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60vh",
+            fontSize: "2.5rem",
+          }}
+        >
+          <p>
+            There are no Card orders{" "}
+            {field == "date" ? "in this day" : "remain this much day"}.
+          </p>
+        </div>
+      )}
 
       <DeleteConfirmationDialog
         open={isDeleteDialogOpen}
