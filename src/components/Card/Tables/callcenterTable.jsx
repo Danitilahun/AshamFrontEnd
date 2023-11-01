@@ -60,7 +60,7 @@ const CardTable = () => {
   const [fromWhere, setFromWhere] = useState("edit");
 
   // Get an array of the past 15 days including the current date
-  const past15Days = getPastDays(3);
+  const past15Days = getPastDays(4);
   const currentDate = new Date();
   const getDates = getPast15Days(currentDate, 3);
   // Format and display the dates in a human-readable format (e.g., "YYYY-MM-DD")
