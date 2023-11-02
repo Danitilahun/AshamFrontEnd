@@ -23,6 +23,7 @@ import { ExportToExcel } from "../../../utils/ExportToExcel";
 import getRequiredUserData from "../../../utils/getBranchInfo";
 import DeleteConfirmationDialog from "../../VersatileComponents/OrderDelete";
 const main = [
+  { key: "rollNumber", title: "No" },
   { key: "name", title: "Customer Name" },
   { key: "phone", title: "Phone" },
   { key: "blockHouse", title: "Block House" },
@@ -318,6 +319,15 @@ const WifiTable = () => {
     });
   }
 
+  // Function to add a roll number to each student
+  function addRollNumber(orderArray) {
+    for (let i = 0; i < orderArray.length; i++) {
+      orderArray[i].rollNumber = i + 1;
+    }
+  }
+
+  // Call the function to add roll numbers
+  addRollNumber(tableData);
   return (
     <Box m="1rem 0">
       <MyHeaderComponent

@@ -24,6 +24,7 @@ import getPastDays from "../../../utils/dayRemain";
 import fetchFirestoreDataWithFilter from "../../../api/credit/get";
 
 const CallcenterColumn = [
+  { key: "rollNumber", title: "No" },
   { key: "name", title: "Customer Name" },
   { key: "phone", title: "Phone" },
   { key: "blockHouse", title: "Block House" },
@@ -293,6 +294,16 @@ const CardTable = () => {
   }, []);
 
   const tableData = searchedData.length > 0 ? searchedData : data;
+
+  // Function to add a roll number to each student
+  function addRollNumber(orderArray) {
+    for (let i = 0; i < orderArray.length; i++) {
+      orderArray[i].rollNumber = i + 1;
+    }
+  }
+
+  // Call the function to add roll numbers
+  addRollNumber(tableData);
   return (
     <Box m="1rem 0">
       <MyHeaderComponent

@@ -555,6 +555,7 @@ const DynamicTable = ({
                         </div>
                       ) : typeof row[column.key] === "number" &&
                         column.key !== "numberOfCard" &&
+                        column.key !== "rollNumber" &&
                         column.key !== "no" &&
                         column.key !== "dayRemain" ? (
                         row[column.key].toFixed(2)

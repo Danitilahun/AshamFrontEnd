@@ -19,6 +19,7 @@ import findDocumentById from "../../../utils/findDocumentById";
 import DeleteConfirmationDialog from "../../VersatileComponents/OrderDelete";
 
 const CallcenterColumn = [
+  { key: "rollNumber", title: "No" },
   { key: "name", title: "Customer Name" },
   { key: "phone", title: "Phone" },
   { key: "blockHouse", title: "Block House" },
@@ -241,6 +242,15 @@ const AsbezaTable = () => {
   }, []);
 
   const tableData = searchedData.length > 0 ? searchedData : data;
+  // Function to add a roll number to each student
+  function addRollNumber(orderArray) {
+    for (let i = 0; i < orderArray.length; i++) {
+      orderArray[i].rollNumber = i + 1;
+    }
+  }
+
+  // Call the function to add roll numbers
+  addRollNumber(tableData);
   return (
     <Box m="1rem 0">
       <MyHeaderComponent
