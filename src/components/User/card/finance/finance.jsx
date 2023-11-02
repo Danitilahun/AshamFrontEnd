@@ -39,7 +39,7 @@ const UserCard = ({ userInfo }) => {
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const { openSnackbar } = useSnackbar();
   const [openDialog, setOpenDialog] = useState(false);
   const navigate = useNavigate();
@@ -75,7 +75,6 @@ const UserCard = ({ userInfo }) => {
 
   return (
     <>
-      
       <Card
         sx={{
           backgroundColor: theme.palette.background.alt,
@@ -100,6 +99,7 @@ const UserCard = ({ userInfo }) => {
             label="BankAccount"
             value={userInfo.bankAccount}
           />
+          <CustomEllipsisTextField label="Budget" value={userInfo.budget} />
           <CustomEllipsisTextField
             label="FullAddress"
             value={userInfo.fullAddress}

@@ -18,6 +18,7 @@ const BranchCardContent = ({ branchData, showMore, handleSeeMore }) => {
         label="Phone"
         value={phone ? phone : "Not assigned"}
       />
+      <CustomEllipsisTextField label="Budget" value={branchData.budget} />
       <CustomEllipsisTextField
         label="TotalIncome"
         value={
