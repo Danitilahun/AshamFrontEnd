@@ -10,7 +10,17 @@ import { useSnackbar } from "../contexts/InfoContext";
 import getInternationalDate from "./getDate";
 import { useContext } from "react";
 import { SpinnerContext } from "../contexts/SpinnerContext";
+import ConfirmationDialog from "../components/VersatileComponents/ConfirmationDialog";
 
+const DeletedCollection = [
+  "finance",
+  "branches",
+  "Budget",
+  "Asbeza",
+  "Card",
+  "Water",
+  "Wifi",
+];
 export const ExportToExcel = ({
   file,
   endpoint,
@@ -23,6 +33,20 @@ export const ExportToExcel = ({
   const { openSnackbar } = useSnackbar();
   const date = getInternationalDate();
   const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  const openDeleteConfirmationDialog = () => {
+    if (DeletedCollection.includes(file)) {
+      setIsDeleteDialogOpen(true);
+    } else {
+      handleClick();
+    }
+  };
+
+  const closeDeleteConfirmationDialog = () => {
+    setIsDeleteDialogOpen(false);
+  };
+
   const theme = useTheme();
   const fileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
@@ -81,6 +105,7 @@ export const ExportToExcel = ({
 
   const handleClick = async () => {
     setIsSubmitting(true);
+    closeDeleteConfirmationDialog();
     try {
       const response = await Export(user, {
         file: file,
@@ -111,23 +136,47 @@ export const ExportToExcel = ({
   };
 
   console.log(isSubmitting, "isSubmitting");
-  return isSubmitting ? null : (
-    <button
-      onClick={handleClick}
-      disabled={isSubmitting}
-      style={{
-        color: theme.palette.secondary[100],
-        backgroundColor: theme.palette.background.alt,
-        borderRadius: "8px",
-        padding: "10px 20px",
-        border: "none",
-        marginLeft: "10px",
-        cursor: isSubmitting ? "normal" : "pointer",
-        fontSize: "16px",
-        transition: "transform 0.2s",
-      }}
-    >
-      Export
-    </button>
+  return (
+    <>
+      {isSubmitting ? null : (
+        <button
+          onClick={openDeleteConfirmationDialog}
+          disabled={isSubmitting}
+          style={{
+            color: theme.palette.secondary[100],
+            backgroundColor: theme.palette.background.alt,
+            borderRadius: "8px",
+            padding: "10px 20px",
+            border: "none",
+            marginLeft: "10px",
+            cursor: isSubmitting ? "normal" : "pointer",
+            fontSize: "16px",
+            transition: "transform 0.2s",
+          }}
+        >
+          Export
+        </button>
+      )}
+      <ConfirmationDialog
+        open={isDeleteDialogOpen}
+        handleDialogClose={closeDeleteConfirmationDialog}
+        handleConfirmed={handleClick} // Create this function next
+        const
+        message={`Are you sure you want to export data for "${
+          file === "finance"
+            ? "Finance Bank"
+            : file === "branches"
+            ? "Branch Bank"
+            : file
+        }"? This action will permanently remove all the data associated with the "${
+          file === "finance"
+            ? "Finance Bank"
+            : file === "branches"
+            ? "Branch Bank"
+            : file
+        }" collection in this branch from the database. Proceed with caution, as this operation cannot be undone.`}
+        title="Export Confirmation"
+      />
+    </>
   );
 };
