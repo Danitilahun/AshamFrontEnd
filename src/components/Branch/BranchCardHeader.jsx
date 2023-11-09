@@ -114,7 +114,9 @@ const BranchCardHeader = ({
                   }}
                   style={typographyStyles}
                 >
-                  {`${name} (${uniqueName})`}
+                  {`${
+                    name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
+                  } (${uniqueName})`}
                 </Typography>
               </div>
             </Tooltip>
