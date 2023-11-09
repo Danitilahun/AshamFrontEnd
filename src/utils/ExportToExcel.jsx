@@ -11,6 +11,7 @@ import getInternationalDate from "./getDate";
 import { useContext } from "react";
 import { SpinnerContext } from "../contexts/SpinnerContext";
 import ConfirmationDialog from "../components/VersatileComponents/ConfirmationDialog";
+import DeleteConfirmationDialog from "../components/VersatileComponents/exportConfirmation";
 
 const DeletedCollection = [
   "finance",
@@ -45,6 +46,13 @@ export const ExportToExcel = ({
 
   const closeDeleteConfirmationDialog = () => {
     setIsDeleteDialogOpen(false);
+  };
+
+  const handleRemoveDeleteConfirmed = () => {
+    handleClick(true);
+  };
+  const handleKeepDeleteConfirmed = () => {
+    handleClick();
   };
 
   const theme = useTheme();
@@ -103,7 +111,7 @@ export const ExportToExcel = ({
     FileSaver.saveAs(data, fileName + fileExtension);
   };
 
-  const handleClick = async () => {
+  const handleClick = async (Newclear = false) => {
     setIsSubmitting(true);
     closeDeleteConfirmationDialog();
     try {
@@ -112,7 +120,7 @@ export const ExportToExcel = ({
         endpoint: endpoint,
         branchId: branchId,
         id: id,
-        clear: clear,
+        clear: Newclear,
       });
       console.log(response.data.message);
       openSnackbar(`${response.data.message}!`, "success");
@@ -157,11 +165,11 @@ export const ExportToExcel = ({
           Export
         </button>
       )}
-      <ConfirmationDialog
+      <DeleteConfirmationDialog
         open={isDeleteDialogOpen}
         handleDialogClose={closeDeleteConfirmationDialog}
-        handleConfirmed={handleClick} // Create this function next
-        const
+        handleRemoveConfirmed={handleRemoveDeleteConfirmed}
+        handleKeepConfirmed={handleKeepDeleteConfirmed}
         message={`Are you sure you want to export data for "${
           file === "finance"
             ? "Finance Bank"
@@ -174,9 +182,16 @@ export const ExportToExcel = ({
             : file === "branches"
             ? "Branch Bank"
             : file
-        }" collection in this branch from the database. Proceed with caution, as this operation cannot be undone.`}
+        }" collection in this branch from the database if you choose remove.If you choose keep it will not deleted. Proceed with caution, as this operation cannot be undone.`}
         title="Export Confirmation"
       />
+      {/* <ConfirmationDialog
+        open={isDeleteDialogOpen}
+        handleDialogClose={closeDeleteConfirmationDialog}
+        handleConfirmed={handleClick} // Create this function next
+        const
+        
+      /> */}
     </>
   );
 };

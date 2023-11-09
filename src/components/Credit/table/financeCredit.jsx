@@ -246,14 +246,16 @@ const FinanceTable = () => {
       <div style={containerStyle}>
         <div style={flexItemStyle}></div>
         <div style={flexItemStyles}>
-          <ExportToExcel
-            file={"FinanceCredit"}
-            branchId={financeData.requiredId}
-            id={""}
-            endpoint={"financeC"}
-            clear={false}
-            name={`FinanceCreditTable-Branch`}
-          />
+          {userClaim.superAdmin ? (
+            <ExportToExcel
+              file={"FinanceCredit"}
+              branchId={financeData.requiredId}
+              id={""}
+              endpoint={"financeC"}
+              clear={false}
+              name={`FinanceCreditTable-Branch`}
+            />
+          ) : null}
         </div>
       </div>
       <DynamicTable

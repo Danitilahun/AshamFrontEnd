@@ -58,6 +58,7 @@ let CallcenterColumn = [
   ...main,
   { key: "callcenterName", title: "Callcenter Name" },
   { key: "status", title: "Status" },
+  { key: "delete", title: "Delete" },
 ];
 const columns = [
   ...main,
@@ -384,14 +385,16 @@ const CardTable = () => {
         </div>
 
         <div style={flexItemStyles}>
-          <ExportToExcel
-            file={"Card"}
-            branchId={userData.requiredId}
-            id={""}
-            endpoint={"card"}
-            clear={true}
-            name={`CardTable-Branch${userData.branchName}`}
-          />
+          {userClaim.superAdmin ? (
+            <ExportToExcel
+              file={"Card"}
+              branchId={userData.requiredId}
+              id={""}
+              endpoint={"card"}
+              clear={true}
+              name={`CardTable-Branch${userData.branchName}`}
+            />
+          ) : null}
         </div>
       </div>
 

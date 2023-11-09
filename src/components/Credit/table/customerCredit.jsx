@@ -252,14 +252,16 @@ const CustomerCreditTable = () => {
       <div style={containerStyle}>
         <div style={flexItemStyle}></div>
         <div style={flexItemStyles}>
-          <ExportToExcel
-            file={"CustomerCredit"}
-            branchId={branchData.requiredId}
-            id={""}
-            endpoint={"customerC"}
-            clear={false}
-            name={`CustomerCreditTable-Branch ${branchData.branchName}`}
-          />
+          {userClaim.superAdmin ? (
+            <ExportToExcel
+              file={"CustomerCredit"}
+              branchId={branchData.requiredId}
+              id={""}
+              endpoint={"customerC"}
+              clear={false}
+              name={`CustomerCreditTable-Branch ${branchData.branchName}`}
+            />
+          ) : null}
         </div>
       </div>
 

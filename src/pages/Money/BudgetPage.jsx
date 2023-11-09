@@ -150,14 +150,16 @@ const BudgetPage = () => {
         <div style={containerStyle}>
           <div style={flexItemStyle}></div>
           <div style={flexItemStyles}>
-            <ExportToExcel
-              file={"Budget"}
-              branchId={branchId}
-              id={""}
-              endpoint={"budget"}
-              clear={true}
-              name={`Budget-${userData.branchName}`}
-            />
+            {userClaims.superAdmin ? (
+              <ExportToExcel
+                file={"Budget"}
+                branchId={branchId}
+                id={""}
+                endpoint={"budget"}
+                clear={true}
+                name={`Budget-${userData.branchName}`}
+              />
+            ) : null}
           </div>
         </div>
         {documentData2 ? (

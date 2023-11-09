@@ -132,14 +132,16 @@ const Bank = () => {
         <div style={containerStyle}>
           <div style={flexItemStyle}></div>
           <div style={flexItemStyles}>
-            <ExportToExcel
-              file={"branches"}
-              branchId={branchData.requiredId}
-              id={""}
-              endpoint={"bank"}
-              clear={true}
-              name={`BankTable-Branch ${branchData.branchName}`}
-            />
+            {userClaims.superAdmin ? (
+              <ExportToExcel
+                file={"branches"}
+                branchId={branchData.requiredId}
+                id={""}
+                endpoint={"bank"}
+                clear={true}
+                name={`BankTable-Branch ${branchData.branchName}`}
+              />
+            ) : null}
           </div>
         </div>
 
@@ -155,6 +157,8 @@ const Bank = () => {
                 value={
                   documentData && documentData[bankName]
                     ? documentData[bankName]
+                    : documentData[bankName] === 0
+                    ? 0
                     : "not available"
                 }
                 marginTop={0}

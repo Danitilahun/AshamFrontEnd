@@ -40,7 +40,6 @@ const CallcenterColumn = [
 const columns = [
   ...CallcenterColumn,
   { key: "edit", title: "Edit" },
-  { key: "delete", title: "Delete" },
   { key: "new", title: "New" },
 ];
 

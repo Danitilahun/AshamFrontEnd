@@ -11,6 +11,8 @@ import { columns, summery2Column } from "../../utils/tableColumns";
 import { useTheme } from "@emotion/react";
 import { Helmet } from "react-helmet";
 import { ExportToExcel } from "../../utils/ExportToExcel";
+import useUserClaims from "../../hooks/useUserClaims";
+import { useAuth } from "../../contexts/AuthContext";
 const TablesPage = () => {
   const params = useParams();
   const sheetId = params.sheet;
@@ -38,7 +40,8 @@ const TablesPage = () => {
   const { data: table } = useTableData(customID);
   const { data: tableSummary } = useTableData(customID2);
   const { data: tableDaySummary } = useTableData(customID3);
-
+  const { user } = useAuth();
+  const userClaim = useUserClaims(user);
   const containerStyle = {
     display: "flex",
     justifyContent: "space-between",
@@ -93,14 +96,16 @@ const TablesPage = () => {
         <div style={containerStyle}>
           <div style={flexItemStyle}></div>
           <div style={flexItemStyles}>
-            <ExportToExcel
-              file={"tables"}
-              branchId={branchId}
-              id={customID3}
-              endpoint={"dailySummeryForSheet"}
-              clear={false}
-              name="DailySummeryForSheet"
-            />
+            {userClaim.superAdmin ? (
+              <ExportToExcel
+                file={"tables"}
+                branchId={branchId}
+                id={customID3}
+                endpoint={"dailySummeryForSheet"}
+                clear={false}
+                name="DailySummeryForSheet"
+              />
+            ) : null}
           </div>
         </div>
         {tableDaySummary.length > 0 && (
@@ -112,14 +117,16 @@ const TablesPage = () => {
         <div style={containerStyle}>
           <div style={flexItemStyle}></div>
           <div style={flexItemStyles}>
-            <ExportToExcel
-              file={"tables"}
-              branchId={branchId}
-              id={customID2}
-              endpoint={"delveryGuyTables"}
-              clear={false}
-              name="DeliveryGuys15DayWorkSummery"
-            />
+            {userClaim.superAdmin ? (
+              <ExportToExcel
+                file={"tables"}
+                branchId={branchId}
+                id={customID2}
+                endpoint={"delveryGuyTables"}
+                clear={false}
+                name="DeliveryGuys15DayWorkSummery"
+              />
+            ) : null}
           </div>
         </div>
         {/* DataTable component for person summary table */}

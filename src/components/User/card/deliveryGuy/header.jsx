@@ -180,12 +180,7 @@ const UserHeader = ({
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  maxWidth:
-                    screenWidth < 1250
-                      ? userClaims.superAdmin
-                        ? "100px"
-                        : "50px"
-                      : "100%",
+                  maxWidth: "100px",
                 }}
               >
                 {userInfo.fullName}

@@ -36,6 +36,7 @@ let CallcenterColumn = [
   ...main,
   { key: "callcenterName", title: "Callcenter Name" },
   { key: "status", title: "Status" }, // Added "Status" column
+  { key: "delete", title: "Delete" },
 ];
 const columns = [
   ...main,
@@ -374,14 +375,16 @@ const WaterTable = () => {
           </Tabs>
         </div>
         <div style={flexItemStyles}>
-          <ExportToExcel
-            file={"Water"}
-            branchId={userData.requiredId}
-            id={""}
-            endpoint={"water"}
-            clear={true}
-            name={`WaterTable-Branch ${userData.branchName}`}
-          />
+          {userClaim.superAdmin ? (
+            <ExportToExcel
+              file={"Water"}
+              branchId={userData.requiredId}
+              id={""}
+              endpoint={"water"}
+              clear={true}
+              name={`WaterTable-Branch ${userData.branchName}`}
+            />
+          ) : null}
         </div>
       </div>
 

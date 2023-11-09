@@ -9,6 +9,8 @@ import fetchFirestoreDataWithFilter from "../../api/utils/pagination";
 import Search from "../../api/utils/oneConditionSearch";
 import { Helmet } from "react-helmet";
 import { ExportToExcel } from "../../utils/ExportToExcel";
+import useUserClaims from "../../hooks/useUserClaims";
+import { useAuth } from "../../contexts/AuthContext";
 const columns = [
   { key: "name", title: "Name" },
   { key: "phone", title: "Phone" },
@@ -43,6 +45,8 @@ const Customer = () => {
   const [searchedData, setSearchedData] = useState([]);
   const [data, setData] = useState([]);
   const [lastDoc, setLastDoc] = useState(null);
+  const { user } = useAuth();
+  const userClaim = useUserClaims(user);
 
   const loadInitialData = async () => {
     try {
@@ -190,14 +194,16 @@ const Customer = () => {
         <div style={containerStyle}>
           <div style={flexItemStyle}></div>
           <div style={flexItemStyles}>
-            <ExportToExcel
-              file={"customer"}
-              branchId={""}
-              id={""}
-              endpoint={"customer"}
-              clear={false}
-              name={`CustomerListOfCompany`}
-            />
+            {userClaim.superAdmin ? (
+              <ExportToExcel
+                file={"customer"}
+                branchId={""}
+                id={""}
+                endpoint={"customer"}
+                clear={false}
+                name={`CustomerListOfCompany`}
+              />
+            ) : null}
           </div>
         </div>
         <DynamicTable

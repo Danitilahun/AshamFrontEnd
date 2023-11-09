@@ -201,14 +201,16 @@ const SalaryPage = () => {
           <div style={containerStyle}>
             <div style={flexItemStyle}></div>
             <div style={flexItemStyles}>
-              <ExportToExcel
-                file={"salary"}
-                branchId={"non"}
-                id={active}
-                endpoint={"delSal"}
-                clear={false}
-                name="DeliverySalaryTable"
-              />
+              {userClaims.superAdmin ? (
+                <ExportToExcel
+                  file={"salary"}
+                  branchId={"non"}
+                  id={active}
+                  endpoint={"delSal"}
+                  clear={false}
+                  name="DeliverySalaryTable"
+                />
+              ) : null}
             </div>
           </div>
 
@@ -246,14 +248,16 @@ const SalaryPage = () => {
           <div style={containerStyle}>
             <div style={flexItemStyle}></div>
             <div style={flexItemStyles}>
-              <ExportToExcel
-                file={"staffSalary"}
-                branchId={branchId}
-                id={active}
-                endpoint={"staffsalary"}
-                clear={false}
-                name="StaffSalaryTable"
-              />
+              {userClaims.superAdmin ? (
+                <ExportToExcel
+                  file={"staffSalary"}
+                  branchId={branchId}
+                  id={active}
+                  endpoint={"staffsalary"}
+                  clear={false}
+                  name="StaffSalaryTable"
+                />
+              ) : null}
             </div>
           </div>
 
@@ -273,14 +277,16 @@ const SalaryPage = () => {
           <div style={containerStyle}>
             <div style={flexItemStyle}></div>
             <div style={flexItemStyles}>
-              <ExportToExcel
-                file={"Status"}
-                branchId={branchId}
-                id={active}
-                endpoint={"sheetstatus"}
-                clear={false}
-                name="SheetStatusTable"
-              />
+              {userClaims.superAdmin ? (
+                <ExportToExcel
+                  file={"Status"}
+                  branchId={branchId}
+                  id={active}
+                  endpoint={"sheetstatus"}
+                  clear={false}
+                  name="SheetStatusTable"
+                />
+              ) : null}
             </div>
           </div>
 

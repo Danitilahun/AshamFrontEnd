@@ -158,14 +158,16 @@ const Bank = () => {
         <div style={containerStyle}>
           <div style={flexItemStyle}></div>
           <div style={flexItemStyles}>
-            <ExportToExcel
-              file={"finance"}
-              branchId={userData.requiredId}
-              id={""}
-              endpoint={"bank"}
-              clear={true}
-              name={`FinanceBankTable`}
-            />
+            {userClaims.superAdmin ? (
+              <ExportToExcel
+                file={"finance"}
+                branchId={userData.requiredId}
+                id={""}
+                endpoint={"bank"}
+                clear={true}
+                name={`FinanceBankTable`}
+              />
+            ) : null}
           </div>
         </div>
 

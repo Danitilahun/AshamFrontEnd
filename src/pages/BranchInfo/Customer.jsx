@@ -13,6 +13,8 @@ import ShowBudget from "../../components/Budget/ShowBudget";
 import useDocumentById from "../../hooks/useDocumentById";
 import { ExportToExcel } from "../../utils/ExportToExcel";
 import getRequiredUserData from "../../utils/getBranchInfo";
+import { useAuth } from "../../contexts/AuthContext";
+import useUserClaims from "../../hooks/useUserClaims";
 
 const columns = [
   { key: "name", title: "Name" },
@@ -45,6 +47,8 @@ const flexItemStyles = {
 const Customer = () => {
   const params = useParams();
   const theme = useTheme();
+  const { user } = useAuth();
+  const userClaim = useUserClaims(user);
   const [data, setData] = useState([]);
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
@@ -252,14 +256,16 @@ const Customer = () => {
         <div style={containerStyle}>
           <div style={flexItemStyle}></div>
           <div style={flexItemStyles}>
-            <ExportToExcel
-              file={"customer"}
-              branchId={userData.requiredId}
-              id={""}
-              endpoint={"branchCustomer"}
-              clear={false}
-              name={`BranchCustomerTable-Branch ${userData.branchName}`}
-            />
+            {userClaim.superAdmin ? (
+              <ExportToExcel
+                file={"customer"}
+                branchId={userData.requiredId}
+                id={""}
+                endpoint={"branchCustomer"}
+                clear={false}
+                name={`BranchCustomerTable-Branch ${userData.branchName}`}
+              />
+            ) : null}
           </div>
         </div>
 

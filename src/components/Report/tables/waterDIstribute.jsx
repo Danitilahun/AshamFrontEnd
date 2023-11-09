@@ -13,6 +13,7 @@ import Search from "../../../api/utils/searchMore";
 //import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import capitalizeString from "../../../utils/capitalizeString";
 import { ExportToExcel } from "../../../utils/ExportToExcel";
+import useUserClaims from "../../../hooks/useUserClaims";
 
 const containerStyle = {
   display: "flex",
@@ -43,6 +44,7 @@ const WaterDistributeTable = () => {
   const params = useParams();
   const [data, setData] = useState([]);
   const { user } = useAuth();
+  const userClaim = useUserClaims(user);
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
@@ -173,14 +175,16 @@ const WaterDistributeTable = () => {
       <div style={containerStyle}>
         <div style={flexItemStyle}></div>
         <div style={flexItemStyles}>
-          <ExportToExcel
-            file={"waterDistribute"}
-            branchId={branchData.requiredId}
-            id={""}
-            endpoint={"waterD"}
-            clear={false}
-            name={`WaterDistributeTable-Branch ${branchData.branchName}`}
-          />
+          {userClaim.superAdmin ? (
+            <ExportToExcel
+              file={"waterDistribute"}
+              branchId={branchData.requiredId}
+              id={""}
+              endpoint={"waterD"}
+              clear={false}
+              name={`WaterDistributeTable-Branch ${branchData.branchName}`}
+            />
+          ) : null}
         </div>
       </div>
       <DynamicTable

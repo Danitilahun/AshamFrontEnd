@@ -18,6 +18,9 @@ import ReminderComponent from "../../VersatileComponents/Reminder";
 import useUserClaims from "../../../hooks/useUserClaims";
 import findDocumentById from "../../../utils/findDocumentById";
 import DeleteConfirmationDialog from "../../VersatileComponents/OrderDelete";
+import TableTab from "../../DashboardTable/TableTab";
+import getPast15Days from "../../../utils/getPast15Days";
+import { format } from "date-fns";
 
 const CallcenterColumn = [
   { key: "rollNumber", title: "No" },
@@ -35,7 +38,6 @@ const CallcenterColumn = [
 const columns = [
   ...CallcenterColumn,
   { key: "edit", title: "Edit" },
-  { key: "delete", title: "Delete" },
   { key: "new", title: "New" },
 ];
 
@@ -54,6 +56,17 @@ const WaterTable = () => {
   const { openSnackbar } = useSnackbar();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [fromWhere, setFromWhere] = useState("edit");
+  const [selectedTab, setSelectedTab] = useState(0);
+  const handleTabChange = (event, newValue) => {
+    setSelectedTab(newValue);
+  };
+
+  const currentDate = new Date();
+  const getDates = getPast15Days(currentDate, 3);
+  // Format and display the dates in a human-readable format (e.g., "YYYY-MM-DD")
+  // const formattedDates = past15Days;
+  const formattedDates = getDates.map((date) => format(date, "MMMM d, y"));
+  console.log(formattedDates);
   const handleEdit = (row) => {
     console.log("from the table", row);
     if (row.status !== "Assigned") {
@@ -184,7 +197,9 @@ const WaterTable = () => {
         data,
         setData,
         "callcenterId",
-        params.id
+        params.id,
+        "date",
+        formattedDates[selectedTab]
       );
       // Set the last document for pagination
     } catch (error) {
@@ -194,7 +209,7 @@ const WaterTable = () => {
 
   useEffect(() => {
     loadInitialData();
-  }, []);
+  }, [formattedDates[selectedTab]]);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -237,7 +252,9 @@ const WaterTable = () => {
           data,
           setData,
           "callcenterId",
-          params.id
+          params.id,
+          "date",
+          formattedDates[selectedTab]
         );
 
         if (data.length > 0) {
@@ -304,6 +321,13 @@ const WaterTable = () => {
           <Grid item xs={3}></Grid>
         </Grid>
       )}
+
+      <TableTab
+        tableDate={formattedDates}
+        selectedTab={selectedTab}
+        handleTabChange={handleTabChange}
+      />
+
       <DynamicTable
         data={tableData}
         columns={userClams.superAdmin ? CallcenterColumn : columns}
@@ -313,6 +337,7 @@ const WaterTable = () => {
         onNew={handleNew}
         orderType="water"
       />
+
       <DeleteConfirmationDialog
         open={isDeleteDialogOpen}
         handleDialogClose={closeDeleteConfirmationDialog}
@@ -321,6 +346,7 @@ const WaterTable = () => {
         message="You have two options: If you choose 'Pay' it means you are confirming payment for the service. Selecting 'Unpay' indicates that the delivery guy did not make the trip, and payment should not be processed. Are you sure you want to delete this item?"
         title="Delete Confirmation"
       />
+
       {isEditDialogOpen && (
         <EditWaterOrderForm
           data={editRow}

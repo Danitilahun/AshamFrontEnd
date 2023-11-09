@@ -37,6 +37,7 @@ let CallcenterColumn = [
   ...main,
   { key: "callcenterName", title: "Callcenter Name" },
   { key: "status", title: "Status" }, // Added "Status" column
+  { key: "delete", title: "Delete" },
 ];
 const columns = [
   ...main,
@@ -351,14 +352,16 @@ const WifiTable = () => {
           </Tabs>
         </div>
         <div style={flexItemStyles}>
-          <ExportToExcel
-            file={"Wifi"}
-            branchId={userData.requiredId}
-            id={""}
-            endpoint={"wifi"}
-            clear={true}
-            name={`WifiTable-Branch ${userData.branchName}`}
-          />
+          {userClaim.superAdmin ? (
+            <ExportToExcel
+              file={"Wifi"}
+              branchId={userData.requiredId}
+              id={""}
+              endpoint={"wifi"}
+              clear={true}
+              name={`WifiTable-Branch ${userData.branchName}`}
+            />
+          ) : null}
         </div>
       </div>
 

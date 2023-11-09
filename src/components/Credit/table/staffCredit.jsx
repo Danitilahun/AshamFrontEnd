@@ -237,14 +237,16 @@ const StaffCreditTable = ({ StaffCredit }) => {
       <div style={containerStyle}>
         <div style={flexItemStyle}></div>
         <div style={flexItemStyles}>
-          <ExportToExcel
-            file={"StaffCredit"}
-            branchId={branchData.requiredId}
-            id={""}
-            endpoint={"staffC"}
-            clear={false}
-            name={`StaffCreditTable-Branch ${branchData.branchName}`}
-          />
+          {userClaim.superAdmin ? (
+            <ExportToExcel
+              file={"StaffCredit"}
+              branchId={branchData.requiredId}
+              id={""}
+              endpoint={"staffC"}
+              clear={false}
+              name={`StaffCreditTable-Branch ${branchData.branchName}`}
+            />
+          ) : null}
         </div>
       </div>
       {/* {userClaim.finance ? ( */}

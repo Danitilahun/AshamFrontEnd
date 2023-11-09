@@ -246,14 +246,16 @@ const BonusPenalityTable = ({ type }) => {
       <div style={containerStyle}>
         <div style={flexItemStyle}></div>
         <div style={flexItemStyles}>
-          <ExportToExcel
-            file={type}
-            branchId={branchData.requiredId}
-            id={""}
-            endpoint={type === "Bonus" ? "bonus" : "penality"}
-            clear={false}
-            name={`${type}Table-Branch ${branchData.branchName}`}
-          />
+          {userClaim.superAdmin ? (
+            <ExportToExcel
+              file={type}
+              branchId={branchData.requiredId}
+              id={""}
+              endpoint={type === "Bonus" ? "bonus" : "penality"}
+              clear={false}
+              name={`${type}Table-Branch ${branchData.branchName}`}
+            />
+          ) : null}
         </div>
       </div>
       <DynamicTable
