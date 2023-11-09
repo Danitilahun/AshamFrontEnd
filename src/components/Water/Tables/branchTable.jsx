@@ -101,7 +101,7 @@ const WaterTable = () => {
   // Get the current date
   const currentDate = new Date();
   // Get an array of the past 15 days including the current date
-  const past15Days = getPast15Days(currentDate);
+  const past15Days = getPast15Days(currentDate, 3);
   // Format and display the dates in a human-readable format (e.g., "YYYY-MM-DD")
   const formattedDates = past15Days.map((date) => format(date, "MMMM d, y"));
   console.log(formattedDates);
