@@ -12,6 +12,7 @@ import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import deleteExpense from "../../api/expense/delete";
 import useUserClaims from "../../hooks/useUserClaims";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
+import getRequiredUserData from "../../utils/getBranchInfo";
 
 const columns = [
   { key: "name", title: "Name" },
@@ -44,7 +45,7 @@ const ExpenseTable = () => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { openSnackbar } = useSnackbar();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-
+  const userData = getRequiredUserData();
   const handleEdit = (row) => {
     console.log("from the table", row);
     setEditRow(row);
@@ -92,8 +93,8 @@ const ExpenseTable = () => {
         10,
         data,
         setData,
-        null,
-        null
+        "financeId",
+        userClaim.superAdmin ? userData.requiredId : user.uid
       );
       // Set the last document for pagination
     } catch (error) {
@@ -120,8 +121,12 @@ const ExpenseTable = () => {
           5,
           data,
           setData,
-          null,
-          null
+          "financeId",
+          userClaim.superAdmin
+            ? userData.requiredId
+              ? userData.requiredId
+              : params.id
+            : user.uid
         );
 
         if (data.length > 0) {

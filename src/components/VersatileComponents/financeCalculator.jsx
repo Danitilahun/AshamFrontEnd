@@ -253,20 +253,28 @@ const Calculator = ({ Expenses }) => {
           </Grid>
           <Grid item xs={4}>
             <Typography variant="subtitle1" align="left">
-              {calculator ? calculator.sum : 0}
+              {calculator ? calculator?.sum?.toFixed(2) : 0}
             </Typography>
           </Grid>
           <Grid item xs={4}>
             <Typography variant="subtitle1" align="left">
-              {calculator
-                ? parseFloat(financeUser.budget) + calculator.actual - Expenses
+              {calculator && financeUser
+                ? (
+                    parseFloat(financeUser?.budget) +
+                    calculator?.actual -
+                    (Expenses ? Expenses : 0)
+                  )?.toFixed(2)
                 : 0}
             </Typography>
           </Grid>
           <Grid item xs={4}>
             <Typography variant="subtitle1" align="left">
               {calculator &&
-                calculator.balance - parseFloat(financeUser.budget)}
+                financeUser &&
+                (
+                  calculator?.balance?.toFixed(2) -
+                  parseFloat(financeUser?.budget)?.toFixed(2)
+                )?.toFixed(2)}
             </Typography>
           </Grid>
         </Grid>

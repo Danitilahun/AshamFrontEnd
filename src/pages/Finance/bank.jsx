@@ -138,7 +138,7 @@ const Bank = () => {
           >
             <ShowBudget
               label={"Total bank balance"}
-              value={tableDate ? tableDate.total : "not available"}
+              value={tableDate ? tableDate?.total?.toFixed(2) : "not available"}
               marginTop={0}
             />
           </Grid>
@@ -182,7 +182,7 @@ const Bank = () => {
                 label={"Balance"}
                 value={
                   tableDate && tableDate[bankName]
-                    ? tableDate[bankName]
+                    ? tableDate[bankName].toFixed(2)
                     : "not available"
                 }
                 marginTop={0}

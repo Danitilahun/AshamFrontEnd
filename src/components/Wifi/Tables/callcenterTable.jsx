@@ -6,9 +6,9 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import fetchFirestoreDataWithFilter from "../../../api/credit/get";
 import Search from "../../../api/utils/search";
-import SearchInput from "../../VersatileComponents/SearchInput";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import DynamicTable from "../../DynamicTable/DynamicTable";
+import SearchInput from "../../VersatileComponents/SearchInput";
 import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import EditWifiOrderForm from "../EditForm/callcenterForm";
 import Delete from "../../../api/orders/delete";
@@ -21,6 +21,8 @@ import DeleteConfirmationDialog from "../../VersatileComponents/OrderDelete";
 import getPast15Days from "../../../utils/getPast15Days";
 import { format } from "date-fns";
 import TableTab from "../../DashboardTable/TableTab";
+import getPreviousDaysFromToday from "../../../utils/getNextDaysFromDate";
+import WWTableTab from "../../VersatileComponents/waterAndwifi";
 
 const CallcenterColumn = [
   { key: "rollNumber", title: "No" },
@@ -57,7 +59,7 @@ const WifiTable = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [fromWhere, setFromWhere] = useState("edit");
 
-  const [selectedTab, setSelectedTab] = useState(0);
+  // const [selectedTab, setSelectedTab] = useState(0);
 
   const currentDate = new Date();
   const getDates = getPast15Days(currentDate, 3);
@@ -65,9 +67,24 @@ const WifiTable = () => {
   // const formattedDates = past15Days;
   const formattedDates = getDates.map((date) => format(date, "MMMM d, y"));
   console.log(formattedDates);
+  const days = getPreviousDaysFromToday();
+  console.log("days", days);
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [selectedTab1, setSelectedTab1] = useState(null);
+  const [field, setField] = useState("Date");
+
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
+    setField("Date");
+    setSelectedTab1(null);
   };
+
+  const handleTabChange1 = (event, newValue) => {
+    setSelectedTab1(newValue);
+    setField("DateRemain");
+    setSelectedTab(null);
+  };
+
   const handleEdit = (row) => {
     console.log("from the table", row);
     if (row.status !== "Assigned") {
@@ -196,7 +213,7 @@ const WifiTable = () => {
         "callcenterId",
         params.id,
         "date",
-        formattedDates[selectedTab]
+        field === "Date" ? formattedDates[selectedTab] : days[selectedTab1]
       );
       // Set the last document for pagination
     } catch (error) {
@@ -206,7 +223,7 @@ const WifiTable = () => {
 
   useEffect(() => {
     loadInitialData();
-  }, [formattedDates[selectedTab]]);
+  }, [formattedDates[selectedTab], selectedTab1, field]);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -251,7 +268,7 @@ const WifiTable = () => {
           "callcenterId",
           params.id,
           "date",
-          formattedDates[selectedTab]
+          field === "Date" ? formattedDates[selectedTab] : days[selectedTab1]
         );
 
         if (data.length > 0) {
@@ -261,7 +278,7 @@ const WifiTable = () => {
     } catch (error) {
       console.error("Error loading more data:", error);
     }
-  }, [lastDoc, data]);
+  }, [lastDoc, data, selectedTab1, field]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
@@ -290,6 +307,7 @@ const WifiTable = () => {
 
   // Call the function to add roll numbers
   addRollNumber(tableData);
+  console.log("tableData", tableData);
   return (
     <Box m="1rem 0">
       <MyHeaderComponent
@@ -318,12 +336,32 @@ const WifiTable = () => {
           <Grid item xs={3}></Grid>
         </Grid>
       )}
-
+      {/* 
       <TableTab
         tableDate={formattedDates}
         selectedTab={selectedTab}
         handleTabChange={handleTabChange}
-      />
+      /> */}
+
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <TableTab
+            tableDate={formattedDates}
+            selectedTab={selectedTab}
+            handleTabChange={handleTabChange}
+            from="wifi"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <WWTableTab
+            tableDate={days}
+            selectedTab={selectedTab1}
+            handleTabChange={handleTabChange1}
+            from="wifi"
+          />
+        </Grid>
+      </Grid>
+
       <DynamicTable
         data={tableData}
         columns={userClaims.superAdmin ? CallcenterColumn : columns}

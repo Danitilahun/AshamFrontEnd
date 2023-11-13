@@ -112,7 +112,7 @@ const Bank = () => {
           >
             <ShowBudget
               label={"Total bank balance"}
-              value={documentData?.total}
+              value={documentData?.total?.toFixed(2)}
               marginTop={0}
             />
           </Grid>
@@ -156,7 +156,7 @@ const Bank = () => {
                 label={"Balance"}
                 value={
                   documentData && documentData[bankName]
-                    ? documentData[bankName]
+                    ? documentData[bankName]?.toFixed(2)
                     : documentData[bankName] === 0
                     ? 0
                     : "not available"

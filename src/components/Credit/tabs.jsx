@@ -64,7 +64,7 @@ const MyTabs = () => {
           {totalCredit ? (
             <ShowBudget
               label={selectedTabData?.variableValue}
-              value={totalCredit[selectedTabData?.variableName]}
+              value={totalCredit[selectedTabData?.variableName]?.toFixed(2)}
               marginTop={10}
             />
           ) : null}

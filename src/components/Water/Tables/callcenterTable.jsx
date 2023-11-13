@@ -21,6 +21,8 @@ import DeleteConfirmationDialog from "../../VersatileComponents/OrderDelete";
 import TableTab from "../../DashboardTable/TableTab";
 import getPast15Days from "../../../utils/getPast15Days";
 import { format } from "date-fns";
+import getPreviousDaysFromToday from "../../../utils/getNextDaysFromDate";
+import WWTableTab from "../../VersatileComponents/waterAndwifi";
 
 const CallcenterColumn = [
   { key: "rollNumber", title: "No" },
@@ -56,9 +58,22 @@ const WaterTable = () => {
   const { openSnackbar } = useSnackbar();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [fromWhere, setFromWhere] = useState("edit");
+  const days = getPreviousDaysFromToday();
+  console.log("days", days);
   const [selectedTab, setSelectedTab] = useState(0);
+  const [selectedTab1, setSelectedTab1] = useState(null);
+  const [field, setField] = useState("Date");
+
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
+    setField("Date");
+    setSelectedTab1(null);
+  };
+
+  const handleTabChange1 = (event, newValue) => {
+    setSelectedTab1(newValue);
+    setField("DateRemain");
+    setSelectedTab(null);
   };
 
   const currentDate = new Date();
@@ -199,7 +214,7 @@ const WaterTable = () => {
         "callcenterId",
         params.id,
         "date",
-        formattedDates[selectedTab]
+        field === "Date" ? formattedDates[selectedTab] : days[selectedTab1]
       );
       // Set the last document for pagination
     } catch (error) {
@@ -209,7 +224,7 @@ const WaterTable = () => {
 
   useEffect(() => {
     loadInitialData();
-  }, [formattedDates[selectedTab]]);
+  }, [formattedDates[selectedTab], selectedTab1, field]);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -254,7 +269,7 @@ const WaterTable = () => {
           "callcenterId",
           params.id,
           "date",
-          formattedDates[selectedTab]
+          field === "Date" ? formattedDates[selectedTab] : days[selectedTab1]
         );
 
         if (data.length > 0) {
@@ -264,7 +279,7 @@ const WaterTable = () => {
     } catch (error) {
       console.error("Error loading more data:", error);
     }
-  }, [lastDoc, data]);
+  }, [lastDoc, data, selectedTab1, field]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
@@ -293,6 +308,7 @@ const WaterTable = () => {
 
   // Call the function to add roll numbers
   addRollNumber(tableData);
+  console.log("tableData", tableData);
   return (
     <Box m="1rem 0">
       <MyHeaderComponent
@@ -322,11 +338,30 @@ const WaterTable = () => {
         </Grid>
       )}
 
-      <TableTab
+      {/* <TableTab
         tableDate={formattedDates}
         selectedTab={selectedTab}
         handleTabChange={handleTabChange}
-      />
+      /> */}
+
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <TableTab
+            tableDate={formattedDates}
+            selectedTab={selectedTab}
+            handleTabChange={handleTabChange}
+            from="water"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <WWTableTab
+            tableDate={days}
+            selectedTab={selectedTab1}
+            handleTabChange={handleTabChange1}
+            from="water"
+          />
+        </Grid>
+      </Grid>
 
       <DynamicTable
         data={tableData}

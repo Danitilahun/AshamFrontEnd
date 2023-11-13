@@ -169,7 +169,7 @@ const BudgetPage = () => {
                 <ShowBudget
                   label={"Total Budget"}
                   value={
-                    userClaims.finance ? finance.budget : documentData2.budget
+                    userClaims.finance ? finance?.budget : documentData2?.budget
                   }
                   marginTop={10}
                 />
@@ -189,14 +189,14 @@ const BudgetPage = () => {
                   <Grid item xs={6}>
                     <ShowBudget
                       label={"Final Budget"}
-                      value={documentData2?.budget}
+                      value={documentData2?.budget?.toFixed(2)}
                       marginTop={10}
                     />
                   </Grid>
                   <Grid item xs={6}>
                     <ShowBudget
                       label={"All Credit"}
-                      value={totalCredit?.total}
+                      value={totalCredit?.total?.toFixed(2)}
                       marginTop={10}
                     />
                   </Grid>
@@ -204,31 +204,20 @@ const BudgetPage = () => {
 
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
-                    {console.log(
-                      documentData2?.budget,
-                      totalCredit?.total,
-                      bank?.total,
-                      status?.totalIncome,
-                      status?.totalExpense
-                    )}
                     <ShowBudget
                       label={"Next Budget"}
                       value={(
                         documentData2?.budget -
                         totalCredit?.total +
                         (status?.totalIncome ? status?.totalIncome : 0)
-                      ).toFixed(2)}
-                      // bank?.total +
-                      // (status
-                      //   ? status?.totalIncome - status?.totalExpense
-                      //   : 0)
+                      )?.toFixed(2)}
                       marginTop={10}
                     />
                   </Grid>
                   <Grid item xs={6}>
                     <ShowBudget
                       label={"Bank Balance"}
-                      value={bank?.total}
+                      value={bank?.total?.toFixed(2)}
                       marginTop={10}
                     />
                   </Grid>
@@ -236,16 +225,11 @@ const BudgetPage = () => {
 
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
-                    {console.log(
-                      documentData2?.budget,
-                      totalCredit?.total,
-                      bank?.total,
-                      status?.totalIncome,
-                      status?.totalExpense
-                    )}
                     <ShowBudget
                       label={"Total Expense"}
-                      value={documentData2 ? documentData2?.total : 0}
+                      value={
+                        documentData2 ? documentData2?.total?.toFixed(2) : 0
+                      }
                       marginTop={10}
                     />
                   </Grid>
@@ -265,7 +249,7 @@ const BudgetPage = () => {
                   <Grid item xs={6}>
                     <ShowBudget
                       label={"Total Status"}
-                      value={documentData2.total}
+                      value={documentData2?.total?.toFixed(2)}
                       marginTop={10}
                     />
                   </Grid>

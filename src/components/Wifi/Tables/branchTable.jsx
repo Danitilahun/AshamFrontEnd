@@ -22,6 +22,9 @@ import TableTab from "../../DashboardTable/TableTab";
 import { ExportToExcel } from "../../../utils/ExportToExcel";
 import getRequiredUserData from "../../../utils/getBranchInfo";
 import DeleteConfirmationDialog from "../../VersatileComponents/OrderDelete";
+import getNextDaysFromDate from "../../../utils/getNextDaysFromDate";
+import WWTableTab from "../../VersatileComponents/waterAndwifi";
+import getPreviousDaysFromToday from "../../../utils/getNextDaysFromDate";
 const main = [
   { key: "rollNumber", title: "No" },
   { key: "name", title: "Customer Name" },
@@ -104,13 +107,37 @@ const WifiTable = () => {
   const currentDate = new Date();
   // Get an array of the past 15 days including the current date
   const past15Days = getPast15Days(currentDate, 3);
+
   // Format and display the dates in a human-readable format (e.g., "YYYY-MM-DD")
   const formattedDates = past15Days.map((date) => format(date, "MMMM d, y"));
   console.log(formattedDates);
+  const days = getPreviousDaysFromToday();
+  console.log("days", days);
   const [selectedTab, setSelectedTab] = useState(0);
+  const [selectedTab1, setSelectedTab1] = useState(null);
+  const [field, setField] = useState("Date");
+
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
+    setField("Date");
+    setSelectedTab1(null);
   };
+
+  const handleTabChange1 = (event, newValue) => {
+    setSelectedTab1(newValue);
+    setField("DateRemain");
+    setSelectedTab(null);
+  };
+
+  console.log(
+    "selectedTab",
+    selectedTab1,
+    days[selectedTab1],
+    field,
+    selectedTab,
+    formattedDates[selectedTab],
+    field
+  );
   const handleEdit = (row) => {
     if (row.status !== "Assigned") {
       openSnackbar(
@@ -218,7 +245,7 @@ const WifiTable = () => {
         filterField,
         params.id,
         "date",
-        formattedDates[selectedTab]
+        field === "Date" ? formattedDates[selectedTab] : days[selectedTab1]
       );
       // Set the last document for pagination
     } catch (error) {
@@ -228,7 +255,7 @@ const WifiTable = () => {
 
   useEffect(() => {
     loadInitialData();
-  }, [selectedView, formattedDates[selectedTab]]);
+  }, [selectedView, formattedDates[selectedTab], selectedTab1, field]);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -277,7 +304,7 @@ const WifiTable = () => {
           filterField,
           params.id,
           "date",
-          formattedDates[selectedTab]
+          field === "Date" ? formattedDates[selectedTab] : days[selectedTab1]
         );
 
         if (data.length > 0) {
@@ -287,7 +314,14 @@ const WifiTable = () => {
     } catch (error) {
       console.error("Error loading more data:", error);
     }
-  }, [lastDoc, data, selectedView, formattedDates[selectedTab]]);
+  }, [
+    lastDoc,
+    data,
+    selectedView,
+    formattedDates[selectedTab],
+    selectedTab1,
+    field,
+  ]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
@@ -329,6 +363,7 @@ const WifiTable = () => {
 
   // Call the function to add roll numbers
   addRollNumber(tableData);
+  console.log("tableData", tableData);
   return (
     <Box m="1rem 0">
       <MyHeaderComponent
@@ -365,11 +400,24 @@ const WifiTable = () => {
         </div>
       </div>
 
-      <TableTab
-        tableDate={formattedDates}
-        selectedTab={selectedTab}
-        handleTabChange={handleTabChange}
-      />
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <TableTab
+            tableDate={formattedDates}
+            selectedTab={selectedTab}
+            handleTabChange={handleTabChange}
+            from="wifi"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <WWTableTab
+            tableDate={days}
+            selectedTab={selectedTab1}
+            handleTabChange={handleTabChange1}
+            from="wifi"
+          />
+        </Grid>
+      </Grid>
       {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
 
       {tableData.length > 0 ? (

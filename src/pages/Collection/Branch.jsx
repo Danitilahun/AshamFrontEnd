@@ -87,11 +87,13 @@ const Branch = () => {
                   label={"Next Budget"}
                   value={
                     finance
-                      ? parseFloat(finance?.budget) -
-                        finance?.credit -
-                        finance?.balance +
-                        finance?.BudgetSummery -
-                        finance?.totalExpense
+                      ? (
+                          parseFloat(finance?.budget) -
+                          finance?.credit -
+                          finance?.balance +
+                          finance?.BudgetSummery -
+                          finance?.totalExpense
+                        )?.toFixed(2)
                       : 0
                   }
                   marginTop={10}

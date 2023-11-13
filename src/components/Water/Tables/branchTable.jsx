@@ -22,6 +22,8 @@ import TableTab from "../../DashboardTable/TableTab";
 import { ExportToExcel } from "../../../utils/ExportToExcel";
 import getRequiredUserData from "../../../utils/getBranchInfo";
 import DeleteConfirmationDialog from "../../VersatileComponents/OrderDelete";
+import getPreviousDaysFromToday from "../../../utils/getNextDaysFromDate";
+import WWTableTab from "../../VersatileComponents/waterAndwifi";
 const main = [
   { key: "rollNumber", title: "No" },
   { key: "name", title: "Customer Name" },
@@ -105,9 +107,23 @@ const WaterTable = () => {
   // Format and display the dates in a human-readable format (e.g., "YYYY-MM-DD")
   const formattedDates = past15Days.map((date) => format(date, "MMMM d, y"));
   console.log(formattedDates);
+  // const [selectedTab, setSelectedTab] = useState(0);
+  const days = getPreviousDaysFromToday();
+  console.log("days", days);
   const [selectedTab, setSelectedTab] = useState(0);
+  const [selectedTab1, setSelectedTab1] = useState(null);
+  const [field, setField] = useState("Date");
+
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
+    setField("Date");
+    setSelectedTab1(null);
+  };
+
+  const handleTabChange1 = (event, newValue) => {
+    setSelectedTab1(newValue);
+    setField("DateRemain");
+    setSelectedTab(null);
   };
   const handleEdit = (row) => {
     if (row.status !== "Assigned") {
@@ -241,7 +257,7 @@ const WaterTable = () => {
         filterField,
         params.id,
         "date",
-        formattedDates[selectedTab]
+        field === "Date" ? formattedDates[selectedTab] : days[selectedTab1]
       );
       // Set the last document for pagination
     } catch (error) {
@@ -251,7 +267,7 @@ const WaterTable = () => {
 
   useEffect(() => {
     loadInitialData();
-  }, [selectedView, formattedDates[selectedTab]]);
+  }, [selectedView, formattedDates[selectedTab], selectedTab1, field]);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -286,31 +302,36 @@ const WaterTable = () => {
     loadInitialData();
   };
 
-  const loadMoreData = useCallback(async () => {
-    try {
-      if (lastDoc) {
-        const filterField =
-          selectedView === "callcenter" ? "branchId" : "callcenterId";
-        fetchFirestoreDataWithFilter(
-          "Water",
-          lastDoc,
-          5,
-          data,
-          setData,
-          filterField,
-          params.id,
-          "date",
-          formattedDates[selectedTab]
-        );
+  const loadMoreData = useCallback(
+    async () => {
+      try {
+        if (lastDoc) {
+          const filterField =
+            selectedView === "callcenter" ? "branchId" : "callcenterId";
+          fetchFirestoreDataWithFilter(
+            "Water",
+            lastDoc,
+            5,
+            data,
+            setData,
+            filterField,
+            params.id,
+            "date",
+            field === "Date" ? formattedDates[selectedTab] : days[selectedTab1]
+          );
 
-        if (data.length > 0) {
-          setLastDoc(data[data.length - 1]);
+          if (data.length > 0) {
+            setLastDoc(data[data.length - 1]);
+          }
         }
+      } catch (error) {
+        console.error("Error loading more data:", error);
       }
-    } catch (error) {
-      console.error("Error loading more data:", error);
-    }
-  }, [lastDoc, data, selectedView, formattedDates[selectedTab]]);
+    },
+    [lastDoc, data, selectedView, formattedDates[selectedTab]],
+    selectedTab1,
+    field
+  );
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
@@ -352,6 +373,7 @@ const WaterTable = () => {
 
   // Call the function to add roll numbers
   addRollNumber(tableData);
+  console.log("tableData", tableData);
   return (
     <Box m="1rem 0">
       <MyHeaderComponent
@@ -388,12 +410,30 @@ const WaterTable = () => {
         </div>
       </div>
 
-      <TableTab
+      {/* <TableTab
         tableDate={formattedDates}
         selectedTab={selectedTab}
         handleTabChange={handleTabChange}
-      />
+      /> */}
 
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <TableTab
+            tableDate={formattedDates}
+            selectedTab={selectedTab}
+            handleTabChange={handleTabChange}
+            from="water"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <WWTableTab
+            tableDate={days}
+            selectedTab={selectedTab1}
+            handleTabChange={handleTabChange1}
+            from="water"
+          />
+        </Grid>
+      </Grid>
       {/* <SearchInput onSearch={handleSearch} onCancel={handleCancel} /> */}
 
       {tableData.length > 0 ? (

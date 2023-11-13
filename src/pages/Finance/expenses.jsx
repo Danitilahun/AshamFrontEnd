@@ -49,14 +49,18 @@ const Expenses = () => {
             <ExpenseTable />
             <ShowBudget
               label={"Total Expense"}
-              value={financeUser ? financeUser.totalExpense : "not available"}
+              value={financeUser ? financeUser?.totalExpense : "not available"}
               marginTop={10}
             />
           </Grid>
 
           <Grid item xs={6}>
             <Calculator
-              Expenses={financeUser.totalExpense ? financeUser.totalExpense : 0}
+              Expenses={
+                financeUser?.totalExpense
+                  ? parseFloat(financeUser?.totalExpense)
+                  : 0
+              }
             />
           </Grid>
         </Grid>
