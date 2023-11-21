@@ -246,7 +246,7 @@ const FinanceTable = () => {
       <div style={containerStyle}>
         <div style={flexItemStyle}></div>
         <div style={flexItemStyles}>
-          {userClaim.superAdmin ? (
+          {userClaim.superAdmin || userClaim.finance ? (
             <ExportToExcel
               file={"FinanceCredit"}
               branchId={financeData.requiredId}

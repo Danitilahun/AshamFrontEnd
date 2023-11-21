@@ -158,7 +158,7 @@ const Bank = () => {
         <div style={containerStyle}>
           <div style={flexItemStyle}></div>
           <div style={flexItemStyles}>
-            {userClaims.superAdmin ? (
+            {userClaims.superAdmin || userClaims.finance ? (
               <ExportToExcel
                 file={"finance"}
                 branchId={userData.requiredId}

@@ -246,7 +246,7 @@ const BonusPenalityTable = ({ type }) => {
       <div style={containerStyle}>
         <div style={flexItemStyle}></div>
         <div style={flexItemStyles}>
-          {userClaim.superAdmin ? (
+          {userClaim.superAdmin || userClaim.finance ? (
             <ExportToExcel
               file={type}
               branchId={branchData.requiredId}

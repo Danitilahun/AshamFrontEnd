@@ -150,7 +150,7 @@ const BudgetPage = () => {
         <div style={containerStyle}>
           <div style={flexItemStyle}></div>
           <div style={flexItemStyles}>
-            {userClaims.superAdmin ? (
+            {userClaims.superAdmin || userClaims.finance ? (
               <ExportToExcel
                 file={"Budget"}
                 branchId={branchId}

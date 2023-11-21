@@ -201,7 +201,7 @@ const SalaryPage = () => {
           <div style={containerStyle}>
             <div style={flexItemStyle}></div>
             <div style={flexItemStyles}>
-              {userClaims.superAdmin ? (
+              {userClaims.superAdmin || userClaims.finance ? (
                 <ExportToExcel
                   file={"salary"}
                   branchId={"non"}
@@ -248,7 +248,7 @@ const SalaryPage = () => {
           <div style={containerStyle}>
             <div style={flexItemStyle}></div>
             <div style={flexItemStyles}>
-              {userClaims.superAdmin ? (
+              {userClaims.superAdmin || userClaims.finance ? (
                 <ExportToExcel
                   file={"staffSalary"}
                   branchId={branchId}
@@ -277,7 +277,7 @@ const SalaryPage = () => {
           <div style={containerStyle}>
             <div style={flexItemStyle}></div>
             <div style={flexItemStyles}>
-              {userClaims.superAdmin ? (
+              {userClaims.superAdmin || userClaims.finance ? (
                 <ExportToExcel
                   file={"Status"}
                   branchId={branchId}
