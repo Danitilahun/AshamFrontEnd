@@ -8,9 +8,35 @@ import { collection, doc, onSnapshot } from "firebase/firestore";
 import ShowBudget from "../../components/Budget/ShowBudget";
 import ExpenseTable from "../../components/Expense/table";
 import { Helmet } from "react-helmet";
+import { ExportToExcel } from "../../utils/ExportToExcel";
+import useUserClaims from "../../hooks/useUserClaims";
+import { useAuth } from "../../contexts/AuthContext";
+import getRequiredUserData from "../../utils/getBranchInfo";
+
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
+  alignItems: "center",
+  margin: "1rem",
+  // backgroundColor: "green",
+};
+
+const flexItemStyle = {
+  flex: 13,
+};
+
+const flexItemStyles = {
+  flex: 1,
+};
+
 const Expenses = () => {
   const params = useParams();
   const theme = useTheme();
+  const { user } = useAuth();
+  const branchId = getRequiredUserData().requiredId;
+
+  const userClaims = useUserClaims(user);
   const [financeUser, setFinanceUser] = useState({});
   useEffect(() => {
     const worksRef = doc(collection(firestore, "finance"), params.id);
@@ -44,6 +70,21 @@ const Expenses = () => {
         }}
       >
         <Header title="Expense" subtitle="Entire list of Expense" />
+        <div style={containerStyle}>
+          <div style={flexItemStyle}></div>
+          <div style={flexItemStyles}>
+            {userClaims.superAdmin || userClaims.finance ? (
+              <ExportToExcel
+                file={"Expense"}
+                branchId={branchId}
+                id={""}
+                endpoint={"expense"}
+                clear={false}
+                name="FinanceExpense"
+              />
+            ) : null}
+          </div>
+        </div>
         <Grid container spacing={2}>
           <Grid item xs={6} sx={{ mt: 3 }}>
             <ExpenseTable />

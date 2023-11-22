@@ -54,13 +54,21 @@ const Dashboard = () => {
                 title={"Total Customer"}
               />
               <DashboardCard
-                totalIncome={dashTotalData.totalIncome?.toFixed(2)}
+                totalIncome={
+                  dashTotalData.totalIncome
+                    ? dashTotalData.totalIncome?.toFixed(2)
+                    : 0
+                }
                 icon={<GetAppIcon />}
                 title={"Total Income"}
               />
 
               <DashboardCard
-                totalIncome={dashTotalData.totalExpense?.toFixed(2)}
+                totalIncome={
+                  dashTotalData.totalExpense
+                    ? dashTotalData.totalExpense.toFixed(2)
+                    : 0
+                }
                 icon={<FileUploadIcon />}
                 title={"Total Expense"}
               />
