@@ -21,6 +21,7 @@ import fetchData from "../../../api/services/Users/getUser";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import CustomTextField from "../../Credit/component/CustomTextField";
 import capitalizeString from "../../../utils/capitalizeString";
+import useFilteredCollectionData from "../../../hooks/useFilteredCollectionData";
 
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
@@ -53,13 +54,11 @@ const AdminEditForm = ({ admin, isEditDialogOpen, closeEditDialog }) => {
   const theme = useTheme();
   const { openSnackbar } = useSnackbar();
   const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
-  const [branches, setBranches] = useState([]);
-  useEffect(() => {
-    const unsubscribe = fetchData("branches", setBranches);
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  const { data: branches } = useFilteredCollectionData(
+    "branches",
+    "manager",
+    "not assigned"
+  );
 
   const branch = branches.map((item) => [item.name, item.id, item.active]);
 

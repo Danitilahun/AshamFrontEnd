@@ -7,6 +7,7 @@ import { firestore } from "../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 import { useEffect } from "react";
 import { useCallback } from "react";
+import getRequiredUserData from "../../utils/getBranchInfo";
 
 const columns = [
   { key: "no", title: "No" },
@@ -17,13 +18,16 @@ const columns = [
 const NewExpenseTable = ({ id }) => {
   console.log(id);
   const [statusData, setStatusData] = useState({});
+  const [Credit, setCredit] = useState({});
   let statusDataArray = [];
+  const branchData = getRequiredUserData();
+
   useEffect(() => {
     if (!id) {
-      return; // Add a check for branchId
+      return;
     }
     const worksRef = doc(collection(firestore, "Status"), id);
-    // Subscribe to real-time updates
+
     const unsubscribe = onSnapshot(worksRef, (doc) => {
       if (doc.exists()) {
         setStatusData({
@@ -32,11 +36,29 @@ const NewExpenseTable = ({ id }) => {
       }
     });
 
-    // Clean up the subscription when the component unmounts
     return () => unsubscribe();
   }, [id]);
 
-  console.log("testing status ", statusData);
+  useEffect(() => {
+    if (!branchData.requiredId) {
+      return;
+    }
+    const worksRef = doc(
+      collection(firestore, "totalCredit"),
+      branchData.requiredId
+    );
+
+    const unsubscribe = onSnapshot(worksRef, (doc) => {
+      if (doc.exists()) {
+        setCredit({
+          ...doc.data(),
+        });
+      }
+    });
+
+    return () => unsubscribe();
+  }, [branchData.requiredId]);
+
   const excludeProperties = [
     "houseRentOwnerName",
     "wifiAccount",
@@ -84,6 +106,11 @@ const NewExpenseTable = ({ id }) => {
           amount: statusData[key],
         })),
     ];
+    statusDataArray.push({
+      no: statusDataArray.length + 1,
+      name: "totalCredit",
+      amount: Credit?.total ? Credit.total : 0,
+    });
     console.log("statusDataArray", statusDataArray);
   }
 
