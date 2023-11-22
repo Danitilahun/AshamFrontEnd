@@ -132,6 +132,11 @@ const SalaryPage = () => {
       flex: 0.4,
     },
     {
+      field: "totalCredit",
+      headerName: "Total Credit",
+      flex: 0.4,
+    },
+    {
       field: "total",
       headerName: "Total",
       flex: 0.4,
@@ -236,7 +241,7 @@ const SalaryPage = () => {
                 value={tabData.id}
                 style={{
                   color: theme.palette.secondary[300],
-                  ...(selectedTab === tabData.id && {
+                  ...(selectedTab2 === tabData.id && {
                     color: theme.palette.secondary[100],
                     borderBottom: `5px solid ${theme.palette.grey[900]}`,
                   }),

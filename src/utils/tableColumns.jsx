@@ -89,7 +89,7 @@ export const salaryColumn = [
   {
     field: "name",
     headerName: "Name",
-    flex: 1,
+    flex: 0.6,
   },
 
   {
@@ -150,6 +150,11 @@ export const salaryColumn = [
   {
     field: "penality",
     headerName: "Penality",
+    flex: 0.4,
+  },
+  {
+    field: "totalCredit",
+    headerName: "Total Credit",
     flex: 0.4,
   },
   {
