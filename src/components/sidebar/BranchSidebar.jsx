@@ -221,6 +221,8 @@ const BranchSidebar = ({
         if (doc.data().disable) {
           logout();
         }
+      } else {
+        logout();
       }
     });
 
