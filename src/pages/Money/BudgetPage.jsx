@@ -7,7 +7,7 @@ import formatDateRange from "../../utils/formatDateRange";
 import useUserClaims from "../../hooks/useUserClaims";
 import { useAuth } from "../../contexts/AuthContext";
 import useCollectionData from "../../hooks/useCollectionData";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { ExportToExcel } from "../../utils/ExportToExcel";
 import getRequiredUserData from "../../utils/getBranchInfo";
 

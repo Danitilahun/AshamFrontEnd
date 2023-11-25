@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Grid, useTheme } from "@mui/material";
 import FinanceTable from "../../components/Credit/table/financeCredit";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 const FinanceCredit = () => {
   const theme = useTheme();
   return (

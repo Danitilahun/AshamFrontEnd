@@ -99,9 +99,10 @@ const Navbar = ({
     <>
       <AppBar
         sx={{
-          position: "static",
+          position: "sticky",
           background: "none",
           boxShadow: "none",
+          marginBottom: "40px",
         }}
       >
         <Toolbar sx={{ justifyContent: "space-between" }}>

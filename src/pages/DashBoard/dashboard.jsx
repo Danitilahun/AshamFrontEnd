@@ -12,7 +12,7 @@ import IncomeSourceBar from "../../components/Dashboard/IncomeSourceBar";
 import ActiveDeliveryPercentage from "../../components/Dashboard/ActiveDeliveryPercentage";
 import DashboardTable from "../../components/Dashboard/DashboardTable";
 import useDashboardData from "../../hooks/useDashboardData";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const Dashboard = () => {
   const theme = useTheme();

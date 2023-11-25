@@ -3,7 +3,7 @@ import Header from "../../components/VersatileComponents/Header";
 import { Box, Grid, useTheme } from "@mui/material";
 import useCollectionData from "../../hooks/useCollectionData";
 import UserCard from "../../components/User/card/finance/finance";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 const Finance = () => {
   const { data: finances } = useCollectionData("finance");
   const theme = useTheme();

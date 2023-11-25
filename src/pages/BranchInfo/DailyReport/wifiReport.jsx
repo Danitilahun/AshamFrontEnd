@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Grid, useTheme } from "@mui/material";
 import WifiDistributeTable from "../../../components/Report/tables/wifiDistribute";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 const WifiDistribute = () => {
   const theme = useTheme();
   return (

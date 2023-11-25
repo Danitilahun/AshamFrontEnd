@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Grid, useTheme } from "@mui/material";
 import CardFeeTable from "../../../../components/Report/tables/cardFee";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 const CardFee = () => {
   const theme = useTheme();
   return (

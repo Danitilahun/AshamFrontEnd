@@ -3,7 +3,7 @@ import { Box, Grid, useTheme } from "@mui/material";
 import Header from "../../components/VersatileComponents/Header";
 import useCollectionData from "../../hooks/useCollectionData";
 import UserCard from "../../components/User/card/admin/admin";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const Admin = () => {
   const { data: admins } = useCollectionData("admin");

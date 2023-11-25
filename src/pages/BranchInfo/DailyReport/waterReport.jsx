@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Grid, useTheme } from "@mui/material";
 import WaterDistributeTable from "../../../components/Report/tables/waterDIstribute";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 const WaterDistribute = () => {
   const theme = useTheme();
   return (

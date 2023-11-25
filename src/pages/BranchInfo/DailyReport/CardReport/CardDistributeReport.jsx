@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Grid, useTheme } from "@mui/material";
 import CardDistributeTable from "../../../../components/Report/tables/cardDistribute";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const CardDistribute = () => {
   const theme = useTheme();

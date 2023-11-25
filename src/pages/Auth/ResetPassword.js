@@ -15,7 +15,7 @@ import * as Yup from "yup";
 import { useAuth } from "../../contexts/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import ErrorAlert from "../../components/VersatileComponents/ErrorAlert";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }

@@ -1,8 +1,7 @@
 import React from "react";
 import { Box, Grid, useTheme } from "@mui/material";
 import MyTabs from "../../components/Credit/tabs";
-import { Helmet } from "react-helmet";
-
+import { Helmet } from "react-helmet-async";
 const CreditPage = () => {
   const theme = useTheme();
 

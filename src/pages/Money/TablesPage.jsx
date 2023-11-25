@@ -9,7 +9,7 @@ import useTableDate from "../../hooks/useTableDate";
 import generateCustomID from "../../utils/generateCustomID";
 import { columns, summery2Column } from "../../utils/tableColumns";
 import { useTheme } from "@emotion/react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { ExportToExcel } from "../../utils/ExportToExcel";
 import useUserClaims from "../../hooks/useUserClaims";
 import { useAuth } from "../../contexts/AuthContext";

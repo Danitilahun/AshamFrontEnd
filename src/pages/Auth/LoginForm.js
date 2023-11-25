@@ -17,7 +17,7 @@ import * as Yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import ErrorAlert from "../../components/VersatileComponents/ErrorAlert";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const bgImage = "/assets/login.png";
 const initialValues = {

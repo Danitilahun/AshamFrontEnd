@@ -7,7 +7,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import useDocumentById from "../../hooks/useDocumentById";
 import useUserClaims from "../../hooks/useUserClaims";
 import ShowBudget from "../../components/Budget/ShowBudget";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { useLocation, useParams } from "react-router-dom";
 import getRequiredUserData from "../../utils/getBranchInfo";
 const Branch = () => {

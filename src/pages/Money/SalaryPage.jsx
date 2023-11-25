@@ -7,7 +7,7 @@ import useTableData from "../../hooks/useTableData";
 import BonusDialog from "../../components/BonusPenality/Bonus";
 import { useAuth } from "../../contexts/AuthContext";
 import useUserClaims from "../../hooks/useUserClaims";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import NewExpenseTable from "../../components/Expense/NewExpense";
 import { ExportToExcel } from "../../utils/ExportToExcel";
 

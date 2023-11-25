@@ -132,7 +132,7 @@ const CompanyGainGrid = () => {
                 </Grid>
                 <Grid item xs={4} md={4}>
                   <TextField
-                    value={companyData ? companyData[key] : ""}
+                    value={companyData ? companyData[key] || "" : ""}
                     type="number"
                     onChange={(e) =>
                       handleInputChange(

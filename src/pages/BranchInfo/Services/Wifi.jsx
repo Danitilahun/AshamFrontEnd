@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, useTheme } from "@mui/material";
 import WifiTable from "../../../components/Wifi/Tables/branchTable";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 const BranchWifi = () => {
   const theme = useTheme();
   return (

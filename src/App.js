@@ -23,6 +23,7 @@ import FinanceMainLayout from "./layouts/financeMainLayout";
 import NotFoundPage from "./pages/InfoPage/NotFoundPage";
 import { SpinnerContext } from "./contexts/SpinnerContext";
 import SmallScreenMessage from "./components/VersatileComponents/SmallScreenMessage";
+import { HelmetProvider } from "react-helmet-async";
 
 const App = () => {
   /* New */
@@ -45,29 +46,31 @@ const App = () => {
         <AuthContextProvider>
           <ThemeProvider theme={theme}>
             <SnackbarProvider>
-              <BranchProvider>
-                <CssBaseline />
-                <Routes>
-                  <Route element={<Layout />}>
-                    {DashboardRoutes()}
-                    {mainPagesRoutesData()}
-                  </Route>
+              <HelmetProvider>
+                <BranchProvider>
+                  <CssBaseline />
+                  <Routes>
+                    <Route element={<Layout />}>
+                      {DashboardRoutes()}
+                      {mainPagesRoutesData()}
+                    </Route>
 
-                  <Route element={<BranchLayout />}>{BranchRoutes()}</Route>
-                  <Route element={<ServiceLayout />}>{ServiceRoutes()}</Route>
+                    <Route element={<BranchLayout />}>{BranchRoutes()}</Route>
+                    <Route element={<ServiceLayout />}>{ServiceRoutes()}</Route>
 
-                  <Route element={<TableLayout />}>{TableRoutes()}</Route>
-                  <Route element={<FinanceMainLayout />}>
-                    {mainFinanceRoutesData()}
-                  </Route>
+                    <Route element={<TableLayout />}>{TableRoutes()}</Route>
+                    <Route element={<FinanceMainLayout />}>
+                      {mainFinanceRoutesData()}
+                    </Route>
 
-                  <Route element={<FinanceLayout />}>{FinanceRoutes()}</Route>
-                  {AuthRoutes()}
+                    <Route element={<FinanceLayout />}>{FinanceRoutes()}</Route>
+                    {AuthRoutes()}
 
-                  {/* <Route path="/offline" element={<OfflinePage />} /> */}
-                  <Route path="*" element={<NotFoundPage />} />
-                </Routes>
-              </BranchProvider>
+                    {/* <Route path="/offline" element={<OfflinePage />} /> */}
+                    <Route path="*" element={<NotFoundPage />} />
+                  </Routes>
+                </BranchProvider>
+              </HelmetProvider>
             </SnackbarProvider>
           </ThemeProvider>
         </AuthContextProvider>

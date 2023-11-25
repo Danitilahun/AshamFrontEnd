@@ -4,7 +4,7 @@ import Header from "../../components/VersatileComponents/Header";
 import { useParams } from "react-router-dom";
 import useFilteredCollectionData from "../../hooks/useFilteredCollectionData";
 import UserCard from "../../components/User/card/staff/staff";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 const Staff = () => {
   const params = useParams();
   const theme = useTheme();

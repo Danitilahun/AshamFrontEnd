@@ -1,20 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Box, useMediaQuery } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Sidebar from "../components/sidebar/Sidebar";
 import Navbar from "../components/VersatileComponents/Navbar";
-import { useBranch } from "../contexts/BranchContext";
 
 const Layout = () => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const { currentUser, user } = useAuth();
-  const { changeBranchInfo, changecallCenterName, changeBranchName } =
-    useBranch();
-  changeBranchInfo("");
-  changecallCenterName("");
-  changeBranchName("");
+  const { currentUser } = useAuth();
 
   return (
     <Box display={isNonMobile ? "flex" : "block"} width="100%" height="100%">

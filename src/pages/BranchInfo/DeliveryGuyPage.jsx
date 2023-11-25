@@ -6,8 +6,7 @@ import useFilteredCollectionData from "../../hooks/useFilteredCollectionData";
 import UserCard from "../../components/User/card/deliveryGuy/deliveryGuy";
 import { firestore } from "../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
-import { Helmet } from "react-helmet";
-
+import { Helmet } from "react-helmet-async";
 const DeliveryGuyPage = () => {
   const params = useParams();
   const theme = useTheme();

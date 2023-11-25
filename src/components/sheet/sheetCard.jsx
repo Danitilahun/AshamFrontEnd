@@ -20,7 +20,6 @@ import { useAuth } from "../../contexts/AuthContext";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
 import getHumanReadableDate from "../../utils/humanReadableDate";
 import { useNavigate, useParams } from "react-router-dom";
-import { useBranch } from "../../contexts/BranchContext";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import deleteSheet from "../../api/sheet/delete";
 import useUserClaims from "../../hooks/useUserClaims";
@@ -34,7 +33,6 @@ const SheetCard = ({ sheetInfo }) => {
   const navigate = useNavigate();
   const params = useParams();
   const { setIsSubmitting } = useContext(SpinnerContext);
-  const { changesheetName, changetableDate } = useBranch();
   const [openDialog, setOpenDialog] = React.useState(false);
   const userClaims = useUserClaims(user);
   const handleDeleteIconClick = () => {
@@ -91,8 +89,6 @@ const SheetCard = ({ sheetInfo }) => {
 
   const handleCardClick = (event) => {
     event.preventDefault();
-    changesheetName(sheetInfo.name);
-    changetableDate(sheetInfo.tableDate);
     navigate(`/table/${params.id}/${sheetInfo.id}`);
   };
 

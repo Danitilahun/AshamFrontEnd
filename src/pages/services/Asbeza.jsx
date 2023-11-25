@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, useTheme } from "@mui/material";
 import AsbezaTable from "../../components/Asbeza/Tables/callcenterTable";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 const Asbeza = () => {
   const theme = useTheme();
   return (

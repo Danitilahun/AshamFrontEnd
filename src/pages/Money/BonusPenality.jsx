@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, useTheme } from "@mui/material";
 import BonusPentalityTabs from "../../components/BonusPenality/Bonus-PenalityTab";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 const BonusPenality = () => {
   const theme = useTheme();
   return (

@@ -4,7 +4,8 @@ import Header from "../../components/VersatileComponents/Header";
 import SheetCard from "../../components/sheet/sheetCard";
 import useFilteredCollectionData from "../../hooks/useFilteredCollectionData";
 import { useParams } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
+
 const TransactionPage = () => {
   const params = useParams();
   const theme = useTheme();

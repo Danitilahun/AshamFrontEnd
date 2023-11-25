@@ -6,7 +6,8 @@ import { useSnackbar } from "../../contexts/InfoContext";
 import LeftGridItem from "../../components/Dashboard/LeftGridItem";
 import RightGridItem from "../../components/Dashboard/RightGridItem";
 import useDocumentById from "../../hooks/useDocumentById";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
+
 const StatusPage = () => {
   const { openSnackbar } = useSnackbar();
   let active = "";

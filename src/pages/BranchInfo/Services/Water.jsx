@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, useTheme } from "@mui/material";
 import WaterTable from "../../../components/Water/Tables/branchTable";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 const BranchWater = () => {
   const theme = useTheme();
   return (

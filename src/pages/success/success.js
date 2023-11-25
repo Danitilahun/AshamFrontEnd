@@ -2,7 +2,8 @@ import React from "react";
 import { Container, Typography } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useLocation } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
+
 const SuccessPage = () => {
   const location = useLocation();
   const { email } = location.state || {};

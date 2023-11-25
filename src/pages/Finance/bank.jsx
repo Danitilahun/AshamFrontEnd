@@ -9,7 +9,7 @@ import BankTable from "../../components/Bank/table";
 import useUserClaims from "../../hooks/useUserClaims";
 import getRequiredUserData from "../../utils/getBranchInfo";
 import BankForm from "../../components/Bank/createBankForm";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { ExportToExcel } from "../../utils/ExportToExcel";
 
 const containerStyle = {

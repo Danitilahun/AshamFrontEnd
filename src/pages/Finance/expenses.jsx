@@ -7,7 +7,7 @@ import { firestore } from "../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 import ShowBudget from "../../components/Budget/ShowBudget";
 import ExpenseTable from "../../components/Expense/table";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { ExportToExcel } from "../../utils/ExportToExcel";
 import useUserClaims from "../../hooks/useUserClaims";
 import { useAuth } from "../../contexts/AuthContext";

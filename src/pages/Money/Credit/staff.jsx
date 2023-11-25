@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Grid, useTheme } from "@mui/material";
 import StaffCreditTable from "../../../components/Credit/table/staffCredit";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 const Staff = ({ StaffCredit }) => {
   const theme = useTheme();
   return (

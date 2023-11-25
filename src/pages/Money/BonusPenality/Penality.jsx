@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Box, Grid, Paper, useTheme } from "@mui/material";
+import React from "react";
+import { Box, Grid, useTheme } from "@mui/material";
 import CreditTable from "../../../components/Credit/CreditTable";
 import Header from "../../../components/VersatileComponents/Header";
-import Calculator from "../../../components/VersatileComponents/MoneyNoteCalculator";
 
 const Penality = () => {
   const theme = useTheme();

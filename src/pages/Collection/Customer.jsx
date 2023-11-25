@@ -7,7 +7,7 @@ import SearchInput from "../../components/VersatileComponents/SearchInput";
 import getHumanReadableDate from "../../utils/humanReadableDate";
 import fetchFirestoreDataWithFilter from "../../api/utils/pagination";
 import Search from "../../api/utils/oneConditionSearch";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { ExportToExcel } from "../../utils/ExportToExcel";
 import useUserClaims from "../../hooks/useUserClaims";
 import { useAuth } from "../../contexts/AuthContext";

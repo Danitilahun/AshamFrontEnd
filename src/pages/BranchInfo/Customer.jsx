@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import getHumanReadableDate from "../../utils/humanReadableDate";
 import fetchFirestoreDataWithFilter from "../../api/utils/fetchFirestoreDataWithFilter";
 import Search from "../../api/utils/search";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import ShowBudget from "../../components/Budget/ShowBudget";
 import useDocumentById from "../../hooks/useDocumentById";
 import { ExportToExcel } from "../../utils/ExportToExcel";

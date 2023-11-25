@@ -1,7 +1,7 @@
 import DeliveryGainGrid from "../../components/Gains/DeliveryGuyGain";
 import CompanyGainGrid from "../../components/Gains/CompanyGain";
 import { useTheme } from "@mui/material";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 const Setting = () => {
   const theme = useTheme();
   return (

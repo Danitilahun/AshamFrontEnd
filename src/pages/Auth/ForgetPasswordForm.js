@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Button, Container, Paper, TextField, Typography } from "@mui/material";
 import { LockOutlined } from "@mui/icons-material";
 import { Formik, Form, Field } from "formik";
@@ -7,7 +7,7 @@ import { Avatar } from "@mui/material";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import ErrorAlert from "../../components/VersatileComponents/ErrorAlert";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const initialValues = {
   email: "",
