@@ -27,7 +27,6 @@ const columns = [
 const containerStyle = {
   display: "flex",
   justifyContent: "space-between",
-  alignItems: "flex-end",
   alignItems: "center",
   // backgroundColor: "green",
 };

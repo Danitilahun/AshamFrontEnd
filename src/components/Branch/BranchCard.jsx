@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Card, useTheme } from "@mui/material";
 import { useAuth } from "../../contexts/AuthContext";
-import updateBranch from "../../api/services/Branch/update.branch";
 import { useSnackbar } from "../../contexts/InfoContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
@@ -12,13 +11,6 @@ import deleteBranch from "../../api/branch/deleteBranch";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
 import useDocumentById from "../../hooks/useDocumentById";
 
-const updateFields = (targetObject, sourceObject) => {
-  for (const key in sourceObject) {
-    if (key in targetObject) {
-      targetObject[key] = sourceObject[key];
-    }
-  }
-};
 const typographyStyles = {
   cursor: "pointer",
   transition: "font-size 0.2s ease-in-out",
@@ -30,9 +22,7 @@ const typographyStyles = {
 const BranchCard = ({ branchData }) => {
   const [showMore, setShowMore] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [showForm, setShowForm] = useState(false);
-  const [operation, setOperation] = useState("");
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
   const theme = useTheme();
@@ -52,7 +42,6 @@ const BranchCard = ({ branchData }) => {
   const { pathname } = useLocation();
   const handleCardClick = async (event) => {
     event.preventDefault();
-    // handleItemClick(branchData);
     const idTokenResult = await user.getIdTokenResult();
     localStorage.setItem("userData", JSON.stringify({}));
     localStorage.setItem("userData", JSON.stringify(branchData));
@@ -69,15 +58,8 @@ const BranchCard = ({ branchData }) => {
     }
   };
 
-  const [editFormValues, setEditFormValues] = useState();
-
   const handleEdit = (branch) => {
     setIsEditDialogOpen(true);
-    setEditFormValues(branch);
-  };
-
-  const handleCloseForm = () => {
-    setShowForm(false);
   };
 
   const handleSeeMore = () => {
@@ -94,7 +76,7 @@ const BranchCard = ({ branchData }) => {
 
   const handleDeleteConfirmed = async () => {
     handleDialogClose();
-    setOperation("delete");
+    // setOperation("delete");
     setIsSubmitting(true);
     try {
       const res = await deleteBranch(user, branchData.id);
@@ -114,33 +96,6 @@ const BranchCard = ({ branchData }) => {
     }
     setIsSubmitting(false);
     handleMenuClose();
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setOperation("edit");
-    setIsSubmitting(true);
-    try {
-      branchData.diff =
-        parseInt(editFormValues.budget) - parseInt(branchData.budget);
-      updateFields(branchData, editFormValues);
-      await updateBranch(branchData.id, user, branchData);
-      openSnackbar(`Branch updated successful!`, "success");
-      setIsSubmitting(false);
-      handleCloseForm();
-    } catch (error) {
-      if (error.response && error.response.data) {
-        openSnackbar(
-          error.response.data.message,
-          error.response.data.type ? error.response.data.type : "error"
-        );
-      } else {
-        openSnackbar(
-          "An unexpected error occurred.Please kindly check your connection.",
-          "error"
-        );
-      }
-    }
   };
 
   const { documentData: budget } = useDocumentById("Budget", branchData.id);

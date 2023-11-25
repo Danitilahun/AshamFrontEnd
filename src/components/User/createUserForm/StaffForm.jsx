@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Button,
   Dialog,
@@ -65,11 +65,10 @@ const validationSchema = Yup.object().shape({
 const StaffRegisterForm = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [showForm, setShowForm] = useState(false);
-  const { user, forgotPassword } = useAuth();
+  const { user } = useAuth();
   const theme = useTheme();
-  const params = useParams();
   const { openSnackbar } = useSnackbar();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const branchData = getRequiredUserData();
   const userClaims = useUserClaims(user);
   const handleFormSubmit = async (values) => {

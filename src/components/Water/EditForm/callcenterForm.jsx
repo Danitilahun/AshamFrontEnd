@@ -10,7 +10,6 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup"; // Import Yup for validation
 
@@ -21,7 +20,6 @@ import getInternationalDate from "../../../utils/getDate";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
 import update from "../../../api/orders/edit";
-import useUserClaims from "../../../hooks/useUserClaims";
 // Define the validation schema including order item validation
 const EditWaterOrderFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -39,7 +37,6 @@ const EditWaterOrderForm = ({
   closeEditDialog,
   fromWhere,
 }) => {
-  const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
@@ -85,10 +82,6 @@ const EditWaterOrderForm = ({
     item.active,
     item.activeDailySummery,
   ]);
-
-  const handleButtonClick = () => {
-    setShowForm(true);
-  };
 
   const formik = useFormik({
     initialValues: {

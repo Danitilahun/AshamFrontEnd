@@ -12,12 +12,10 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import DeliveryGuyEditForm from "../../editUserForm/deliveryGuy";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { useSnackbar } from "../../../../contexts/InfoContext";
 import deleteUser from "../../../../api/users/delete";
-import LoadingSpinner from "../../../VersatileComponents/LoadingSpinner";
 import UserHeader from "./header";
 import CustomEllipsisTextField from "../../../CustomComponents/CustomEllipsisTextField";
 import EmergencyInformation from "../../common/EmergencyInformation";
@@ -26,13 +24,10 @@ import { useBranch } from "../../../../contexts/BranchContext";
 import handleDeliveryGuyActiveness from "../../../../api/users/handleDeliveryGuyActiveness";
 import handlePay from "../../../../api/users/handleDeliveruGuyPay";
 import getRequiredUserData from "../../../../utils/getBranchInfo";
-import useUserClaims from "../../../../hooks/useUserClaims";
 import { SpinnerContext } from "../../../../contexts/SpinnerContext";
-import { useEffect } from "react";
-import useScreenSize from "../../../../hooks/useScreenSize";
-import useWindowDimensions from "../../../../hooks/useWindowDimensions";
 import getInternationalDate from "../../../../utils/getDate";
 import CompleteTask from "../../../../api/users/CompleteTask";
+
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -46,15 +41,11 @@ const ExpandMore = styled((props) => {
 
 const UserCard = ({ userInfo }) => {
   const theme = useTheme();
-  const { user, forgotPassword } = useAuth();
-  const userClaims = useUserClaims(user);
+  const { user } = useAuth();
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
-  const { selectedItemId, selectedItem } = useSelector(
-    (state) => state.itemDetails
-  );
+  const { setIsSubmitting } = useContext(SpinnerContext);
 
   const { openSnackbar } = useSnackbar();
   const navigate = useNavigate();
@@ -73,9 +64,6 @@ const UserCard = ({ userInfo }) => {
     setOpenDialog(true);
   };
 
-  const handleOpen = () => {
-    setOpenDialog3(true);
-  };
   const handleEdit = () => {
     setDialogOpen(true);
   };
@@ -311,9 +299,6 @@ const UserCard = ({ userInfo }) => {
     handleMenuClose();
   };
 
-  const { isSmallScreen, isMediumScreen, isLargeScreen } = useScreenSize();
-
-  const { screenWidth, screenHeight } = useWindowDimensions();
   return (
     <>
       {/* <p style={{ color: "blue" }}>Screen Width: {screenWidth}px</p>
@@ -391,15 +376,6 @@ const UserCard = ({ userInfo }) => {
         message={`Are you ensuring that you receive the daily credit from the delivery guy before paying his salary? If not, please receive it and delete it from the daily credit, as otherwise, it will be transferred to his staff credit.`}
         title={`Confirm  Daily Salary Pay`}
       />
-      {/* <ConfirmationDialog
-        open={openDialog2}
-        handleDialogClose={handleDialogClose2}
-        handleConfirmed={handleOpen}
-        message={
-          "Are you certain you wish to initiate payments for delivery personnel today? This action implies that all daily table activities have been completed, and no further entries will be added."
-        }
-        title={`Confirm Delivery Guy Salary Pay`}
-      /> */}
     </>
   );
 };

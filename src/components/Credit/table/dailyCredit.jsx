@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import { useCallback } from "react";
 import { useParams } from "react-router-dom";
-import SearchInput from "../../VersatileComponents/SearchInput";
 import DynamicTable from "../../DynamicTable/DynamicTable";
-import EditCustomerCreditForm from "../editCreditForm/customerCredit";
 import deleteCredit from "../../../api/credit/delete";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
@@ -45,8 +43,7 @@ const DailyCreditTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
-  //   const [deleteRowId, setDeleteRowId] = useState(null);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { openSnackbar } = useSnackbar();

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import {
   Button,
   Dialog,
@@ -6,10 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
-  TextField,
-  Avatar,
   useTheme,
-  MenuItem,
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -46,10 +43,10 @@ const DeliveryGuyEditForm = ({
   isEditDialogOpen,
   closeEditDialog,
 }) => {
-  const { user, forgotPassword } = useAuth();
+  const { user } = useAuth();
   const theme = useTheme();
   const { openSnackbar } = useSnackbar();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const params = useParams();
   const branchData = getRequiredUserData();
   // Handle form submission

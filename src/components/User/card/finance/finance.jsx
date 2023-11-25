@@ -10,17 +10,11 @@ import {
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState } from "react";
-import { useAuth } from "../../../../contexts/AuthContext";
-import { useSnackbar } from "../../../../contexts/InfoContext";
-import deleteUser from "../../../../api/users/delete";
 import UserHeader from "./header";
 import CustomEllipsisTextField from "../../../CustomComponents/CustomEllipsisTextField";
 import EmergencyInformation from "../../common/EmergencyInformation";
-import ConfirmationDialog from "../../../VersatileComponents/ConfirmationDialog";
 import FinanceEditForm from "../../editUserForm/finance";
 import { useNavigate } from "react-router-dom";
-import { SpinnerContext } from "../../../../contexts/SpinnerContext";
-import { useContext } from "react";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -35,21 +29,10 @@ const ExpandMore = styled((props) => {
 
 const UserCard = ({ userInfo }) => {
   const theme = useTheme();
-  const { user } = useAuth();
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
-  const { openSnackbar } = useSnackbar();
-  const [openDialog, setOpenDialog] = useState(false);
   const navigate = useNavigate();
-  const handleDeleteIconClick = () => {
-    setOpenDialog(true);
-  };
-
-  const handleDialogClose = () => {
-    setOpenDialog(false);
-  };
 
   const handleEdit = () => {
     setDialogOpen(true);

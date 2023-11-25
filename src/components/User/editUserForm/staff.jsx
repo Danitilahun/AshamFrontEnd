@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import {
   Button,
   Dialog,
@@ -7,7 +7,6 @@ import {
   DialogTitle,
   Grid,
   TextField,
-  Avatar,
   useTheme,
   MenuItem,
 } from "@mui/material";
@@ -51,7 +50,7 @@ const StaffEditForm = ({ staff, isEditDialogOpen, closeEditDialog }) => {
   const theme = useTheme();
   const params = useParams();
   const { openSnackbar } = useSnackbar();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const branchData = getRequiredUserData();
   // Handle form submission
   const handleSubmit = async (values) => {

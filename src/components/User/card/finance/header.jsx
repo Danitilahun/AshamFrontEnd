@@ -33,7 +33,7 @@ const UserHeader = ({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
 
   const handleImageSave = async (formData) => {
     setIsSubmitting(true);
@@ -90,10 +90,8 @@ const UserHeader = ({
     setIsDialogOpen(false);
   };
 
-  const { screenWidth, screenHeight } = useWindowDimensions();
+  const { screenWidth } = useWindowDimensions();
 
-  const avatarSize =
-    screenWidth >= 1536 ? 50 : (screenWidth / 1536) * 50 + "px";
   const fontSize = screenWidth >= 1536 ? 18 : (screenWidth / 1536) * 18 + "px";
   return (
     <>

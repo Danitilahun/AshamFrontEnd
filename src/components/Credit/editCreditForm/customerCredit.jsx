@@ -14,8 +14,6 @@ import { useFormik } from "formik";
 import CustomTextField from "../component/CustomTextField";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { useAuth } from "../../../contexts/AuthContext";
-import getInternationalDate from "../../../utils/getDate";
-import createCredit from "../../../api/credit/create";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import { CustomerCreditFormValidationSchema } from "../validator/customerCreditValidator";
 import updateCredit from "../../../api/credit/update";
@@ -27,11 +25,10 @@ const EditCustomerCreditForm = ({
   closeEditDialog,
 }) => {
   const params = useParams();
-  const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
   let active = "";
   const storedData = localStorage.getItem("userData");

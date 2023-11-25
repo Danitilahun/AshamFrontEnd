@@ -10,7 +10,6 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
 import useUserClaims from "../../../hooks/useUserClaims";
 import { useFormik } from "formik";
 import CustomTextField from "../../Credit/component/CustomTextField";
@@ -30,7 +29,6 @@ const CreateForm = ({ type }) => {
   const theme = useTheme();
   const { setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
-  const [selectedDeliveryGuy, setSelectedDeliveryGuy] = useState("");
   const [placementOptions, setPlacementOptions] = useState([
     "BranchAdmin",
     "DeliveryGuy",
@@ -135,7 +133,7 @@ const CreateForm = ({ type }) => {
   );
   let transformedData = filteredData?.map((item) => [item.name, item.id]);
   const handleDeliveryGuyChange = (event) => {
-    setSelectedDeliveryGuy(event.target.value);
+    // setSelectedDeliveryGuy(event.target.value);
     const Id = event.target.value;
     const Name =
       transformedData.find((employee) => employee[1] === Id)?.[0] || "";

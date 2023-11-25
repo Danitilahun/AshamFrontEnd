@@ -7,8 +7,6 @@ import {
   DialogContent,
   DialogActions,
   useTheme,
-  TextField,
-  MenuItem,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import useUserClaims from "../../../hooks/useUserClaims";
@@ -19,25 +17,21 @@ import { useAuth } from "../../../contexts/AuthContext";
 import getInternationalDate from "../../../utils/getDate";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import updateCredit from "../../../api/credit/update";
-import capitalizeString from "../../../utils/capitalizeString";
 import { StaffCreditFormValidationSchema } from "../validator/edit";
 
 const EditStaffCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
   const params = useParams();
-  const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
 
   let active = "";
-  let worker = [];
   const storedData = localStorage.getItem("userData");
   if (storedData) {
     const userData = JSON.parse(storedData);
     active = userData ? userData.active : "try";
-    worker = userData ? userData.worker : [];
   }
 
   const formik = useFormik({

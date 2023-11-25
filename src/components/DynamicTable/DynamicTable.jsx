@@ -36,11 +36,11 @@ const getColor = (statusNumber) => {
     color: "black",
   };
 
-  if (0 <= statusNumber <= 5) {
+  if (0 <= statusNumber && statusNumber <= 5) {
     style.color = "green";
-  } else if (5 < statusNumber <= 15) {
+  } else if (statusNumber > 5 && statusNumber <= 15) {
     style.color = "blue";
-  } else if (statusNumber >= 15) {
+  } else if (statusNumber > 15) {
     style.color = "red";
   }
 
@@ -279,9 +279,7 @@ const DynamicTable = ({
   const numColumns = columns.length;
   const columnWidth = numColumns > 0 ? `calc(100vw / ${numColumns})` : "auto";
 
-  const tableRef = useRef(null);
-
-  const { screenWidth, screenHeight } = useWindowDimensions();
+  const { screenWidth } = useWindowDimensions();
   const fontSize = screenWidth >= 1536 ? 15 : (screenWidth / 1536) * 15 + "px";
   return (
     <>

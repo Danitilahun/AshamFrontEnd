@@ -1,8 +1,6 @@
 import { Typography, Box, useTheme, Button } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
-import FormPopup from "../User/FormPopup";
 import { useAuth } from "../../contexts/AuthContext";
-import { useBranch } from "../../contexts/BranchContext";
 import { useSnackbar } from "../../contexts/InfoContext";
 import { useParams } from "react-router-dom";
 import ReminderComponent from "./Reminder";
@@ -353,8 +351,9 @@ const Header = ({
           ) : title === "Staff" ? (
             <StaffRegisterForm /> // Corrected to <FormPopup type={title} />
           ) : title !== "Salary Table" ? (
-            <FormPopup type={title} /> // Corrected to <FormPopup type={title} />
+            <div></div>
           ) : (
+            // <FormPopup type={title} /> // Corrected to <FormPopup type={title} />
             <div></div>
           )}
         </Box>

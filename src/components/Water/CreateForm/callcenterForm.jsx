@@ -10,7 +10,6 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup"; // Import Yup for validation
 
@@ -21,7 +20,6 @@ import fetchData from "../../../api/services/Users/getUser";
 import getInternationalDate from "../../../utils/getDate";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
-import getRequiredUserData from "../../../utils/getBranchInfo";
 import useUserClaims from "../../../hooks/useUserClaims";
 import { firestore } from "../../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
@@ -37,15 +35,13 @@ const WaterOrderFormValidationSchema = Yup.object().shape({
 });
 
 const WaterOrderForm = () => {
-  const params = useParams();
   const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const [branches, setBranches] = useState([]);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
-  const userData = getRequiredUserData();
   const userClaims = useUserClaims(user);
 
   const [staff, setStaff] = useState({});

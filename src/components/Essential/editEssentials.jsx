@@ -25,11 +25,10 @@ const EditEssentialForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   const theme = useTheme();
   const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
-  let active = "";
+
   const storedData = localStorage.getItem("userData");
   if (storedData) {
     const userData = JSON.parse(storedData);
-    active = userData ? userData.active : "try";
   }
 
   const formik = useFormik({

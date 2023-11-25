@@ -44,11 +44,7 @@ const HotelProfitTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
-  //   const [deleteRowId, setDeleteRowId] = useState(null);
-  const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const { openSnackbar } = useSnackbar();
   const branchData = getRequiredUserData();
 
   const handleEdit = (row) => {

@@ -28,12 +28,10 @@ const EditForm = ({ data, isEditDialogOpen, closeEditDialog, type }) => {
   const userClaims = useUserClaims(user);
 
   let active = "";
-  let worker = [];
   const storedData = localStorage.getItem("userData");
   if (storedData) {
     const userData = JSON.parse(storedData);
     active = userData ? userData.active : "try";
-    worker = userData ? userData.worker : [];
   }
 
   const formik = useFormik({

@@ -1,7 +1,6 @@
 import React from "react";
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
-import useExportData from "../hooks/useExportData";
 import { useState } from "react";
 import Export from "../api/Export/sendPostRequest";
 import { useAuth } from "../contexts/AuthContext";
@@ -10,7 +9,6 @@ import { useSnackbar } from "../contexts/InfoContext";
 import getInternationalDate from "./getDate";
 import { useContext } from "react";
 import { SpinnerContext } from "../contexts/SpinnerContext";
-import ConfirmationDialog from "../components/VersatileComponents/ConfirmationDialog";
 import DeleteConfirmationDialog from "../components/VersatileComponents/exportConfirmation";
 
 const DeletedCollection = [

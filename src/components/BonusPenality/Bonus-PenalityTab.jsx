@@ -22,8 +22,8 @@ const BonusPentalityTabs = () => {
         <Tab label="Penality" />
       </Tabs>
       {/* <div>{selectedTab === 0}</div> */}
-      {selectedTab == 0 && <BonusPenalityTable type={"Bonus"} />}
-      {selectedTab == 1 && <BonusPenalityTable type={"Penality"} />}
+      {selectedTab === 0 && <BonusPenalityTable type={"Bonus"} />}
+      {selectedTab === 1 && <BonusPenalityTable type={"Penality"} />}
     </Box>
   );
 };

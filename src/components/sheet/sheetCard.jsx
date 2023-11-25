@@ -19,7 +19,7 @@ import { useSnackbar } from "../../contexts/InfoContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
 import getHumanReadableDate from "../../utils/humanReadableDate";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useBranch } from "../../contexts/BranchContext";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import deleteSheet from "../../api/sheet/delete";

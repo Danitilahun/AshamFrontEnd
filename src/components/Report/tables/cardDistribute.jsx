@@ -45,7 +45,7 @@ const CardDistributeTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  //   const [deleteRowId, setDeleteRowId] = useState(null);
+  const [deleteRowId, setDeleteRowId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const branchData = getRequiredUserData();
 

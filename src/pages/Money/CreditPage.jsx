@@ -2,8 +2,6 @@ import React from "react";
 import { Box, Grid, useTheme } from "@mui/material";
 import MyTabs from "../../components/Credit/tabs";
 import { Helmet } from "react-helmet";
-import useDocumentById from "../../hooks/useDocumentById";
-import ShowBudget from "../../components/Budget/ShowBudget";
 
 const CreditPage = () => {
   const theme = useTheme();

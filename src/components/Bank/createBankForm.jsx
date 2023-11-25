@@ -30,7 +30,7 @@ const BankForm = ({ source }) => {
   const userClaims = useUserClaims(user);
   const theme = useTheme();
   const userData = getRequiredUserData();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
 
   const [transactionType, settransactionType] = useState([
     "Deposit",

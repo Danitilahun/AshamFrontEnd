@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Grid, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import { useCallback } from "react";
 import { format } from "date-fns";
 import { useParams } from "react-router-dom";
@@ -64,7 +64,6 @@ function pushOrUpdateWithKey(arr, newElement) {
 const containerStyle = {
   display: "flex",
   justifyContent: "space-between",
-  alignItems: "flex-end",
   alignItems: "center",
   // backgroundColor: "green",
 };
@@ -85,14 +84,13 @@ const AsbezaTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { openSnackbar } = useSnackbar();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedView, setSelectedView] = useState("callcenter");
-  const [isSearching, setIsSearching] = useState(false);
   const [fromWhere, setFromWhere] = useState("edit");
   const userData = getRequiredUserData();
   // Function to handle view selection (Call Center or Branch)
@@ -237,7 +235,6 @@ const AsbezaTable = () => {
   }, [data]);
 
   const handleSearch = async (searchText, field) => {
-    setIsSearching(true);
     if (searchText.trim() === "") {
       setSearchedData([]);
       loadInitialData();

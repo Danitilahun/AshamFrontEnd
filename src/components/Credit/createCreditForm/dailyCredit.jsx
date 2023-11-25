@@ -29,9 +29,8 @@ const DailyCreditForm = ({ type }) => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
-  const [selectedDeliveryGuy, setSelectedDeliveryGuy] = useState("");
   const userData = getRequiredUserData();
   let active = "";
   let worker = [];
@@ -56,7 +55,6 @@ const DailyCreditForm = ({ type }) => {
   let filteredData = worker?.filter((item) => item.role === "DeliveryGuy");
   let transformedData = filteredData?.map((item) => [item.name, item.id]);
   const handleDeliveryGuyChange = (event) => {
-    setSelectedDeliveryGuy(event.target.value);
     const Id = event.target.value;
     const Name =
       transformedData.find((employee) => employee[1] === Id)?.[0] || "";

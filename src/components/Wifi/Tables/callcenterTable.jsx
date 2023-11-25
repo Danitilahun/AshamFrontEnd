@@ -8,8 +8,6 @@ import fetchFirestoreDataWithFilter from "../../../api/credit/get";
 import Search from "../../../api/utils/search";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import DynamicTable from "../../DynamicTable/DynamicTable";
-import SearchInput from "../../VersatileComponents/SearchInput";
-import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import EditWifiOrderForm from "../EditForm/callcenterForm";
 import Delete from "../../../api/orders/delete";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
@@ -51,7 +49,7 @@ const WifiTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -157,30 +155,7 @@ const WifiTable = () => {
     setIsSubmitting(false);
     setDeleteItemId(null);
   };
-  // const handleDeleteConfirmed = async () => {
-  //   setIsSubmitting(true);
-  //   closeDeleteConfirmationDialog();
-  //   try {
-  //     // Attempt to delete the credit document
-  //     const res = await Delete(user, deleteItemId, "wifi");
-  //     openSnackbar(`${res.data.message}!`, "success");
-  //   } catch (error) {
-  //     if (error.response && error.response.data) {
-  //       openSnackbar(
-  //         error.response.data.message,
-  //         error.response.data.type ? error.response.data.type : "error"
-  //       );
-  //     } else {
-  //       openSnackbar(
-  //         "An unexpected error occurred.Please kindly check your connection.",
-  //         "error"
-  //       );
-  //     }
-  //   }
 
-  //   setIsSubmitting(false);
-  //   setDeleteItemId(null);
-  // };
   const openDeleteConfirmationDialog = (id) => {
     const doc = findDocumentById(id, data);
     if (doc.status === "Completed") {

@@ -31,9 +31,8 @@ const WaterDistributeReportForm = () => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
-  const [selectedDeliveryGuy, setSelectedDeliveryGuy] = useState("");
 
   let active = "";
   let activeTable = "";
@@ -108,7 +107,6 @@ const WaterDistributeReportForm = () => {
   };
 
   const handleDeliveryGuyChange = (event) => {
-    setSelectedDeliveryGuy(event.target.value);
     const Id = event.target.value;
     const Name =
       transformedData.find((employee) => employee[1] === Id)?.[0] || "";

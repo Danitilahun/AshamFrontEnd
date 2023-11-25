@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { useCallback } from "react";
-import { useParams } from "react-router-dom";
 import EditEssentialForm from "./editEssentials";
 import deleteEssential from "../../api/essential/delete";
-import fetchFirestoreDataWithFilter from "../../api/credit/get";
 import { useAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "../../contexts/InfoContext";
 import DynamicTable from "../DynamicTable/DynamicTable";
@@ -45,14 +43,13 @@ const NonSupercolumns = [
 ];
 
 const EssentialTable = () => {
-  const params = useParams();
   const [data, setData] = useState([]);
   const { user } = useAuth();
   const userClaims = useUserClaims(user);
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -173,9 +170,6 @@ const EssentialTable = () => {
 
   const { screenWidth, screenHeight } = useWindowDimensions();
   const tableData = searchedData.length > 0 ? searchedData : data;
-  const avatarSize =
-    screenWidth >= 1536 ? 50 : (screenWidth / 1536) * 50 + "px";
-  const fontSize = screenWidth >= 1536 ? 18 : (screenWidth / 1536) * 18 + "px";
 
   return (
     <Box sx={{ width: "100%", height: "100%" }}>

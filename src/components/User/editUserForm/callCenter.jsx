@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
   Button,
   Dialog,
@@ -6,9 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
-  TextField,
   useTheme,
-  MenuItem,
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -52,7 +50,7 @@ const CallcenterEditForm = ({
   const { user, forgotPassword } = useAuth();
   const theme = useTheme();
   const { openSnackbar } = useSnackbar();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
 
   // Handle form submission
   const handleSubmit = async (values) => {

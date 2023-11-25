@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Button,
   Dialog,
@@ -9,7 +9,6 @@ import {
   TextField,
   Avatar,
   useTheme,
-  MenuItem,
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -18,7 +17,6 @@ import { useAuth } from "../../../contexts/AuthContext";
 import handleImagePreview from "../../../utils/imagePreview";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import CustomTextField from "../../Credit/component/CustomTextField";
-import fetchData from "../../../api/services/Users/getUser";
 import createUser from "../../../api/users/create";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
@@ -65,7 +63,7 @@ const DeliveryGuyRegisterForm = () => {
   const theme = useTheme();
   const params = useParams();
   const { openSnackbar } = useSnackbar();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const branchData = getRequiredUserData();
   const userClaims = useUserClaims(user);
   const handleFormSubmit = async (values) => {

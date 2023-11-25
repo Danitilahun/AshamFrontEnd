@@ -14,7 +14,6 @@ import { ExportToExcel } from "../../utils/ExportToExcel";
 const containerStyle = {
   display: "flex",
   justifyContent: "space-between",
-  alignItems: "flex-end",
   alignItems: "center",
   margin: "1rem",
   // backgroundColor: "green",

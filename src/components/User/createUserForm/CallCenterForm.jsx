@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Button,
   Dialog,
@@ -9,7 +9,6 @@ import {
   TextField,
   Avatar,
   useTheme,
-  MenuItem,
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -17,11 +16,9 @@ import { useAuth } from "../../../contexts/AuthContext";
 import handleImagePreview from "../../../utils/imagePreview";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import CustomTextField from "../../Credit/component/CustomTextField";
-import fetchData from "../../../api/services/Users/getUser";
 import createUser from "../../../api/users/create";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
-import useUserClaims from "../../../hooks/useUserClaims";
 import capitalizeString from "../../../utils/capitalizeString";
 
 const FILE_SIZE = 160 * 1024;
@@ -68,8 +65,8 @@ const CallcenterRegisterForm = () => {
   const { user, forgotPassword } = useAuth();
   const theme = useTheme();
   const { openSnackbar } = useSnackbar();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
-  const userClaims = useUserClaims(user);
+  const { setIsSubmitting } = useContext(SpinnerContext);
+
   const handleFormSubmit = async (values) => {
     setIsSubmitting(true);
     try {

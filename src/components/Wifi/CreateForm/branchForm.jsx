@@ -19,7 +19,6 @@ import getInternationalDate from "../../../utils/getDate";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
 import getRequiredUserData from "../../../utils/getBranchInfo";
-import update from "../../../api/orders/edit";
 import create from "../../../api/orders/create";
 import useUserClaims from "../../../hooks/useUserClaims";
 // Define the validation schema including order item validation

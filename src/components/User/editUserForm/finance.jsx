@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import {
   Button,
   Dialog,
@@ -6,10 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
-  TextField,
-  Avatar,
   useTheme,
-  MenuItem,
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -17,7 +14,6 @@ import * as Yup from "yup";
 import updateUser from "../../../api/users/edit";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
-import fetchData from "../../../api/services/Users/getUser";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import CustomTextField from "../../Credit/component/CustomTextField";
 import capitalizeString from "../../../utils/capitalizeString";
@@ -55,7 +51,7 @@ const FinanceEditForm = ({ finance, isEditDialogOpen, closeEditDialog }) => {
   const { user, forgotPassword } = useAuth();
   const theme = useTheme();
   const { openSnackbar } = useSnackbar();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
 
   // Handle form submission
   const handleSubmit = async (values) => {

@@ -10,7 +10,6 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup"; // Import Yup for validation
 
@@ -21,7 +20,6 @@ import getInternationalDate from "../../../utils/getDate";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
 import update from "../../../api/orders/edit";
-import useUserClaims from "../../../hooks/useUserClaims";
 // Define the validation schema including order item validation
 const EditWifiOrderFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -39,15 +37,12 @@ const EditWifiOrderForm = ({
   closeEditDialog,
   fromWhere,
 }) => {
-  const params = useParams();
-  const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const [branches, setBranches] = useState([]);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
-  const userClaims = useUserClaims(user);
   useEffect(() => {
     const unsubscribe = fetchData("branches", setBranches);
     return () => unsubscribe();
@@ -87,10 +82,6 @@ const EditWifiOrderForm = ({
     item.active,
     item.activeDailySummery,
   ]);
-
-  const handleButtonClick = () => {
-    setShowForm(true);
-  };
 
   const formik = useFormik({
     initialValues: {

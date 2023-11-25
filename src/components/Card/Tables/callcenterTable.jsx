@@ -173,7 +173,7 @@ const CardTable = () => {
   const loadInitialData = async () => {
     try {
       const value =
-        field == "date" ? formattedDates[selectedTab1] : selectedTab;
+        field === "date" ? formattedDates[selectedTab1] : selectedTab;
       fetchFirestoreDataWithFilter(
         "Card",
         null,
@@ -227,7 +227,7 @@ const CardTable = () => {
   const loadMoreData = useCallback(async () => {
     try {
       const value =
-        field == "date" ? formattedDates[selectedTab1] : selectedTab;
+        field === "date" ? formattedDates[selectedTab1] : selectedTab;
       if (lastDoc) {
         fetchFirestoreDataWithFilter(
           "Card",
@@ -326,7 +326,7 @@ const CardTable = () => {
         >
           <p>
             There are no Card orders{" "}
-            {field == "date" ? "in this day" : "remain this much day"}.
+            {field === "date" ? "in this day" : "remain this much day"}.
           </p>
         </div>
       )}

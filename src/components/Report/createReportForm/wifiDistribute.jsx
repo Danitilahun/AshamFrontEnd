@@ -21,7 +21,6 @@ import { useAuth } from "../../../contexts/AuthContext";
 import getInternationalDate from "../../../utils/getDate";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import getCurrentTime from "../../../utils/getCurrentTime";
-import { CardFeeReportFormValidationSchema } from "../validator/CardFeeReportFormValidationSchema";
 import createReport from "../../../api/report/createReport";
 import { ReportFormValidationSchema } from "../validator/ReportFormValidationSchema";
 import capitalizeString from "../../../utils/capitalizeString";
@@ -32,9 +31,8 @@ const WifiDistributeReportForm = () => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
-  const [selectedDeliveryGuy, setSelectedDeliveryGuy] = useState("");
 
   let active = "";
   let activeTable = "";
@@ -109,7 +107,6 @@ const WifiDistributeReportForm = () => {
   };
 
   const handleDeliveryGuyChange = (event) => {
-    setSelectedDeliveryGuy(event.target.value);
     const Id = event.target.value;
     const Name =
       transformedData.find((employee) => employee[1] === Id)?.[0] || "";

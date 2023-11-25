@@ -1,17 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import { useCallback } from "react";
 import { useParams } from "react-router-dom";
-import SearchInput from "../../VersatileComponents/SearchInput";
 import DynamicTable from "../../DynamicTable/DynamicTable";
-import EditCustomerCreditForm from "../editCreditForm/customerCredit";
 import deleteCredit from "../../../api/credit/delete";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import fetchFirestoreDataWithFilter from "../../../api/credit/get";
-import EditDailyCreditForm from "../editCreditForm/dailyCredit";
 import EditStaffCreditForm from "../editCreditForm/staffCredit";
 import Search from "../../../api/utils/search";
 import StaffCreditForm from "../createCreditForm/staffCredit";
@@ -19,7 +16,6 @@ import MyHeaderComponent from "../../VersatileComponents/creditHeader";
 import useUserClaims from "../../../hooks/useUserClaims";
 import capitalizeString from "../../../utils/capitalizeString";
 import getRequiredUserData from "../../../utils/getBranchInfo";
-import ShowBudget from "../../Budget/ShowBudget";
 import { ExportToExcel } from "../../../utils/ExportToExcel";
 
 const columns = [
@@ -46,7 +42,6 @@ const NonAdmincolumns = [
 const containerStyle = {
   display: "flex",
   justifyContent: "space-between",
-  alignItems: "flex-end",
   alignItems: "center",
   // backgroundColor: "green",
 };
@@ -67,7 +62,7 @@ const StaffCreditTable = ({ StaffCredit }) => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   //   const [deleteRowId, setDeleteRowId] = useState(null);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);

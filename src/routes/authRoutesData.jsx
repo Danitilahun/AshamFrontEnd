@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route } from "react-router-dom";
 import RequireAuth from "../components/VersatileComponents/RequireAuth";
 import LoginForm from "../pages/Auth/LoginForm";
 import ForgetPasswordForm from "../pages/Auth/ForgetPasswordForm";

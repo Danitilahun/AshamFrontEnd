@@ -19,10 +19,7 @@ import { useAuth } from "../../../contexts/AuthContext";
 import getInternationalDate from "../../../utils/getDate";
 import createCredit from "../../../api/credit/create";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
-import { DailyCreditFormValidationSchema } from "../validator/dailyCreditFormValidationSchema";
 import { StaffCreditFormValidationSchema } from "../validator/staffCreditFormValidationSchema";
-import fetchData from "../../../api/services/Users/getUser";
-import useDocumentById from "../../../hooks/useDocumentById";
 import { firestore } from "../../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 import capitalizeString from "../../../utils/capitalizeString";
@@ -32,9 +29,8 @@ const FinancialCreditForm = ({ type }) => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
-  const [selectedDeliveryGuy, setSelectedDeliveryGuy] = useState("");
   const [staff, setStaff] = useState({});
   const [placementOptions, setPlacementOptions] = useState([
     "BranchAdmin",
@@ -115,7 +111,6 @@ const FinancialCreditForm = ({ type }) => {
   let transformedData = filteredData?.map((item) => [item.name, item.id]);
 
   const handleDeliveryGuyChange = (event) => {
-    setSelectedDeliveryGuy(event.target.value);
     const Id = event.target.value;
     const Name =
       transformedData.find((employee) => employee[1] === Id)?.[0] || "";

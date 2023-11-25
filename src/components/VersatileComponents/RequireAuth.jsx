@@ -50,7 +50,7 @@ const LoadingAnimation = () => {
 };
 
 const RequireAuth = ({ children }) => {
-  const { user, validatingUser, currentUser, gettingUser } = useAuth();
+  const { user, validatingUser } = useAuth();
   const location = useLocation();
   const [navigationPath, setNavigationPath] = useState(null); // State for navigation
   const { changecallCenterId } = useBranch();
@@ -88,7 +88,6 @@ const RequireAuth = ({ children }) => {
     } else if (
       routesToCheckForAdmin.some((route) => location.pathname.startsWith(route))
     ) {
-      const userDate = getRequiredUserData();
       user.getIdTokenResult().then((idTokenResult) => {
         if (idTokenResult.claims.admin !== undefined) {
           const newRoute = `/deliveryguy/${user.displayName}`;

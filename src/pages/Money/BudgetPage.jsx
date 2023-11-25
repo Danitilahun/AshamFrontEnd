@@ -23,9 +23,7 @@ const columns = [
 const containerStyle = {
   display: "flex",
   justifyContent: "space-between",
-  alignItems: "flex-end",
   alignItems: "center",
-  // backgroundColor: "green",
 };
 
 const flexItemStyle = {
@@ -39,7 +37,6 @@ const flexItemStyles = {
 const BudgetPage = () => {
   const theme = useTheme();
   const storedData = localStorage.getItem("userData");
-  let openingDate = "";
   let active = "";
   let branchId = "";
   const userData = getRequiredUserData();
@@ -47,7 +44,6 @@ const BudgetPage = () => {
     const userData = JSON.parse(storedData);
     active = userData ? userData.active : "try";
     branchId = userData ? userData.id : "try";
-    openingDate = userData ? userData.openingDate : "try";
   }
 
   if (!active) {
@@ -78,16 +74,15 @@ const BudgetPage = () => {
   const { documentData: bank } = useDocumentById("Bank", branchId);
 
   const [updatedSheetSummery, setUpdatedSheetSummery] = useState([]);
-  const [totalFromAllBranch, setTotalFromAllBranch] = useState(0);
+  // const [totalFromAllBranch, setTotalFromAllBranch] = useState(0);
   useEffect(() => {
     if (AllBranch && AllBranch.length > 0) {
       // Calculate the sum of "total" values from the AllBranch array
-      const sumFromAllBranch = AllBranch?.reduce((accumulator, branch) => {
-        return accumulator + (branch.total || 0); // Use 0 as the default value if 'total' is undefined
-      }, 0);
-
+      // const sumFromAllBranch = AllBranch?.reduce((accumulator, branch) => {
+      //   return accumulator + (branch.total || 0); // Use 0 as the default value if 'total' is undefined
+      // }, 0);
       // Set the sum in state
-      setTotalFromAllBranch(sumFromAllBranch);
+      // setTotalFromAllBranch(sumFromAllBranch);
     }
     // Calculate the sum and update updatedSheetSummery when bank, totalCredit, or status changes
     if (bank && totalCredit && documentData2) {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route } from "react-router-dom";
 import RequireAuth from "../components/VersatileComponents/RequireAuth";
 import TablesPage from "../pages/Money/TablesPage";
 import Setting from "../pages/setting/setting";

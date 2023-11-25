@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Button,
   Dialog,
@@ -17,11 +17,9 @@ import { useAuth } from "../../../contexts/AuthContext";
 import handleImagePreview from "../../../utils/imagePreview";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import CustomTextField from "../../Credit/component/CustomTextField";
-// import fetchData from "../../../api/services/Users/getUser";
 import createUser from "../../../api/users/create";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
-import fetchData from "../../../api/utils/getBasedOnCondition";
 import useFilteredCollectionData from "../../../hooks/useFilteredCollectionData";
 import useUserClaims from "../../../hooks/useUserClaims";
 import capitalizeString from "../../../utils/capitalizeString";
@@ -71,9 +69,7 @@ const AdminRegisterForm = () => {
   const { user, forgotPassword } = useAuth();
   const theme = useTheme();
   const { openSnackbar } = useSnackbar();
-  const userClaims = useUserClaims(user);
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
-  // const [branches, setBranches] = useState([]);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const { data: branches } = useFilteredCollectionData(
     "branches",
     "manager",
@@ -83,7 +79,6 @@ const AdminRegisterForm = () => {
   const branch = branches.map((item) => [item.name, item.id, item.active]);
 
   const handleBranchChange = (event) => {
-    // setSelectedDeliveryGuy(event.target.value);
     const Id = event.target.value;
     const Name = branch.find((branch) => branch[1] === Id)?.[0] || "";
     const active = branch.find((branch) => branch[1] === Id)?.[2] || "";

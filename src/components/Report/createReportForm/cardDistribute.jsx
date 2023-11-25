@@ -33,7 +33,6 @@ const CardDistributeReportForm = () => {
   const theme = useTheme();
   const { setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
-  const [selectedDeliveryGuy, setSelectedDeliveryGuy] = useState("");
   const [countdown, setCountdown] = useState(null);
   const [isCountdownActive, setIsCountdownActive] = useState(false);
 
@@ -110,7 +109,6 @@ const CardDistributeReportForm = () => {
   };
 
   const handleDeliveryGuyChange = (event) => {
-    setSelectedDeliveryGuy(event.target.value);
     const Id = event.target.value;
     const Name =
       transformedData.find((employee) => employee[1] === Id)?.[0] || "";

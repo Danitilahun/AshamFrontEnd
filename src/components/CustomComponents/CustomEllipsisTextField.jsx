@@ -1,4 +1,4 @@
-import { Tooltip, Typography, useTheme } from "@mui/material";
+import { Tooltip, Typography } from "@mui/material";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const CustomEllipsisTextField = ({
@@ -6,7 +6,7 @@ const CustomEllipsisTextField = ({
   value,
   paddingBottom = "0.5rem",
 }) => {
-  const { screenWidth, screenHeight } = useWindowDimensions();
+  const { screenWidth } = useWindowDimensions();
   const fontSize = screenWidth >= 1536 ? 18 : (screenWidth / 1536) * 18 + "px";
   return (
     <Tooltip title={value}>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "./SearchUI.css";
 
 import { useTheme } from "@emotion/react"; /* New */
