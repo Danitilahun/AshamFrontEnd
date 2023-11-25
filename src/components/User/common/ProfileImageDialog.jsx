@@ -32,7 +32,6 @@ const ProfileImageDialog = ({ imageUrl, open, onClose, onSave }) => {
   };
 
   const handleSave = () => {
-    console.log("selectedImage", selectedImage);
     if (!selectedImage) {
       openSnackbar("Please select an image.", "info");
       setSelectedImage(null);
@@ -116,7 +115,7 @@ const ProfileImageDialog = ({ imageUrl, open, onClose, onSave }) => {
       <DialogActions sx={{ backgroundColor: theme.palette.background.alt }}>
         <Button
           onClick={handleCancel}
-          backgroundColor={theme.palette.background.alt}
+          backgroundcolor={theme.palette.background.alt}
           sx={{
             color: theme.palette.secondary[100],
             "&:hover": {
@@ -129,7 +128,7 @@ const ProfileImageDialog = ({ imageUrl, open, onClose, onSave }) => {
         </Button>
         <Button
           onClick={handleSave}
-          backgroundColor={theme.palette.background.alt}
+          backgroundcolor={theme.palette.background.alt}
           sx={{
             color: theme.palette.secondary[100],
             "&:hover": {

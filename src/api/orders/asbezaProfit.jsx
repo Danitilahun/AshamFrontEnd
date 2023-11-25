@@ -4,7 +4,6 @@ import { API_BASE_URL } from "../utils/config";
 const AsbezaProfit = async (user, orderData) => {
   try {
     if (!user) {
-      console.log("User is not authenticated.");
       return null;
     }
     const idTokenResult = await user.getIdTokenResult();
@@ -32,7 +31,6 @@ const AsbezaProfit = async (user, orderData) => {
       };
     }
   } catch (error) {
-    console.log(`Error occurred while creating.`, error);
     throw error;
   }
 };

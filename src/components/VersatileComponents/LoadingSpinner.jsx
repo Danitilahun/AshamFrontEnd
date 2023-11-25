@@ -10,7 +10,6 @@ const LoadingSpinner = ({ isSubmitting }) => {
             content: "",
             top: 0,
             left: 0,
-            /* background: "rgba(255, 255, 255, 0)" */
             background: "black",
             display: "flex",
             flexDirection: "column",

@@ -3,9 +3,7 @@ import { CircularProgress } from "@mui/material";
 import { useAuth } from "../../contexts/AuthContext";
 import { useBranch } from "../../contexts/BranchContext";
 import { useEffect, useState } from "react";
-import { requestForToken } from "../../services/firebase";
-import createNotification from "../../api/services/Notification/registerNotification";
-import useDocumentById from "../../hooks/useDocumentById";
+
 import getRequiredUserData from "../../utils/getBranchInfo";
 const routesToCheck = [
   "/deliveryguy/",
@@ -54,8 +52,6 @@ const LoadingAnimation = () => {
 const RequireAuth = ({ children }) => {
   const { user, validatingUser, currentUser, gettingUser } = useAuth();
   const location = useLocation();
-  const { branchId } = useBranch();
-  console.log("from", location.pathname);
   const [navigationPath, setNavigationPath] = useState(null); // State for navigation
   const { changecallCenterId } = useBranch();
   useEffect(() => {
@@ -65,21 +61,6 @@ const RequireAuth = ({ children }) => {
     if (location.pathname === "/log") {
       user.getIdTokenResult().then((idTokenResult) => {
         if (idTokenResult.claims.admin !== undefined) {
-          const tokenPromise = requestForToken();
-          tokenPromise.then((token) => {
-            if (token !== null) {
-              const admin = { [user.displayName]: token };
-              createNotification(admin, user)
-                .then(() => {
-                  console.log("Notification created successfully.");
-                })
-                .catch((error) => {
-                  console.error("Error creating notification:", error);
-                });
-            } else {
-              console.log("No token available.");
-            }
-          });
         }
         const newRoute = `/`;
         // changecallCenterId(user.uid);
@@ -108,7 +89,6 @@ const RequireAuth = ({ children }) => {
       routesToCheckForAdmin.some((route) => location.pathname.startsWith(route))
     ) {
       const userDate = getRequiredUserData();
-      console.log("userDate", userDate);
       user.getIdTokenResult().then((idTokenResult) => {
         if (idTokenResult.claims.admin !== undefined) {
           const newRoute = `/deliveryguy/${user.displayName}`;
@@ -126,7 +106,6 @@ const RequireAuth = ({ children }) => {
     } else if (
       routesToCheck.some((route) => location.pathname.startsWith(route))
     ) {
-      console.log("object");
       // Check if the user has the "admin" or "superAdmin" claim
       user.getIdTokenResult().then((idTokenResult) => {
         if (idTokenResult.claims.callCenter !== undefined) {
@@ -174,12 +153,10 @@ const RequireAuth = ({ children }) => {
     return children;
   }
   if (!user) {
-    console.log("here", user);
     //user is not logged
     return <Navigate to="/login" />;
   }
 
-  // console.log("here", user.displayName);
   if (navigationPath) {
     return <Navigate to={navigationPath} />;
   }

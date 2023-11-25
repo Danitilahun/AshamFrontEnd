@@ -31,7 +31,7 @@ const CardFeeReportForm = () => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
   const [selectedDeliveryGuy, setSelectedDeliveryGuy] = useState("");
 
@@ -182,7 +182,6 @@ const CardFeeReportForm = () => {
           };
         }
 
-        console.log("values", values);
         const res = await createReport(user, values, "CardFee");
         openSnackbar(`${res.data.message} successfully created!`, "success");
         handleCloseForm();

@@ -103,6 +103,7 @@ const BudgetPage = () => {
           wifiAccount,
           houseRentOwnerName,
           houseRentAccount,
+          taxPersentage,
           ...restOfStatus
         } = status;
 
@@ -118,11 +119,30 @@ const BudgetPage = () => {
         };
       }
 
+      const updatedSheetSummary = documentData2?.sheetSummary?.map(
+        (summaryItem) => {
+          const {
+            ethioTelAccount,
+            ethioTelOwnerName,
+            wifiOwnerName,
+            wifiAccount,
+            houseRentOwnerName,
+            houseRentAccount,
+            taxPersentage,
+            ...rest
+          } = summaryItem;
+
+          return {
+            ...rest,
+          };
+        }
+      );
+
       let combinedSummery = [];
       if (Object.keys(newRow).length !== 0) {
-        combinedSummery = [...(documentData2?.sheetSummary ?? []), newRow];
+        combinedSummery = [...(updatedSheetSummary ?? []), newRow];
       } else {
-        combinedSummery = [...(documentData2?.sheetSummary ?? [])];
+        combinedSummery = [...(updatedSheetSummary ?? [])];
       }
 
       // Update the state with the combined summery
@@ -130,7 +150,6 @@ const BudgetPage = () => {
     }
   }, [bank, totalCredit, status, documentData2]);
 
-  console.log("updatedSheetSummery", updatedSheetSummery);
   return (
     <>
       <Helmet>
@@ -169,7 +188,13 @@ const BudgetPage = () => {
                 <ShowBudget
                   label={"Total Budget"}
                   value={
-                    userClaims.finance ? finance?.budget : documentData2?.budget
+                    userClaims.finance
+                      ? finance?.budget
+                        ? finance?.budget
+                        : "Not available"
+                      : documentData2?.budget
+                      ? documentData2?.budget
+                      : "Not available"
                   }
                   marginTop={10}
                 />
@@ -177,11 +202,13 @@ const BudgetPage = () => {
               <Grid item xs={6}></Grid>
             </Grid>
 
-            <DynamicTable
-              data={updatedSheetSummery}
-              columns={columns}
-              // loadMoreData={loadMoreData}
-            />
+            {updatedSheetSummery.length !== 0 ? (
+              <DynamicTable
+                data={updatedSheetSummery}
+                columns={columns}
+                // loadMoreData={loadMoreData}
+              />
+            ) : null}
 
             {!userClaims.finance && (
               <>
@@ -189,14 +216,22 @@ const BudgetPage = () => {
                   <Grid item xs={6}>
                     <ShowBudget
                       label={"Final Budget"}
-                      value={documentData2?.budget?.toFixed(2)}
+                      value={
+                        documentData2?.budget
+                          ? documentData2?.budget?.toFixed(2)
+                          : "Not available"
+                      }
                       marginTop={10}
                     />
                   </Grid>
                   <Grid item xs={6}>
                     <ShowBudget
                       label={"All Credit"}
-                      value={totalCredit?.total?.toFixed(2)}
+                      value={
+                        totalCredit?.total
+                          ? totalCredit?.total?.toFixed(2)
+                          : "Not available"
+                      }
                       marginTop={10}
                     />
                   </Grid>
@@ -206,18 +241,24 @@ const BudgetPage = () => {
                   <Grid item xs={6}>
                     <ShowBudget
                       label={"Next Budget"}
-                      value={(
-                        documentData2?.budget -
-                        totalCredit?.total +
-                        (status?.totalIncome ? status?.totalIncome : 0)
-                      )?.toFixed(2)}
+                      value={
+                        documentData2 && totalCredit && status
+                          ? (
+                              documentData2?.budget -
+                              totalCredit?.total +
+                              (status?.totalIncome ? status?.totalIncome : 0)
+                            )?.toFixed(2)
+                          : "Not available"
+                      }
                       marginTop={10}
                     />
                   </Grid>
                   <Grid item xs={6}>
                     <ShowBudget
                       label={"Bank Balance"}
-                      value={bank?.total?.toFixed(2)}
+                      value={
+                        bank?.total ? bank?.total?.toFixed(2) : "Not available"
+                      }
                       marginTop={10}
                     />
                   </Grid>
@@ -228,7 +269,9 @@ const BudgetPage = () => {
                     <ShowBudget
                       label={"Total Expense"}
                       value={
-                        documentData2 ? documentData2?.total?.toFixed(2) : 0
+                        documentData2
+                          ? documentData2?.total?.toFixed(2)
+                          : "Not available"
                       }
                       marginTop={10}
                     />

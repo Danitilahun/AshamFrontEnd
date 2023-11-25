@@ -6,10 +6,8 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import fetchFirestoreDataWithFilter from "../../../api/credit/get";
 import Search from "../../../api/utils/search";
-import SearchInput from "../../VersatileComponents/SearchInput";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import DynamicTable from "../../DynamicTable/DynamicTable";
-import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import EditWifiOrderForm from "../EditForm/branchForm";
 import Delete from "../../../api/orders/delete";
 import WifiOrderBranchForm from "../CreateForm/branchForm";
@@ -22,7 +20,6 @@ import TableTab from "../../DashboardTable/TableTab";
 import { ExportToExcel } from "../../../utils/ExportToExcel";
 import getRequiredUserData from "../../../utils/getBranchInfo";
 import DeleteConfirmationDialog from "../../VersatileComponents/OrderDelete";
-import getNextDaysFromDate from "../../../utils/getNextDaysFromDate";
 import WWTableTab from "../../VersatileComponents/waterAndwifi";
 import getPreviousDaysFromToday from "../../../utils/getNextDaysFromDate";
 const main = [
@@ -110,9 +107,7 @@ const WifiTable = () => {
 
   // Format and display the dates in a human-readable format (e.g., "YYYY-MM-DD")
   const formattedDates = past15Days.map((date) => format(date, "MMMM d, y"));
-  console.log(formattedDates);
   const days = getPreviousDaysFromToday();
-  console.log("days", days);
   const [selectedTab, setSelectedTab] = useState(0);
   const [selectedTab1, setSelectedTab1] = useState(null);
   const [field, setField] = useState("Date");
@@ -129,15 +124,6 @@ const WifiTable = () => {
     setSelectedTab(null);
   };
 
-  console.log(
-    "selectedTab",
-    selectedTab1,
-    days[selectedTab1],
-    field,
-    selectedTab,
-    formattedDates[selectedTab],
-    field
-  );
   const handleEdit = (row) => {
     if (row.status !== "Assigned") {
       openSnackbar(
@@ -151,7 +137,6 @@ const WifiTable = () => {
     setIsEditDialogOpen(true);
   };
   const handleNew = (row) => {
-    console.log("from the table", row);
     if (row.status !== "Completed") {
       openSnackbar(`You can only new orders if order is Completed!`, "info");
       return;
@@ -235,7 +220,6 @@ const WifiTable = () => {
     try {
       const filterField =
         selectedView === "callcenter" ? "branchId" : "callcenterId";
-      console.log("filterField", filterField);
       fetchFirestoreDataWithFilter(
         "Wifi",
         null,
@@ -248,9 +232,7 @@ const WifiTable = () => {
         field === "Date" ? formattedDates[selectedTab] : days[selectedTab1]
       );
       // Set the last document for pagination
-    } catch (error) {
-      console.error("Error loading initial data:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -311,9 +293,7 @@ const WifiTable = () => {
           setLastDoc(data[data.length - 1]);
         }
       }
-    } catch (error) {
-      console.error("Error loading more data:", error);
-    }
+    } catch (error) {}
   }, [
     lastDoc,
     data,
@@ -326,7 +306,6 @@ const WifiTable = () => {
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
       const scrollPosition = event.detail.scrollPosition;
-      console.log("DynamicTable Scroll position:", scrollPosition);
     };
 
     window.addEventListener("dynamicTableScroll", handleDynamicTableScroll);
@@ -342,11 +321,9 @@ const WifiTable = () => {
   const tableData = searchedData.length > 0 ? searchedData : data;
 
   if (userClaim.superAdmin && selectedView === "branch") {
-    console.log(selectedView);
     CallcenterColumn = CallcenterColumn.filter(
       (column) => column.key !== "callcenterName"
     );
-    console.log("the new column", CallcenterColumn);
   } else if (userClaim.superAdmin && selectedView !== "branch") {
     CallcenterColumn = pushOrUpdateWithKey(CallcenterColumn, {
       key: "callcenterName",
@@ -363,7 +340,6 @@ const WifiTable = () => {
 
   // Call the function to add roll numbers
   addRollNumber(tableData);
-  console.log("tableData", tableData);
   return (
     <Box m="1rem 0">
       <MyHeaderComponent
@@ -381,6 +357,7 @@ const WifiTable = () => {
             onChange={(e, newValue) => handleViewChange(newValue)}
             indicatorColor="secondary"
             textColor="secondary"
+            scrollable="true"
           >
             <Tab label="Call Center" value="callcenter" />
             <Tab label="Branch" value="branch" />

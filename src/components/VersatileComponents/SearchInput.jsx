@@ -20,7 +20,6 @@ const SearchInput = ({ onSearch, onCancel }) => {
 
   const handleSearch = () => {
     onSearch(searchText);
-    console.log("activated")
   };
 
   const handleCancel = () => {
@@ -31,14 +30,15 @@ const SearchInput = ({ onSearch, onCancel }) => {
 
   const theme = useTheme(); /* New */
 
-
   return (
-
-    <div className="search-container"
-        style={{
-          border: `1px solid ${theme.palette.mode === "dark" ? "#323E8B": "#C5C7D7"}`, /* New */
-          paddingRight: "1rem"
-        }}
+    <div
+      className="search-container"
+      style={{
+        border: `1px solid ${
+          theme.palette.mode === "dark" ? "#323E8B" : "#C5C7D7"
+        }` /* New */,
+        paddingRight: "1rem",
+      }}
     >
       <input
         style={{
@@ -52,7 +52,9 @@ const SearchInput = ({ onSearch, onCancel }) => {
         onKeyDown={(e) => e.key === "Enter" && handleSearch()}
       />
       {showCancel && (
-        <span className="cancel-button" onClick={handleCancel}>&#x2715;</span>
+        <span className="cancel-button" onClick={handleCancel}>
+          &#x2715;
+        </span>
       )}
     </div>
   );

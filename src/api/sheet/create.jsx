@@ -20,10 +20,8 @@ const createSheet = async (user, SheetData) => {
           }
         );
 
-        console.log(`User created successfully.`);
         return response;
       } else {
-        console.log("User is not authorized to create a User.");
         throw {
           response: {
             data: {
@@ -36,7 +34,6 @@ const createSheet = async (user, SheetData) => {
       }
     }
   } catch (error) {
-    // console.log(`Error occurred while creating ${type}.`, error);
     throw error;
   }
 };

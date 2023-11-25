@@ -1,15 +1,11 @@
 import { Typography, Box, useTheme, Button } from "@mui/material";
-import WarningIcon from "@mui/icons-material/Warning";
 import React, { useContext, useEffect, useState } from "react";
 import FormPopup from "../User/FormPopup";
-// import BranchForm from "../Branch/BranchForm";
 import { useAuth } from "../../contexts/AuthContext";
 import { useBranch } from "../../contexts/BranchContext";
 import { useSnackbar } from "../../contexts/InfoContext";
 import { useParams } from "react-router-dom";
-// import AsbezaOrderForm from "../Asbeza/AsbezaOrder";
 import ReminderComponent from "./Reminder";
-import CreditForm from "./versatileFrom";
 import BonusDialog from "../BonusPenality/Bonus";
 import CustomerCreditForm from "../Credit/createCreditForm/customerCredit";
 import DailyCreditForm from "../Credit/createCreditForm/dailyCredit";
@@ -25,7 +21,6 @@ import CallcenterRegisterForm from "../User/createUserForm/CallCenterForm";
 import DeliveryGuyRegisterForm from "../User/createUserForm/DeliveryGuyForm";
 import FinanceRegisterForm from "../User/createUserForm/FinanceForm";
 import StaffRegisterForm from "../User/createUserForm/StaffForm";
-import { date } from "yup";
 import getInternationalDate from "../../utils/getDate";
 import createSheet from "../../api/sheet/create";
 import ConfirmationDialog from "./ConfirmationDialog";
@@ -62,24 +57,20 @@ const Header = ({
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
   const params = useParams();
-  const sheetId = params.sheet;
-  const { changeActiveness } = useBranch();
 
   const branchData = getRequiredUserData();
   let branchId = branchData.requiredId;
   let active = branchData.active;
   let activeSheet = branchData.activeSheet;
 
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const [userClaims, setUserClaims] = useState({});
   useEffect(() => {
     async function fetchUserClaims() {
       try {
         const idTokenResult = await user.getIdTokenResult();
         setUserClaims(idTokenResult.claims);
-      } catch (error) {
-        console.log("Error fetching user claims:", error);
-      }
+      } catch (error) {}
     }
     fetchUserClaims();
   }, [user]);
@@ -174,7 +165,6 @@ const Header = ({
     }
     setIsSubmitting(false);
   };
-  const [branch, setBranch] = useState(null);
   const createNewSheet = async (event) => {
     event.preventDefault();
     if (branchData.sheetStatus === "Pending") {
@@ -218,7 +208,6 @@ const Header = ({
       const res = await createSheet(user, SheetData);
       openSnackbar(`${res.data.message}`, "success");
     } catch (error) {
-      console.error("Error during form submission:", error);
       openSnackbar(
         error.response.data.message,
         error.response.data.type ? error.response.data.type : "error"

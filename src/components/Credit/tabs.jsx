@@ -41,7 +41,6 @@ const MyTabs = () => {
     branchId
   );
 
-  console.log("Daniel ", totalCredit);
   const selectedTabData = tabData[selectedTab];
 
   return (

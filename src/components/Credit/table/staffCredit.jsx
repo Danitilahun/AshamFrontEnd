@@ -80,7 +80,6 @@ const StaffCreditTable = ({ StaffCredit }) => {
       openSnackbar("You can only edit the credit of the active sheet.", "info");
       return;
     }
-    console.log("from the table", row);
     setEditRow(row);
     setIsEditDialogOpen(true);
   };
@@ -137,9 +136,7 @@ const StaffCreditTable = ({ StaffCredit }) => {
         params.id
       );
       // Set the last document for pagination
-    } catch (error) {
-      console.error("Error loading initial data:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -153,8 +150,6 @@ const StaffCreditTable = ({ StaffCredit }) => {
   }, [data]);
 
   const handleSearch = async (searchText) => {
-    // console.log("Search Text:", searchText, searchText === "");
-
     // Perform additional actions when searching here
 
     if (searchText.trim() === "") {
@@ -199,15 +194,12 @@ const StaffCreditTable = ({ StaffCredit }) => {
           setLastDoc(data[data.length - 1]);
         }
       }
-    } catch (error) {
-      console.error("Error loading more data:", error);
-    }
+    } catch (error) {}
   }, [lastDoc, data]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
       const scrollPosition = event.detail.scrollPosition;
-      console.log("DynamicTable Scroll position:", scrollPosition);
     };
 
     window.addEventListener("dynamicTableScroll", handleDynamicTableScroll);

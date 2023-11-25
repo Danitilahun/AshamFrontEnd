@@ -20,10 +20,8 @@ const Reminder = async (orderData, user) => {
           }
         );
         // Handle successful submission
-        console.log("Branch created successfully.");
         return response;
       } else {
-        console.log("User is not authorized to create a branch.");
         throw {
           response: {
             data: {
@@ -32,7 +30,6 @@ const Reminder = async (orderData, user) => {
             },
           },
         };
-        // Handle case when the user is not a super admin
       }
     }
   } catch (error) {

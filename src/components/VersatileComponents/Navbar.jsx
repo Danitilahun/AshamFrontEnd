@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   LightModeOutlined,
   DarkModeOutlined,
@@ -17,16 +17,14 @@ import {
   Menu,
   MenuItem,
   useTheme,
-  Paper,
 } from "@mui/material";
 import { useCustomTheme } from "../../contexts/ThemeContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import { useBranch } from "../../contexts/BranchContext";
 import EssentialComponent from "../Essential/EssentialComponent";
 import { firestore } from "../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
-import useDocumentById from "../../hooks/useDocumentById";
+import getRequiredUserData from "../../utils/getBranchInfo";
 const Navbar = ({
   currentUser,
   isSidebarOpen,
@@ -41,9 +39,8 @@ const Navbar = ({
   const handleClose = () => setAnchorEl(null);
   const { toggleMode } = useCustomTheme();
   const { logout, user } = useAuth();
-  const params = useParams();
+  const branchData = getRequiredUserData();
 
-  const { branchName, branchInfo, sheetName, callCenterName } = useBranch();
   const [userClaims, setUserClaims] = useState({});
   const [isButtonVisible, setIsButtonVisible] = useState(false);
 
@@ -51,17 +48,13 @@ const Navbar = ({
     setIsButtonVisible(!isButtonVisible);
   };
 
-  // ... (other states)
-
   // Use useEffect to fetch idTokenResult when the component mounts
   useEffect(() => {
     async function fetchUserClaims() {
       try {
         const idTokenResult = await user.getIdTokenResult();
         setUserClaims(idTokenResult.claims);
-      } catch (error) {
-        console.log("Error fetching user claims:", error);
-      }
+      } catch (error) {}
     }
     fetchUserClaims();
   }, [user]);
@@ -71,9 +64,7 @@ const Navbar = ({
     try {
       await logout();
       navigate("/login"); // Call your logout function from the useAuth context
-    } catch (error) {
-      console.log("Logout failed: ", error);
-    }
+    } catch (error) {}
   };
 
   const handleCardClick = (event) => {
@@ -103,8 +94,6 @@ const Navbar = ({
     // Clean up the subscription when the component unmounts
     return () => unsubscribe();
   }, [user.uid]);
-
-  console.log("the finance data", financeData);
 
   return (
     <>
@@ -143,22 +132,16 @@ const Navbar = ({
               p="0.1rem 1.5rem"
               style={{ marginLeft: "10px" }}
             >
-              {callCenterName ||
-                (branchName && (
-                  <Typography
-                    variant="h6"
-                    style={{
-                      fontSize: "18px",
-                    }}
-                  >
-                    {from === "callcenter"
-                      ? callCenterName
-                      : branchName
-                      ? branchName
-                      : ""}
-                    {/* {branchName} {sheetName && `/ ${sheetName} `} */}
-                  </Typography>
-                ))}
+              {branchData?.branchName && (
+                <Typography
+                  variant="h6"
+                  style={{
+                    fontSize: "18px",
+                  }}
+                >
+                  {branchData?.branchName ? branchData?.branchName : ""}
+                </Typography>
+              )}
             </FlexBetween>
           </FlexBetween>
 

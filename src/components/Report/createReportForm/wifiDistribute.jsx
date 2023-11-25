@@ -182,7 +182,6 @@ const WifiDistributeReportForm = () => {
           };
         }
 
-        console.log("values", values);
         const res = await createReport(user, values, "wifiDistribute");
         openSnackbar(`${res.data.message} successfully created!`, "success");
         handleCloseForm();

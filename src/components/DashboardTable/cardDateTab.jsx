@@ -26,7 +26,7 @@ const CardTableTab = ({
           color: theme.palette.secondary[700],
           backgroundColor: theme.palette.background.alt,
         }}
-        scrollable
+        scrollable="true"
         scrollButtons="auto"
         indicatorColor="primary"
       >

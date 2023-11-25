@@ -84,7 +84,6 @@ const Bank = () => {
     return () => unsubscribe();
   }, [userClaim.finance ? user.uid : userData.requiredId]);
 
-  console.log("financeUser", financeUser);
   return (
     <>
       <Helmet>

@@ -135,7 +135,6 @@ const FinanceRegisterForm = () => {
   };
 
   const handleImageChange = (e) => {
-    console.log(e.currentTarget.files[0]);
     handleImagePreview(e, setImagePreview);
     formik.setFieldValue("profileImage", e.currentTarget.files[0]);
   };

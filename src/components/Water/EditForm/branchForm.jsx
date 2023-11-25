@@ -14,7 +14,6 @@ import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup"; // Import Yup for validation
 
-import create from "../../../api/orders/create";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import fetchData from "../../../api/services/Users/getUser";
@@ -124,7 +123,6 @@ const EditWaterOrderForm = ({
         values.status = "Assigned";
         values.fromWhere = fromWhere;
         values.blockHouse = values.blockHouse.toUpperCase();
-        console.log("values", values);
         const res = await update(user, data.id, values, "water");
         openSnackbar(`${res.data.message}!`, "success");
         handleCloseForm();

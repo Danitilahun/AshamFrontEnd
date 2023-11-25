@@ -42,7 +42,7 @@ const CreditTable = ({ type, bank = "null" }) => {
   const [showForm, setShowForm] = useState(false);
   const { activeness, deliveryGuy } = useBranch();
   const [openDialog, setOpenDialog] = useState(false);
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
 
   const handleDeleteIconClick = (row) => {
     setSelectedCredit(row);
@@ -62,9 +62,7 @@ const CreditTable = ({ type, bank = "null" }) => {
       try {
         const idTokenResult = await user.getIdTokenResult();
         setUserClaims(idTokenResult.claims);
-      } catch (error) {
-        console.log("Error fetching user claims:", error);
-      }
+      } catch (error) {}
     }
     fetchUserClaims();
   }, [user]);
@@ -104,10 +102,6 @@ const CreditTable = ({ type, bank = "null" }) => {
     };
   }, [type, param.id]);
 
-  console.log(
-    "-----------------------------admins----------------------------",
-    admins
-  );
   useEffect(() => {
     localStorage.setItem("deliveryGuyId", "");
     return () => {
@@ -115,7 +109,6 @@ const CreditTable = ({ type, bank = "null" }) => {
     };
   }, []);
 
-  // console.log("danasdfskdagn", param.id);
   const [editFormValues, setEditFormValues] = useState({
     deliveryguyName: "",
     deliveryguyId: "",
@@ -125,12 +118,7 @@ const CreditTable = ({ type, bank = "null" }) => {
     reason: "",
   });
 
-  console.log("degdjkgbnkd", deliveryGuyId);
   const { openSnackbar } = useSnackbar();
-  console.log("type", type);
-  console.log("param", param.id);
-
-  console.log("admins", admins);
 
   const columns = [];
   if (type === "StaffCredit") {
@@ -251,7 +239,6 @@ const CreditTable = ({ type, bank = "null" }) => {
   };
 
   const handleEditIconClick = (row) => {
-    console.log("row", row);
     setSelectedCredit(row);
     setEditFormValues({
       id: row.id ? row.id : "",
@@ -268,7 +255,6 @@ const CreditTable = ({ type, bank = "null" }) => {
   const handleReturnClick = (row) => {
     setOpen(true);
     setReport(row);
-    console.log(row);
   };
 
   const handleClose = () => {
@@ -281,7 +267,6 @@ const CreditTable = ({ type, bank = "null" }) => {
     // Handle your action here
     event.preventDefault();
     setIsSubmitting(true);
-    console.log("editFormValuesNew", editFormValues);
     try {
       const formData = editFormValues;
       const date = getInternationalDate();
@@ -306,11 +291,9 @@ const CreditTable = ({ type, bank = "null" }) => {
       }
 
       formData.active = active;
-      console.log("formData", formData);
       const id = formData.id;
 
       delete formData.id;
-      console.log("new status", formData);
       if (type === "Status") {
         await updateStatus(id, user, formData);
       } else {
@@ -354,11 +337,9 @@ const CreditTable = ({ type, bank = "null" }) => {
     setNoResults(false); // Clear no results
   };
 
-  console.log("searchResults-------------------------------", searchResults);
   const renderData = searchResults.length > 0 ? searchResults : admins;
   return (
     <>
-      
       {type !== "Status" && type !== "Bank" ? (
         <div
           style={{

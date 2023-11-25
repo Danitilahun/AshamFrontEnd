@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
   Grid,
   Button,
@@ -7,8 +7,6 @@ import {
   DialogContent,
   DialogActions,
   useTheme,
-  TextField,
-  MenuItem,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import useUserClaims from "../../../hooks/useUserClaims";
@@ -18,19 +16,15 @@ import { useSnackbar } from "../../../contexts/InfoContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import getInternationalDate from "../../../utils/getDate";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
-import updateCredit from "../../../api/credit/update";
 import updateIncentive from "../../../api/bonusPenality/edit";
-import capitalizeString from "../../../utils/capitalizeString";
 import { FormValidationSchema } from "../validation/edit";
 
 const EditForm = ({ data, isEditDialogOpen, closeEditDialog, type }) => {
   const params = useParams();
-  const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
-  const [selectedDeliveryGuy, setSelectedDeliveryGuy] = useState("");
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
 
   let active = "";

@@ -5,7 +5,6 @@ import { API_BASE_URL } from "../utils/config";
 const Delete = async (user, Id, type, cn) => {
   try {
     if (!user) {
-      console.log("User is not authenticated.");
       return null;
     }
 

@@ -14,7 +14,6 @@ import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup"; // Import Yup for validation
 
-import create from "../../../api/orders/create";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import fetchData from "../../../api/services/Users/getUser";
@@ -88,8 +87,6 @@ const EditWifiOrderForm = ({
     item.active,
     item.activeDailySummery,
   ]);
-
-  console.log("branch", branch);
 
   const handleButtonClick = () => {
     setShowForm(true);
@@ -169,7 +166,6 @@ const EditWifiOrderForm = ({
         values.fromWhere = fromWhere;
         values.branchKey = values.branchId;
         values.blockHouse = values.blockHouse.toUpperCase();
-        console.log("values", values);
         const res = await update(user, data.id, values, "wifi");
         openSnackbar(`${res.data.message}!`, "success");
         handleCloseForm();

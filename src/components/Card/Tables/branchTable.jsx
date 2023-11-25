@@ -7,9 +7,7 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import fetchFirestoreDataWithFilter from "../../../api/credit/get";
 import Search from "../../../api/utils/search";
-import SearchInput from "../../VersatileComponents/SearchInput";
 import DynamicTable from "../../DynamicTable/DynamicTable";
-import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import EditCardOrderForm from "../EditForm/branchForm";
 import Delete from "../../../api/orders/delete";
 import CardOrderBranchForm from "../CreateForm/branchForm";
@@ -29,7 +27,6 @@ import CardTableTab from "../../DashboardTable/cardDateTab";
 const containerStyle = {
   display: "flex",
   justifyContent: "space-between",
-  alignItems: "flex-end",
   alignItems: "center",
   // backgroundColor: "green",
 };
@@ -74,10 +71,8 @@ function pushOrUpdateWithKey(arr, newElement) {
   );
 
   if (existingIndex !== -1) {
-    // An element with the same key already exists, you can replace it here.
     arr[existingIndex] = newElement;
   } else {
-    // Insert the new element as the second-to-last item
     arr.splice(arr.length - 1, 0, newElement);
   }
   return arr;
@@ -90,8 +85,7 @@ const CardTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
-  //   const [deleteRowId, setDeleteRowId] = useState(null);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { openSnackbar } = useSnackbar();
@@ -101,7 +95,6 @@ const CardTable = () => {
   const userData = getRequiredUserData();
   // Function to handle view selection (Call Center or Branch)
   const handleViewChange = (view) => {
-    console.log("view change", view);
     setSelectedView(view);
   };
 
@@ -112,7 +105,6 @@ const CardTable = () => {
   // Format and display the dates in a human-readable format (e.g., "YYYY-MM-DD")
   // const formattedDates = past15Days;
   const formattedDates = getDates.map((date) => format(date, "MMMM d, y"));
-  console.log(formattedDates);
 
   const [selectedTab, setSelectedTab] = useState(null);
   const [selectedTab1, setSelectedTab1] = useState(0);
@@ -136,13 +128,11 @@ const CardTable = () => {
       );
       return;
     }
-    console.log("from the table", row);
     setFromWhere("edit");
     setEditRow(row);
     setIsEditDialogOpen(true);
   };
   const handleNew = (row) => {
-    console.log("from the table", row);
     if (row.status !== "Completed") {
       openSnackbar(`You can only new orders if order is Completed!`, "info");
       return;
@@ -225,10 +215,8 @@ const CardTable = () => {
     try {
       const filterField =
         selectedView === "callcenter" ? "branchId" : "callcenterId";
-      console.log("filterField", filterField);
       const value =
-        field == "date" ? formattedDates[selectedTab1] : selectedTab;
-      console.log(field, value);
+        field === "date" ? formattedDates[selectedTab1] : selectedTab;
       fetchFirestoreDataWithFilter(
         "Card",
         null,
@@ -241,9 +229,7 @@ const CardTable = () => {
         value
       );
       // Set the last document for pagination
-    } catch (error) {
-      console.error("Error loading initial data:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -289,7 +275,7 @@ const CardTable = () => {
         const filterField =
           selectedView === "callcenter" ? "branchId" : "callcenterId";
         const value =
-          field == "date" ? formattedDates[selectedTab1] : selectedTab;
+          field === "date" ? formattedDates[selectedTab1] : selectedTab;
 
         fetchFirestoreDataWithFilter(
           "Card",
@@ -307,9 +293,7 @@ const CardTable = () => {
           setLastDoc(data[data.length - 1]);
         }
       }
-    } catch (error) {
-      console.error("Error loading more data:", error);
-    }
+    } catch (error) {}
   }, [
     lastDoc,
     data,
@@ -317,12 +301,12 @@ const CardTable = () => {
     formattedDates[selectedTab],
     field,
     selectedTab1,
+    params.id,
   ]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
       const scrollPosition = event.detail.scrollPosition;
-      console.log("DynamicTable Scroll position:", scrollPosition);
     };
 
     window.addEventListener("dynamicTableScroll", handleDynamicTableScroll);
@@ -338,19 +322,15 @@ const CardTable = () => {
   const tableData = searchedData.length > 0 ? searchedData : data;
 
   if (userClaim.superAdmin && selectedView === "branch") {
-    console.log(selectedView);
     CallcenterColumn = CallcenterColumn.filter(
       (column) => column.key !== "callcenterName"
     );
-    console.log("the new column", CallcenterColumn);
   } else if (userClaim.superAdmin && selectedView !== "branch") {
     CallcenterColumn = pushOrUpdateWithKey(CallcenterColumn, {
       key: "callcenterName",
       title: "Callcenter Name",
     });
   }
-
-  console.log("the new column", field, selectedTab1, selectedTab);
 
   // Function to add a roll number to each student
   function addRollNumber(orderArray) {
@@ -378,6 +358,7 @@ const CardTable = () => {
             onChange={(e, newValue) => handleViewChange(newValue)}
             indicatorColor="secondary"
             textColor="secondary"
+            scrollable="true"
           >
             <Tab label="Call Center" value="callcenter" />
             <Tab label="Branch" value="branch" />
@@ -444,7 +425,7 @@ const CardTable = () => {
         >
           <p>
             There are no Card orders{" "}
-            {field == "date" ? "in this day" : "remain this much day"}.
+            {field === "date" ? "in this day" : "remain this much day"}.
           </p>
         </div>
       )}

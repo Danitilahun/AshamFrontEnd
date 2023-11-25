@@ -24,7 +24,6 @@ const fetchTwoDocumentsPrev = async (
   );
 
   if (lastDocument) {
-    console.log("lastDocument.createdAt", lastDocument);
     fieldValueQuery = query(fieldValueQuery, startAt(lastDocument.createdAt));
   }
 

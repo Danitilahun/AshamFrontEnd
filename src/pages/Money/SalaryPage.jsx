@@ -42,8 +42,6 @@ const SalaryPage = () => {
     branchId = userData.id !== undefined ? userData.id : [];
   }
 
-  console.log("testing branch id ", branchId);
-
   const theme = useTheme();
   const { user } = useAuth();
   const userClaims = useUserClaims(user);

@@ -4,7 +4,6 @@ import { API_BASE_URL } from "../utils/config";
 const updateCredit = async (user, id, creditData, type) => {
   try {
     if (!user) {
-      console.log("User is not authenticated.");
       return null;
     }
 
@@ -33,8 +32,6 @@ const updateCredit = async (user, id, creditData, type) => {
       };
     }
   } catch (error) {
-    console.log(`Error occurred while creating ${type}.`, error);
-
     throw error;
   }
 };

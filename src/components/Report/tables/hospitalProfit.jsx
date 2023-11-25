@@ -1,14 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import { useCallback } from "react";
 import { useParams } from "react-router-dom";
-import SearchInput from "../../VersatileComponents/SearchInput";
 import DynamicTable from "../../DynamicTable/DynamicTable";
-import deleteCredit from "../../../api/credit/delete";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
-import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import HotelProfitReportForm from "../createReportForm/hospitalProfit";
 import getRequiredUserData from "../../../utils/getBranchInfo";
@@ -21,7 +18,6 @@ import useUserClaims from "../../../hooks/useUserClaims";
 const containerStyle = {
   display: "flex",
   justifyContent: "space-between",
-  alignItems: "flex-end",
   alignItems: "center",
   // backgroundColor: "green",
 };
@@ -56,7 +52,6 @@ const HotelProfitTable = () => {
   const branchData = getRequiredUserData();
 
   const handleEdit = (row) => {
-    console.log("from the table", row);
     setEditRow(row);
     setIsEditDialogOpen(true);
   };
@@ -75,9 +70,7 @@ const HotelProfitTable = () => {
         branchData.active
       );
       // Set the last document for pagination
-    } catch (error) {
-      console.error("Error loading initial data:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -91,8 +84,6 @@ const HotelProfitTable = () => {
   }, [data]);
 
   const handleSearch = async (searchText) => {
-    // console.log("Search Text:", searchText, searchText === "");
-
     // Perform additional actions when searching here
 
     if (searchText.trim() === "") {
@@ -141,15 +132,12 @@ const HotelProfitTable = () => {
           setLastDoc(data[data.length - 1]);
         }
       }
-    } catch (error) {
-      console.error("Error loading more data:", error);
-    }
+    } catch (error) {}
   }, [lastDoc, data]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
       const scrollPosition = event.detail.scrollPosition;
-      console.log("DynamicTable Scroll position:", scrollPosition);
     };
 
     window.addEventListener("dynamicTableScroll", handleDynamicTableScroll);

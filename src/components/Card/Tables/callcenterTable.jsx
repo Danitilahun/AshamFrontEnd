@@ -6,9 +6,7 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { format } from "date-fns";
 import Search from "../../../api/utils/search";
-import SearchInput from "../../VersatileComponents/SearchInput";
 import DynamicTable from "../../DynamicTable/DynamicTable";
-import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import EditCardOrderForm from "../EditForm/callcenterForm";
 import Delete from "../../../api/orders/delete";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
@@ -51,8 +49,7 @@ const CardTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
-  //   const [deleteRowId, setDeleteRowId] = useState(null);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { openSnackbar } = useSnackbar();
@@ -63,10 +60,8 @@ const CardTable = () => {
   const past15Days = getPastDays(4);
   const currentDate = new Date();
   const getDates = getPast15Days(currentDate, 3);
-  // Format and display the dates in a human-readable format (e.g., "YYYY-MM-DD")
-  // const formattedDates = past15Days;
+
   const formattedDates = getDates.map((date) => format(date, "MMMM d, y"));
-  console.log(formattedDates);
 
   const [selectedTab, setSelectedTab] = useState(null);
   const [selectedTab1, setSelectedTab1] = useState(0);
@@ -83,7 +78,6 @@ const CardTable = () => {
   };
 
   const handleEdit = (row) => {
-    console.log("from the table", row);
     if (row.status !== "Assigned") {
       openSnackbar(
         `You can only edit new orders! This order Already ${row.status}`,
@@ -180,7 +174,6 @@ const CardTable = () => {
     try {
       const value =
         field == "date" ? formattedDates[selectedTab1] : selectedTab;
-      console.log(field, value);
       fetchFirestoreDataWithFilter(
         "Card",
         null,
@@ -193,26 +186,8 @@ const CardTable = () => {
         value
       );
       // Set the last document for pagination
-    } catch (error) {
-      console.error("Error loading initial data:", error);
-    }
+    } catch (error) {}
   };
-  // const loadInitialData = async () => {
-  //   try {
-  //     fetchFirestoreDataWithFilter(
-  //       "Card",
-  //       null,
-  //       10,
-  //       data,
-  //       setData,
-  //       "callcenterId",
-  //       params.id
-  //     );
-  //     // Set the last document for pagination
-  //   } catch (error) {
-  //     console.error("Error loading initial data:", error);
-  //   }
-  // };
 
   useEffect(() => {
     loadInitialData();
@@ -253,7 +228,6 @@ const CardTable = () => {
     try {
       const value =
         field == "date" ? formattedDates[selectedTab1] : selectedTab;
-      console.log(field, value);
       if (lastDoc) {
         fetchFirestoreDataWithFilter(
           "Card",
@@ -271,15 +245,12 @@ const CardTable = () => {
           setLastDoc(data[data.length - 1]);
         }
       }
-    } catch (error) {
-      console.error("Error loading more data:", error);
-    }
+    } catch (error) {}
   }, [lastDoc, data, formattedDates[selectedTab], field, selectedTab1]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
       const scrollPosition = event.detail.scrollPosition;
-      console.log("DynamicTable Scroll position:", scrollPosition);
     };
 
     window.addEventListener("dynamicTableScroll", handleDynamicTableScroll);

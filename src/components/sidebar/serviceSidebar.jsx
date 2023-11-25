@@ -19,7 +19,6 @@ import FlexBetween from "../VersatileComponents/FlexBetween";
 import PersonIcon from "@mui/icons-material/Person";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
-import { useBranch } from "../../contexts/BranchContext";
 import { firestore } from "../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 import { useAuth } from "../../contexts/AuthContext";
@@ -201,7 +200,6 @@ const ServiceSidebar = ({
                 }
                 const lcText = path;
                 let route = `/${lcText}/${callCenterId}`;
-                console.log(route, active);
 
                 return (
                   <ListItem key={text} disablePadding>

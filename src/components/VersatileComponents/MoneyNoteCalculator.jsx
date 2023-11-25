@@ -18,11 +18,8 @@ const initialValues = {
 };
 
 const updateFields = (targetObject, sourceObject) => {
-  // Loop through the keys in the source object
   for (const key in sourceObject) {
-    // Check if the key exists in both objects
     if (key in targetObject) {
-      // Update the value in the target object
       targetObject[key] = sourceObject[key];
     }
   }
@@ -33,7 +30,7 @@ const Calculator = () => {
   const [data, setData] = useState({});
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const [userClaims, setUserClaims] = useState({});
   const userData = getRequiredUserData();
   useEffect(() => {
@@ -41,9 +38,7 @@ const Calculator = () => {
       try {
         const idTokenResult = await user.getIdTokenResult();
         setUserClaims(idTokenResult.claims);
-      } catch (error) {
-        console.log("Error fetching user claims:", error);
-      }
+      } catch (error) {}
     }
     fetchUserClaims();
   }, [user]);
@@ -66,7 +61,6 @@ const Calculator = () => {
     }
     const unsubscribe = getData("Calculator", "active", active, setCalculator);
     if (!calculator) {
-      console.log("the calculator is", calculator);
       setCalculator({
         sum: 0,
         actual: 0,
@@ -77,9 +71,7 @@ const Calculator = () => {
   }, []);
 
   updateFields(initialValues, calculator);
-  console.log("the calculator value is", calculator);
   useEffect(() => {
-    // Simulating fetching data from an API
     setData(initialValues);
   }, []);
 
@@ -108,7 +100,6 @@ const Calculator = () => {
       const value = {
         [key]: parseInt(data[key]),
       };
-      console.log("the value is", value);
       if (!active) {
         throw {
           response: {
@@ -139,7 +130,6 @@ const Calculator = () => {
   };
 
   useEffect(() => {
-    console.log("in the use effect", active);
     if (!active) {
       openSnackbar(
         `You do not have calculator , Since you do not have active sheet, please create one first!`,

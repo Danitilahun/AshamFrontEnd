@@ -4,7 +4,6 @@ import { API_BASE_URL } from "../../utils/config";
 const deleteUser = async (endpoint, user, userId, branchId = "") => {
   try {
     if (!user) {
-      console.log("User is not authenticated.");
       return null;
     }
 
@@ -29,7 +28,6 @@ const deleteUser = async (endpoint, user, userId, branchId = "") => {
       throw new Error(`User is not authorized to create a ${endpoint}.`);
     }
   } catch (error) {
-    console.log("Error occurred while creating branch.", error);
     if (error.isAxiosError) {
       throw new Error(error.message);
     } else {

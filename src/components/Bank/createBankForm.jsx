@@ -149,7 +149,6 @@ const BankForm = ({ source }) => {
     formik.resetForm();
   };
 
-  console.log(formik.values.transactionType);
   return (
     <div>
       {userClaims.finance || userClaims.admin ? (

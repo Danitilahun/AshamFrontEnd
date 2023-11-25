@@ -13,8 +13,6 @@ import {
 import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup"; // Import Yup for validation
-
-import create from "../../../api/orders/create";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import fetchData from "../../../api/services/Users/getUser";
@@ -40,14 +38,12 @@ const EditWifiOrderForm = ({
   closeEditDialog,
   fromWhere,
 }) => {
-  const params = useParams();
   const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
-  const userClaims = useUserClaims(user);
   useEffect(() => {
     const unsubscribe = fetchData("Deliveryturn", setDeliveryGuy);
     return () => unsubscribe();
@@ -124,7 +120,6 @@ const EditWifiOrderForm = ({
         values.status = "Assigned";
         values.fromWhere = fromWhere;
         values.blockHouse = values.blockHouse.toUpperCase();
-        console.log("values", values);
         const res = await update(user, data.id, values, "wifi");
         openSnackbar(`${res.data.message}!`, "success");
         handleCloseForm();

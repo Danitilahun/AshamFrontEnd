@@ -1,7 +1,5 @@
-import { useParams } from "react-router-dom";
 import DynamicTable from "../DynamicTable/DynamicTable";
 import { useState } from "react";
-import useDocumentById from "../../hooks/useDocumentById";
 import { Box } from "@mui/material";
 import { firestore } from "../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
@@ -16,7 +14,6 @@ const columns = [
 ];
 
 const NewExpenseTable = ({ id }) => {
-  console.log(id);
   const [statusData, setStatusData] = useState({});
   const [Credit, setCredit] = useState({});
   let statusDataArray = [];
@@ -109,9 +106,8 @@ const NewExpenseTable = ({ id }) => {
     statusDataArray.push({
       no: statusDataArray.length + 1,
       name: "totalCredit",
-      amount: Credit?.total ? Credit.total : 0,
+      amount: Credit?.StaffCredit ? Credit.StaffCredit : 0,
     });
-    console.log("statusDataArray", statusDataArray);
   }
 
   const loadMoreData = useCallback(async () => {
@@ -120,7 +116,6 @@ const NewExpenseTable = ({ id }) => {
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
       const scrollPosition = event.detail.scrollPosition;
-      console.log("DynamicTable Scroll position:", scrollPosition);
     };
 
     window.addEventListener("dynamicTableScroll", handleDynamicTableScroll);
@@ -133,7 +128,6 @@ const NewExpenseTable = ({ id }) => {
     };
   }, []);
 
-  console.log("statusDataArray", statusDataArray, statusData);
   return (
     <Box m="1rem 0">
       <DynamicTable

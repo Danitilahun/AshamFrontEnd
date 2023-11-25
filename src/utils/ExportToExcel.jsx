@@ -90,7 +90,6 @@ export const ExportToExcel = ({
       maxLengthsPlus3[key] = maxLengths[key] + 3;
     }
 
-    console.log("maxLengthsPlus3", maxLengthsPlus3);
     // Create a worksheet
     const ws = XLSX.utils.json_to_sheet(apiData);
 
@@ -122,7 +121,6 @@ export const ExportToExcel = ({
         id: id,
         clear: Newclear,
       });
-      console.log(response.data.message);
       openSnackbar(`${response.data.message}!`, "success");
       if (response) {
         exportToCSV(response.data.data, `${name}-${date}`);
@@ -143,7 +141,6 @@ export const ExportToExcel = ({
     setIsSubmitting(false);
   };
 
-  console.log(isSubmitting, "isSubmitting");
   return (
     <>
       {isSubmitting ? null : (

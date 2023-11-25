@@ -19,7 +19,6 @@ import getInternationalDate from "../../../utils/getDate";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
 import getRequiredUserData from "../../../utils/getBranchInfo";
-import update from "../../../api/orders/edit";
 import create from "../../../api/orders/create";
 import useUserClaims from "../../../hooks/useUserClaims";
 // Define the validation schema including order item validation
@@ -38,7 +37,7 @@ const WaterOrderBranchForm = () => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
   const userData = getRequiredUserData();
   const userClaims = useUserClaims(user);
@@ -128,7 +127,6 @@ const WaterOrderBranchForm = () => {
         values.branchKey = values.callcenterId;
         values.blockHouse = values.blockHouse.toUpperCase();
         values.from = "branch";
-        console.log("values", values);
         const res = await create(user, values, "water");
         openSnackbar(`${res.data.message}!`, "success");
         handleCloseForm();

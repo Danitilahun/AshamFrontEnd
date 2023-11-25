@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import fetchFirestoreDataWithFilter from "../../api/credit/get";
 import ExpenseEditForm from "./edit";
 import { useAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "../../contexts/InfoContext";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import DynamicTable from "../DynamicTable/DynamicTable";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import deleteExpense from "../../api/expense/delete";
@@ -37,10 +36,8 @@ const ExpenseTable = () => {
   const { user } = useAuth();
   const userClaim = useUserClaims(user);
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
-  const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
-  //   const [deleteRowId, setDeleteRowId] = useState(null);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { openSnackbar } = useSnackbar();

@@ -33,14 +33,12 @@ const getData = (
       orderBy("createdAt", "desc")
     );
   }
-  console.log("field-----------", field);
-  console.log("value-----------", value);
+
   return onSnapshot(fieldValueQuery, (querySnapshot) => {
     const newData = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
-    console.log("newData", newData);
     if (collectionName === "Calculator") {
       setData(newData[0]);
     } else {

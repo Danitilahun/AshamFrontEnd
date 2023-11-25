@@ -12,15 +12,6 @@ const createSummeryTable = async (user, branchId, sheetId) => {
         idTokenResult.claims.admin === true
       ) {
         const idToken = await user.getIdToken();
-        // const count = await getNumberOfDocumentsInCollection(
-        //   "tables",
-        //   "branchId",
-        //   branchId
-        // );
-
-        // console.log(
-        //   `Number of documents in "sheets" with branchId equal to "${branchId}": ${count}`
-        // );
 
         // const date = getInternationalDate();
         const TableData = {
@@ -38,23 +29,14 @@ const createSummeryTable = async (user, branchId, sheetId) => {
           }
         );
         // Handle successful submission
-        console.log("Branch created successfully.");
         return response;
       } else {
-        console.log("User is not authorized to create a branch.");
         throw new Error("User is not authorized to create a branch.");
         // Handle case when the user is not a super admin
       }
     }
   } catch (error) {
-    // console.log("Error occurred while creating branch.", error);
     if (error.isAxiosError) {
-      console.log(
-        "Error occurred while creating branch.",
-        error.response.data.error,
-        error.message,
-        error.stack
-      );
       throw new Error(error.response.data.error);
     } else {
       throw error;

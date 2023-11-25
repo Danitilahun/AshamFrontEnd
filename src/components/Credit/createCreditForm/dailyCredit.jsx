@@ -114,7 +114,6 @@ const DailyCreditForm = ({ type }) => {
         }
         const name = capitalizeString(values.deliveryguyName);
         values.deliveryguyName = name;
-        console.log("values", values);
         const res = await createCredit(user, values, "DailyCredit");
         openSnackbar(`${res.data.message} successfully created!`, "success");
         handleCloseForm();

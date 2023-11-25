@@ -7,15 +7,12 @@ import {
   DialogContent,
   DialogActions,
   useTheme,
-  MenuItem,
-  TextField,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 
 import { useFormik } from "formik";
 import { EssentialFormValidationSchema } from "./validation";
 import createEssential from "../../api/essential/create";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import { useAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "../../contexts/InfoContext";
 import CustomTextField from "../Credit/component/CustomTextField";
@@ -53,7 +50,6 @@ const EssentialForm = ({ type }) => {
         values.name =
           values.name.charAt(0).toUpperCase() +
           values.name.slice(1).toLowerCase();
-        console.log("values", values);
         const res = await createEssential(user, values);
         openSnackbar(`${res.data.message}`, "success");
         handleCloseForm();

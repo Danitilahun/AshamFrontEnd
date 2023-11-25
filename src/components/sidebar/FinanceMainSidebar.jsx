@@ -57,7 +57,6 @@ const FinanceMainSidebar = ({
   const { pathname } = useLocation();
   const { user } = useAuth();
   const userClaims = useUserClaims(user);
-  // const { callCenterId } = useBranch();
   const financeData = getRequiredUserData();
   const params = useParams();
   let callCenterId = userClaims.finance ? user.uid : financeData.requiredId;
@@ -122,10 +121,6 @@ const FinanceMainSidebar = ({
     setActive(pathname);
   }, [pathname]);
 
-  console.log(pathname, active, callCenterId);
-  console.log("pathname", pathname);
-  console.log("active", active);
-  console.log("callCenterId", callCenterId);
   const handleCardClick = (event) => {
     event.preventDefault();
     navigate(`/`);
@@ -205,7 +200,6 @@ const FinanceMainSidebar = ({
                     ? callCenterId
                     : params.id
                 }`;
-                console.log(route, active);
 
                 return (
                   <ListItem key={text} disablePadding>

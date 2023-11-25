@@ -6,10 +6,8 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import fetchFirestoreDataWithFilter from "../../../api/credit/get";
 import Search from "../../../api/utils/search";
-import SearchInput from "../../VersatileComponents/SearchInput";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import DynamicTable from "../../DynamicTable/DynamicTable";
-import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import EditWaterOrderForm from "../EditForm/branchForm";
 import Delete from "../../../api/orders/delete";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
@@ -54,10 +52,8 @@ function pushOrUpdateWithKey(arr, newElement) {
   );
 
   if (existingIndex !== -1) {
-    // An element with the same key already exists, you can replace it here.
     arr[existingIndex] = newElement;
   } else {
-    // Insert the new element as the second-to-last item
     arr.splice(arr.length - 1, 0, newElement);
   }
   return arr;
@@ -87,8 +83,7 @@ const WaterTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
-  //   const [deleteRowId, setDeleteRowId] = useState(null);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { openSnackbar } = useSnackbar();
@@ -106,10 +101,8 @@ const WaterTable = () => {
   const past15Days = getPast15Days(currentDate, 3);
   // Format and display the dates in a human-readable format (e.g., "YYYY-MM-DD")
   const formattedDates = past15Days.map((date) => format(date, "MMMM d, y"));
-  console.log(formattedDates);
   // const [selectedTab, setSelectedTab] = useState(0);
   const days = getPreviousDaysFromToday();
-  console.log("days", days);
   const [selectedTab, setSelectedTab] = useState(0);
   const [selectedTab1, setSelectedTab1] = useState(null);
   const [field, setField] = useState("Date");
@@ -138,7 +131,6 @@ const WaterTable = () => {
     setIsEditDialogOpen(true);
   };
   const handleNew = (row) => {
-    console.log("from the table", row);
     if (row.status !== "Completed") {
       openSnackbar(`You can only new orders if order is Completed!`, "info");
       return;
@@ -201,30 +193,6 @@ const WaterTable = () => {
     setIsSubmitting(false);
     setDeleteItemId(null);
   };
-  // const handleDeleteConfirmed = async () => {
-  //   setIsSubmitting(true);
-  //   closeDeleteConfirmationDialog();
-  //   try {
-  //     // Attempt to delete the credit document
-  //     const res = await Delete(user, deleteItemId, "water");
-  //     openSnackbar(`${res.data.message}!`, "success");
-  //   } catch (error) {
-  //     if (error.response && error.response.data) {
-  //       openSnackbar(
-  //         error.response.data.message,
-  //         error.response.data.type ? error.response.data.type : "error"
-  //       );
-  //     } else {
-  //       openSnackbar(
-  //         "An unexpected error occurred.Please kindly check your connection.",
-  //         "error"
-  //       );
-  //     }
-  //   }
-
-  //   setIsSubmitting(false);
-  //   setDeleteItemId(null);
-  // };
 
   const openDeleteConfirmationDialog = (id) => {
     const doc = findDocumentById(id, data);
@@ -247,7 +215,7 @@ const WaterTable = () => {
     try {
       const filterField =
         selectedView === "callcenter" ? "branchId" : "callcenterId";
-      console.log("filterField", filterField);
+
       fetchFirestoreDataWithFilter(
         "Water",
         null,
@@ -260,9 +228,7 @@ const WaterTable = () => {
         field === "Date" ? formattedDates[selectedTab] : days[selectedTab1]
       );
       // Set the last document for pagination
-    } catch (error) {
-      console.error("Error loading initial data:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -324,9 +290,7 @@ const WaterTable = () => {
             setLastDoc(data[data.length - 1]);
           }
         }
-      } catch (error) {
-        console.error("Error loading more data:", error);
-      }
+      } catch (error) {}
     },
     [lastDoc, data, selectedView, formattedDates[selectedTab]],
     selectedTab1,
@@ -336,7 +300,6 @@ const WaterTable = () => {
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
       const scrollPosition = event.detail.scrollPosition;
-      console.log("DynamicTable Scroll position:", scrollPosition);
     };
 
     window.addEventListener("dynamicTableScroll", handleDynamicTableScroll);
@@ -352,11 +315,9 @@ const WaterTable = () => {
   const tableData = searchedData.length > 0 ? searchedData : data;
 
   if (userClaim.superAdmin && selectedView === "branch") {
-    console.log(selectedView);
     CallcenterColumn = CallcenterColumn.filter(
       (column) => column.key !== "callcenterName"
     );
-    console.log("the new column", CallcenterColumn);
   } else if (userClaim.superAdmin && selectedView !== "branch") {
     CallcenterColumn = pushOrUpdateWithKey(CallcenterColumn, {
       key: "callcenterName",
@@ -373,7 +334,6 @@ const WaterTable = () => {
 
   // Call the function to add roll numbers
   addRollNumber(tableData);
-  console.log("tableData", tableData);
   return (
     <Box m="1rem 0">
       <MyHeaderComponent
@@ -391,6 +351,7 @@ const WaterTable = () => {
             onChange={(e, newValue) => handleViewChange(newValue)}
             indicatorColor="secondary"
             textColor="secondary"
+            scrollable="true"
           >
             <Tab label="Call Center" value="callcenter" />
             <Tab label="Branch" value="branch" />
@@ -409,12 +370,6 @@ const WaterTable = () => {
           ) : null}
         </div>
       </div>
-
-      {/* <TableTab
-        tableDate={formattedDates}
-        selectedTab={selectedTab}
-        handleTabChange={handleTabChange}
-      /> */}
 
       <Grid container spacing={2}>
         <Grid item xs={6}>

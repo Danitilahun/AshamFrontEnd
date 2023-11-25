@@ -4,7 +4,6 @@ import { API_BASE_URL } from "../utils/config";
 const updateUser = async (user, id, UserData, type) => {
   try {
     if (!user) {
-      console.log("User is not authenticated.");
       return null;
     }
 
@@ -36,7 +35,6 @@ const updateUser = async (user, id, UserData, type) => {
       };
     }
   } catch (error) {
-    console.log(`Error occurred while creating User.`, error);
     throw error;
   }
 };

@@ -4,6 +4,7 @@ import Header from "../../components/VersatileComponents/Header";
 import useCollectionData from "../../hooks/useCollectionData";
 import UserCard from "../../components/User/card/admin/admin";
 import { Helmet } from "react-helmet";
+
 const Admin = () => {
   const { data: admins } = useCollectionData("admin");
   const theme = useTheme();

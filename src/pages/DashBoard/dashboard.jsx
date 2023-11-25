@@ -38,27 +38,33 @@ const Dashboard = () => {
           {dashTotalData && (
             <div className="container-top">
               <DashboardCard
-                totalIncome={dashTotalData.totalBudget}
+                totalIncome={dashTotalData?.totalBudget}
                 icon={<AttachMoneyIcon />}
                 title={"Total Budget"}
                 boxShadow={"5px 5px 10px rgba(0, 0, 0, 0.2)"}
               />
               <DashboardCard
-                totalIncome={dashTotalData.totalEmployees}
+                totalIncome={
+                  dashTotalData?.totalEmployees
+                    ? dashTotalData?.totalEmployees
+                    : "Not Available"
+                }
                 icon={<EngineeringIcon />}
                 title={"Total Delivery Guy"}
               />
 
               <DashboardCard
-                totalIncome={dashTotalData.totalCustomer}
+                totalIncome={dashTotalData?.totalCustomer}
                 icon={<GroupIcon />}
                 title={"Total Customer"}
               />
+
               <DashboardCard
                 totalIncome={
-                  dashTotalData.totalIncome
-                    ? dashTotalData.totalIncome?.toFixed(2)
-                    : 0
+                  dashTotalData?.totalIncome &&
+                  dashTotalData?.totalIncome !== "Not Available"
+                    ? dashTotalData?.totalIncome.toFixed(2)
+                    : "Not Available"
                 }
                 icon={<GetAppIcon />}
                 title={"Total Income"}
@@ -66,9 +72,10 @@ const Dashboard = () => {
 
               <DashboardCard
                 totalIncome={
-                  dashTotalData.totalExpense
+                  dashTotalData?.totalExpense &&
+                  dashTotalData?.totalExpense !== "Not Available"
                     ? dashTotalData.totalExpense.toFixed(2)
-                    : 0
+                    : "Not Available"
                 }
                 icon={<FileUploadIcon />}
                 title={"Total Expense"}

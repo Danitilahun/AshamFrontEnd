@@ -22,7 +22,6 @@ const Search = (
   fieldToFilter3,
   valueToMatch3
 ) => {
-  //   console.log("-----------start after", fieldToFilter, valueToMatch);
   const dataCollection = collection(firestore, collectionName);
 
   let firestoreQuery = query(dataCollection, orderBy("createdAt", "desc"));

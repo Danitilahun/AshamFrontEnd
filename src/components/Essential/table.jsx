@@ -60,7 +60,6 @@ const EssentialTable = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const handleEdit = (row) => {
-    console.log("from the table", row);
     setEditRow(row);
     setIsEditDialogOpen(true);
   };
@@ -78,7 +77,6 @@ const EssentialTable = () => {
       openSnackbar(`${res.data.message}!`, "success");
       // Check if the deletion was successful
     } catch (error) {
-      console.error("Error deleting credit document:", error);
       openSnackbar(
         error.response.data.message,
         error.response.data.type ? error.response.data.type : "error"
@@ -102,9 +100,7 @@ const EssentialTable = () => {
     try {
       fetchFirestoreDataWithPagination("Essentials", null, 5, data, setData);
       // Set the last document for pagination
-    } catch (error) {
-      console.error("Error loading initial data:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -157,15 +153,12 @@ const EssentialTable = () => {
           setLastDoc(data[data.length - 1]);
         }
       }
-    } catch (error) {
-      console.error("Error loading more data:", error);
-    }
+    } catch (error) {}
   }, [lastDoc, data]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
       const scrollPosition = event.detail.scrollPosition;
-      console.log("DynamicTable Scroll position:", scrollPosition);
     };
 
     window.addEventListener("dynamicTableScroll", handleDynamicTableScroll);
@@ -179,10 +172,7 @@ const EssentialTable = () => {
   }, []);
 
   const { screenWidth, screenHeight } = useWindowDimensions();
-  // console.log(screenWidth / 1536);
-  console.log("searchedData", searchedData);
   const tableData = searchedData.length > 0 ? searchedData : data;
-  console.log("data", tableData);
   const avatarSize =
     screenWidth >= 1536 ? 50 : (screenWidth / 1536) * 50 + "px";
   const fontSize = screenWidth >= 1536 ? 18 : (screenWidth / 1536) * 18 + "px";

@@ -127,7 +127,6 @@ const WifiOrderBranchForm = () => {
         values.branchKey = values.callcenterId;
         values.blockHouse = values.blockHouse.toUpperCase();
         values.from = "branch";
-        console.log("values", values);
         const res = await create(user, values, "wifi");
         openSnackbar(`${res.data.message}!`, "success");
         handleCloseForm();

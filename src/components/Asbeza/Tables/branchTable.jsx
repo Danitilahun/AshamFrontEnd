@@ -7,15 +7,12 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import fetchFirestoreDataWithFilter from "../../../api/credit/get";
 import Search from "../../../api/utils/search";
-import SearchInput from "../../VersatileComponents/SearchInput";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import DynamicTable from "../../DynamicTable/DynamicTable";
-import ConfirmationDialog from "../../VersatileComponents/ConfirmationDialog";
 import EditAsbezaOrderForm from "../EditForm/branchForm";
 import Delete from "../../../api/orders/delete";
 import AsbezaOrderBranchForm from "../CreateForm/branchForm";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
-import capitalizeString from "../../../utils/capitalizeString";
 import useUserClaims from "../../../hooks/useUserClaims";
 import findDocumentById from "../../../utils/findDocumentById";
 import getPast15Days from "../../../utils/getPast15Days";
@@ -109,7 +106,7 @@ const AsbezaTable = () => {
   const past15Days = getPast15Days(currentDate);
   // Format and display the dates in a human-readable format (e.g., "YYYY-MM-DD")
   const formattedDates = past15Days.map((date) => format(date, "MMMM d, y"));
-  console.log(formattedDates);
+
   const [selectedTab, setSelectedTab] = useState(0);
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -213,7 +210,6 @@ const AsbezaTable = () => {
       setIsSubmitting(true);
       const filterField =
         selectedView === "callcenter" ? "branchId" : "callcenterId";
-      console.log("filterField", filterField);
       fetchFirestoreDataWithFilter(
         "Asbeza",
         null,
@@ -226,9 +222,7 @@ const AsbezaTable = () => {
         formattedDates[selectedTab]
       );
       // Set the last document for pagination
-    } catch (error) {
-      console.error("Error loading initial data:", error);
-    }
+    } catch (error) {}
     setIsSubmitting(false);
   };
 
@@ -291,15 +285,12 @@ const AsbezaTable = () => {
           setLastDoc(data[data.length - 1]);
         }
       }
-    } catch (error) {
-      console.error("Error loading more data:", error);
-    }
+    } catch (error) {}
   }, [lastDoc, data, selectedView, formattedDates[selectedTab]]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
       const scrollPosition = event.detail.scrollPosition;
-      console.log("DynamicTable Scroll position:", scrollPosition);
     };
 
     window.addEventListener("dynamicTableScroll", handleDynamicTableScroll);
@@ -314,11 +305,9 @@ const AsbezaTable = () => {
 
   const tableData = searchedData.length > 0 ? searchedData : data;
   if (userClaim.superAdmin && selectedView === "branch") {
-    console.log(selectedView);
     CallcenterColumn = CallcenterColumn.filter(
       (column) => column.key !== "callcenterName"
     );
-    console.log("the new column", CallcenterColumn);
   } else if (userClaim.superAdmin && selectedView !== "branch") {
     CallcenterColumn = pushOrUpdateWithKey(CallcenterColumn, {
       key: "callcenterName",
@@ -335,8 +324,6 @@ const AsbezaTable = () => {
 
   // Call the function to add roll numbers
   addRollNumber(tableData);
-
-  console.log("selectedTab", formattedDates[selectedTab]);
 
   return (
     <Box m="1rem 0">

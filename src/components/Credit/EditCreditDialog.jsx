@@ -25,13 +25,10 @@ const EditCreditDialog = ({
   const [deliveryGuy, setDeliveryGuy] = useState([]);
   const theme = useTheme();
   const param = useParams();
-  console.log("editFormValues", editFormValues);
   useEffect(() => {
     const unsubscribe = fetchData("Deliveryturn", setDeliveryGuy);
     return () => unsubscribe();
   }, []);
-
-  console.log("deliveryGuy", deliveryGuy);
 
   const deliveryMan = deliveryGuy ? deliveryGuy[param.id] : [];
   const deliveryman = deliveryMan?.map((item) => [

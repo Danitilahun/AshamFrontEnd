@@ -188,7 +188,6 @@ const FinanceSidebar = ({
                 }
                 const lcText = path;
                 let route = `/${lcText}/${callCenterId}`;
-                console.log(route, active);
 
                 return (
                   <ListItem key={text} disablePadding>

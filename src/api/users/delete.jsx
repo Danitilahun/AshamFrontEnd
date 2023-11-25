@@ -5,7 +5,6 @@ import { API_BASE_URL } from "../utils/config";
 const deleteUser = async (user, Id, type) => {
   try {
     if (!user) {
-      console.log("User is not authenticated.");
       return null;
     }
 
@@ -32,7 +31,6 @@ const deleteUser = async (user, Id, type) => {
       };
     }
   } catch (error) {
-    console.log(`Error occurred while creating User.`, error);
     throw error;
   }
 };

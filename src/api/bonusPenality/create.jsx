@@ -1,8 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL } from "../utils/config";
 
-// Arrow function to create a branch using Axios
-
 const CreateIncentive = async (incentiveData, user, type) => {
   try {
     if (user) {
@@ -19,7 +17,7 @@ const CreateIncentive = async (incentiveData, user, type) => {
             },
           }
         );
-        // Handle successful submission
+
         return response;
       } else {
         throw {
@@ -30,7 +28,6 @@ const CreateIncentive = async (incentiveData, user, type) => {
             },
           },
         };
-        // Handle case when the user is not a super admin
       }
     }
   } catch (error) {

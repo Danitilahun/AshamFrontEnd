@@ -2,7 +2,6 @@ import axios from "axios";
 import { API_BASE_URL } from "../utils/config";
 
 const CompleteTask = async (user, UserData) => {
-  console.log("UserData", UserData);
   try {
     if (user) {
       const idTokenResult = await user.getIdTokenResult();
@@ -20,10 +19,8 @@ const CompleteTask = async (user, UserData) => {
           }
         );
 
-        console.log(`User created successfully.`);
         return response;
       } else {
-        console.log("User is not authorized to create a User.");
         throw {
           response: {
             data: {

@@ -4,7 +4,6 @@ import { API_BASE_URL } from "../../utils/config";
 const updateProfileImage = async (endpoint, user, userId, formData) => {
   try {
     if (!user) {
-      console.log("User is not authenticated.");
       return null;
     }
 
@@ -31,7 +30,6 @@ const updateProfileImage = async (endpoint, user, userId, formData) => {
       throw new Error(`User is not authorized to create a ${endpoint}.`);
     }
   } catch (error) {
-    console.log("Error occurred while creating branch.", error);
     if (error.isAxiosError) {
       throw new Error(error.message);
     } else {

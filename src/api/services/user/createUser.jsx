@@ -26,7 +26,6 @@ const createUser = async (formData, user, endpoint) => {
       }
     }
   } catch (error) {
-    console.log("Error occurred while creating branch.", error);
     if (error.isAxiosError) {
       throw new Error(error.message);
     } else {

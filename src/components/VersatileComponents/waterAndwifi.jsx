@@ -20,13 +20,13 @@ const WWTableTab = ({
       }}
     >
       <Tabs
-        value={selectedTab !== null ? selectedTab : false} // Set to false initially
+        value={selectedTab !== null ? selectedTab : false}
         onChange={handleTabChange}
         style={{
           color: theme.palette.secondary[700],
           backgroundColor: theme.palette.background.alt,
         }}
-        scrollable
+        scrollable="true"
         scrollButtons="auto"
         indicatorColor="primary"
       >

@@ -20,10 +20,8 @@ const createCredit = async (user, CreditData, type) => {
           }
         );
         // Handle successful submission
-        console.log(`${type} created successfully.`);
         return response;
       } else {
-        console.log("User is not authorized to create a branch.");
         throw {
           response: {
             data: {
@@ -36,7 +34,6 @@ const createCredit = async (user, CreditData, type) => {
       }
     }
   } catch (error) {
-    // console.log(`Error occurred while creating ${type}.`, error);
     throw error;
   }
 };

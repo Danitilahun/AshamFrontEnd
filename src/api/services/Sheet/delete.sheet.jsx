@@ -5,7 +5,6 @@ const { API_BASE_URL } = require("../../utils/config");
 const deleteSheet = async (user, sheetId) => {
   try {
     if (!user) {
-      console.log("User is not authenticated.");
       return null;
     }
 
@@ -27,7 +26,6 @@ const deleteSheet = async (user, sheetId) => {
       throw new Error("User is not authorized to delete this sheet.");
     }
   } catch (error) {
-    console.log("Error occurred while deleting branch.", error);
     if (error.isAxiosError) {
       throw new Error(error.message);
     } else {

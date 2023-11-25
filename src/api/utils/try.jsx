@@ -17,8 +17,6 @@ const getDocumentById = (collectionName, documentId, setData) => {
     }
   });
 
-  console.log("Unsubscribe function:", unsubscribe);
-
   return unsubscribe;
 };
 

@@ -29,7 +29,6 @@ const createTable = async (user, branchId, sheetId) => {
 
         return response;
       } else {
-        console.log("User is not authorized to create a branch.");
         throw {
           response: {
             data: {
@@ -42,7 +41,6 @@ const createTable = async (user, branchId, sheetId) => {
       }
     }
   } catch (error) {
-    console.log("Error occurred while creating branch.", error);
     throw error;
   }
 };

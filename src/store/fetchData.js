@@ -16,7 +16,6 @@ const setupRealtimeListener = () => {
       });
     } catch (error) {
       // Handle any errors here
-      console.error("Error setting up real-time listener:", error);
     }
   };
 };

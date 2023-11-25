@@ -4,7 +4,6 @@ import { API_BASE_URL } from "../utils/config";
 const ChangeSheetStatus = async (user, BranchData) => {
   try {
     if (!user) {
-      console.log("User is not authenticated.");
       return null;
     }
 
@@ -33,7 +32,6 @@ const ChangeSheetStatus = async (user, BranchData) => {
       };
     }
   } catch (error) {
-    console.log(`Error occurred while creating Branch.`, error);
     throw error;
   }
 };

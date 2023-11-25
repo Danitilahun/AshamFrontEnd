@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import {
   Button,
   Dialog,
@@ -15,7 +15,6 @@ import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import { BranchFormValidationSchema } from "../validator/BranchFormValidationSchema";
 import CustomTextField from "../createBranchForm/CustomTextField";
 import updateBranch from "../../../api/branch/editBranch";
-import useUserClaims from "../../../hooks/useUserClaims";
 import updateBranchName from "../../../api/branch/nameChange";
 
 const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
@@ -23,13 +22,12 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
   const theme = useTheme();
-  const userClaims = useUserClaims(user);
+
   // Handle form submission
   const handleSubmit = async (values) => {
     setIsSubmitting(true);
     try {
       // Update the branch with the new data
-      console.log("values", values);
       values.nameChange = values.name !== branch.name;
       values.budgetChange = values.budget !== branch.budget;
       values.managerId = branch.managerId;
@@ -48,7 +46,6 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
         values.ExpenseThreeName = branch.ExpenseThreeName;
       }
 
-      console.log("values", values);
       const res = await updateBranch(user, branch.id, values); // Replace with your API update function
       openSnackbar(res.data.message, "success");
       handleCloseForm();
@@ -141,7 +138,7 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
 
               <CustomTextField
                 name="ethioTelBill"
-                label="Ethio Tele Bill"
+                label="Ethiotele Bill Amount"
                 type="number"
                 value={formik.values.ethioTelBill}
                 onChange={formik.handleChange}
@@ -162,7 +159,7 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
 
               <CustomTextField
                 name="ethioTelAccount"
-                label="Ethio Tele Account"
+                label="Ethiotele Bill Account"
                 value={formik.values.ethioTelAccount}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur} // <-- Add this line
@@ -172,7 +169,7 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
 
               <CustomTextField
                 name="wifi"
-                label="Wifi"
+                label="Wifi Amount"
                 type="number"
                 value={formik.values.wifi}
                 onChange={formik.handleChange}
@@ -183,7 +180,7 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
 
               <CustomTextField
                 name="ethioTelOwnerName"
-                label="Ethio Tele Phone Owner Name"
+                label="Ethiotele Bill Owner Name"
                 value={formik.values.ethioTelOwnerName}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur} // <-- Add this line
@@ -203,7 +200,7 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
 
               <CustomTextField
                 name="houseRent"
-                label="House Rent"
+                label="House Rent Amount"
                 type="number"
                 value={formik.values.houseRent}
                 onChange={formik.handleChange}
@@ -223,7 +220,7 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
               />
               <CustomTextField
                 name="houseRentAccount"
-                label="House Owner Account"
+                label="House Rent Owner Account"
                 value={formik.values.houseRentAccount}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur} // <-- Add this line
@@ -244,7 +241,7 @@ const EditBranchForm = ({ branch, isEditDialogOpen, closeEditDialog }) => {
 
               <CustomTextField
                 name="houseRentOwnerName"
-                label="House Owner Name"
+                label="House Rent Owner Name"
                 value={formik.values.houseRentOwnerName}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur} // <-- Add this line

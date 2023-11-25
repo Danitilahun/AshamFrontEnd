@@ -99,7 +99,6 @@ const EditDailyCreditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
           };
         }
         values.difference = values.amount - credit.amount;
-        console.log("values", values);
         const res = await updateCredit(user, credit.id, values, "DailyCredit");
         openSnackbar(`${res.data.message} successfully created!`, "success");
         handleCloseForm();

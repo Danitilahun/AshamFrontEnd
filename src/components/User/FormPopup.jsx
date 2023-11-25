@@ -19,7 +19,7 @@ const FormPopup = ({ type }) => {
   const [branches, setBranches] = useState([]);
   const { openSnackbar } = useSnackbar();
   const params = useParams();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   let currentTable;
   let active;
   let numberofworker;
@@ -35,8 +35,6 @@ const FormPopup = ({ type }) => {
         userData.numberofworker !== undefined ? userData.numberofworker : 0;
       uniqueName = userData.uniqueName !== undefined ? userData.uniqueName : "";
     }
-
-    // console.log("asjdnsajf", userData.branchId); // Output: John// Output: 30
   }
 
   useEffect(() => {
@@ -68,7 +66,6 @@ const FormPopup = ({ type }) => {
 
     try {
       const formData = createForm(event);
-      console.log(formData);
       if (type === "Delivery Guy") {
         formData.append("branch", params.id);
         formData.append("activeTable", currentTable);
@@ -96,7 +93,6 @@ const FormPopup = ({ type }) => {
           formData.append("uniqueName", unique);
         }
       }
-      console.log("form data", formData, "endpoint", endpoint);
       await createUser(formData, user, endpoint);
       if (type !== "Delivery Guy" && type !== "Staff") {
         forgotPassword(event.target.elements.email.value);
@@ -113,7 +109,6 @@ const FormPopup = ({ type }) => {
         localStorage.setItem("userData", JSON.stringify(storedData));
       }
     } catch (error) {
-      console.error("Error during form submission:", error);
       openSnackbar(error.message, "error");
     }
     setIsSubmitting(false);
@@ -121,7 +116,6 @@ const FormPopup = ({ type }) => {
 
   return (
     <div>
-      
       <Button variant="contained" color="primary" onClick={handleOpen}>
         Create new {type}
       </Button>

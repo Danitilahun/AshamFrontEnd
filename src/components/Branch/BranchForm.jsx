@@ -20,20 +20,16 @@ const BranchForm = ({ type }) => {
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
   const theme = useTheme();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
 
   const [userClaims, setUserClaims] = useState({});
-  // ... (other states)
 
-  // Use useEffect to fetch idTokenResult when the component mounts
   useEffect(() => {
     async function fetchUserClaims() {
       try {
         const idTokenResult = await user.getIdTokenResult();
         setUserClaims(idTokenResult.claims);
-      } catch (error) {
-        console.log("Error fetching user claims:", error);
-      }
+      } catch (error) {}
     }
     fetchUserClaims();
   }, [user]);
@@ -55,7 +51,6 @@ const BranchForm = ({ type }) => {
     const jsonFormData = {};
     for (let i = 0; i < formData.length; i++) {
       const element = formData[i];
-      // console.log("type", element.type, element.name);
 
       if (element.name && element.value.trim() !== "") {
         const value =
@@ -81,17 +76,14 @@ const BranchForm = ({ type }) => {
     jsonFormData["activeSheet"] = "";
     jsonFormData["active"] = "";
     jsonFormData["openingDate"] = new Date().toISOString();
-    console.log("-----------the file-----------", jsonFormData);
 
     // Create the branch
     try {
-      console.log("file", jsonFormData);
       await createBranch(jsonFormData, user);
 
       openSnackbar(`branch created successful!`, "success");
       handleClose();
     } catch (error) {
-      console.log("error occurred while creating branch", error.message);
       openSnackbar(error.message, "error");
     }
     setIsSubmitting(false);

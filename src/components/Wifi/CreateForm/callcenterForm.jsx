@@ -60,7 +60,6 @@ const WifiOrderForm = () => {
     return () => unsubscribe();
   }, []);
 
-  console.log("staff", staff.member);
   const result = staff?.member?.filter((item) => item.id === user.uid);
 
   useEffect(() => {
@@ -102,8 +101,6 @@ const WifiOrderForm = () => {
     item.active,
     item.activeDailySummery,
   ]);
-
-  console.log("branch", branch);
 
   const handleButtonClick = () => {
     setShowForm(true);

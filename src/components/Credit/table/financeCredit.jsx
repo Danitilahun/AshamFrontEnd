@@ -77,7 +77,6 @@ const FinanceTable = () => {
   const financeData = getRequiredUserData();
 
   const handleEdit = (row) => {
-    console.log("from the table", row);
     setEditRow(row);
     setIsEditDialogOpen(true);
   };
@@ -133,9 +132,7 @@ const FinanceTable = () => {
         params.id
       );
       // Set the last document for pagination
-    } catch (error) {
-      console.error("Error loading initial data:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -149,8 +146,6 @@ const FinanceTable = () => {
   }, [data]);
 
   const handleSearch = async (searchText) => {
-    // console.log("Search Text:", searchText, searchText === "");
-
     // Perform additional actions when searching here
 
     if (searchText.trim() === "") {
@@ -195,15 +190,12 @@ const FinanceTable = () => {
           setLastDoc(data[data.length - 1]);
         }
       }
-    } catch (error) {
-      console.error("Error loading more data:", error);
-    }
+    } catch (error) {}
   }, [lastDoc, data]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
       const scrollPosition = event.detail.scrollPosition;
-      console.log("DynamicTable Scroll position:", scrollPosition);
     };
 
     window.addEventListener("dynamicTableScroll", handleDynamicTableScroll);
@@ -220,8 +212,7 @@ const FinanceTable = () => {
     params.id ? params.id : user.uid
   );
   const tableData = searchedData.length > 0 ? searchedData : data;
-  console.log(params.id, "params.id");
-  console.log(tableData, "tableData");
+
   return (
     <Box m="1rem 0">
       <MyHeaderComponent

@@ -88,7 +88,6 @@ const EditFinanceCreditForm = ({
         }
         values.date = date;
         values.difference = values.amount - credit.amount;
-        console.log("values", values);
         const res = await updateCredit(
           user,
           credit.id,

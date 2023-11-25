@@ -10,11 +10,9 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
-import { useFormik } from "formik";
-import * as Yup from "yup"; // Import Yup for validation
 
-import create from "../../../api/orders/create";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import fetchData from "../../../api/services/Users/getUser";
@@ -22,7 +20,7 @@ import getInternationalDate from "../../../utils/getDate";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
 import update from "../../../api/orders/edit";
-import useUserClaims from "../../../hooks/useUserClaims";
+
 // Define the validation schema including order item validation
 const EditAsbezaOrderFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -40,15 +38,13 @@ const EditAsbezaOrderForm = ({
   closeEditDialog,
   fromWhere,
 }) => {
-  const params = useParams();
-  const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const [branches, setBranches] = useState([]);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
-  const userClaims = useUserClaims(user);
+
   useEffect(() => {
     const unsubscribe = fetchData("branches", setBranches);
     return () => unsubscribe();
@@ -89,12 +85,6 @@ const EditAsbezaOrderForm = ({
     item.activeDailySummery,
   ]);
 
-  console.log("branch", branch);
-
-  const handleButtonClick = () => {
-    setShowForm(true);
-  };
-
   const formik = useFormik({
     initialValues: {
       name: data.name,
@@ -119,7 +109,6 @@ const EditAsbezaOrderForm = ({
         const date = getInternationalDate();
         values.date = date;
         values.callcenterId = user.uid;
-        console.log("values before", values);
 
         if (!values.deliveryguyId || !values.deliveryguyName) {
           handleCloseForm();
@@ -169,7 +158,6 @@ const EditAsbezaOrderForm = ({
         values.fromWhere = fromWhere;
         values.branchKey = values.branchId;
         values.blockHouse = values.blockHouse.toUpperCase();
-        console.log("values", values);
         const res = await update(user, data.id, values, "asbeza");
         openSnackbar(`${res.data.message}!`, "success");
         handleCloseForm();
@@ -419,9 +407,6 @@ const EditAsbezaOrderForm = ({
                     </Grid>
 
                     <Grid item xs={3} sm={3} md={3} lg={3}>
-                      {console.log(
-                        formik.errors.order && formik.errors.order[index]
-                      )}
                       <Button
                         sx={{
                           height:

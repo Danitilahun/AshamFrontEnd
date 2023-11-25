@@ -5,7 +5,6 @@ const { API_BASE_URL } = require("../../utils/config");
 const deleteOrder = async (user, userId, type) => {
   try {
     if (!user) {
-      console.log("User is not authenticated.");
       return null;
     }
 
@@ -28,7 +27,6 @@ const deleteOrder = async (user, userId, type) => {
       throw new Error("User is not authorized to delete a branch.");
     }
   } catch (error) {
-    console.log("Error occurred while deleting branch.", error);
     if (error.isAxiosError) {
       throw new Error(error.message);
     } else {

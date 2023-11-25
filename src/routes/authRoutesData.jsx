@@ -5,8 +5,6 @@ import LoginForm from "../pages/Auth/LoginForm";
 import ForgetPasswordForm from "../pages/Auth/ForgetPasswordForm";
 import ResetPasswordForm from "../pages/Auth/ResetPassword";
 import SuccessPage from "../pages/success/success";
-import OfflinePage from "../pages/InfoPage/OfflinePage";
-import NotFoundPage from "../pages/InfoPage/NotFoundPage";
 
 const authRoutesData = [
   { path: "/login", component: LoginForm, requiresAuth: true },

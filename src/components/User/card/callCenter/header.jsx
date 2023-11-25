@@ -12,9 +12,6 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
-// import ProfileImageDialog from "./ProfileImageDialog";
-// import updateProfileImage from "../../api/services/Users/updateProfileImage";
-// import enableDisable from "../../api/services/Users/handleEnableDisable";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { useSnackbar } from "../../../../contexts/InfoContext";
 import { SpinnerContext } from "../../../../contexts/SpinnerContext";
@@ -73,7 +70,6 @@ const UserHeader = ({
   const handleEnableDisable = async () => {
     setIsSubmitting(true);
     try {
-      // console.log("user", userInfo.id);
       const res = await enableDisable(user, userInfo.id, {
         disable: !userInfo.disable,
         collectionName: "callcenter",
@@ -103,9 +99,7 @@ const UserHeader = ({
     setIsDialogOpen(false);
   };
 
-  // console.log(isLargeScreen, isMediumScreen, isSmallScreen);
   const { screenWidth, screenHeight } = useWindowDimensions();
-  // console.log(screenWidth / 1536);
 
   const avatarSize =
     screenWidth >= 1536 ? 50 : (screenWidth / 1536) * 50 + "px";

@@ -1,8 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL } from "../utils/config";
 
-// Arrow function to create a branch using Axios
-
 const HolidayBonus = async (holidayBonusData, user, type) => {
   try {
     if (user) {
@@ -19,7 +17,7 @@ const HolidayBonus = async (holidayBonusData, user, type) => {
             },
           }
         );
-        // Handle successful submission
+
         return response;
       } else {
         throw {
@@ -30,7 +28,6 @@ const HolidayBonus = async (holidayBonusData, user, type) => {
             },
           },
         };
-        // Handle case when the user is not a super admin
       }
     }
   } catch (error) {

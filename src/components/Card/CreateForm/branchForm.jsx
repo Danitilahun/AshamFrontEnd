@@ -18,10 +18,10 @@ import fetchData from "../../../api/services/Users/getUser";
 import getInternationalDate from "../../../utils/getDate";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
 import getRequiredUserData from "../../../utils/getBranchInfo";
-import update from "../../../api/orders/edit";
 import create from "../../../api/orders/create";
 import useUserClaims from "../../../hooks/useUserClaims";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
+
 // Define the validation schema including order item validation
 const CardOrderFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -40,7 +40,7 @@ const CardOrderBranchForm = () => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
   const userData = getRequiredUserData();
   const userClaims = useUserClaims(user);
@@ -129,7 +129,6 @@ const CardOrderBranchForm = () => {
         values.blockHouse = values.blockHouse.toUpperCase();
         values.cardBranch = values.callcenterId;
         values.from = "branch";
-        console.log("values", values);
         const res = await create(user, values, "card");
         openSnackbar(`${res.data.message}!`, "success");
         handleCloseForm();

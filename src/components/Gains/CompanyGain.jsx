@@ -1,6 +1,5 @@
 import {
   Button,
-  CircularProgress,
   Grid,
   Paper,
   TextField,
@@ -12,7 +11,6 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "../../contexts/InfoContext";
 import editPrices from "../../api/services/prices/setPrices";
 import fetchData from "../../api/services/Users/getUser";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import useUserClaims from "../../hooks/useUserClaims";
 import { useContext } from "react";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
@@ -22,7 +20,7 @@ const CompanyGainGrid = () => {
   const { user } = useAuth();
   const [companyData, setCompanyData] = useState({});
   const { openSnackbar } = useSnackbar();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
   useEffect(() => {
     const unsubscribe = fetchData("companyGain", setCompanyData);
@@ -30,8 +28,6 @@ const CompanyGainGrid = () => {
   }, []);
 
   delete companyData?.id;
-
-  console.log("company info", companyData);
 
   const showCompanyData = {
     card_distribute_gain: companyData ? companyData?.card_distribute_gain : "",
@@ -43,7 +39,6 @@ const CompanyGainGrid = () => {
     asbeza_profit: companyData ? companyData?.asbeza_profit : "",
   };
 
-  console.log(showCompanyData);
   const names = {
     card_distribute_gain: "Card Distribute Gain",
     water_distribute_gain: "Water Distribute Gain",
@@ -87,7 +82,6 @@ const CompanyGainGrid = () => {
       [key]: false,
     }));
 
-    console.log({ [key]: parseInt(companyData[key], 10) });
     try {
       // Make an Axios PUT request to update the individual field
       await editPrices(

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   TextField,
@@ -11,7 +11,6 @@ import {
   DialogActions,
 } from "@mui/material";
 import fetchData from "../../api/services/Users/getUser";
-import FlexBetween from "./FlexBetween";
 import { firestore } from "../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 import { useLocation, useParams } from "react-router-dom";
@@ -25,11 +24,9 @@ const EditDialog = ({
   type,
 }) => {
   const [branches, setBranches] = useState([]);
-  const [deliveryGuy, setDeliveryGuy] = useState([]);
   const theme = useTheme();
   const param = useParams();
   const [deliveryman, setDeliveryman] = useState([]);
-  console.log("param", param);
   const { pathname } = useLocation();
   let branchName = "";
   const storedData = localStorage.getItem("userData");
@@ -42,7 +39,6 @@ const EditDialog = ({
     return () => unsubscribe();
   }, []);
 
-  console.log("deliveryGuy", deliveryGuy);
   const branchInfo = branches?.map((item) => [item.name, item.id]);
 
   useEffect(() => {
@@ -65,7 +61,6 @@ const EditDialog = ({
     );
     const unsubscribe = onSnapshot(worksRef, (doc) => {
       if (doc.exists()) {
-        console.log("Document data:", doc.data());
         const inputArray = doc.data().worker;
         const deliveryMan = inputArray.reduce((accumulator, obj) => {
           if (obj.role === "DeliveryGuy") {
@@ -73,7 +68,6 @@ const EditDialog = ({
           }
           return accumulator;
         }, []);
-        console.log("deliveryMan", deliveryMan);
         setDeliveryman(deliveryMan);
       }
     });

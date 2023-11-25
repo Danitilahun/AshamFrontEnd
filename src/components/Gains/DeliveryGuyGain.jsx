@@ -1,6 +1,5 @@
 import {
   Button,
-  CircularProgress,
   Grid,
   Paper,
   TextField,
@@ -12,10 +11,10 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "../../contexts/InfoContext";
 import fetchData from "../../api/services/Users/getUser";
 import editPrices from "../../api/services/prices/setPrices";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
-import useUserClaims from "../../hooks/useUserClaims";
 import { useContext } from "react";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
+import useUserClaims from "../../hooks/useUserClaims";
+
 const DeliveryGainGrid = () => {
   const theme = useTheme();
   const { user } = useAuth();
@@ -31,7 +30,7 @@ const DeliveryGainGrid = () => {
     wifi_distribute_price: "",
   });
   const { openSnackbar } = useSnackbar();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
 
   useEffect(() => {
@@ -40,7 +39,6 @@ const DeliveryGainGrid = () => {
   }, []);
 
   delete data?.id;
-  console.log(data);
   const showData = {
     fixedSalary: data ? data?.fixedSalary : "",
     asbezaPrice: data ? data?.asbezaPrice : "",
@@ -104,7 +102,6 @@ const DeliveryGainGrid = () => {
       [key]: false,
     }));
 
-    // console.log({ [key]: parseInt(data[key], 10) });
     try {
       // Make an Axios PUT request to update the individual field
       await editPrices(user, { [key]: parseInt(data[key], 10) }, "update");

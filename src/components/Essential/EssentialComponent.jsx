@@ -1,16 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
-import { Grid, Paper, Typography, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import Header from "../VersatileComponents/Header";
-import fetchData from "../../api/services/Users/getUser";
-import GridItem from "./GridItem";
 import EssentialTable from "./table";
-
-const gridItemsStyle = {
-  maxHeight: "150px",
-  padding: "5px 0 10px 0", // Adjust as needed
-  overflowY: "auto", // Enable vertical scrolling
-};
 
 const EssentialComponent = ({ isVisible }) => {
   const theme = useTheme();

@@ -75,9 +75,7 @@ const UserHeader = ({
 
   const { isSmallScreen, isMediumScreen, isLargeScreen } = useScreenSize();
 
-  console.log(isLargeScreen, isMediumScreen, isSmallScreen);
   const { screenWidth, screenHeight } = useWindowDimensions();
-  // console.log(screenWidth / 1536);
 
   const avatarSize =
     screenWidth >= 1536 ? 50 : (screenWidth / 1536) * 50 + "px";

@@ -26,7 +26,6 @@ const create = async (user, Data, type) => {
 
         return response;
       } else {
-        console.log("User is not authorized to create.");
         throw {
           response: {
             data: {
@@ -39,7 +38,6 @@ const create = async (user, Data, type) => {
       }
     }
   } catch (error) {
-    // console.log(`Error occurred while creating ${type}.`, error);
     throw error;
   }
 };

@@ -19,7 +19,6 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
-import DvrIcon from "@mui/icons-material/Dvr";
 import { useBranch } from "../../contexts/BranchContext";
 import WaterIcon from "@mui/icons-material/Water";
 import WifiIcon from "@mui/icons-material/Wifi";
@@ -178,12 +177,11 @@ const BranchSidebar = ({
   setIsSidebarOpen,
   isNonMobile,
 }) => {
-  const { user, currentUser, logout } = useAuth();
+  const { user, logout } = useAuth();
   const userClaims = useUserClaims(user);
   const { pathname } = useLocation();
   const params = useParams();
   const branchData = getRequiredUserData();
-  const { changeBranchInfo } = useBranch();
   const branchId = branchData.requiredId;
 
   useEffect(() => {
@@ -201,11 +199,9 @@ const BranchSidebar = ({
             id: doc.id,
           })
         );
-        // settableDate(.tableDate);
       }
     });
 
-    // Clean up the subscription when the component unmounts
     return () => unsubscribe();
   }, [branchId]);
 

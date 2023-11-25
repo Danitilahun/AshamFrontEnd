@@ -80,7 +80,6 @@ const AdminRegisterForm = () => {
     "not assigned"
   );
 
-  console.log(branches);
   const branch = branches.map((item) => [item.name, item.id, item.active]);
 
   const handleBranchChange = (event) => {
@@ -119,7 +118,6 @@ const AdminRegisterForm = () => {
 
       const res = await createUser(user, formData, "admin");
       forgotPassword(values.email);
-      console.log(res.data.message);
       // Send formData to your API using Axios or your preferred HTTP library
       // Handle success or do something with the response
       openSnackbar(res.data.message, "success");
@@ -172,7 +170,6 @@ const AdminRegisterForm = () => {
   };
 
   const handleImageChange = (e) => {
-    console.log(e.currentTarget.files[0]);
     handleImagePreview(e, setImagePreview);
     formik.setFieldValue("profileImage", e.currentTarget.files[0]);
   };

@@ -63,7 +63,6 @@ const AsbezaTable = () => {
   // Format and display the dates in a human-readable format (e.g., "YYYY-MM-DD")
   // const formattedDates = past15Days;
   const formattedDates = getDates.map((date) => format(date, "MMMM d, y"));
-  console.log(formattedDates);
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
@@ -76,14 +75,11 @@ const AsbezaTable = () => {
       );
       return;
     }
-    console.log("from the table", row);
     setEditRow(row);
     setFromWhere("edit");
     setIsEditDialogOpen(true);
   };
   const handleNew = (row) => {
-    console.log("from the table", row);
-
     if (row.status !== "Completed") {
       openSnackbar(`You can only new orders if order is Completed!`, "info");
       return;
@@ -96,7 +92,6 @@ const AsbezaTable = () => {
 
   const handleDelete = (id) => {
     setDeleteItemId(id);
-    console.log("delete id", id);
     openDeleteConfirmationDialog(id);
   };
 
@@ -179,9 +174,7 @@ const AsbezaTable = () => {
         formattedDates[selectedTab]
       );
       // Set the last document for pagination
-    } catch (error) {
-      console.error("Error loading initial data:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -238,15 +231,12 @@ const AsbezaTable = () => {
           setLastDoc(data[data.length - 1]);
         }
       }
-    } catch (error) {
-      console.error("Error loading more data:", error);
-    }
+    } catch (error) {}
   }, [lastDoc, data]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
       const scrollPosition = event.detail.scrollPosition;
-      console.log("DynamicTable Scroll position:", scrollPosition);
     };
 
     window.addEventListener("dynamicTableScroll", handleDynamicTableScroll);

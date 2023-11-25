@@ -8,23 +8,20 @@ import {
   DialogActions,
   useTheme,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import { ExpenseFormValidationSchema } from "./validation";
 import createExpense from "../../api/expense/create";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import { useAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "../../contexts/InfoContext";
 import CustomTextField from "../Credit/component/CustomTextField";
 import useUserClaims from "../../hooks/useUserClaims";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
 const ExpenseForm = ({ type }) => {
-  const params = useParams();
   const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
 
   const handleButtonClick = () => {

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
   Grid,
   Button,
@@ -20,7 +20,6 @@ import { SpinnerContext } from "../../contexts/SpinnerContext";
 
 const EditEssentialForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
   const params = useParams();
-  const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
@@ -50,7 +49,6 @@ const EditEssentialForm = ({ data, isEditDialogOpen, closeEditDialog }) => {
         values.name =
           values.name.charAt(0).toUpperCase() +
           values.name.slice(1).toLowerCase();
-        console.log("values", values);
         const res = await updateEssential(user, data.id, values);
         openSnackbar(`${res.data.message} `, "success");
         handleCloseForm();

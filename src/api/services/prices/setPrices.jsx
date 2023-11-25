@@ -2,10 +2,8 @@ import axios from "axios";
 import { API_BASE_URL } from "../../utils/config";
 
 const editPrices = async (user, editFormValues, endpoint) => {
-  console.log(editFormValues, "from the function");
   try {
     if (!user) {
-      console.log("User is not authenticated.");
       return null;
     }
 
@@ -29,7 +27,6 @@ const editPrices = async (user, editFormValues, endpoint) => {
       throw new Error(`You are not authorized to update price.`);
     }
   } catch (error) {
-    console.log("Error occurred while creating branch.", error);
     if (error.isAxiosError) {
       throw new Error(error.message);
     } else {

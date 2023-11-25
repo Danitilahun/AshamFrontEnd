@@ -42,9 +42,6 @@ const ExpandMore = styled((props) => {
 const updateFields = (targetObject, sourceObject) => {
   // Loop through the keys in the source object
   for (const key in sourceObject) {
-    // Check if the key exists in both objects
-    console.log("key", key);
-    console.log(key in targetObject);
     if (key in targetObject) {
       // Update the value in the target object
       targetObject[key] = sourceObject[key];
@@ -53,18 +50,16 @@ const updateFields = (targetObject, sourceObject) => {
 };
 
 const UserCard = ({ userInfo, userType }) => {
-  console.log("user info", userInfo);
   const theme = useTheme();
   const { user, forgotPassword } = useAuth();
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const { selectedItemId, selectedItem } = useSelector(
     (state) => state.itemDetails
   );
-  console.log("selectedItem----------del", selectedItem);
-  console.log("selectedItemId---------del", selectedItemId);
+
   const { openSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const {
@@ -124,7 +119,7 @@ const UserCard = ({ userInfo, userType }) => {
   };
 
   // const [active, setActive] = useState(userInfo.activeness);
-  // console.log("active", active);
+
   const handleClick = async () => {
     // setActive((prevState) => !prevState);
     setIsSubmitting(true);
@@ -134,7 +129,6 @@ const UserCard = ({ userInfo, userType }) => {
       branchId: userInfo.branch,
       active: !userInfo.activeness,
     };
-    console.log(activeData);
 
     try {
       await setActiveness(activeData, user);
@@ -143,7 +137,6 @@ const UserCard = ({ userInfo, userType }) => {
         "success"
       );
     } catch (error) {
-      console.error("Error during form submission:", error);
       openSnackbar(
         `Error occurred while performing editing ${userType}.`,
         "error"
@@ -167,7 +160,6 @@ const UserCard = ({ userInfo, userType }) => {
       await handlePay(selectedItem.active, userInfo.id, user);
       openSnackbar(`${userInfo.fullName} paid successfully!`, "success");
     } catch (error) {
-      console.error("Error during form submission:", error);
       openSnackbar(`Error occurred while try to pay ${userType}.`, "error");
     }
     setIsSubmitting(false);
@@ -181,7 +173,6 @@ const UserCard = ({ userInfo, userType }) => {
 
   const handleEditSubmit = async (event) => {
     event.preventDefault();
-    console.log("the id is ", editFormValues);
 
     setIsSubmitting(true);
     try {
@@ -198,7 +189,6 @@ const UserCard = ({ userInfo, userType }) => {
       setIsSubmitting(false);
       setDialogOpen(false);
     } catch (error) {
-      console.error("Error during form submission:", error);
       openSnackbar(
         `Error occurred while performing editing ${userType}.`,
         "error"
@@ -208,39 +198,6 @@ const UserCard = ({ userInfo, userType }) => {
     // Close the dialog
     // setDialogOpen(false);
   };
-  // const handleDeleteConfirmed = async () => {
-  //   handleDialogClose();
-  //   setIsSubmitting(true);
-  //   try {
-  //     if (userType === "deliveryguy" || userType === "admin") {
-  //       await deleteUser(userType, user, userInfo.id, userInfo.branch);
-  //     } else {
-  //       await deleteUser(userType, user, userInfo.id);
-  //     }
-  //     openSnackbar(`${userType} deleted successfully!`, "success");
-
-  //     if (userType === "deliveryguy") {
-  //       const activeData = {
-  //         deliveryManId: userInfo.id,
-  //         deliveryGuyName: userInfo.fullName,
-  //         branchId: userInfo.branch,
-  //         active: false,
-  //         activeness: userInfo.activeness,
-  //       };
-  //       await setActiveness(activeData, user);
-  //       const storedData = JSON.parse(localStorage.getItem("userData"));
-  //       storedData.numberofworker = parseInt(storedData.numberofworker) - 1;
-  //       localStorage.setItem("userData", JSON.stringify(storedData));
-  //     }
-  //   } catch (error) {
-  //     openSnackbar(
-  //       `Error occurred while performing deleting ${userType}.`,
-  //       "error"
-  //     );
-  //   }
-  //   setIsSubmitting(false);
-  //   handleMenuClose();
-  // };
 
   const handleDeleteConfirmed = async () => {
     handleDialogClose();
@@ -260,7 +217,6 @@ const UserCard = ({ userInfo, userType }) => {
 
   return (
     <>
-      
       <Card
         sx={{
           backgroundColor: theme.palette.background.alt,

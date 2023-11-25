@@ -21,7 +21,6 @@ const handleDeliveryGuyActiveness = async (ActiveData, user) => {
         );
         return response;
       } else {
-        console.log("User is not authorized to create a branch.");
         throw {
           response: {
             data: {

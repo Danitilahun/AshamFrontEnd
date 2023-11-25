@@ -1,26 +1,3 @@
-// import { useEffect, useState } from "react";
-// import fetchData from "../api/services/Users/getUser";
-
-// const useExportData = (collectionName, key) => {
-//   const [data, setData] = useState([]);
-
-//   useEffect(() => {
-//     if (!key) {
-//       return;
-//     }
-
-//     const unsubscribe = fetchData(collectionName, setData);
-
-//     return () => {
-//       unsubscribe();
-//     };
-//   }, [collectionName]);
-
-//   return { data };
-// };
-
-// export default useExportData;
-
 import { useEffect, useState } from "react";
 import fetchData from "../api/services/Users/getUser";
 

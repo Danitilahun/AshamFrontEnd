@@ -17,7 +17,6 @@ const BankTable = ({ bankName }) => {
   const [data, setData] = useState([]);
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
 
-  console.log("bankName", bankName);
   const loadInitialData = async () => {
     try {
       fetchFirestoreDataWithFilter(
@@ -32,9 +31,7 @@ const BankTable = ({ bankName }) => {
         bankName
       );
       // Set the last document for pagination
-    } catch (error) {
-      console.error("Error loading initial data:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -66,15 +63,12 @@ const BankTable = ({ bankName }) => {
           setLastDoc(data[data.length - 1]);
         }
       }
-    } catch (error) {
-      console.error("Error loading more data:", error);
-    }
+    } catch (error) {}
   }, [lastDoc, data]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
       const scrollPosition = event.detail.scrollPosition;
-      console.log("DynamicTable Scroll position:", scrollPosition);
     };
 
     window.addEventListener("dynamicTableScroll", handleDynamicTableScroll);

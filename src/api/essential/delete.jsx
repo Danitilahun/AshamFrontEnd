@@ -5,7 +5,6 @@ import { API_BASE_URL } from "../utils/config";
 const deleteEssential = async (user, Id) => {
   try {
     if (!user) {
-      console.log("User is not authenticated.");
       return null;
     }
     const idTokenResult = await user.getIdTokenResult();

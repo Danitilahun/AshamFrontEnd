@@ -14,7 +14,6 @@ import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup"; // Import Yup for validation
 
-import create from "../../../api/orders/create";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import fetchData from "../../../api/services/Users/getUser";
@@ -40,15 +39,13 @@ const EditWaterOrderForm = ({
   closeEditDialog,
   fromWhere,
 }) => {
-  const params = useParams();
   const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const [branches, setBranches] = useState([]);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
-  const userClaims = useUserClaims(user);
   useEffect(() => {
     const unsubscribe = fetchData("branches", setBranches);
     return () => unsubscribe();
@@ -88,8 +85,6 @@ const EditWaterOrderForm = ({
     item.active,
     item.activeDailySummery,
   ]);
-
-  console.log("branch", branch);
 
   const handleButtonClick = () => {
     setShowForm(true);
@@ -168,7 +163,6 @@ const EditWaterOrderForm = ({
         values.branchKey = values.branchId;
         values.fromWhere = fromWhere;
         values.blockHouse = values.blockHouse.toUpperCase();
-        console.log("values", values);
         const res = await update(user, data.id, values, "water");
         openSnackbar(`${res.data.message}!`, "success");
         handleCloseForm();

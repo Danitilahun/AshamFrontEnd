@@ -15,7 +15,6 @@ const fetchFirestoreDataWithPagination = (
   existingData,
   setData
 ) => {
-  console.log("----------------Test------------------");
   const dataCollection = collection(firestore, collectionName);
 
   let firestoreQuery = query(dataCollection, orderBy("createdAt", "desc"));

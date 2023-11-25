@@ -53,7 +53,6 @@ const MoneySidebar = ({
 }) => {
   const { pathname } = useLocation();
   const { changeBranchInfo, changesheetName } = useBranch();
-  console.log("the current", pathname);
 
   const [active, setActive] = useState(
     `${pathname}/${navItems[0].text.toLowerCase()}`

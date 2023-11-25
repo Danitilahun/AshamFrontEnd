@@ -13,7 +13,6 @@ const New = () => {
     dispatch(setupRealtimeListener());
   }, [dispatch]);
 
-  console.log("------------all----------branches", branches);
   return (
     <div className="App">
       <h1>Branches</h1>

@@ -15,13 +15,13 @@ const TableTab = ({ tableDate, selectedTab, handleTabChange, from = null }) => {
       }}
     >
       <Tabs
-        value={selectedTab}
+        value={selectedTab >= 0 && selectedTab !== null ? selectedTab : false}
         onChange={handleTabChange}
         style={{
           color: theme.palette.secondary[700],
           backgroundColor: theme.palette.background.alt,
         }}
-        scrollable
+        scrollable="true"
         scrollButtons="auto"
         indicatorColor="primary"
       >

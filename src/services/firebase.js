@@ -2,7 +2,6 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -18,29 +17,5 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const firestore = getFirestore(app);
 export const storage = getStorage(app);
-const messaging = getMessaging();
-
-export const requestForToken = () => {
-  return getToken(messaging, {
-    vapidKey: process.env.KEY_PAIR,
-  })
-    .then((currentToken) => {
-      if (currentToken) {
-        return currentToken;
-      } else {
-        return null;
-      }
-    })
-    .catch((err) => {
-      return null;
-    });
-};
-
-export const onMessageListener = () =>
-  new Promise((resolve) => {
-    onMessage(messaging, (payload) => {
-      resolve(payload);
-    });
-  });
 
 export const db = firestore;

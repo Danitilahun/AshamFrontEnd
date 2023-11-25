@@ -5,7 +5,6 @@ import { API_BASE_URL } from "../utils/config";
 const deleteIncentive = async (user, id, type) => {
   try {
     if (!user) {
-      console.log("User is not authenticated.");
       return null;
     }
 
@@ -20,7 +19,6 @@ const deleteIncentive = async (user, id, type) => {
           },
         }
       );
-      // Handle successful deletion
 
       return res;
     } else {
@@ -34,7 +32,6 @@ const deleteIncentive = async (user, id, type) => {
       };
     }
   } catch (error) {
-    console.log("Error occurred while deleting branch.", error);
     if (error.isAxiosError) {
       throw new Error(error.message);
     } else {

@@ -1,8 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL } from "../utils/config";
 
-// Arrow function to create a branch using Axios
-
 const createBranch = async (user, BranchData) => {
   try {
     if (user) {
@@ -19,11 +17,9 @@ const createBranch = async (user, BranchData) => {
             },
           }
         );
-        // Handle successful submission
-        console.log(`Branch created successfully.`);
+
         return response;
       } else {
-        console.log("User is not authorized to create a branch.");
         throw {
           response: {
             data: {
@@ -32,11 +28,9 @@ const createBranch = async (user, BranchData) => {
             },
           },
         };
-        // Handle case when the user is not a super admin
       }
     }
   } catch (error) {
-    // console.log(`Error occurred while creating ${type}.`, error);
     throw error;
   }
 };

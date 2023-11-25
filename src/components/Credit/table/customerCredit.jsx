@@ -78,7 +78,6 @@ const CustomerCreditTable = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const handleEdit = (row) => {
-    console.log("from the table", row);
     setEditRow(row);
     setIsEditDialogOpen(true);
   };
@@ -135,9 +134,7 @@ const CustomerCreditTable = () => {
         params.id
       );
       // Set the last document for pagination
-    } catch (error) {
-      console.error("Error loading initial data:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -151,8 +148,6 @@ const CustomerCreditTable = () => {
   }, [data]);
 
   const handleSearch = async (searchText) => {
-    console.log("Search Text:", searchText, searchText === "");
-
     // Perform additional actions when searching here
 
     if (searchText.trim() === "") {
@@ -197,15 +192,12 @@ const CustomerCreditTable = () => {
           setLastDoc(data[data.length - 1]);
         }
       }
-    } catch (error) {
-      console.error("Error loading more data:", error);
-    }
+    } catch (error) {}
   }, [lastDoc, data]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
       const scrollPosition = event.detail.scrollPosition;
-      console.log("DynamicTable Scroll position:", scrollPosition);
     };
 
     window.addEventListener("dynamicTableScroll", handleDynamicTableScroll);
@@ -237,7 +229,6 @@ const CustomerCreditTable = () => {
 
   const processedData = processArrayOfObjects(data);
   const searchResult = processArrayOfObjects(searchedData);
-  console.log("data", processedData);
 
   const tableData = searchedData.length > 0 ? searchResult : processedData;
 

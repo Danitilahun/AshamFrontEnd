@@ -40,7 +40,7 @@ const UserCard = ({ userInfo }) => {
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const { openSnackbar } = useSnackbar();
   const [openDialog, setOpenDialog] = useState(false);
   const navigate = useNavigate();
@@ -74,17 +74,12 @@ const UserCard = ({ userInfo }) => {
 
   const handleCardClick = (event) => {
     event.preventDefault();
-    changeBranchName("");
-    changeBranch("");
-    changecallCenterId(userInfo.id);
-    changecallCenterName(userInfo.fullName);
     localStorage.setItem("userData", JSON.stringify({}));
     localStorage.setItem("userData", JSON.stringify(userInfo));
     navigate(`/service/asbeza/${userInfo.id}`);
   };
   return (
     <>
-      
       <Card
         sx={{
           backgroundColor: theme.palette.background.alt,

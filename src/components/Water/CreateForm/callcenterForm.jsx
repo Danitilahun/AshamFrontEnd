@@ -60,7 +60,6 @@ const WaterOrderForm = () => {
     return () => unsubscribe();
   }, []);
 
-  console.log("staff", staff.member);
   const result = staff?.member?.filter((item) => item.id === user.uid);
   useEffect(() => {
     const unsubscribe = fetchData("branches", setBranches);
@@ -101,8 +100,6 @@ const WaterOrderForm = () => {
     item.active,
     item.activeDailySummery,
   ]);
-
-  console.log("branch", branch);
 
   const handleButtonClick = () => {
     setShowForm(true);
@@ -181,7 +178,6 @@ const WaterOrderForm = () => {
         values.status = "Assigned";
         values.branchKey = values.branchId;
         values.blockHouse = values.blockHouse.toUpperCase();
-        console.log("values", values);
         const res = await create(user, values, "water");
         openSnackbar(`${res.data.message}!`, "success");
         handleCloseForm();

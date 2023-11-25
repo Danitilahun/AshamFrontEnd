@@ -18,10 +18,6 @@ const createSheet = async (user, branchId, active) => {
           branchId
         );
 
-        console.log(
-          `Number of documents in "sheets" with branchId equal to "${branchId}": ${count}`
-        );
-
         const date = getInternationalDate();
         const sheetData = {
           branchId: branchId,
@@ -40,16 +36,13 @@ const createSheet = async (user, branchId, active) => {
           },
         });
         // Handle successful submission
-        console.log("Branch created successfully.");
         return response;
       } else {
-        console.log("User is not authorized to create a branch.");
         throw new Error("User is not authorized to create a branch.");
         // Handle case when the user is not a super admin
       }
     }
   } catch (error) {
-    console.log("Error occurred while creating branch.", error);
     if (error.isAxiosError) {
       throw new Error(error.message);
     } else {

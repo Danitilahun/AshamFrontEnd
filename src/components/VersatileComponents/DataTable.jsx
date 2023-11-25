@@ -4,13 +4,6 @@ import { Box, useTheme } from "@mui/material";
 
 const DataTable = ({ rows, columns }) => {
   const theme = useTheme();
-  // function CustomToolbar() {
-  //   return (
-  //     <GridToolbarContainer>
-  //       <GridToolbarExport />
-  //     </GridToolbarContainer>
-  //   );
-  // }
 
   return (
     <Box

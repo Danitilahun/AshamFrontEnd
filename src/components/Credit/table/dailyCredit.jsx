@@ -116,9 +116,7 @@ const DailyCreditTable = () => {
         params.id
       );
       // Set the last document for pagination
-    } catch (error) {
-      console.error("Error loading initial data:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -132,8 +130,6 @@ const DailyCreditTable = () => {
   }, [data]);
 
   const handleSearch = async (searchText) => {
-    // console.log("Search Text:", searchText, searchText === "");
-
     // Perform additional actions when searching here
 
     if (searchText.trim() === "") {

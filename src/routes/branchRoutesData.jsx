@@ -16,7 +16,6 @@ import BudgetPage from "../pages/Money/BudgetPage";
 import CreditPage from "../pages/Money/CreditPage";
 import BonusPenality from "../pages/Money/BonusPenality";
 import SalaryPage from "../pages/Money/SalaryPage";
-import StatusPage from "../pages/Money/StatusPage";
 import Customer from "../pages/BranchInfo/Customer";
 import Bank from "../pages/BranchInfo/Bank";
 import Staff from "../pages/BranchInfo/Staff";

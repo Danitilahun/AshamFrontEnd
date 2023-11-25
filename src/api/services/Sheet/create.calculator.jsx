@@ -29,23 +29,14 @@ const createCalculator = async (user, branchId, sheetId) => {
           }
         );
         // Handle successful submission
-        console.log("Calculator created successfully.");
         return response;
       } else {
-        console.log("User is not authorized to create a branch.");
         throw new Error("User is not authorized to create a branch.");
         // Handle case when the user is not a super admin
       }
     }
   } catch (error) {
-    // console.log("Error occurred while creating branch.", error);
     if (error.isAxiosError) {
-      console.log(
-        "Error occurred while creating branch.",
-        error.response.data.error,
-        error.message,
-        error.stack
-      );
       throw new Error(error.response.data.error);
     } else {
       throw error;

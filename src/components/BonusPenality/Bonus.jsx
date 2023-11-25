@@ -52,7 +52,6 @@ const BonusDialog = ({ worker, id = null }) => {
   };
 
   const handleBonusSubmit = async () => {
-    console.log("Bonus submitted:", bonusText);
     setOpen(false);
     setIsSubmitting(true);
     handleDialogClose();
@@ -85,7 +84,6 @@ const BonusDialog = ({ worker, id = null }) => {
         error.response.data.type ? error.response.data.type : "error"
       );
     }
-    console.log("issubmitting", isSubmitting);
     setBonusText("");
     setIsSubmitting(false);
   };

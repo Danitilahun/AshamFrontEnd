@@ -10,10 +10,8 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup"; // Import Yup for validation
-import create from "../../../api/orders/create";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
@@ -22,7 +20,7 @@ import getInternationalDate from "../../../utils/getDate";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
 import update from "../../../api/orders/edit";
 import getRequiredUserData from "../../../utils/getBranchInfo";
-import useUserClaims from "../../../hooks/useUserClaims";
+
 // Define the validation schema including order item validation
 const EditCardOrderFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -42,15 +40,13 @@ const EditCardOrderForm = ({
   closeEditDialog,
   fromWhere,
 }) => {
-  const params = useParams();
-  const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
   const userData = getRequiredUserData();
-  const userClaims = useUserClaims(user);
+
   useEffect(() => {
     const unsubscribe = fetchData("Deliveryturn", setDeliveryGuy);
     return () => unsubscribe();
@@ -61,10 +57,6 @@ const EditCardOrderForm = ({
     const Name = deliveryman.find((employee) => employee[1] === Id)?.[0] || "";
     formik.setFieldValue("deliveryguyName", Name);
     formik.setFieldValue("deliveryguyId", Id);
-  };
-
-  const handleButtonClick = () => {
-    setShowForm(true);
   };
 
   const formik = useFormik({
@@ -125,7 +117,6 @@ const EditCardOrderForm = ({
         values.status = "Assigned";
         values.fromWhere = fromWhere;
         values.blockHouse = values.blockHouse.toUpperCase();
-        console.log("values", values);
         const res = await update(user, data.id, values, "card");
         openSnackbar(`${res.data.message}!`, "success");
         handleCloseForm();

@@ -22,11 +22,8 @@ const initialValues = {
 };
 
 const updateFields = (targetObject, sourceObject) => {
-  // Loop through the keys in the source object
   for (const key in sourceObject) {
-    // Check if the key exists in both objects
     if (key in targetObject) {
-      // Update the value in the target object
       targetObject[key] = sourceObject[key];
     }
   }
@@ -95,7 +92,6 @@ const Calculator = ({ Expenses }) => {
     return () => unsubscribe();
   }, [userClaim.finance ? user.uid : userData.requiredId]);
 
-  console.log("financeUser", financeUser);
   useEffect(() => {
     if (!user || !user.uid) {
       return;
@@ -108,7 +104,6 @@ const Calculator = ({ Expenses }) => {
       : params.id; // Set the document ID
     const unsubscribe = getData("Calculator", "active", docId, setCalculator);
     if (!calculator) {
-      console.log("the calculator is", calculator);
       setCalculator({
         sum: 0,
         actual: 0,
@@ -180,7 +175,6 @@ const Calculator = ({ Expenses }) => {
     setIsSubmitting(false);
   };
 
-  console.log(calculator);
   return (
     <>
       <Paper

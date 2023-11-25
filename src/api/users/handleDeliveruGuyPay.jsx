@@ -21,7 +21,6 @@ const handlePay = async (activeSalaryTableId, deliveryGuyId, user, data) => {
 
         return response;
       } else {
-        console.log("User is not authorized to create a branch.");
         throw {
           response: {
             data: {
@@ -34,7 +33,6 @@ const handlePay = async (activeSalaryTableId, deliveryGuyId, user, data) => {
       }
     }
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };

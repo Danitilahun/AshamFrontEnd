@@ -75,7 +75,6 @@ function ReminderComponent({ type }) {
   const handleConfirm = async () => {
     setIsSubmitting(true);
     if (selectedDate) {
-      console.log("Selected date:", selectedDate);
       setOpen(false);
       try {
         if (!user || !user.uid) {
@@ -98,7 +97,6 @@ function ReminderComponent({ type }) {
         await Reminder(formData, user);
         openSnackbar("Reminder set successfully!", "success");
       } catch (error) {
-        console.error("Error during form submission:", error);
         openSnackbar(error.message, "error");
       }
     }

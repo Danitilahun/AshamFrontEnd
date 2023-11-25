@@ -1,11 +1,9 @@
 import axios from "axios";
 import { API_BASE_URL } from "../utils/config";
 
-// Arrow function to create a branch using Axios
 const updateIncentive = async (id, user, incentiveData, type) => {
   try {
     if (!user) {
-      console.log("User is not authenticated.");
       return null;
     }
 

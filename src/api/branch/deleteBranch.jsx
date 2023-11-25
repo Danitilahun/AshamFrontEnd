@@ -5,7 +5,6 @@ import { API_BASE_URL } from "../utils/config";
 const deleteBranch = async (user, Id) => {
   try {
     if (!user) {
-      console.log("User is not authenticated.");
       return null;
     }
 
@@ -31,7 +30,6 @@ const deleteBranch = async (user, Id) => {
       };
     }
   } catch (error) {
-    console.log(`Error occurred while creating Branch.`, error);
     throw error;
   }
 };

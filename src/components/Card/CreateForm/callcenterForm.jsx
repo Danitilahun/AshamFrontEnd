@@ -10,7 +10,6 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup"; // Import Yup for validation
 import create from "../../../api/orders/create";
@@ -19,11 +18,11 @@ import { useAuth } from "../../../contexts/AuthContext";
 import fetchData from "../../../api/services/Users/getUser";
 import getInternationalDate from "../../../utils/getDate";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
-import getRequiredUserData from "../../../utils/getBranchInfo";
 import useUserClaims from "../../../hooks/useUserClaims";
 import { firestore } from "../../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
+
 // Define the validation schema including order item validation
 const CardOrderFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -38,15 +37,13 @@ const CardOrderFormValidationSchema = Yup.object().shape({
 });
 
 const CardOrderForm = () => {
-  const params = useParams();
   const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const [branches, setBranches] = useState([]);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
-  const userData = getRequiredUserData();
   const userClaims = useUserClaims(user);
 
   useEffect(() => {
@@ -71,7 +68,6 @@ const CardOrderForm = () => {
     return () => unsubscribe();
   }, []);
 
-  console.log("staff", staff.member);
   const result = staff?.member?.filter((item) => item.id === user.uid);
 
   const handleBranchChange = (event) => {
@@ -103,8 +99,6 @@ const CardOrderForm = () => {
     item.active,
     item.activeDailySummery,
   ]);
-
-  console.log("branch", branch);
 
   const handleButtonClick = () => {
     setShowForm(true);

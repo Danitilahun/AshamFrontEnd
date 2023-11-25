@@ -4,7 +4,6 @@ import { API_BASE_URL } from "../utils/config";
 const updateCalculator = async (user, id, CalculatorData) => {
   try {
     if (!user) {
-      console.log("User is not authenticated.");
       return null;
     }
 
@@ -36,7 +35,6 @@ const updateCalculator = async (user, id, CalculatorData) => {
       };
     }
   } catch (error) {
-    console.log(`Error occurred while creating User.`, error);
     throw error;
   }
 };

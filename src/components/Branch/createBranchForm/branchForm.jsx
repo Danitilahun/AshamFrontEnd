@@ -141,7 +141,7 @@ const BranchForm = () => {
 
                   <CustomTextField
                     name="ethioTelBill"
-                    label="Ethio Tele Bill"
+                    label="Ethiotele Bill Amount"
                     type="number"
                     value={formik.values.ethioTelBill}
                     onChange={formik.handleChange}
@@ -162,7 +162,7 @@ const BranchForm = () => {
 
                   <CustomTextField
                     name="ethioTelAccount"
-                    label="Ethio Tele Account"
+                    label="Ethiotele Bill Account"
                     value={formik.values.ethioTelAccount}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur} // <-- Add this line
@@ -172,7 +172,7 @@ const BranchForm = () => {
 
                   <CustomTextField
                     name="wifi"
-                    label="Wifi"
+                    label="Wifi Amount"
                     type="number"
                     value={formik.values.wifi}
                     onChange={formik.handleChange}
@@ -183,7 +183,7 @@ const BranchForm = () => {
 
                   <CustomTextField
                     name="ethioTelOwnerName"
-                    label="Ethio Tele Phone Owner Name"
+                    label="Ethiotele Bill Owner Name"
                     value={formik.values.ethioTelOwnerName}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur} // <-- Add this line
@@ -203,7 +203,7 @@ const BranchForm = () => {
 
                   <CustomTextField
                     name="houseRent"
-                    label="House Rent"
+                    label="House Rent Amount"
                     type="number"
                     value={formik.values.houseRent}
                     onChange={formik.handleChange}
@@ -223,7 +223,7 @@ const BranchForm = () => {
                   />
                   <CustomTextField
                     name="houseRentAccount"
-                    label="House Owner Account"
+                    label="House Rent Owner Account"
                     value={formik.values.houseRentAccount}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur} // <-- Add this line
@@ -244,7 +244,7 @@ const BranchForm = () => {
 
                   <CustomTextField
                     name="houseRentOwnerName"
-                    label="House Owner Name"
+                    label="House Rent Owner Name"
                     value={formik.values.houseRentOwnerName}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur} // <-- Add this line

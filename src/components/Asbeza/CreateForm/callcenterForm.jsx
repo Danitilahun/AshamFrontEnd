@@ -10,10 +10,9 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
+
 import { useFormik } from "formik";
 import * as Yup from "yup"; // Import Yup for validation
-
 import create from "../../../api/orders/create";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { useAuth } from "../../../contexts/AuthContext";
@@ -21,11 +20,11 @@ import fetchData from "../../../api/services/Users/getUser";
 import getInternationalDate from "../../../utils/getDate";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
-import getRequiredUserData from "../../../utils/getBranchInfo";
 import useUserClaims from "../../../hooks/useUserClaims";
 import { firestore } from "../../../services/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 // Define the validation schema including order item validation
+
 const AsbezaOrderFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
   blockHouse: Yup.string().required("Block House is required"),
@@ -37,12 +36,11 @@ const AsbezaOrderFormValidationSchema = Yup.object().shape({
 });
 
 const AsbezaOrderForm = () => {
-  const params = useParams();
   const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const [branches, setBranches] = useState([]);
   const [staff, setStaff] = useState({});
   const [deliveryGuy, setDeliveryGuy] = useState([]);
@@ -58,7 +56,6 @@ const AsbezaOrderForm = () => {
     return () => unsubscribe();
   }, []);
 
-  console.log("staff", staff.member);
   const result = staff?.member?.filter((item) => item.id === user.uid);
 
   const userClaims = useUserClaims(user);
@@ -73,7 +70,6 @@ const AsbezaOrderForm = () => {
   }, []);
 
   const handleBranchChange = (event) => {
-    // setSelectedDeliveryGuy(event.target.value);
     const Id = event.target.value;
     const Name = branch.find((branch) => branch[1] === Id)?.[0] || "";
     const ActiveTable = branch.find((branch) => branch[1] === Id)?.[2] || "";
@@ -101,8 +97,6 @@ const AsbezaOrderForm = () => {
     item.active,
     item.activeDailySummery,
   ]);
-
-  console.log("branch", branch);
 
   const handleButtonClick = () => {
     setShowForm(true);
@@ -182,7 +176,6 @@ const AsbezaOrderForm = () => {
         values.status = "Assigned";
         values.branchKey = values.branchId;
         values.blockHouse = values.blockHouse.toUpperCase();
-        console.log("values", values);
         const res = await create(user, values, "asbeza");
         openSnackbar(`${res.data.message}!`, "success");
         handleCloseForm();
@@ -433,9 +426,6 @@ const AsbezaOrderForm = () => {
                     </Grid>
 
                     <Grid item xs={3} sm={3} md={3} lg={3}>
-                      {console.log(
-                        formik.errors.order && formik.errors.order[index]
-                      )}
                       <Button
                         sx={{
                           height:

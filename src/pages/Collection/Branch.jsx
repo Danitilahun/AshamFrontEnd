@@ -10,7 +10,6 @@ import ShowBudget from "../../components/Budget/ShowBudget";
 import { Helmet } from "react-helmet";
 import { useLocation, useParams } from "react-router-dom";
 import getRequiredUserData from "../../utils/getBranchInfo";
-import useBranchData from "../../hooks/useBranchHook";
 const Branch = () => {
   const theme = useTheme();
   const userData = getRequiredUserData();
@@ -18,7 +17,6 @@ const Branch = () => {
   const params = useParams();
   const userClaim = useUserClaims(user);
   const { data: branches } = useCollectionData("branches");
-  console.log("branches", branches);
   const docId = userClaim.finance
     ? user.uid
     : userData.requiredId

@@ -99,7 +99,6 @@ const ResetPasswordForm = () => {
                   navigate("/login");
                 })
                 .catch((error) => {
-                  console.log(error.code);
                   setError(error.code);
                 });
             }}

@@ -10,11 +10,8 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
-import * as Yup from "yup"; // Import Yup for validation
-
-import create from "../../../api/orders/create";
+import * as Yup from "yup";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import fetchData from "../../../api/services/Users/getUser";
@@ -22,7 +19,7 @@ import getInternationalDate from "../../../utils/getDate";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import CustomTextField from "../../VersatileComponents/orderTextInput";
 import update from "../../../api/orders/edit";
-import useUserClaims from "../../../hooks/useUserClaims";
+
 // Define the validation schema including order item validation
 const EditAsbezaOrderFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -40,15 +37,12 @@ const EditAsbezaOrderForm = ({
   closeEditDialog,
   fromWhere,
 }) => {
-  const params = useParams();
-  const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
-  const [branches, setBranches] = useState([]);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const [deliveryGuy, setDeliveryGuy] = useState([]);
-  const userClaims = useUserClaims(user);
+
   useEffect(() => {
     const unsubscribe = fetchData("Deliveryturn", setDeliveryGuy);
     return () => unsubscribe();
@@ -61,11 +55,6 @@ const EditAsbezaOrderForm = ({
     formik.setFieldValue("deliveryguyId", Id);
   };
 
-  const handleButtonClick = () => {
-    setShowForm(true);
-  };
-
-  console.log("data from edit", data);
   const formik = useFormik({
     initialValues: {
       name: data.name,
@@ -87,7 +76,6 @@ const EditAsbezaOrderForm = ({
       // Send formData to the backend
       setIsSubmitting(true);
       try {
-        console.log("values before", values);
         if (!values.deliveryguyId || !values.deliveryguyName) {
           handleCloseForm();
           throw {
@@ -126,7 +114,6 @@ const EditAsbezaOrderForm = ({
         values.fromWhere = fromWhere;
         values.status = "Assigned";
         values.blockHouse = values.blockHouse.toUpperCase();
-        console.log("values", values);
 
         const res = await update(user, data.id, values, "asbeza");
         openSnackbar(`${res.data.message}!`, "success");

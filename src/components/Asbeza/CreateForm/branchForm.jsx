@@ -64,6 +64,7 @@ const AsbezaOrderBranchForm = () => {
       );
     }
   };
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -129,7 +130,7 @@ const AsbezaOrderBranchForm = () => {
         values.branchKey = values.callcenterId;
         values.blockHouse = values.blockHouse.toUpperCase();
         values.from = "branch";
-        console.log("values", values);
+
         const res = await create(user, values, "asbeza");
         openSnackbar(`${res.data.message}!`, "success");
         handleCloseForm();
@@ -339,9 +340,6 @@ const AsbezaOrderBranchForm = () => {
                     </Grid>
 
                     <Grid item xs={3} sm={3} md={3} lg={3}>
-                      {console.log(
-                        formik.errors.order && formik.errors.order[index]
-                      )}
                       <Button
                         sx={{
                           height:

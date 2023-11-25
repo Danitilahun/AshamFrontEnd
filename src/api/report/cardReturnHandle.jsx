@@ -4,7 +4,6 @@ import { API_BASE_URL } from "../utils/config";
 const returnedCard = async (user, id, creditData) => {
   try {
     if (!user) {
-      console.log("User is not authenticated.");
       return null;
     }
 

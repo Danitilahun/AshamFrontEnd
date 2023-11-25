@@ -6,9 +6,7 @@ const CustomEllipsisTextField = ({
   value,
   paddingBottom = "0.5rem",
 }) => {
-  // console.log(isLargeScreen, isMediumScreen, isSmallScreen);
   const { screenWidth, screenHeight } = useWindowDimensions();
-  // console.log(screenWidth / 1536);
   const fontSize = screenWidth >= 1536 ? 18 : (screenWidth / 1536) * 18 + "px";
   return (
     <Tooltip title={value}>

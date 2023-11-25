@@ -45,32 +45,17 @@ const UserHeader = ({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
-  // const handleImageSave = async (formData) => {
-  //   setIsDialogOpen(false); // Close the dialog after saving
-  //   try {
-  //     console.log("user", userInfo.id);
-  //     console.log("formdata", formData);
-  //     await updateProfileImage(userType, user, userInfo.id, formData);
-  //     openSnackbar("Profile image updated successfully.", "success");
-  //   } catch (error) {
-  //     console.log(error);
-  //     openSnackbar("Failed to update profile image.", "error");
-  //   }
-  // };
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
 
   const handleImageSave = async (formData) => {
     setIsSubmitting(true);
     // Close the dialog after saving
     try {
-      console.log("user", userInfo.id);
-      console.log("formdata", formData);
       formData.append("collectionName", "admin");
       await updateProfileImage(user, userInfo.id, formData);
       openSnackbar("Profile image updated successfully.", "success");
       setIsDialogOpen(false);
     } catch (error) {
-      console.log(error);
       openSnackbar("Failed to update profile image.", "error");
     }
     setIsSubmitting(false);
@@ -79,14 +64,12 @@ const UserHeader = ({
   const handleEnableDisable = async () => {
     setIsSubmitting(true);
     try {
-      // console.log("user", userInfo.id);
       const res = await enableDisable(user, userInfo.id, {
         disable: !userInfo.disable,
         collectionName: "admin",
       });
       openSnackbar(res.data.message, "success");
     } catch (error) {
-      console.log(error);
       openSnackbar(
         error.response.data.message,
         error.response.data.type ? error.response.data.type : "error"
@@ -104,7 +87,6 @@ const UserHeader = ({
   };
   return (
     <>
-      
       <ProfileImageDialog
         imageUrl={userInfo.profileImage}
         open={isDialogOpen}

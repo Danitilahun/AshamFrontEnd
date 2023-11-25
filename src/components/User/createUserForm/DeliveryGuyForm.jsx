@@ -84,7 +84,6 @@ const DeliveryGuyRegisterForm = () => {
         params.id ? params.id : branchData.requiredId
       );
 
-      console.log("branchData", branchData);
       formData.append("activeTable", branchData.activeTable);
       formData.append("active", branchData.active);
 
@@ -149,7 +148,6 @@ const DeliveryGuyRegisterForm = () => {
   };
 
   const handleImageChange = (e) => {
-    console.log(e.currentTarget.files[0]);
     handleImagePreview(e, setImagePreview);
     formik.setFieldValue("profileImage", e.currentTarget.files[0]);
   };

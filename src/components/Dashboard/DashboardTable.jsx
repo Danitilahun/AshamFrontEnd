@@ -16,9 +16,9 @@ const DashboardTable = ({ dashTableData }) => {
         <TableHeader />
         {dashTableData &&
           dashTableData.map((data, index) => (
-            <div key={index*0.71}>
-              <TableRow key={index} data={data} />
-            </div>
+            // <div key={index*0.71}>
+            <TableRow key={index} data={data} />
+            // </div>
           ))}
       </table>
     </div>

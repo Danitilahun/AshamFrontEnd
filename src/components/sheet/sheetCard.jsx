@@ -7,7 +7,6 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import { green } from "@mui/material/colors";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import {
   Chip,
   Menu,
@@ -22,22 +21,19 @@ import { SpinnerContext } from "../../contexts/SpinnerContext";
 import getHumanReadableDate from "../../utils/humanReadableDate";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useBranch } from "../../contexts/BranchContext";
-import { useState } from "react";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import deleteSheet from "../../api/sheet/delete";
 import useUserClaims from "../../hooks/useUserClaims";
 import FlexBetween from "../VersatileComponents/FlexBetween";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
-import { ExportToExcel } from "../../utils/ExportToExcel";
 
 const SheetCard = ({ sheetInfo }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
-  const { pathname } = useLocation();
   const navigate = useNavigate();
   const params = useParams();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const { changesheetName, changetableDate } = useBranch();
   const [openDialog, setOpenDialog] = React.useState(false);
   const userClaims = useUserClaims(user);
@@ -100,11 +96,8 @@ const SheetCard = ({ sheetInfo }) => {
     navigate(`/table/${params.id}/${sheetInfo.id}`);
   };
 
-  const { screenWidth, screenHeight } = useWindowDimensions();
-  // console.log(screenWidth / 1536);
+  const { screenWidth } = useWindowDimensions();
 
-  const avatarSize =
-    screenWidth >= 1536 ? 50 : (screenWidth / 1536) * 50 + "px";
   const fontSize = screenWidth >= 1536 ? 18 : (screenWidth / 1536) * 18 + "px";
   return (
     <>

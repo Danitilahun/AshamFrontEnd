@@ -66,9 +66,7 @@ const Customer = () => {
         params.id
       );
       // Set the last document for pagination
-    } catch (error) {
-      console.error("Error loading initial data:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -82,8 +80,6 @@ const Customer = () => {
   }, [data]);
 
   const handleSearch = async (searchText) => {
-    console.log("Search Text:", searchText, searchText === "");
-
     // Perform additional actions when searching here
 
     if (searchText.trim() === "") {
@@ -130,15 +126,12 @@ const Customer = () => {
           setLastDoc(data[data.length - 1]);
         }
       }
-    } catch (error) {
-      console.error("Error loading more data:", error);
-    }
+    } catch (error) {}
   }, [lastDoc, data]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
       const scrollPosition = event.detail.scrollPosition;
-      console.log("DynamicTable Scroll position:", scrollPosition);
     };
 
     window.addEventListener("dynamicTableScroll", handleDynamicTableScroll);
@@ -169,15 +162,6 @@ const Customer = () => {
   const searchResult = processArrayOfObjects(searchedData);
 
   const tableData = searchedData.length > 0 ? searchResult : processedData;
-
-  // tableData.sort((a, b) => {
-  //   return b.name.localeCompare(a.name);
-  // });
-
-  // tableData.sort((a, b) => {
-  //   return a.name.localeCompare(b.name);
-  // });
-  console.log(tableData);
 
   const { documentData: documentData2 } = useDocumentById(
     "branches",

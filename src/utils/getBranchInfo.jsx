@@ -1,4 +1,3 @@
-// helpers.js (or any suitable file name)
 const extractData = (userData) => {
   const {
     name: branchName = null,
@@ -13,10 +12,11 @@ const extractData = (userData) => {
     active = null,
     bank = null,
     paid = null,
+    fullName = null, // Assuming fullName is part of userData or available in the scope
   } = userData || {};
 
   return {
-    branchName,
+    branchName: branchName || fullName || null,
     activeTable,
     uniqueName,
     numberofworker,

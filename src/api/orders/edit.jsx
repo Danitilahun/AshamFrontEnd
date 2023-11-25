@@ -5,7 +5,6 @@ import getInternationalDate from "../../utils/getDate";
 const update = async (user, id, orderData, type) => {
   try {
     if (!user) {
-      console.log("User is not authenticated.");
       return null;
     }
     const idTokenResult = await user.getIdTokenResult();

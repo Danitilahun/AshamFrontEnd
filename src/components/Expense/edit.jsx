@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
   Grid,
   Button,
@@ -8,21 +8,20 @@ import {
   DialogActions,
   useTheme,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import { ExpenseFormValidationSchema } from "./validation";
 import updateExpense from "../../api/expense/edit";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import { useAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "../../contexts/InfoContext";
 import CustomTextField from "../Credit/component/CustomTextField";
 import useUserClaims from "../../hooks/useUserClaims";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
+
 const ExpenseEditForm = ({ credit, isEditDialogOpen, closeEditDialog }) => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
 
   const formik = useFormik({

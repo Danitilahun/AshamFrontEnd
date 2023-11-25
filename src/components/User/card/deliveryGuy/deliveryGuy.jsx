@@ -45,7 +45,6 @@ const ExpandMore = styled((props) => {
 }));
 
 const UserCard = ({ userInfo }) => {
-  console.log("user info", userInfo);
   const theme = useTheme();
   const { user, forgotPassword } = useAuth();
   const userClaims = useUserClaims(user);
@@ -167,7 +166,6 @@ const UserCard = ({ userInfo }) => {
           },
         };
       }
-      console.log("activeData", activeData);
       const res = await CompleteTask(user, activeData);
       openSnackbar(res.data.message, "success");
     } catch (error) {
@@ -209,7 +207,6 @@ const UserCard = ({ userInfo }) => {
         };
       }
 
-      console.log("activeData", activeData);
       const res = await handleDeliveryGuyActiveness(activeData, user);
       openSnackbar(res.data.message, "success");
     } catch (error) {
@@ -316,9 +313,7 @@ const UserCard = ({ userInfo }) => {
 
   const { isSmallScreen, isMediumScreen, isLargeScreen } = useScreenSize();
 
-  console.log(isLargeScreen, isMediumScreen, isSmallScreen);
   const { screenWidth, screenHeight } = useWindowDimensions();
-  console.log(screenWidth / 1536);
   return (
     <>
       {/* <p style={{ color: "blue" }}>Screen Width: {screenWidth}px</p>

@@ -17,7 +17,6 @@ import CustomTextField from "../../Credit/component/CustomTextField";
 import { useSnackbar } from "../../../contexts/InfoContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import getInternationalDate from "../../../utils/getDate";
-import createCredit from "../../../api/credit/create";
 import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import { FormValidationSchema } from "../validation/validator";
 import getRequiredUserData from "../../../utils/getBranchInfo";
@@ -25,12 +24,11 @@ import CreateIncentive from "../../../api/bonusPenality/create";
 import capitalizeString from "../../../utils/capitalizeString";
 
 const CreateForm = ({ type }) => {
-  const params = useParams();
   const [showForm, setShowForm] = useState(false);
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const theme = useTheme();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const userClaims = useUserClaims(user);
   const [selectedDeliveryGuy, setSelectedDeliveryGuy] = useState("");
   const [placementOptions, setPlacementOptions] = useState([
@@ -112,7 +110,6 @@ const CreateForm = ({ type }) => {
           };
         }
 
-        console.log("values", values);
         const res = await CreateIncentive(values, user, type);
         openSnackbar(`${res.data.message} successfully created!`, "success");
         handleCloseForm();

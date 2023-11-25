@@ -4,13 +4,11 @@ import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import DynamicTable from "../../DynamicTable/DynamicTable";
 import { useAuth } from "../../../contexts/AuthContext";
-import { useSnackbar } from "../../../contexts/InfoContext";
 import WifiDistributeReportForm from "../createReportForm/wifiDistribute";
 import MyHeaderComponent from "../../VersatileComponents/MyHeaderComponent";
 import getRequiredUserData from "../../../utils/getBranchInfo";
 import fetchFirestoreDataWithFilter from "../../../api/utils/filterBasedOnTwoCriterial";
 import Search from "../../../api/utils/searchMore";
-//import { SpinnerContext } from "../../../contexts/SpinnerContext";
 import capitalizeString from "../../../utils/capitalizeString";
 import { ExportToExcel } from "../../../utils/ExportToExcel";
 import useUserClaims from "../../../hooks/useUserClaims";
@@ -18,7 +16,6 @@ import useUserClaims from "../../../hooks/useUserClaims";
 const containerStyle = {
   display: "flex",
   justifyContent: "space-between",
-  alignItems: "flex-end",
   alignItems: "center",
   // backgroundColor: "green",
 };
@@ -48,15 +45,10 @@ const WifiDistributeTable = () => {
   const [lastDoc, setLastDoc] = useState(null); // To keep track of the last document
   const [searchedData, setSearchedData] = useState([]);
   const [editRow, setEditRow] = useState(null);
-  //const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
-  //   const [deleteRowId, setDeleteRowId] = useState(null);
-  const [deleteItemId, setDeleteItemId] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const { openSnackbar } = useSnackbar();
   const branchData = getRequiredUserData();
 
   const handleEdit = (row) => {
-    console.log("from the table", row);
     setEditRow(row);
     setIsEditDialogOpen(true);
   };
@@ -75,9 +67,7 @@ const WifiDistributeTable = () => {
         branchData.active
       );
       // Set the last document for pagination
-    } catch (error) {
-      console.error("Error loading initial data:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -91,8 +81,6 @@ const WifiDistributeTable = () => {
   }, [data]);
 
   const handleSearch = async (searchText) => {
-    // console.log("Search Text:", searchText, searchText === "");
-
     // Perform additional actions when searching here
 
     if (searchText.trim() === "") {
@@ -141,15 +129,12 @@ const WifiDistributeTable = () => {
           setLastDoc(data[data.length - 1]);
         }
       }
-    } catch (error) {
-      console.error("Error loading more data:", error);
-    }
+    } catch (error) {}
   }, [lastDoc, data]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
       const scrollPosition = event.detail.scrollPosition;
-      console.log("DynamicTable Scroll position:", scrollPosition);
     };
 
     window.addEventListener("dynamicTableScroll", handleDynamicTableScroll);

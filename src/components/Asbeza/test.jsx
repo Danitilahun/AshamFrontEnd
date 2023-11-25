@@ -29,7 +29,7 @@ const AsbezaOrderForm = () => {
   const { openSnackbar } = useSnackbar();
   const { user } = useAuth();
   const param = useParams();
-  const {isSubmitting, setIsSubmitting} = useContext(SpinnerContext);
+  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
   const { pathname } = useLocation();
   const [deliveryman, setDeliveryman] = useState([]);
   let branchName = "";
@@ -49,7 +49,6 @@ const AsbezaOrderForm = () => {
     return () => unsubscribe();
   }, []);
 
-  console.log("deliveryGuy", deliveryGuy);
   const branchInfo = branches?.map((item) => [
     item.name,
     item.id,
@@ -87,7 +86,6 @@ const AsbezaOrderForm = () => {
     const worksRef = doc(collection(firestore, "branches"), formData.branch);
     const unsubscribe = onSnapshot(worksRef, (doc) => {
       if (doc.exists()) {
-        console.log("Document data:", doc.data());
         const inputArray = doc.data().worker;
         const deliveryMan = inputArray.reduce((accumulator, obj) => {
           if (obj.role === "DeliveryGuy") {
@@ -95,7 +93,6 @@ const AsbezaOrderForm = () => {
           }
           return accumulator;
         }, []);
-        console.log("deliveryMan", deliveryMan);
         setDeliveryman(deliveryMan);
       }
     });
@@ -110,7 +107,6 @@ const AsbezaOrderForm = () => {
       );
     }
   }, [formData.branch, formData.activeTable]);
-  console.log("deliveryman", deliveryman);
   const handleCloseForm = () => {
     setShowForm(false);
     setFormData({
@@ -164,7 +160,6 @@ const AsbezaOrderForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("realDan", formData);
     setIsSubmitting(true);
     try {
       const activeData = {
@@ -173,23 +168,16 @@ const AsbezaOrderForm = () => {
         branchId: formData.branch,
         active: false,
       };
-      console.log("activeness", activeData);
       formData.type = "Asbeza";
       formData.callcenterId = param.id;
       formData.status = "new order";
       formData.createdDate = new Date();
       formData.profit = 0;
       formData.blockHouse = formData.blockHouse.toUpperCase();
-      console.log("formData", formData);
-      console.log(
-        "sdjfndjfn-----------------------------------",
-        formData.activeTable
-      );
       if (!formData.activeTable) {
         openSnackbar(`This branch do not have Daily table.`, "info");
       } else {
         const res = await createOrder(formData, user);
-        console.log(res);
         openSnackbar(`Asbeza order successfully created!`, "success");
 
         handleCloseForm();
@@ -199,7 +187,6 @@ const AsbezaOrderForm = () => {
         await setActiveness(activeData, user);
       }
     } catch (error) {
-      console.error("Error during form submission:", error);
       openSnackbar(`Error occurred while performing order change`, "error");
     }
     setIsSubmitting(false);
@@ -207,7 +194,6 @@ const AsbezaOrderForm = () => {
 
   return (
     <div>
-      
       <Button variant="contained" color="primary" onClick={handleOpen}>
         Create new Asbeza Order
       </Button>

@@ -33,7 +33,6 @@ const ProfileImageDialog = ({ imageUrl, open, onClose, onSave }) => {
   };
 
   const handleSave = () => {
-    console.log("selectedImage", selectedImage);
     if (!selectedImage) {
       openSnackbar("Please select an image.", "info");
       setSelectedImage(null);

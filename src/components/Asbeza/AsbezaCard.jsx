@@ -1,44 +1,14 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import {
-  Card,
-  CardContent,
-  Menu,
-  MenuItem,
-  IconButton,
-  CardHeader,
-  useTheme,
-  Typography,
-  Chip,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  Button,
-  DialogContentText,
-  TextField,
-  DialogActions,
-  Avatar,
-  CircularProgress,
-} from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import React, { useContext, useState } from "react";
+import { Card, useTheme } from "@mui/material";
 import { useAuth } from "../../contexts/AuthContext";
-import CustomEllipsisTextField from "../CustomComponents/CustomEllipsisTextField";
 import getHumanReadableDate from "../../utils/humanReadableDate";
 import { useSnackbar } from "../../contexts/InfoContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import EditAsbezaDialog from "./EditAsbezaDialog";
 import updateOrder from "../../api/services/Order/update.order";
 import setActiveness from "../../api/services/DeliveryGuy/setActiveness";
 import deleteOrder from "../../api/services/Order/delete.order";
-import FlexBetween from "../VersatileComponents/FlexBetween";
 import changeStatus from "../../api/services/Order/changeStatus";
-import AddProfit from "../../api/services/Order/AddProfit";
-import getInternationalDate from "../../utils/getDate";
-import getNumberOfDocumentsInCollection from "../../api/utils/getNumberOfDocument";
-import InfoIcon from "@mui/icons-material/Info";
-import useUserClaims from "../../hooks/useUserClaims";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import AsbezaCardHeader from "./AsbezaCardHeader";
 import AsbezaCardContent from "./AsbezaCardContent";
@@ -46,26 +16,14 @@ import { SpinnerContext } from "../../contexts/SpinnerContext";
 
 const AsbezaCard = ({ asbezaData, userType }) => {
   const { user } = useAuth();
-  const userClaims = useUserClaims(user);
   const [showMore, setShowMore] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const { openSnackbar } = useSnackbar();
   const theme = useTheme();
   const param = useParams();
-  console.log("asbezaData", asbezaData);
-  const navigate = useNavigate();
-  const [openDialog2, setOpenDialog2] = useState(false);
-  const handleDeleteIconClick2 = () => {
-    handleCloseForm();
-    setOpenDialog2(true);
-  };
-
-  const handleDialogClose2 = () => {
-    setOpenDialog2(false);
-  };
 
   // Use useEffect to fetch idTokenResult when the component mounts
   const handleDeleteIconClick = () => {
@@ -165,7 +123,6 @@ const AsbezaCard = ({ asbezaData, userType }) => {
     // handleDialogClose2();
 
     try {
-      console.log("asbezaId", asbezaData.id, "edited", editFormValues);
       const formData = editFormValues;
       const activeData = {
         deliveryManId: formData.deliveryguyId,
@@ -173,7 +130,6 @@ const AsbezaCard = ({ asbezaData, userType }) => {
         branchId: formData.branch,
         active: false,
       };
-      console.log("activeness", activeData);
       formData.type = "Asbeza";
       formData.callcenterId = param.id;
       formData.status = "new order";
@@ -206,51 +162,9 @@ const AsbezaCard = ({ asbezaData, userType }) => {
   const humanReadableDate = getHumanReadableDate(createdDate);
 
   const [open, setOpen] = useState(false);
-  const [profit, setProfit] = useState(0);
 
   const handleClickOpen = () => {
     setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleProfitSubmit = async (event) => {
-    // Handle form submission here (e.g., save the profit to the database).
-    console.log("Profit:", profit);
-    event.preventDefault();
-    setIsSubmitting(true);
-    handleClose();
-    handleDialogClose2();
-    handleCloseForm();
-    const date = getInternationalDate();
-    const count = await getNumberOfDocumentsInCollection(
-      "sheets",
-      "branchId",
-      asbezaData.branch
-    );
-
-    try {
-      const amount = profit === "" ? 0 : profit;
-      const profitData = {
-        profit: parseInt(amount),
-        date: date,
-        branchId: asbezaData.branch,
-        deliveryguyId: asbezaData.deliveryguyId,
-        sheetNumber: count,
-      };
-      await AddProfit(user, "Asbeza", asbezaData.id, profitData);
-      await changeStatus(user, "Asbeza", asbezaData.id, "Completed"); // Pass the friend's name and the new status as parameters to the changeStatus function.
-      openSnackbar(`Status updated successfully to Completed!`, "success");
-    } catch (error) {
-      openSnackbar(`Error occurred while performing updating Asbeza.`, "error");
-    }
-    setIsSubmitting(false);
-  };
-
-  const handleProfitChange = (event) => {
-    setProfit(event.target.value);
   };
 
   const handleClick = async () => {

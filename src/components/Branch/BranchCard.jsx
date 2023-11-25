@@ -1,13 +1,9 @@
 import React, { useContext, useState } from "react";
 import { Card, useTheme } from "@mui/material";
-
 import { useAuth } from "../../contexts/AuthContext";
 import updateBranch from "../../api/services/Branch/update.branch";
 import { useSnackbar } from "../../contexts/InfoContext";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useBranch } from "../../contexts/BranchContext";
-import { useDispatch } from "react-redux";
-import { setSelectedItem } from "../../store/itemDetailsSlice";
 import ConfirmationDialog from "../VersatileComponents/ConfirmationDialog";
 import BranchCardHeader from "./BranchCardHeader";
 import BranchCardContent from "./BranchCardContent";
@@ -17,11 +13,8 @@ import { SpinnerContext } from "../../contexts/SpinnerContext";
 import useDocumentById from "../../hooks/useDocumentById";
 
 const updateFields = (targetObject, sourceObject) => {
-  // Loop through the keys in the source object
   for (const key in sourceObject) {
-    // Check if the key exists in both objects
     if (key in targetObject) {
-      // Update the value in the target object
       targetObject[key] = sourceObject[key];
     }
   }
@@ -43,15 +36,9 @@ const BranchCard = ({ branchData }) => {
   const { user } = useAuth();
   const { openSnackbar } = useSnackbar();
   const theme = useTheme();
-  const { changeBranch, changeBranchName, changeActiveness } = useBranch();
-  const dispatch = useDispatch();
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const handleItemClick = (item) => {
-    // Dispatch the setSelectedItem action with both itemId and item
-    dispatch(setSelectedItem({ itemId: item.id, item }));
-  };
 
-  console.log("branch data", branchData.active);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -65,13 +52,11 @@ const BranchCard = ({ branchData }) => {
   const { pathname } = useLocation();
   const handleCardClick = async (event) => {
     event.preventDefault();
-    handleItemClick(branchData);
+    // handleItemClick(branchData);
     const idTokenResult = await user.getIdTokenResult();
     localStorage.setItem("userData", JSON.stringify({}));
     localStorage.setItem("userData", JSON.stringify(branchData));
-    changeActiveness(branchData.active);
-    changeBranchName(branchData.name);
-    changeBranch(branchData.id);
+
     if (
       idTokenResult.claims.superAdmin &&
       pathname.startsWith("/mainFinance/branches")
@@ -86,15 +71,9 @@ const BranchCard = ({ branchData }) => {
 
   const [editFormValues, setEditFormValues] = useState();
 
-  // console.log("branch info", branchData);
   const handleEdit = (branch) => {
     setIsEditDialogOpen(true);
-    console.log("branch info", branch);
     setEditFormValues(branch);
-  };
-
-  const handleOpenForm = () => {
-    setShowForm(true);
   };
 
   const handleCloseForm = () => {
@@ -142,13 +121,9 @@ const BranchCard = ({ branchData }) => {
     setOperation("edit");
     setIsSubmitting(true);
     try {
-      // console.log(branchData);
-      // console.log(editFormValues);
       branchData.diff =
         parseInt(editFormValues.budget) - parseInt(branchData.budget);
       updateFields(branchData, editFormValues);
-      // console.log(branchData);
-      // console.log(branchData);
       await updateBranch(branchData.id, user, branchData);
       openSnackbar(`Branch updated successful!`, "success");
       setIsSubmitting(false);

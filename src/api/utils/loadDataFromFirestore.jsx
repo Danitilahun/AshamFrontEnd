@@ -18,13 +18,11 @@ const loadDataFromFirestore = (
   fieldToFilter = "null",
   valueToMatch = "null"
 ) => {
-  console.log("-----------start after", fieldToFilter, valueToMatch);
   const dataCollection = collection(firestore, collectionName);
   let firestoreQuery;
   if (fieldToFilter === "null") {
     firestoreQuery = query(dataCollection, orderBy("createdAt", "desc"));
   } else {
-    console.log("herereere");
     firestoreQuery = query(
       dataCollection,
       where(fieldToFilter, "==", valueToMatch), // Add the filter condition here

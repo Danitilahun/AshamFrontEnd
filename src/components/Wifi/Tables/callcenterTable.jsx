@@ -66,9 +66,7 @@ const WifiTable = () => {
   // Format and display the dates in a human-readable format (e.g., "YYYY-MM-DD")
   // const formattedDates = past15Days;
   const formattedDates = getDates.map((date) => format(date, "MMMM d, y"));
-  console.log(formattedDates);
   const days = getPreviousDaysFromToday();
-  console.log("days", days);
   const [selectedTab, setSelectedTab] = useState(0);
   const [selectedTab1, setSelectedTab1] = useState(null);
   const [field, setField] = useState("Date");
@@ -86,7 +84,6 @@ const WifiTable = () => {
   };
 
   const handleEdit = (row) => {
-    console.log("from the table", row);
     if (row.status !== "Assigned") {
       openSnackbar(
         `You can only edit new orders! This order Already ${row.status}`,
@@ -99,7 +96,6 @@ const WifiTable = () => {
     setIsEditDialogOpen(true);
   };
   const handleNew = (row) => {
-    console.log("from the table", row);
     if (row.status !== "Completed") {
       openSnackbar(`You can only new orders if order is Completed!`, "info");
       return;
@@ -216,9 +212,7 @@ const WifiTable = () => {
         field === "Date" ? formattedDates[selectedTab] : days[selectedTab1]
       );
       // Set the last document for pagination
-    } catch (error) {
-      console.error("Error loading initial data:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -275,15 +269,12 @@ const WifiTable = () => {
           setLastDoc(data[data.length - 1]);
         }
       }
-    } catch (error) {
-      console.error("Error loading more data:", error);
-    }
+    } catch (error) {}
   }, [lastDoc, data, selectedTab1, field]);
 
   useEffect(() => {
     const handleDynamicTableScroll = (event) => {
       const scrollPosition = event.detail.scrollPosition;
-      console.log("DynamicTable Scroll position:", scrollPosition);
     };
 
     window.addEventListener("dynamicTableScroll", handleDynamicTableScroll);
@@ -307,7 +298,6 @@ const WifiTable = () => {
 
   // Call the function to add roll numbers
   addRollNumber(tableData);
-  console.log("tableData", tableData);
   return (
     <Box m="1rem 0">
       <MyHeaderComponent

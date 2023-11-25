@@ -27,13 +27,8 @@ import FiberNewIcon from "@mui/icons-material/FiberNew";
 import { useAuth } from "../../contexts/AuthContext";
 import useUserClaims from "../../hooks/useUserClaims";
 import { useSnackbar } from "../../contexts/InfoContext";
-import getInternationalDate from "../../utils/getDate";
-import Assigned from "../../api/orders/assigned";
-import LoadingSpinner from "../VersatileComponents/LoadingSpinner";
-import AsbezaProfit from "../../api/orders/asbezaProfit";
 import returnedCard from "../../api/report/cardReturnHandle";
 import { SpinnerContext } from "../../contexts/SpinnerContext";
-import getRequiredUserData from "../../utils/getBranchInfo";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 // import ReactHTMLTableToExcel from "react-html-table-to-excel";
 const getColor = (statusNumber) => {
@@ -98,8 +93,7 @@ const DynamicTable = ({
   const userClaims = useUserClaims(user);
   const [prevScrollPosition, setPrevScrollPosition] = useState(0); // Store the previous scroll position
   const { openSnackbar } = useSnackbar();
-  const { isSubmitting, setIsSubmitting } = useContext(SpinnerContext);
-  const branchData = getRequiredUserData();
+  const { setIsSubmitting } = useContext(SpinnerContext);
   const handleScroll = () => {
     const tableContainer = tableContainerRef.current;
     const scrollPosition = tableContainer.scrollTop;
@@ -114,7 +108,6 @@ const DynamicTable = ({
 
       if (isScrollAtBottom) {
         // The scroll has reached the end while scrolling downwards
-        console.log("Scroll has reached the end (downward).");
         loadMoreData();
       }
     }
@@ -142,7 +135,6 @@ const DynamicTable = ({
   const openDialog = (row) => {
     setSelectedRow(row);
     setIsDialogOpen(true);
-    console.log("selected", row);
     const excludedProperties = [
       "Sheetstatus",
       "amount",
@@ -166,7 +158,6 @@ const DynamicTable = ({
     );
     if (taxpersentageIndex !== -1) {
       const taxpersentage = setExpensesss.splice(taxpersentageIndex, 1)[0];
-      console.log("totalExpenseEntry", taxpersentage);
       taxpersentage.amount = taxpersentage.amount + "%";
       setExpensesss.push(taxpersentage);
     }
@@ -179,18 +170,13 @@ const DynamicTable = ({
       setExpensesss.push(totalExpenseEntry);
     }
 
-    console.log("setExpense", setExpensesss);
-
     setExpense(setExpensesss);
   };
 
-  // console.log("expense", expense);
   const handleEdit = (row) => {
-    console.log("row", row);
     onEdit(row); // Call the onEdit callback with the selected row data
   };
   const handleNew = (row) => {
-    console.log("row", row);
     onNew(row); // Call the onEdit callback with the selected row data
   };
 
@@ -234,68 +220,9 @@ const DynamicTable = ({
     setReturnCardPopupOpen(true);
   };
 
-  function getFirstPartOrOriginalString(inputString) {
-    if (inputString.includes(" ")) {
-      const parts = inputString.split(" ");
-      return parts[0];
-    } else {
-      return inputString;
-    }
-  }
-
   const closeReturnCardPopup = () => {
     setReturnCardPopupOpen(false);
   };
-
-  // const handleStatusClick = async (order) => {
-  //   if (branchData.active !== order.active) {
-  //     openSnackbar("You can only edit the credit of the active sheet.", "info");
-  //     return;
-  //   }
-
-  //   setIsSubmitting(true);
-  //   const date = getInternationalDate();
-  //   const branchId = getFirstPartOrOriginalString(order.branchId);
-  //   const Data = {
-  //     active: order.active,
-  //     activeDailySummery: order.activeDailySummery,
-  //     activeTable: order.activeTable,
-  //     deliveryguyId: order.deliveryguyId,
-  //     date: order.date,
-  //     branchId: branchId,
-  //     id: order.id,
-  //     status: "Assigned",
-  //   };
-  //   try {
-  //     if (!branchId) {
-  //       throw {
-  //         response: {
-  //           data: {
-  //             message:
-  //               "Branch information is not found. Please check your connection, refresh your browser, and try again.",
-  //             type: "error",
-  //           },
-  //         },
-  //       };
-  //     }
-
-  //     const res = await Assigned(user, Data, orderType);
-  //     openSnackbar(res.data.message, "success");
-  //   } catch (error) {
-  //     if (error.response && error.response.data) {
-  //       openSnackbar(
-  //         error.response.data.message,
-  //         error.response.data.type ? error.response.data.type : "error"
-  //       );
-  //     } else {
-  //       openSnackbar(
-  //         "An unexpected error occurred.Please kindly check your connection.",
-  //         "error"
-  //       );
-  //     }
-  //   }
-  //   setIsSubmitting(false);
-  // };
 
   // Inside your component function
   // State variables for dialog
@@ -309,7 +236,6 @@ const DynamicTable = ({
     setNumberOfCards(0);
     setReason("");
     setRegisterDialogOpen(true);
-    console.log("card", card);
     setId(card.id);
   };
 
@@ -329,8 +255,6 @@ const DynamicTable = ({
     };
 
     try {
-      console.log(id);
-      console.log("activeData", Data);
       const res = await returnedCard(user, id, Data);
       openSnackbar(res.data.message, "success");
       closeRegisterDialog();
@@ -357,9 +281,7 @@ const DynamicTable = ({
 
   const tableRef = useRef(null);
 
-  // console.log(isLargeScreen, isMediumScreen, isSmallScreen);
   const { screenWidth, screenHeight } = useWindowDimensions();
-  // console.log(screenWidth / 1536);
   const fontSize = screenWidth >= 1536 ? 15 : (screenWidth / 1536) * 15 + "px";
   return (
     <>
@@ -415,7 +337,7 @@ const DynamicTable = ({
                       }` /* New */,
                     }}
                     key={column.key}
-                    title={column.key}
+                    title={column.key.toString()}
                   >
                     {column.title}
                   </th>
@@ -440,7 +362,7 @@ const DynamicTable = ({
                     <td
                       key={column.key}
                       className="ellipsis-cell"
-                      title={row[column.key]}
+                      title={row[column.key]?.toString()}
                       style={{
                         color: theme.palette.secondary[50],
                       }}

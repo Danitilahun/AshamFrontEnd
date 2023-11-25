@@ -134,7 +134,6 @@ const StaffCreditForm = ({ type }) => {
             },
           };
         }
-        console.log("values", values);
         const res = await createCredit(user, values, "StaffCredit");
         openSnackbar(`${res.data.message} successfully created!`, "success");
         handleCloseForm();
