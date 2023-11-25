@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Paper, useTheme } from "@mui/material";
+import { Grid } from "@mui/material";
 import CustomPaper from "../CustomComponents/CustomPaper";
 
 const InfoGridItem = ({ label, value }) => {

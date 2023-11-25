@@ -22,6 +22,7 @@ const TableTab = ({ tableDate, selectedTab, handleTabChange, from = null }) => {
           backgroundColor: theme.palette.background.alt,
         }}
         scrollable="true"
+        variant="scrollable"
         scrollButtons="auto"
         indicatorColor="primary"
       >
