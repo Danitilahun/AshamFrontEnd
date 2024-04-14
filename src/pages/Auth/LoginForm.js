@@ -21,8 +21,8 @@ import { Helmet } from "react-helmet-async";
 
 const bgImage = "/assets/login.png";
 const initialValues = {
-  email: "",
-  password: "",
+  email: "tiledan2015@gmail.com",
+  password: "12345678",
 };
 
 const validationSchema = Yup.object().shape({
